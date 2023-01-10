@@ -2,9 +2,14 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import './font.css';
+import reset from 'styled-reset';
 import { createGlobalStyle } from "styled-components";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Intro from './pages/intro';
+import About from './pages/about';
 
 const GlobalStyle = createGlobalStyle`
+  ${reset}
   *, *::before, *::after {
     box-sizing: border-box;
   }
@@ -14,6 +19,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    background-color: #F7F9ED;
     font-family: 'IBM Plex Sans KR', sans-serif;
     line-height: 1.5;
   }
@@ -28,21 +34,13 @@ const GlobalStyle = createGlobalStyle`
 function App() {
   return (
     <div className="App">
-      <GlobalStyle />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <GlobalStyle />
+        <Routes>
+          <Route path="/intro" element={<Intro />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
