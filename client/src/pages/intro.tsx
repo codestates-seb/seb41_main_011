@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
-// import Tabbar from "../components/tabbar"; //탭바 테스트용. 해당 부분 삭제 예정
+import Tabbar from "../components/tabbar"; //탭바 테스트용. 해당 부분 삭제 예정
 
 const GlobalStyle = createGlobalStyle`
 
@@ -74,7 +74,8 @@ const Intro = () => {
 	return (
 		<div>
 			<GlobalStyle/>
-			{/* <Tabbar /> 탭바 테스트용. 해당 라인 삭제 예정 */}
+			<Tabbar /> 
+			{/* 탭바 테스트용. 위 라인 삭제 예정 */}
 			<OuterWrapper>
 				<ContentWrapper>
 					<MainMessage>
