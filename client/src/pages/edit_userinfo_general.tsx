@@ -92,12 +92,14 @@ const Button = styled.button`
   box-shadow: rgba(0, 0, 0, 0.12) 0px 3px 8px;
 	border-radius: 10px;
 	border: none;
-	width: 500px;
+	width: 600px;
 	height: 50px;
 	background-color: #D5E6CF;
-    font-weight: 500;
+  font-weight: 500;
 	color: #535353;
 	font-size: 1rem;
+  margin-top: -50px;
+
 	&:hover {
         background-color: #70846C;
         color: white;
@@ -107,6 +109,9 @@ const Button = styled.button`
         height: 3em;
         width: 80vw;
     }
+    @media screen and (min-height: 1200px) {
+      margin-top: -150px;
+    }
 `
 
 const Hr = styled.hr`
@@ -114,7 +119,7 @@ const Hr = styled.hr`
 `
 
 
-const UserMypageProgram = () => {
+const EditUserInfo = () => {
   return (
     <div>
       <ContentWrapper>
@@ -153,4 +158,4 @@ const UserMypageProgram = () => {
 
 }
 
-export default UserMypageProgram;
+export default EditUserInfo;
