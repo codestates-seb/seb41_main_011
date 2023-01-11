@@ -1,10 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import './font.css';
-import { createGlobalStyle } from "styled-components";
+import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
+import reset from 'styled-reset';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { createGlobalStyle } from 'styled-components';
+
+import AllPrograms from './pages/all_programs';
+import ProgramDetail from './pages/program_detail';
 
 const GlobalStyle = createGlobalStyle`
+ ${reset}
   *, *::before, *::after {
     box-sizing: border-box;
   }
@@ -14,8 +18,13 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    background-color: #F7F9ED;
     font-family: 'IBM Plex Sans KR', sans-serif;
     line-height: 1.5;
+  }
+
+  a {
+    text-decoration: none;
   }
 
   @media screen and (min-width: 768px) {
@@ -27,22 +36,14 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   return (
-    <div className="App">
-      <GlobalStyle />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <BrowserRouter>
+        <GlobalStyle />
+        <Routes>
+          <Route path='/' element={<AllPrograms />} />
+          <Route path='/program/:id' element={<ProgramDetail />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
