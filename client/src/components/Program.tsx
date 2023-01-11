@@ -45,12 +45,13 @@ const Contents = styled.div`
   }
 
   .title {
-    font-size: 1.53rem;
+    font-size: 1.25rem;
     font-weight: 700;
     width: 92%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-top: 0.6rem;
   }
 
   .info {
@@ -72,7 +73,7 @@ const Program = () => {
         <Label>우울감</Label>
         <Label>불안감</Label>
       </div>
-      <div className='title'>프로그램 제목 어쩌구 저쩌구</div>
+      <h3 className='title'>프로그램 제목 어쩌구 저쩌구</h3>
       <div className='flex-row'>
         <div className='info'>
           <strong>상담사</strong>

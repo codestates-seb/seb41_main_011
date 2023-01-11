@@ -9,7 +9,6 @@ const Label = styled.div`
   padding: 0 4px;
   font-size: 0.84rem;
   color: #333;
-  margin-bottom: 0.8rem;
 `;
 
 export default Label;
