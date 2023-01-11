@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const Contents = styled.div`
   width: 100%;
-  padding: 16px 20px;
+  padding: 16px 0;
   overflow-x: auto;
 
   ul {
@@ -37,12 +37,6 @@ const Contents = styled.div`
       background: #ccc;
       color: #666;
     }
-  }
-
-  @media screen and (min-width: 768px) {
-    width: 700px;
-    margin: 0 auto;
-    padding: 16px 0;
   }
 `;
 

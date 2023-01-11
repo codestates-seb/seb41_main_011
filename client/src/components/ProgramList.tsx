@@ -5,15 +5,13 @@ import Program from './Program';
 
 const Contents = styled.ul`
   width: 100%;
-  padding: 0 20px 16px;
+  padding-bottom: 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
 
   @media screen and (min-width: 768px) {
-    width: 700px;
-    margin: 0 auto;
-    padding: 0 0 24px;
+    padding-bottom: 24px;
   }
 `;
 
@@ -21,7 +19,7 @@ const ProgramList = () => {
   return (
     <Contents>
       <li>
-        <Link to='#'>
+        <Link to='/program/1'>
           <Program />
         </Link>
       </li>
