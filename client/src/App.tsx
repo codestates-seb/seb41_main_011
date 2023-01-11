@@ -1,17 +1,18 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import './font.css';
 import reset from 'styled-reset';
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Intro from './pages/intro';
 import About from './pages/about';
+import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
   *, *::before, *::after {
     box-sizing: border-box;
+    font-family: 'IBM Plex Sans KR', sans-serif;
   }
 
   html {

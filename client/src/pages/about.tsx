@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
+import Tabbar from "../components/tabbar";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -12,36 +13,57 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const ContentWrapper = styled.div`
+    height: 100vh;
+    width: 100vw;
     display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		margin-right: 10%;
-		* {
-			margin-bottom: 5%;
-		}
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    @media screen and (max-width: 768px) {
+        padding-top: 0vh;
+        padding-bottom: 0vh;
+        height: 100vh;
+        justify-content: space-between;
+    }
 `
 
 const LogoText = styled.div`
     color: #6E7773;
-    font-size: 2.25rem;
+    font-size: 14px;
     font-weight: 700;
 `
 
 const MainMessage = styled.div`
+	width: 500px;
+    margin-bottom: -50px;
+    z-index: 1;
 	color: #4B6A4D;
 	font-weight: 700;
 	font-size: 2.25rem;
-    width: 500px;
     text-align: left;
+    @media screen and (max-width: 768px) {
+        width: 80vw;
+        font-size: 2.25rem;
+    }
 `
 
 const SubMessage = styled.div`
+    font-size: 13px;
     background-color: #ECEEE2;
-    width: 500px;
+    width: 80vw;
     text-align: left;
     padding: 3%;
     border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    @media screen and (min-width: 768px) {
+        font-size: 14px;
+        width: 500px;
+    }
+    @media screen and (min-width: 1200px) {
+        font-size: 16px;
+        width: 500px;
+    }
 `
 
 
@@ -53,22 +75,31 @@ const ButtonWrapper = styled.div`
 	* {
         margin: 10px;
 	}
+    @media screen and (max-width: 415px) {
+        margin-top: -20px;
+    }
 `
 
 const Button = styled.button`
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	border-radius: 10px;
 	border: none;
 	width: 500px;
 	height: 50px;
 	background-color: #C4DCBF;
+    font-weight: 500;
+	color: #3d553e;
 	font-size: 1rem;
 	&:hover {
         background-color: #70846C;
         color: white;
         cursor: pointer;
 	}
+    @media screen and (max-width: 768px) {
+        height: 3em;
+        width: 80vw;
+    }
 `
-
 
 
 
@@ -101,6 +132,7 @@ const About = () => {
                         저에게 맞는 프로그램을 추천받고 싶어요.
                     </Button>
                 </ButtonWrapper>
+                <Tabbar />
             </ContentWrapper>
         </div>
     )
