@@ -1,16 +1,18 @@
 import './App.css';
-import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
 import reset from 'styled-reset';
+import { createGlobalStyle } from "styled-components";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components';
-
+import Intro from './pages/intro';
+import About from './pages/about';
 import AllPrograms from './pages/all_programs';
 import ProgramDetail from './pages/program_detail';
+import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
 
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
     box-sizing: border-box;
+    font-family: 'IBM Plex Sans KR', sans-serif;
   }
 
   html {
@@ -36,10 +38,13 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   return (
+
     <div className='App'>
       <BrowserRouter>
         <GlobalStyle />
         <Routes>
+          <Route path="/intro" element={<Intro />} />
+          <Route path="/about" element={<About />} />
           <Route path='/' element={<AllPrograms />} />
           <Route path='/program/:id' element={<ProgramDetail />} />
         </Routes>
