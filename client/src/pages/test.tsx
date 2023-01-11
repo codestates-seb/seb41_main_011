@@ -1,17 +1,7 @@
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import { createGlobalStyle } from "styled-components";
 import Tabbar from "../components/tabbar";
 
-
-const GlobalStyle = createGlobalStyle`
-  body {
-		height: 100vh;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-  }
-`;
 
 const ContentWrapper = styled.div`
     height: 100vh;
@@ -99,7 +89,6 @@ const MainMessage = styled.div`
         font-size: 2.25rem;
     }
 `
-
 const SubMessage = styled.div`
   width: 500px;
   text-align: left; 
@@ -109,8 +98,6 @@ const SubMessage = styled.div`
     width: 80vw;
   } 
 `
-
-
 
 const ButtonWrapper = styled.div`
 	display: flex;
@@ -162,7 +149,6 @@ const Logo = styled.img`
 const Test = () => {
   return (
     <div>
-      <GlobalStyle/>
       <ContentWrapper>
         <Logo src="teacup.png" />
         <MainMessage>
@@ -195,7 +181,6 @@ const Test = () => {
       
     </div>
   )
-
 }
 
 export default Test;
