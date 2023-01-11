@@ -17,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    background-color: #F7F9ED;
     font-family: 'IBM Plex Sans KR', sans-serif;
     line-height: 1.5;
   }
