@@ -4,6 +4,7 @@ import { createGlobalStyle } from "styled-components";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Intro from './pages/intro';
 import About from './pages/about';
+import Test from './pages/test';
 import AllPrograms from './pages/all_programs';
 import ProgramDetail from './pages/program_detail';
 import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
@@ -45,6 +46,7 @@ function App() {
         <Routes>
           <Route path="/intro" element={<Intro />} />
           <Route path="/about" element={<About />} />
+          <Route path="/test" element={<Test />} />
           <Route path='/' element={<AllPrograms />} />
           <Route path='/program/:id' element={<ProgramDetail />} />
         </Routes>

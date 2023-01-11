@@ -5,10 +5,10 @@ import Tabbar from "../components/tabbar";
 
 const GlobalStyle = createGlobalStyle`
   body {
-		height: 100vh;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
