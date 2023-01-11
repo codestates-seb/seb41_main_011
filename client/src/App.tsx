@@ -1,10 +1,10 @@
 import './App.css';
-import './font.css';
+import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
 import reset from 'styled-reset';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 
 import AllPrograms from './pages/all_programs';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 const GlobalStyle = createGlobalStyle`
  ${reset}
