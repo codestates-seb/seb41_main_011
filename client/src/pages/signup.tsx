@@ -4,7 +4,7 @@ import InputTemp from '../components/Input'
 import ButtonAccept from '../components/ButtonAccept';
 import axios from 'axios';
 import { displayName } from 'react-quill';
-
+import Tabbar from '../components/tabbar';
 const SignupFormWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -196,6 +196,7 @@ const Signup = () =>{
           위 고유식별정보 수집이용에 동의하십니까?<input type='checkbox' onChange={handleCheckboxChange}/>
       </ContextDiv>
       <ButtonAccept children='확인'/>
+      <Tabbar />
       </SignupForm>
     </SignupFormWrapper> :<SignupFormWrapper>
       <ImgWrapper>
@@ -213,6 +214,7 @@ const Signup = () =>{
         <InputTemp category='birth'  value={birth} onChange={handleBirthChange}/>
       <ButtonAccept children='확인'/>
       </SignupForm>
+    <Tabbar/>
     </SignupFormWrapper>
   
   )
