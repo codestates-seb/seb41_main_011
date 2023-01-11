@@ -1,6 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
 import { GrFormNext } from 'react-icons/gr';
+
+import Label from './UI/Label';
 
 const Contents = styled.div`
   width: 100%;
@@ -43,18 +44,6 @@ const Contents = styled.div`
     gap: 4px;
   }
 
-  .label {
-    background: #dae2b6;
-    border-radius: 4px;
-    font-weight: 500;
-    text-align: center;
-    width: fit-content;
-    padding: 0 4px;
-    font-size: 0.84rem;
-    color: #333;
-    margin-bottom: 0.8rem;
-  }
-
   .title {
     font-size: 1.53rem;
     font-weight: 700;
@@ -80,8 +69,8 @@ const Program = () => {
     <Contents>
       <GrFormNext className='icon' />
       <div className='flex-row'>
-        <div className='label'>우울감</div>
-        <div className='label'>불안감</div>
+        <Label>우울감</Label>
+        <Label>불안감</Label>
       </div>
       <div className='title'>프로그램 제목 어쩌구 저쩌구</div>
       <div className='flex-row'>
