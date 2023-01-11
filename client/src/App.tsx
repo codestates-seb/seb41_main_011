@@ -1,10 +1,13 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import './font.css';
-import { createGlobalStyle } from "styled-components";
+import reset from 'styled-reset';
+import { createGlobalStyle } from 'styled-components';
+
+import AllPrograms from './pages/all_programs';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 const GlobalStyle = createGlobalStyle`
+ ${reset}
   *, *::before, *::after {
     box-sizing: border-box;
   }
@@ -18,6 +21,10 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.5;
   }
 
+  a {
+    text-decoration: none;
+  }
+
   @media screen and (min-width: 768px) {
   html {
     font-size: 16px; //1 rem = 13px. 태블릿 이상 화면 사이즈 기준
@@ -27,22 +34,13 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   return (
-    <div className="App">
-      <GlobalStyle />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <BrowserRouter>
+        <GlobalStyle />
+        <Routes>
+          <Route path='/' element={<AllPrograms />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
