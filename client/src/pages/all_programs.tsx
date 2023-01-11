@@ -9,15 +9,6 @@ const Contents = styled.main`
   display: flex;
   flex-direction: column;
 
-  /* 헤더 영역 */
-  h1 {
-    font-weight: 700;
-    font-size: 1.53rem;
-    color: #999;
-    height: 70px;
-    line-height: 70px;
-  }
-
   /* 캐러셀 */
   .carousel {
     background: #b3d2b0;
@@ -79,7 +70,6 @@ const Contents = styled.main`
 const AllPrograms = () => {
   return (
     <Contents>
-      <h1>LOGO TEXT</h1>
       <div className='carousel'>carousel container</div>
       <div className='listwrap'>
         <h2>
