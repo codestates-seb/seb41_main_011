@@ -104,6 +104,12 @@ const Button = styled.button`
 
 
 const About = () => {
+
+    const navigate = useNavigate();
+	const toTestPage = () => {
+		navigate('/test')
+	}
+
     return (
         <div>
             <GlobalStyle />
@@ -128,7 +134,7 @@ const About = () => {
                     <Button>
                         그렇군요! 전체 프로그램을 보여주세요.
                     </Button>
-                    <Button>
+                    <Button onClick={()=>toTestPage()}>
                         저에게 맞는 프로그램을 추천받고 싶어요.
                     </Button>
                 </ButtonWrapper>
