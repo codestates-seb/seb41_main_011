@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const Contents = styled.div`
@@ -41,15 +42,35 @@ const Contents = styled.div`
 `;
 
 const ProgramFilter = () => {
+  const [currentTag, setCurrentTag] = useState(0);
+
+  const tagClickHandler = (index: number) => {
+    setCurrentTag(index);
+  };
+
+  const programTags = [
+    '전체',
+    '우울감',
+    '감정기복',
+    '불안',
+    '수면장애',
+    '트라우마',
+  ];
+
   return (
     <Contents>
       <ul>
-        <li className='on'>전체</li>
-        <li>우울감</li>
-        <li>감정기복</li>
-        <li>불안</li>
-        <li>수면장애</li>
-        <li>트라우마</li>
+        {programTags.map((program, index) => {
+          return (
+            <li
+              className={index === currentTag ? 'on' : ''}
+              key={index}
+              onClick={() => tagClickHandler(index)}
+            >
+              {program}
+            </li>
+          );
+        })}
       </ul>
     </Contents>
   );
