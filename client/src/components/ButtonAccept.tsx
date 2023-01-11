@@ -9,6 +9,7 @@ const AcceptButton = styled.button`
     text-align: center;
     background-color: #F4E7A4;
     border: none;
+    box-shadow: #af9a7052 0px 3px 8px;
 `
 
 type ButtonAcceptProps ={

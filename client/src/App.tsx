@@ -1,8 +1,7 @@
 import React from 'react';
-import './App.css';
 import './font.css';
 import { createGlobalStyle } from "styled-components";
-import Signup from './signup/signup';
+import Signup from './pages/signup';
 import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
 
 const GlobalStyle = createGlobalStyle`
