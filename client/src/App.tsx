@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 
 import AllPrograms from './pages/all_programs';
+import ProgramDetail from './pages/program_detail';
 
 const GlobalStyle = createGlobalStyle`
  ${reset}
@@ -40,6 +41,7 @@ function App() {
         <GlobalStyle />
         <Routes>
           <Route path='/' element={<AllPrograms />} />
+          <Route path='/program/:id' element={<ProgramDetail />} />
         </Routes>
       </BrowserRouter>
     </div>
