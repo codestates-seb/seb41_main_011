@@ -58,14 +58,19 @@ public class Program {
         this.dateEnd = dateEnd;
     }
 
-    @Builder
-    public Program(String title, String content, int userMax, String image, String dateStart,
-        String dateEnd) {
-        this.title = title;
-        this.content = content;
-        this.userMax = userMax;
-        this.image = image;
-        this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
+    public static Program of(Program program) {
+        return Program.builder()
+            .programId(program.getProgramId())
+            .title(program.getTitle())
+            .content(program.getContent())
+            .userMax(program.getUserMax())
+            .userCount(program.userCount)
+            .cost(program.getCost())
+            .image(program.getImage())
+            .announce(program.getAnnounce())
+            .zoomLink(program.getZoomLink())
+            .dateStart(program.getDateStart())
+            .dateEnd(program.getDateEnd())
+            .build();
     }
 }

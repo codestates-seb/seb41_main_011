@@ -7,5 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface ProgramMapper {
     Program ProgramPostDtoToProgram(ProgramDto.Post requestBody);
+    Program ProgramPatchDtoToProgram(ProgramDto.Patch requestBody);
     ProgramDto.Response ProgramToProgramResponseDto(Program program);
 }

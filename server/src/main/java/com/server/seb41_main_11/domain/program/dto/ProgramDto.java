@@ -6,6 +6,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 public class ProgramDto {
     @Getter
@@ -35,6 +36,43 @@ public class ProgramDto {
                 .userMax(requestBody.getUserMax())
                 .dateStart(requestBody.getDateStart())
                 .dateEnd(requestBody.getDateEnd())
+                .build();
+        }
+    }
+
+    @Getter
+    @Setter
+    @Builder
+    public static class Patch {
+        private Long programId;
+        @NotBlank
+        private String title;
+
+        @NotBlank
+        private String content;
+        private String image;
+
+        @Min(1)
+        private int userMax;
+
+        @NotBlank
+        private String dateStart;
+
+        @NotBlank
+        private String dateEnd;
+
+        public void setProgramId(Long programId) {
+            this.programId = programId;
+        }
+
+        public static ProgramDto.Patch of(Program program) {
+            return Patch.builder()
+                .title(program.getTitle())
+                .content(program.getContent())
+                .image(program.getImage())
+                .userMax(program.getUserMax())
+                .dateStart(program.getDateStart())
+                .dateEnd(program.getDateEnd())
                 .build();
         }
     }

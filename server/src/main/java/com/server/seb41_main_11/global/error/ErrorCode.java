@@ -22,6 +22,9 @@ public enum ErrorCode {
     INVALID_MEMBER_TYPE(HttpStatus.BAD_REQUEST, "M-001", "잘못된 회원 타입 입니다.(memberType : KAKAO)"),
     ALREADY_REGISTERED_MEMBER(HttpStatus.BAD_REQUEST, "M-002", "이미 가입된 회원 입니다."),
     MEMBER_NOT_EXISTS(HttpStatus.BAD_REQUEST, "M-003", "해당 회원은 존재하지 않습니다."),
+
+    // 프로그램
+    PROGRAM_NOT_FOUND(HttpStatus.BAD_REQUEST, "P-001", "해당 프로그램이 없습니다.")
     ;
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
