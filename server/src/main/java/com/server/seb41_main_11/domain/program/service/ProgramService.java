@@ -7,6 +7,8 @@ import com.server.seb41_main_11.global.error.ErrorCode;
 import com.server.seb41_main_11.global.error.exception.BusinessException;
 import java.util.Optional;
 import lombok.Builder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,6 +33,10 @@ public class ProgramService {
     public Program findProgram(long programId) {
         Program findProgram = findVerifiedProgram(programId);
         return findProgram;
+    }
+
+    public Page<Program> findPrograms(Pageable pageable) {
+        return programRepository.findAll(pageable);
     }
 
     public Program findVerifiedProgram(long programId) {

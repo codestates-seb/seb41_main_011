@@ -4,8 +4,14 @@ import com.server.seb41_main_11.domain.program.dto.ProgramDto;
 import com.server.seb41_main_11.domain.program.entity.Program;
 import com.server.seb41_main_11.domain.program.mapper.ProgramMapper;
 import com.server.seb41_main_11.domain.program.service.ProgramService;
+import java.util.List;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,5 +53,15 @@ public class ProgramController {
         Program program = programService.findProgram(programId);
         ProgramDto.Response response = programMapper.ProgramToProgramResponseDto(program);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity getPrograms(@PageableDefault(size = 10, sort = "programId", direction =  Direction.DESC)
+        Pageable pageable) {
+
+        Page<Program> programPage = programService.findPrograms(pageable);
+        List<Program> programs = programPage.getContent();
+
+        return new ResponseEntity<>(programs, HttpStatus.OK);
     }
 }
