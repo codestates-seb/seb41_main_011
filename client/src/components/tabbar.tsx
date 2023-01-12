@@ -11,7 +11,7 @@ const Box = styled.div`
     width: 100vw;
     height: 70px;
     background-color: white;
-    
+    margin-top: 25px;    
 
     @media screen and (min-width: 768px) {
         display: none;

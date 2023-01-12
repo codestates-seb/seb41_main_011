@@ -11,7 +11,8 @@ import Signup from './pages/signup';
 import EditUserInfo from './pages/edit_userinfo_general';
 import EditUserInfoTherapist from './pages/edit_userinfo_therapist';
 import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';  
-
+import LoginGeneral from './pages/login_general';
+import LoginTherapist from './pages/login_therapist';
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -56,6 +57,8 @@ function App() {
           <Route path='/' element={<AllPrograms />} />
           <Route path='/program/:id' element={<ProgramDetail />} />
           <Route path='/signup' element={<Signup />} />
+          <Route path='/login-general' element={<LoginGeneral />} />
+          <Route path='/login-therapist' element={<LoginTherapist />} />
         </Routes>
       </BrowserRouter>
     </div>
