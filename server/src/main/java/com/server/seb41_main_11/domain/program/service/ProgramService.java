@@ -47,4 +47,10 @@ public class ProgramService {
 
         return findProgram;
     }
+
+    public void deleteProgram(long programId) {
+        Program findProgram = findVerifiedProgram(programId);
+
+        programRepository.delete(findProgram);
+    }
 }
