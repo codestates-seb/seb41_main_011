@@ -3,11 +3,17 @@ import styled from 'styled-components';
 
 
 const Input = styled.input`
-    width: 280px;
+    width: 80vw;
     height: 40px;
-    border-radius: 12px;
+    border-radius: 10px;
     font-size: 1rem;
     border: 1px #DDDDDD solid;
+    margin-bottom: 10px;
+    padding-left: 5%;
+    padding-right: 5%;
+    @media screen and (min-width: 768px) {
+      width: 600px;
+    }
 `
 const InputNumber = styled(Input)`
   ::-webkit-inner-spin-button{
