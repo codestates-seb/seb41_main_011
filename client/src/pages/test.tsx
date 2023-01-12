@@ -54,7 +54,7 @@ const Tag = styled.div`
 
   background-color: #B3D2B0;
   border-radius: 5px;
-  font-size: 13px;
+  font-size: 14px;
   color: #112f1c;
   font-weight: 500;
   text-align: center;
@@ -70,7 +70,8 @@ const Tag = styled.div`
   } 
 
   @media screen and (min-width: 768px) {
-        font-size: 13px;
+        font-size: 16px;
+        font-weight: 400;
   }
 
 `
