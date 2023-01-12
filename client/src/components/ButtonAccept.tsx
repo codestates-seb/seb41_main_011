@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 
 const AcceptButton = styled.button`
-    width: 280px;
+    width: 80vw;
     height: 40px;
     border-radius: 12px;
     font-size: 1.25rem;
@@ -10,6 +10,13 @@ const AcceptButton = styled.button`
     background-color: #F4E7A4;
     border: none;
     box-shadow: #af9a7052 0px 3px 8px;
+    &:hover{
+      opacity: 80%;
+
+    }
+    @media screen and (min-width: 768px) {
+      width: 600px;
+    }
 `
 
 type ButtonAcceptProps ={
