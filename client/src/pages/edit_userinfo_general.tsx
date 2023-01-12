@@ -20,14 +20,17 @@ const ContentWrapper = styled.div`
 `
 const Logo = styled.img`
 	width: 70px;
-  margin-top: 30px;
+  margin-top: 50px;
+  margin-bottom: -30px;
   @media screen and (min-width: 768px) {
     width: 110px;
     margin-bottom: -50px;
+    margin-top: 30px;
   }
   @media screen and (min-width: 1200px) {
     width: 140px;
-    margin-bottom: -80px;
+    margin-bottom: -50px;
+    margin-top: 30px;
   }
 `
 
