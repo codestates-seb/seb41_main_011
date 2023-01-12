@@ -29,6 +29,7 @@ public class TokenManager {
     private final String tokenSecret;
     // 토큰을 생성할때 사용할 값
     // yml에서 설정한 값들을 가져올 것임
+    // securityConfig에서 주입
 
     public JwtTokenDto createJwtTokenDto(Long memberId, Role role) {
         // 토큰 생성
