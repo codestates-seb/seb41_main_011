@@ -8,6 +8,7 @@ import Test from './pages/test';
 import TestResult from './pages/test_result';
 import AllPrograms from './pages/all_programs';
 import ProgramDetail from './pages/program_detail';
+import EditUserInfo from './pages/edit_userinfo_general';
 import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';  
 
 const GlobalStyle = createGlobalStyle`
@@ -49,6 +50,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/test" element={<Test />} />
           <Route path="/test-result" element={<TestResult />} />
+          <Route path="/edit-userinfo" element={<EditUserInfo />} />
           <Route path='/' element={<AllPrograms />} />
           <Route path='/program/:id' element={<ProgramDetail />} />
         </Routes>
