@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 회원 정보 조회 Controller
+ * 회원 정보 조회 Controller (OauthLoginService에서 회원 정보를 가져올 때 사용함.. feign이 들어가 있으니 지우면 안됨)
  * http://localhost:8080/api/member/info
  * Authorization에 아무 값도 안넣은 경우 -> AuthenticationIntercepter //1 에서 예외 발생 -> Authrization Header가 빈값입니다
  * 아무 값이나 넣은 경우 -> 인증 타입이 Bearer 타입이 아닙니다 예외 발생

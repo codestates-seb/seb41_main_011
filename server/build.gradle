@@ -33,14 +33,21 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign' // 외부 api 호출 용이
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4' //yml 파일 암호화
-	implementation 'io.jsonwebtoken:jjwt:0.9.1' //jwt 라이브러리 의존성 추가
+//	implementation 'io.jsonwebtoken:jjwt:0.9.1' //jwt 라이브러리 의존성 추가(0.9.1)
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation 'org.springframework.security:spring-security-test'
+	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 }
 
 // openFeign 설정

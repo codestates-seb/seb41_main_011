@@ -13,7 +13,10 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
-
+  h2:
+    console:
+      enabled: true
+      path: /h2
 
   jpa:
     hibernate:
@@ -66,10 +69,11 @@ kakao:
 #   보안 - 코드 값 복사
 
 token:
-  secret:  ENC(eIFwp/mynS6nbxDmqjNMzy+qVPlKB7H7LEk04Q85ggmsS34hVRDWl8BKiyg17HiF+KdNFuzF7S4=)
+  secret: ENC(l9lcZQ+UyKywHrkVv3x+5xg7psUCfAw1ok+5PIW/FUDm3tZEAOSKLdGlIDQ847C22OQVPvbPthP+uEOCOTDXAzmQ+EBHZLmJDH9j8fTFVkf9gmgxcP7pQslsMWLXJNSaq4TBaxGzxyo=)
   access-token-expiration-time: 900000  # 15분 1000(ms) x 60(s) x 15(m)
   refresh-token-expiration-time: 1209600000 # 2주 1000(ms) x 60 (s) x 60(m) x 24(h) x 14(d)
 
 jasypt:
   password: ${PASSWORD}
 #  vmoption에 지정됨
+
