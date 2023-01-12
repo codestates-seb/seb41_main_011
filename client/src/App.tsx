@@ -1,6 +1,7 @@
 import reset from 'styled-reset';
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css'; 
 import Intro from './pages/intro';
 import About from './pages/about';
 import Test from './pages/test';
@@ -9,8 +10,9 @@ import AllPrograms from './pages/all_programs';
 import ProgramDetail from './pages/program_detail';
 import Signup from './pages/signup';
 import EditUserInfo from './pages/edit_userinfo_general';
-import EditUserInfoTherapist from './pages/edit_userinfo_therapist';
-import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';  
+import EditUserInfoTherapist from './pages/edit_userinfo_therapist'; 
+import MyPageGeneral from './pages/mypage_general';
+import Tabbar from './components/tabbar';
 
 const GlobalStyle = createGlobalStyle`
  ${reset}
@@ -53,6 +55,7 @@ function App() {
           <Route path="/test-result" element={<TestResult />} />
           <Route path="/edit-userinfo" element={<EditUserInfo />} />
           <Route path="/edit-userinfo-therapist" element={<EditUserInfoTherapist />} />
+          <Route path="/mypage" element={<MyPageGeneral />} />
           <Route path='/' element={<AllPrograms />} />
           <Route path='/program/:id' element={<ProgramDetail />} />
           <Route path='/signup' element={<Signup />} />

@@ -11,17 +11,32 @@ const Box = styled.div`
     width: 100vw;
     height: 70px;
     background-color: white;
+    z-index: 1;
     
-
     @media screen and (min-width: 768px) {
         display: none;
     }
-
     * {
         @media screen and (min-width: 768px) {
             display: none;
         }
     }
+`
+const CenterIcon = styled.div`
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #B3D2B0;
+    /* outline: 6px solid white; */
+    box-shadow: ;
+    object-fit: scale-down;
+    margin-bottom: 60px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    cursor: pointer; 
 `
 
 const IconWrapper = styled.div`
@@ -44,21 +59,6 @@ const IconWrapper = styled.div`
         }
      }
  
-`
-const CenterIcon = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: #B3D2B0;
-    /* outline: 6px solid white; */
-    box-shadow: ;
-    object-fit: scale-down;
-    margin-bottom: 60px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    cursor: pointer; 
 `
 
 const CenterIconImage = styled.img`
@@ -105,5 +105,3 @@ const Tabbar = () => {
 
 }
 export default Tabbar;
-
-

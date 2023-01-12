@@ -123,11 +123,6 @@ const Button = styled.button`
     }
 `
 
-const Hr = styled.hr`
-  width: 100vw;
-`
-
-
 const EditUserInfoTherapist = () => {
   return (
     <div>
