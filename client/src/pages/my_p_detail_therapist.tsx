@@ -140,7 +140,7 @@ const MyProgramDetailT = () => {
 
   const editBtnClickHandler = () => {
     if (isEditable) {
-      if (inputValue && inputValue.slice(0, 9) !== 'https://') {
+      if (inputValue && inputValue.slice(0, 8) !== 'https://') {
         alert('정확한 링크를 입력해주세요.');
         return;
       }
