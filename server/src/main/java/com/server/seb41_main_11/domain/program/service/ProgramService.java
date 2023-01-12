@@ -28,6 +28,11 @@ public class ProgramService {
         return programRepository.save(Program.of(program));
     }
 
+    public Program findProgram(long programId) {
+        Program findProgram = findVerifiedProgram(programId);
+        return findProgram;
+    }
+
     public Program findVerifiedProgram(long programId) {
         Optional<Program> optionalProgram = programRepository.findById(programId);
         Program findProgram = optionalProgram.orElseThrow(
