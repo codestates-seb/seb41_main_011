@@ -8,6 +8,7 @@ const Contents = styled.main`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  text-align: center;
 
   /* 캐러셀 */
   .carousel {
