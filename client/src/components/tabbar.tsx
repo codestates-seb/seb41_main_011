@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import reset from 'styled-reset';
 import { FaListAlt, FaSyringe, FaRegLaughSquint, FaRegFileAlt } from 'react-icons/fa';
+import { useNavigate } from "react-router";
 
 
 const Box = styled.div`
@@ -77,21 +78,35 @@ const CenterIconImage = styled.img`
 
 
 const Tabbar = () => {
+    const navigate = useNavigate();
+    const toMain = ()  => {
+        navigate('/')
+    }
+    const toTest = ()  => {
+        navigate('/test')
+    }    
+    const toMyPage = ()  => {
+        navigate('/mypage')
+    }
+    const toCommunity = ()  => {
+        navigate('/community')
+    }
+
     return (
         <div>
                 <Box>
-                    <IconWrapper>
+                    <IconWrapper onClick={toMain}>
                         <FaListAlt color='#777777' size={30}/>
                         프로그램
                     </IconWrapper>
-                    <IconWrapper>
+                    <IconWrapper onClick={toTest}>
                         <FaSyringe color='#777777' size={30}/>
                         테스트                        
                     </IconWrapper>
-                        <CenterIcon>
+                        <CenterIcon onClick={toMyPage}>
                             <CenterIconImage src='teacup.png'/>
                         </CenterIcon>
-                    <IconWrapper>
+                    <IconWrapper onClick={toCommunity}>
                         <FaRegLaughSquint color='#777777' size={30}/>                   
                         커뮤니티                       
                     </IconWrapper>
