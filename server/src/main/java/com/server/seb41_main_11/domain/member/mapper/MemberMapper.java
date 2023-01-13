@@ -14,4 +14,6 @@ public interface MemberMapper {
     MemberDto.Response memberToMemberResponse(Member member);
 
     Member memberPostDtoToMember(MemberDto.Post memberPostDto);
+
+    Member memberLoginDtoToMember(MemberDto.Login memberLoginDto);
 }

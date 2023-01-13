@@ -5,6 +5,9 @@ import com.server.seb41_main_11.domain.member.constant.MemberType;
 import com.server.seb41_main_11.domain.member.constant.Role;
 import com.server.seb41_main_11.global.jwt.dto.JwtTokenDto;
 import com.server.seb41_main_11.global.util.DateTimeUtils;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,9 +24,11 @@ public class Member extends BaseEntity {
     private Long memberId;
 
     @Column(unique = true, length = 50, nullable = false)
+    @Email
     private String email;
 
     @Column(length = 200)
+//    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@!%*#?&])[A-Za-z\\d@!%*#?&]{8,}$")
     private String password;
     // 소셜 로그인 인증 같은 경우 비밀번호를 직접 다루지 않기 때문에 nullable
 
@@ -67,17 +72,20 @@ public class Member extends BaseEntity {
 //        this.role = role;
 //    }
 
+
     @Builder
-    public Member(Long memberId, String email, String password, String memberName, String profile, String nickName, String birth, Role role, MemberType memberType) {
+    public Member(Long memberId, String email, String password, String memberName, String nickName, String birth, String profile, Role role, MemberType memberType, String refreshToken, LocalDateTime tokenExpirationTime) {
         this.memberId = memberId;
         this.email = email;
         this.password = password;
         this.memberName = memberName;
-        this.profile = profile;
         this.nickName = nickName;
         this.birth = birth;
+        this.profile = profile;
         this.role = role;
         this.memberType = memberType;
+        this.refreshToken = refreshToken;
+        this.tokenExpirationTime = tokenExpirationTime;
     }
 
     public void updateRefreshToken(JwtTokenDto jwtTokenDto) {

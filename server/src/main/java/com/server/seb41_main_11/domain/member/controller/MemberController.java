@@ -1,5 +1,6 @@
 package com.server.seb41_main_11.domain.member.controller;
 
+import com.server.seb41_main_11.api.login.validator.OauthValidator;
 import com.server.seb41_main_11.domain.common.SingleResponseDto;
 import com.server.seb41_main_11.domain.member.dto.MemberDto;
 import com.server.seb41_main_11.domain.member.entity.Member;
@@ -28,6 +29,8 @@ public class MemberController {
 
     private final MemberMapper memberMapper;
 
+    private final OauthValidator oauthValidator;
+
     //회원가입
     @PostMapping
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post memberPostDto){
@@ -39,6 +42,17 @@ public class MemberController {
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(response), HttpStatus.OK
+        );
+    }
+
+    //로그인
+    @PostMapping("/login")
+    public ResponseEntity loginMember(@Valid @RequestBody MemberDto.Login memberLoginDto){
+        oauthValidator.validateMemberType(memberLoginDto.getMemberType());
+        MemberDto.LoginResponse jwtTokenResponseDto = memberService.login(memberMapper.memberLoginDtoToMember(memberLoginDto));
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(jwtTokenResponseDto), HttpStatus.OK
         );
     }
 }

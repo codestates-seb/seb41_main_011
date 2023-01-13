@@ -2,12 +2,16 @@ package com.server.seb41_main_11.domain.member.service;
 
 import com.server.seb41_main_11.domain.member.constant.MemberType;
 import com.server.seb41_main_11.domain.member.constant.Role;
+import com.server.seb41_main_11.domain.member.dto.MemberDto;
 import com.server.seb41_main_11.domain.member.entity.Member;
 import com.server.seb41_main_11.domain.member.repository.MemberRepository;
+import com.server.seb41_main_11.global.config.JasyptConfig;
 import com.server.seb41_main_11.global.error.ErrorCode;
 import com.server.seb41_main_11.global.error.exception.AuthenticationException;
 import com.server.seb41_main_11.global.error.exception.BusinessException;
 import com.server.seb41_main_11.global.error.exception.EntityNotFoundException;
+import com.server.seb41_main_11.global.jwt.dto.JwtTokenDto;
+import com.server.seb41_main_11.global.jwt.service.TokenManager;
 import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,8 +28,9 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    @Value("${jasypt.password}")
-    private String password;
+    private final TokenManager tokenManager;
+
+    private final JasyptConfig jasyptConfig; //암호화, 복호화를 위한 di
 
     /**
      * 회원가입(카카오 로그인 시 사용)
@@ -50,6 +55,29 @@ public class MemberService {
     }
 
     /**
+     * 회원 로그인
+     */
+    public MemberDto.LoginResponse login(Member member) {
+        JwtTokenDto jwtTokenDto;
+        Optional<Member> optioanlMember = findMemberByEmail(member.getEmail()); //이메일로 회원 검색
+
+        if(optioanlMember.isEmpty()) {
+            throw new EntityNotFoundException(ErrorCode.MEMBER_NOT_EXISTS); //존재 안하면 예외 처리
+        }
+
+        Member findMember = optioanlMember.get();
+
+        if(!decryptPassword(findMember.getPassword()).equals(member.getPassword())){
+            throw new AuthenticationException(ErrorCode.WRONG_PASSWROD); //비밀번호 일치 하지 않으면 예외처리
+        }
+
+        jwtTokenDto = tokenManager.createJwtTokenDto(findMember.getMemberId(), findMember.getRole()); //토큰 생성
+        findMember.updateRefreshToken(jwtTokenDto); //db에 리프레쉬 토큰 업데이트
+
+        return MemberDto.LoginResponse.of(jwtTokenDto);
+    }
+
+    /**
      * 회원 중복 확인
      */
     private void validateDuplicateMember(Member member) {
@@ -58,6 +86,14 @@ public class MemberService {
             throw new BusinessException(ErrorCode.ALREADY_REGISTERED_MEMBER);
             //동일 이메일 있는 경우 에러 처리
         }
+    }
+
+    /**
+     * 회원 존재 확인
+     */
+    public Member findMemberByMemberId(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MEMBER_NOT_EXISTS));
     }
 
     @Transactional(readOnly = true)
@@ -76,18 +112,13 @@ public class MemberService {
         return member;
     }
 
-    public Member findMemberByMemberId(Long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MEMBER_NOT_EXISTS));
-    }
-
     /**
      * 비밀번호 암호화
      */
     public String encryptPassword(String password){
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         encryptor.setPoolSize(4);
-        encryptor.setPassword(password);
+        encryptor.setPassword(jasyptConfig.getPassword());
         encryptor.setAlgorithm("PBEWithMD5AndTripleDES");
 
         return encryptor.encrypt(password);
@@ -99,9 +130,10 @@ public class MemberService {
     public String decryptPassword(String password){
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         encryptor.setPoolSize(4);
-        encryptor.setPassword(password);
+        encryptor.setPassword(jasyptConfig.getPassword());
         encryptor.setAlgorithm("PBEWithMD5AndTripleDES");
 
         return encryptor.decrypt(password);
     }
+
 }
