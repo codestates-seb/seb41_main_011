@@ -11,7 +11,8 @@ import Signup from './pages/signup';
 import EditUserInfo from './pages/edit_userinfo_general';
 import MyProgramDetailG from './pages/my_p_detail_general';
 import MyProgramDetailT from './pages/my_p_detail_therapist';
-import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
+import EditUserInfoTherapist from './pages/edit_userinfo_therapist';
+import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';  
 
 const GlobalStyle = createGlobalStyle`
  ${reset}
@@ -47,11 +48,12 @@ function App() {
       <BrowserRouter>
         <GlobalStyle />
         <Routes>
-          <Route path='/intro' element={<Intro />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/test' element={<Test />} />
-          <Route path='/test-result' element={<TestResult />} />
-          <Route path='/edit-userinfo' element={<EditUserInfo />} />
+          <Route path="/intro" element={<Intro />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/test" element={<Test />} />
+          <Route path="/test-result" element={<TestResult />} />
+          <Route path="/edit-userinfo" element={<EditUserInfo />} />
+          <Route path="/edit-userinfo-therapist" element={<EditUserInfoTherapist />} />
           <Route path='/' element={<AllPrograms />} />
           <Route path='/program/:id' element={<ProgramDetail />} />
           <Route path='/signup' element={<Signup />} />

@@ -35,7 +35,7 @@ const Logo = styled.img`
 `
 
 const InnerWrapper = styled.div`
-  width: 90vw;
+  width: 80vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -97,7 +97,6 @@ const Input = styled.input`
     font-size: 11px;
   }
 `
-
 const Button = styled.button`
   box-shadow: rgba(0, 0, 0, 0.12) 0px 3px 8px;
 	border-radius: 10px;
@@ -129,24 +128,20 @@ const Hr = styled.hr`
 `
 
 
-const EditUserInfo = () => {
+const EditUserInfoTherapist = () => {
   return (
     <div>
       <ContentWrapper>
         <Logo src="teacup.png" />
         <InnerWrapper>
           <Title>
-            회원정보 수정 
+            회원정보
           </Title>
           <Grid>
             <Label>회원 유형</Label>
-            <Text>일반 회원</Text>
+            <Text>상담사</Text>
             <Label>이름</Label>
-            <Text>김초이</Text>
-            <Label>소셜 로그인</Label>
-            <RiKakaoTalkFill size={30} color={'#362419'}/>
-            <Label>닉네임</Label>
-            <Input defaultValue={'마오옹'}></Input>
+            <Text>하헌진</Text>
           </Grid>
           <Title>
             비밀번호 변경
@@ -155,9 +150,9 @@ const EditUserInfo = () => {
             <Label>현재 비밀번호</Label>
             <Input placeholder="기존 비밀번호를 입력해주세요"></Input>
             <Label>새 비밀번호</Label>
-            <Input placeholder="변경할 비밀번호를 입력해주세요"></Input>
+            <Input placeholder="새 비밀번호를 입력해주세요"></Input>
             <Label>비밀번호 확인</Label>
-            <Input placeholder="변경할 비밀번호를 재입력해주세요"></Input>
+            <Input placeholder="새 비밀번호를 재입력해주세요"></Input>
           </Grid>
         </InnerWrapper>
         <Button>수정하기</Button>
@@ -168,4 +163,4 @@ const EditUserInfo = () => {
 
 }
 
-export default EditUserInfo;
+export default EditUserInfoTherapist;
