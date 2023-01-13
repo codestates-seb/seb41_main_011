@@ -12,12 +12,13 @@ import com.server.seb41_main_11.global.error.exception.BusinessException;
 import com.server.seb41_main_11.global.error.exception.EntityNotFoundException;
 import com.server.seb41_main_11.global.jwt.dto.JwtTokenDto;
 import com.server.seb41_main_11.global.jwt.service.TokenManager;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -55,7 +56,7 @@ public class MemberService {
     }
 
     /**
-     * 회원 로그인
+     * 회원 로그인(사이트 자체 로그인)
      */
     public MemberDto.LoginResponse login(Member member) {
         JwtTokenDto jwtTokenDto;
@@ -78,7 +79,46 @@ public class MemberService {
     }
 
     /**
-     * 회원 중복 확인
+     * 회원 수정 (카카오 회원은 비밀번호 수정 불가능)
+     */
+    public Member updateMember(Member member) {
+
+        Member preMember = findVerifiedMemberByMemberId(member.getMemberId()); //멤버 조회
+
+        if(member.getPassword() == null){ //닉네임만 수정
+            Optional.ofNullable(member.getNickName())
+                    .ifPresent(nickName -> preMember.setNickName(nickName));
+        }else{ //비밀번호도 같이 수정
+            Optional.ofNullable(member.getNickName())
+                    .ifPresent(nickName -> preMember.setNickName(nickName));
+
+            String password = encryptPassword(member.getPassword()); //새 비밀번호 암호화
+            preMember.setPassword(password); //암호화된 비밀번호 설정
+        }
+
+        return memberRepository.save(preMember);
+    }
+
+    /**
+     * 회원 삭제 (마이페이지를 통해서 삭제하기 때문에 별도 인증 과정 X)
+     */
+    public void deleteMember(Long memberId) {
+        memberRepository.deleteById(memberId);
+    }
+
+    /**
+     * 로그인 회원 정보 id 조회
+     */
+    public Long getLoginMemberId(HttpServletRequest httpServletRequest){
+        String authorizationHeader = httpServletRequest.getHeader("Authorization");
+        String accessToken = authorizationHeader.split(" ")[1];
+
+        Claims tokenClaims = tokenManager.getTokenClaims(accessToken);
+        Long memberId = Long.valueOf( (Integer) tokenClaims.get("memberId"));
+        return memberId;
+    }
+    /**
+     * 회원 중복 확인(있으면 예외)
      */
     private void validateDuplicateMember(Member member) {
         Optional<Member> optionalMember = memberRepository.findByEmail(member.getEmail());
@@ -89,9 +129,9 @@ public class MemberService {
     }
 
     /**
-     * 회원 존재 확인
+     * 회원 존재 확인(없으면 예외)
      */
-    public Member findMemberByMemberId(Long memberId) {
+    public Member findVerifiedMemberByMemberId(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MEMBER_NOT_EXISTS));
     }

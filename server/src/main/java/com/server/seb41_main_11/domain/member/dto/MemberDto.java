@@ -45,8 +45,21 @@ public class MemberDto {
 
     }
     @Getter
-    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Patch{
+        private Long memberId;
+
+        private String nickName;
+
+        private String password;
+
+        private String newPassword;
+
+        private String confirmNewPassword;
+
+        public void updateMemberId(Long memberId){
+            this.memberId = memberId;
+        }
 
     }
 
@@ -57,11 +70,15 @@ public class MemberDto {
     @Setter
     public static class Response{
         private Long memberId;
+
         private String email;
+
         private String password;
 
         private String memberName;
+
         private String nickName;
+
         private String birth;
 
         private Role role;
@@ -74,6 +91,29 @@ public class MemberDto {
 
     }
 
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    public static class MyPageResponse{
+        private Long memberId;
+
+        private Role role;
+
+        private String email;
+
+        private String memberName;
+
+        private String nickName;
+
+        private MemberType memberType;
+
+        private String birth;
+
+        private String password;
+
+    }
     @Getter @Setter
     @Builder
     @NoArgsConstructor
