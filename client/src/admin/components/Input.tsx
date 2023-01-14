@@ -9,16 +9,14 @@ const Input = styled.input`
     border: 1px #DDDDDD solid;
     margin-bottom: 10px;
     padding-left: 5%;
-    padding-right: 5%
+    padding-right: 5%;
 `
 const InputName = styled(Input)`
     
-    width: 150px;
 
 
 `
 const InputNumber = styled(Input)`
-    width: 150px;
 
     ::-webkit-inner-spin-button{
     -webkit-appearance: none; 
@@ -37,13 +35,16 @@ type InputTempProps = {
     value?: string|number;
     onChange?: any;
     id?: string;
+    name?: string;
+    onClick?: any;
+
 }
 
 
 
 
 
-const InputAdmin = ({type,value,id,placeholder,category,onChange}: InputTempProps) =>{
+const InputAdmin = ({type,value,id,placeholder,category,onChange,name,onClick}: InputTempProps) =>{
 
         const handleInput = (e:any) => {
             const { value } = e.target;
@@ -56,38 +57,41 @@ const InputAdmin = ({type,value,id,placeholder,category,onChange}: InputTempProp
         
         if(category === 'password'){
             return (
-                <label htmlFor={id}>비밀번호
-                    <Input type='password' id={id} value={value} onChange={onChange} placeholder={placeholder as string} required></Input>
-                </label>
+                <>
+                    <Input type='password' id={id} value={value} onChange={onChange} placeholder={placeholder as string} name={name} required></Input>
+                </>
             )
         }
         if(category === 'passwordCheck'){
             return (
-                <label htmlFor={id}>비밀번호 확인
-                    <Input type='password' id={id} value={value} onChange={onChange} placeholder={placeholder as string} required></Input>
-                </label>
+                <>
+                    <Input type='password' id={id} value={value} onChange={onChange} placeholder={placeholder as string} name={name} required></Input>
+                </>
                 )
         }
         if(category === 'birth'){
             return (
-            <label htmlFor={id}>나이
-                <InputNumber type='number' id={id} value={value} onChange={onChange} placeholder={placeholder as string} pattern="\d*" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onKeyPress={handleInput} required></InputNumber>
-            </label>
+            <>
+                <InputNumber type='number' id={id} value={value} onChange={onChange} placeholder={placeholder as string} name={name}  pattern="\d*" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onKeyPress={handleInput} required></InputNumber>
+            </>
             
             )
         }
         if(category === 'name'){
             return (
-            <label htmlFor={id}>이름
-            <InputName type='text' id={id} value={value} onChange={onChange} placeholder={placeholder as string}  required></InputName>
-            </label>
+                <>
+                    <InputName type='text' id={id} value={value} onChange={onChange} placeholder={placeholder as string}  name={name}  required></InputName>
+                </>
         
             )
         }
         else{
-            return <label htmlFor={id}>{id}
-                <Input type={type} id={id} value={value} onChange={onChange} placeholder={placeholder as string} required></Input>
-            </label>
+            return(
+                <>
+                    <Input type={type} id={id} value={value} onChange={onChange} placeholder={placeholder as string}name={name} onClick={onClick} required></Input>
+                </>
+
+            ) 
         
         }
     

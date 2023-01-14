@@ -132,9 +132,6 @@ const Signup = () =>{
   const handleBirthChange = (e: React.ChangeEvent) =>{
     const target = e.target as HTMLInputElement
     setBirth(target.value);
-    
-    
-  
   }
   const handleCheckboxChange = (e: React.ChangeEvent) =>{
     

@@ -23,14 +23,15 @@ type TaProps = {
     id?: string;
     cols?: number;
     rows?: number;
-    child?: string
+    child?: string;
+    className?: string;
 }
-const TextArea = ({placeholder,value,onChange,id,cols,rows,child}:TaProps)=>{
+const TextArea = ({placeholder,value,onChange,id,cols,rows,child,className}:TaProps)=>{
 
     return (
         <TextAreaWrapper>
             <label htmlFor={id}>{child}</label>
-            <CustomTa id={id} cols={cols} rows={rows} placeholder={placeholder} onChange={onChange} value={value} required></CustomTa>
+            <CustomTa id={id} cols={cols} rows={rows} placeholder={placeholder} onChange={onChange} value={value} className={className} required></CustomTa>
         </TextAreaWrapper>
     )
 
