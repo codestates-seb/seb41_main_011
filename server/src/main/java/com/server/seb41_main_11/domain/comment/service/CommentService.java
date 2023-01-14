@@ -1,10 +1,12 @@
-package com.server.seb41_main_11.domain.comment;
+package com.server.seb41_main_11.domain.comment.service;
 
+import com.server.seb41_main_11.domain.comment.entity.Comment;
+import com.server.seb41_main_11.domain.comment.repository.CommentRepository;
 import com.server.seb41_main_11.domain.common.CustomBeanUtils;
 import com.server.seb41_main_11.domain.member.entity.Member;
 import com.server.seb41_main_11.domain.member.service.MemberService;
-import com.server.seb41_main_11.domain.post.Post;
-import com.server.seb41_main_11.domain.post.PostService;
+import com.server.seb41_main_11.domain.post.entity.Post;
+import com.server.seb41_main_11.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,8 +31,8 @@ public class CommentService {
 
     // ----------------- DI ---------------------
 
-    // 일반유저 글 등록
-    public Comment createToUser(Comment comment) {
+    // 댓글 등록
+    public Comment create(Comment comment) {
         findVerifiedComment(comment.getCommentId());
 
         Member member = memberService.findMemberByMemberId(comment.getMember().getMemberId());
@@ -42,19 +44,7 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-//     // 상담사 글 등록
-//    public Comment createToCounselor(Comment comment) {
-//        findVerifiedComment(comment.getCommentId());
-//
-//        Counselor counselor = counselorService.findById(comment.getCounselor().getCounselorId());
-//        Post post = postService.find(comment.getPost().getPostId());
-//
-//        comment.setCounselor(counselor);
-//        comment.setPost(post);
-//
-//        return commentRepository.save(comment);
-//    }
-
+    // 댓글 수정
     public Comment update(Comment comment) {
         Comment findComment = findVerifiedComment(comment.getCommentId());
 
@@ -63,20 +53,24 @@ public class CommentService {
         return commentRepository.save(updatedComment);
     }
 
+    // 댓글 1건 조회
     @Transactional(readOnly = true)
     public Comment find(long commentId) {
         return findVerifiedComment(commentId);
     }
 
+    // 댓글 전체 조회
     @Transactional(readOnly = true)
     public Page<Comment> findAll(int page, int size) {
         return commentRepository.findAll(PageRequest.of(page, size, Sort.by("commentId").descending()));
     }
 
+    // 댓글 삭제
     public void delete(long commentId) {
         commentRepository.deleteById(commentId);
     }
 
+    // 댓글 검증
     public Comment findVerifiedComment(long commentId) {
         Optional<Comment> optComment = commentRepository.findById(commentId);
 

@@ -1,7 +1,11 @@
-package com.server.seb41_main_11.domain.post;
+package com.server.seb41_main_11.domain.post.controller;
 
 import com.server.seb41_main_11.domain.common.MultiResponseDto;
 import com.server.seb41_main_11.domain.common.SingleResponseDto;
+import com.server.seb41_main_11.domain.post.dto.PostDto;
+import com.server.seb41_main_11.domain.post.mapper.PostMapper;
+import com.server.seb41_main_11.domain.post.service.PostService;
+import com.server.seb41_main_11.domain.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -24,22 +28,14 @@ public class PostController {
 
     // 일반 유저가 글 등록
     @PostMapping
-    public ResponseEntity post(@Valid @RequestBody PostDto.UserPost post) {
+    public ResponseEntity createPost(@Valid @RequestBody PostDto.Post post) {
         Post findPost = postService.createByUser(mapper.postToEntity(post));
 
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToResponse(findPost)), HttpStatus.CREATED);
     }
 
-//    // 상담사가 글 등록
-//    @PostMapping
-//    public ResponseEntity post(@Valid @RequestBody PostDto.counselorPost post) {
-//        Post findPost = postService.createByCounselor(mapper.postToEntity(post));
-//
-//        return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToResponse(findPost)), HttpStatus.CREATED);
-//    }
-
     @PatchMapping("/{post-id}")
-    public ResponseEntity patch(@PathVariable("post-id") @Positive long postId,
+    public ResponseEntity updatePost(@PathVariable("post-id") @Positive long postId,
                                 @Valid @RequestBody PostDto.Patch patch) {
         patch.setPostId(postId);
 
@@ -49,14 +45,14 @@ public class PostController {
     }
 
     @GetMapping("/{post-id}")
-    public ResponseEntity get(@PathVariable("post-id") @Positive long postId) {
+    public ResponseEntity findPost(@PathVariable("post-id") @Positive long postId) {
         Post findPost = postService.find(postId);
 
         return new ResponseEntity(new SingleResponseDto<>(mapper.entityToResponse(findPost)), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity getAll(@Positive @RequestParam(defaultValue = "1") int page,
+    public ResponseEntity findAllPost(@Positive @RequestParam(defaultValue = "1") int page,
                                  @Positive @RequestParam(defaultValue = "10") int size) {
         Page<Post> pagePost = postService.findAll(page-1, size);
         List<Post> posts = pagePost.getContent();
@@ -65,7 +61,7 @@ public class PostController {
     }
 
     @DeleteMapping("/{post-id}")
-    public ResponseEntity delete(@PathVariable("post-id") @Positive long postId) {
+    public ResponseEntity deletePost(@PathVariable("post-id") @Positive long postId) {
         postService.delete(postId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
