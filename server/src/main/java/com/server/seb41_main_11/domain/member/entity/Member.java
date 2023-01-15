@@ -61,17 +61,6 @@ public class Member extends BaseEntity {
     // 리프레쉬 토큰
     private LocalDateTime tokenExpirationTime;
     // 토큰 만료 시간
-//    @Builder
-//    public Member(MemberType memberType, String email, String password, String memberName,
-//                  String profile, Role role) {
-//        this.memberType = memberType;
-//        this.email = email;
-//        this.password = password;
-//        this.memberName = memberName;
-//        this.profile = profile;
-//        this.role = role;
-//    }
-
 
     @Builder
     public Member(Long memberId, String email, String password, String memberName, String nickName, String birth, String profile, Role role, MemberType memberType, String refreshToken, LocalDateTime tokenExpirationTime) {
