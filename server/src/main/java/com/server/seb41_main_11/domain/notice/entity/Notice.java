@@ -43,6 +43,11 @@ public class Notice extends BaseEntity {
         }
     }
 
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
     // ------------------ Test 를 위한 팩토리 메서드 ------------------
     private Notice(String title, String content, Member member) {
         this.title = title;

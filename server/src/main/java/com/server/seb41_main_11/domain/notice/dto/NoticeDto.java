@@ -64,12 +64,12 @@ public class NoticeDto {
 
         public static Response from(Notice entity) {
             return new Response(
-            entity.getNoticeId(),
-            entity.getMember().getMemberId(),
-            entity.getTitle(),
-            entity.getContent(),
-            entity.getViews(),
-            entity.getWriter());
+                    entity.getNoticeId(),
+                    entity.getMember().getMemberId(),
+                    entity.getTitle(),
+                    entity.getContent(),
+                    entity.getViews(),
+                    entity.getWriter());
         }
     }
 }
