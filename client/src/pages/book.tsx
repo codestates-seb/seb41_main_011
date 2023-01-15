@@ -213,6 +213,7 @@ const Book = () => {
               결제하기
           </Button>		
 				</ContentWrapper>
+				{/* 결제 버튼 클릭 시 requst body(POST): 일반회원 고유ID, 이름(실명), 결제 고유ID, 결제 방법, 결제상태 */}
 
 				<Logo src="green-tea.png"></Logo>
 				
