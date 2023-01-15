@@ -32,7 +32,7 @@ public class NoticeController {
 
     @PatchMapping("/{notice-id}")
     public ResponseEntity patchNotice(@PathVariable("notice-id") @Positive long noticeId,
-                                @Valid @RequestBody NoticeDto.Patch patch) {
+                                      @Valid @RequestBody NoticeDto.Patch patch) {
         patch.setNoticeId(noticeId);
 
         Notice update = noticeService.update(mapper.patchToEntity(patch));

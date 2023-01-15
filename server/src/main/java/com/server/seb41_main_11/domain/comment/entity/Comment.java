@@ -21,6 +21,9 @@ public class Comment {
     @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
+    private String writer;
+
     // ------------------ 연관관계 매핑 ------------------
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
@@ -57,6 +60,10 @@ public class Comment {
 //            this.counselor.getComments().add(this);
 //        }
 //    }
+
+    public void update(String content) {
+        this.content = content;
+    }
 
     // ------------------ Test 를 위한 팩토리 메서드 ------------------
 

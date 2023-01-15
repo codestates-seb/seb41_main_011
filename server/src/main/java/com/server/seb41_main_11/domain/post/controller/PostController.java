@@ -29,14 +29,14 @@ public class PostController {
     // 일반 유저가 글 등록
     @PostMapping
     public ResponseEntity createPost(@Valid @RequestBody PostDto.Post post) {
-        Post findPost = postService.createByUser(mapper.postToEntity(post));
+        Post findPost = postService.create(mapper.postToEntity(post));
 
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToResponse(findPost)), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{post-id}")
     public ResponseEntity updatePost(@PathVariable("post-id") @Positive long postId,
-                                @Valid @RequestBody PostDto.Patch patch) {
+                                     @Valid @RequestBody PostDto.Patch patch) {
         patch.setPostId(postId);
 
         Post update = postService.update(mapper.patchToEntity(patch));
@@ -53,11 +53,11 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity findAllPost(@Positive @RequestParam(defaultValue = "1") int page,
-                                 @Positive @RequestParam(defaultValue = "10") int size) {
+                                      @Positive @RequestParam(defaultValue = "10") int size) {
         Page<Post> pagePost = postService.findAll(page-1, size);
         List<Post> posts = pagePost.getContent();
 
-        return new ResponseEntity<>(new MultiResponseDto<>(mapper.entityToResponses(posts), pagePost), HttpStatus.OK);
+        return new ResponseEntity<>(new MultiResponseDto<>(mapper.entityToResponsesExcludeComments(posts), pagePost), HttpStatus.OK);
     }
 
     @DeleteMapping("/{post-id}")

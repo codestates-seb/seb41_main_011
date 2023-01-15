@@ -21,7 +21,10 @@ public interface PostMapper {
     @Mapping(source = "kinds", target = "kinds")
     @Mapping(source = "member.memberId" ,target = "memberId")
 //    @Mapping(source = "counselor.counselorId", target = "counselorId")
+    @Mapping(source = "comments", target = "comments")
     PostDto.Response entityToResponse(Post post);
 
     List<PostDto.Response> entityToResponses(List<Post> posts);
+
+    List<PostDto.ResponseExcludeComments> entityToResponsesExcludeComments(List<Post> post);
 }

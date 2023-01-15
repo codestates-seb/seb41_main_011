@@ -25,7 +25,6 @@ public class NoticeService {
     // ----------------- DI ---------------------
     private final NoticeRepository noticeRepository;
     private final MemberService memberService;
-    private final CustomBeanUtils<Notice> beanUtils;
     // ----------------- DI ---------------------
 
     // 공지 등록
@@ -36,6 +35,7 @@ public class NoticeService {
             throw new BusinessException(ErrorCode.FORBIDDEN_ADMIN);
         } else {
             notice.setMember(member);
+            notice.setWriter(member.getMemberName());
             return noticeRepository.save(notice);
         }
     }
@@ -44,9 +44,9 @@ public class NoticeService {
     public Notice update(Notice notice) {
         Notice findNotice = findVerifiedNotice(notice.getNoticeId());
 
-        Notice updatedNotice = beanUtils.copyNonNullProperties(notice, findNotice);
+        findNotice.update(notice.getTitle(), notice.getContent());
 
-        return noticeRepository.save(updatedNotice);
+        return noticeRepository.save(findNotice);
     }
 
     // 공지 1건 조회
@@ -56,6 +56,7 @@ public class NoticeService {
 
         String writer = notice.getMember().getMemberName();
         notice.setWriter(writer);
+        updateViews(noticeId);
 
         return notice;
     }
@@ -69,6 +70,11 @@ public class NoticeService {
     // 공지 삭제
     public void delete(long noticeId) {
         noticeRepository.deleteById(noticeId);
+    }
+
+    // 조회수 증가 로직
+    public void updateViews(Long id) {
+        noticeRepository.updateViews(id);
     }
 
     // 공지 검증

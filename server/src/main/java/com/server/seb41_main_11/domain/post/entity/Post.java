@@ -37,6 +37,9 @@ public class Post extends BaseEntity {
     @Column(length = 30)
     private String writer;
 
+    @Column(nullable = false)
+    private int countComments;
+
     // ------------------ 연관관계 매핑 ------------------
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
@@ -58,7 +61,7 @@ public class Post extends BaseEntity {
         }
     }
 
-//   public void setCounselor(Counselor counselor) {
+    //   public void setCounselor(Counselor counselor) {
 //        this.counselor = counselor;
 //        if (!this.counselor.getPosts().contains(this)) {
 //            this.counselor.getPosts().add(this);
@@ -68,6 +71,12 @@ public class Post extends BaseEntity {
     public void setComment(Comment comment) {
         this.getComments().add(comment);
         comment.setPost(this);
+    }
+
+    public void update(String title, String content, Kind kinds) {
+        this.title = title;
+        this.content = content;
+        this.kinds = kinds;
     }
 
     // ------------------ Test 를 위한 팩토리 메서드 ------------------
