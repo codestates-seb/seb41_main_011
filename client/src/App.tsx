@@ -13,6 +13,7 @@ import EditUserInfo from './pages/edit_userinfo_general';
 import EditUserInfoTherapist from './pages/edit_userinfo_therapist'; 
 import MyPageGeneral from './pages/mypage_general';
 import Book from './pages/book';
+import BookingCompleted from './pages/bookingCompleted';
 
 const GlobalStyle = createGlobalStyle`
  ${reset}
@@ -57,6 +58,7 @@ function App() {
           <Route path="/edit-userinfo-therapist" element={<EditUserInfoTherapist />} />
           <Route path="/mypage" element={<MyPageGeneral />} />
           <Route path="/book" element={<Book />} />
+          <Route path="/booking-completed" element={<BookingCompleted />} />
           <Route path='/' element={<AllPrograms />} />
           <Route path='/program/:id' element={<ProgramDetail />} />
           <Route path='/signup' element={<Signup />} />

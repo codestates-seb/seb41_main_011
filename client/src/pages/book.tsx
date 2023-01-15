@@ -171,7 +171,7 @@ const MobileLogo = styled.img`
 const Book = () => {
   const navigate = useNavigate();
   const ToBookingConfirmed = () => {
-    navigate('/book')
+    navigate('/booking-completed')
   }
   return (
 		<div>
