@@ -17,18 +17,6 @@ public class CommentDto {
         //        private long counselorId;
         private long postId;
         private String content;
-
-        public static Post of(Long memberId, Long postId, String content) {
-            return new Post(memberId, postId, content);
-        }
-
-        public Comment toEntity(Member member, com.server.seb41_main_11.domain.post.entity.Post post) {
-            return Comment.of(
-                    content,
-                    member,
-                    post
-            );
-        }
     }
 
     @Getter
@@ -41,10 +29,6 @@ public class CommentDto {
         public void setCommentId(long commentId) {
             this.commentId = commentId;
         }
-
-        public static Patch of(Long commentId, String content) {
-            return new Patch(commentId, content);
-        }
     }
 
     @Getter
@@ -53,23 +37,8 @@ public class CommentDto {
     @AllArgsConstructor
     public static class Response {
         private long commentId;
-        private long postId;
-        private long memberId;
+        private String writer;
         //        private long counselorId;
         private String content;
-
-
-        public static Response of(Long commentId, Long postId, Long memberId, String content) {
-            return new Response(commentId, postId, memberId, content);
-        }
-
-        public static Response from(Comment entity) {
-            return new Response(
-                    entity.getCommentId(),
-                    entity.getPost().getPostId(),
-                    entity.getMember().getMemberId(),
-                    entity.getContent()
-            );
-        }
     }
 }

@@ -18,11 +18,8 @@ public interface CommentMapper {
 
     Comment patchToEntity(CommentDto.Patch patch);
 
-    @Mapping(source = "member.memberId", target = "memberId")
-    @Mapping(source = "post.postId", target = "postId")
-//    @Mapping(source = "counselor.counselorId", target = "counselorId")
+    //    @Mapping(source = "counselor.counselorId", target = "counselorId")
     CommentDto.Response entityToResponse(Comment comment);
 
     List<CommentDto.Response> entityToResponses(List<Comment> comments);
-
 }
