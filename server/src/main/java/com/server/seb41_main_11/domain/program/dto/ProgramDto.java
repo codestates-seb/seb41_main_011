@@ -2,6 +2,7 @@ package com.server.seb41_main_11.domain.program.dto;
 
 
 import com.server.seb41_main_11.domain.program.entity.Program;
+import com.server.seb41_main_11.domain.program.entity.Program.SymptomTypes;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import lombok.Builder;
@@ -28,6 +29,8 @@ public class ProgramDto {
         @NotBlank
         private String dateEnd;
 
+        private SymptomTypes symptomTypes;
+
         public static ProgramDto.Post of(ProgramDto.Post requestBody) {
             return Post.builder()
                 .title(requestBody.getTitle())
@@ -36,6 +39,7 @@ public class ProgramDto {
                 .userMax(requestBody.getUserMax())
                 .dateStart(requestBody.getDateStart())
                 .dateEnd(requestBody.getDateEnd())
+                .symptomTypes(requestBody.getSymptomTypes())
                 .build();
         }
     }
@@ -61,6 +65,8 @@ public class ProgramDto {
         @NotBlank
         private String dateEnd;
 
+        private SymptomTypes symptomTypes;
+
         public void setProgramId(Long programId) {
             this.programId = programId;
         }
@@ -73,6 +79,7 @@ public class ProgramDto {
                 .userMax(program.getUserMax())
                 .dateStart(program.getDateStart())
                 .dateEnd(program.getDateEnd())
+                .symptomTypes(program.getSymptomTypes())
                 .build();
         }
     }
@@ -91,6 +98,7 @@ public class ProgramDto {
         private String zoomLink;
         private String dateStart;
         private String dateEnd;
+        private SymptomTypes symptomTypes;
 
         public static ProgramDto.Response of(Program program) {
             return ProgramDto.Response.builder()
@@ -105,6 +113,7 @@ public class ProgramDto {
                 .zoomLink(program.getZoomLink())
                 .dateStart(program.getDateStart())
                 .dateEnd(program.getDateEnd())
+                .symptomTypes(program.getSymptomTypes())
                 .build();
         }
     }

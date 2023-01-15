@@ -1,10 +1,14 @@
 package com.server.seb41_main_11.domain.program.entity;
 
+import com.server.seb41_main_11.domain.member.entity.Member;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +21,7 @@ public class Program {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long programId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String title;
 
     @Column(nullable = false)
@@ -40,6 +44,30 @@ public class Program {
 
     @Column(nullable = false)
     private String dateEnd;
+
+    private SymptomTypes symptomTypes;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    public enum SymptomTypes {
+        STRESS("스트레스"),
+        UNREST("불안"),
+        DEPRESSED("우울"),
+        ADDICTED("중독");
+
+        @Getter
+        private String status;
+
+        SymptomTypes(String status) {
+            this.status = status;
+        }
+    }
 
     @Builder
     public Program(Long programId, String title, String content, int userMax, int userCount,
