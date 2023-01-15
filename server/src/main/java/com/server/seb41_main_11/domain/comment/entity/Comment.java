@@ -1,18 +1,17 @@
-package com.server.seb41_main_11.domain.comment;
+package com.server.seb41_main_11.domain.comment.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.server.seb41_main_11.domain.member.entity.Member;
-import com.server.seb41_main_11.domain.post.Post;
+import com.server.seb41_main_11.domain.post.entity.Post;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Getter @Setter
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Comment {
@@ -22,6 +21,7 @@ public class Comment {
     @Column(nullable = false)
     private String content;
 
+    // ------------------ 연관관계 매핑 ------------------
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     @JsonIgnore
@@ -37,14 +37,14 @@ public class Comment {
 //    @JsonIgnore
 //    private Counselor counselor;
 
-//    public void addMember(Member member) {
-//        this.member = member;
-//        if (!this.member.getComments().contains(this)) {
-//            this.member.getComments().add(this);
-//        }
-//    }
+    public void setMember(Member member) {
+        this.member = member;
+        if (!this.member.getComments().contains(this)) {
+            this.member.getComments().add(this);
+        }
+    }
 
-    public void addPost(Post post) {
+    public void setPost(Post post) {
         this.post = post;
         if (!this.post.getComments().contains(this)) {
             this.post.getComments().add(this);
@@ -57,4 +57,16 @@ public class Comment {
 //            this.counselor.getComments().add(this);
 //        }
 //    }
+
+    // ------------------ Test 를 위한 팩토리 메서드 ------------------
+
+    private Comment(String content, Member member, Post post) {
+        this.content = content;
+        this.member = member;
+        this.post = post;
+    }
+
+    public static Comment of(String content, Member member, Post post) {
+        return new Comment(content,member,post);
+    }
 }

@@ -1,5 +1,6 @@
-package com.server.seb41_main_11.domain.notice;
+package com.server.seb41_main_11.domain.notice.repository;
 
+import com.server.seb41_main_11.domain.notice.entity.Notice;
 import feign.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

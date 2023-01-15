@@ -1,7 +1,11 @@
-package com.server.seb41_main_11.domain.notice;
+package com.server.seb41_main_11.domain.notice.controller;
 
 import com.server.seb41_main_11.domain.common.MultiResponseDto;
 import com.server.seb41_main_11.domain.common.SingleResponseDto;
+import com.server.seb41_main_11.domain.notice.dto.NoticeDto;
+import com.server.seb41_main_11.domain.notice.mapper.NoticeMapper;
+import com.server.seb41_main_11.domain.notice.service.NoticeService;
+import com.server.seb41_main_11.domain.notice.entity.Notice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

@@ -2,15 +2,18 @@ package com.server.seb41_main_11;
 
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * yml 암호화 진행
  */
 public class JasyptTest {
 
+    @Value("${jasypt.password}")
+    private String password;
     @Test
     public void jasyptTest() {
-        String password = "sakncksjallkasdkl#$@^#*asdsiajodias2737"; //vmOptions에 넣어둔 값으로 설정
+//        String password = "sakncksjallkasdkl#$@^#*asdsiajodias2737"; //vmOptions에 넣어둔 값으로 설정
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         encryptor.setPoolSize(4);
         encryptor.setPassword(password);
