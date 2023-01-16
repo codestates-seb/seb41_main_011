@@ -41,7 +41,13 @@ const Title = styled.div`
 
   select,
   input[type='text'] {
+    margin: 0;
     border: 1px solid #ccc;
+    color: #333;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
     ::placeholder {
       color: #bdbdbd;
     }
@@ -52,12 +58,14 @@ const Title = styled.div`
 
   select {
     flex-basis: 20%;
-    padding: 8px 2px;
+    padding: 8px;
+    background: url("data:image/svg+xml,%3Csvg stroke='currentColor' fill='currentColor' stroke-width='0' viewBox='0 0 24 24' height='1em' width='1em' xmlns='http://www.w3.org/2000/svg' style=' fill: %23828282;%0A'%3E%3Cpath d='M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z'%3E%3C/path%3E%3C/svg%3E")
+      #fff no-repeat right 8px center;
   }
 
   input[type='text'] {
     flex-grow: 10000;
-    padding: 8px 16px;
+    padding: 8px;
   }
 
   @media screen and (min-width: 768px) {
@@ -84,6 +92,8 @@ const Button = styled.button`
   border: 0;
   border-radius: 4px;
   cursor: pointer;
+  color: #333;
+  font-weight: 400;
 
   &.style1 {
     background: #cae2c7;
