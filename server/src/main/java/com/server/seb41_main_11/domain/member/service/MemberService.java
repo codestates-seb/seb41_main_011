@@ -68,7 +68,12 @@ public class MemberService {
 
         Member findMember = optioanlMember.get();
 
-        if(!decryptPassword(findMember.getPassword()).equals(member.getPassword())){
+        if(findMember.getRole() == Role.ADMIN){ // todo: 현재 db에 관리자 비밀번호는 암호화되지 않음.. 어떻게 처리해야 하는가?
+            if(!findMember.getPassword().equals(member.getPassword())){
+                throw new AuthenticationException(ErrorCode.WRONG_PASSWROD);
+            }
+        }
+        else if(!decryptPassword(findMember.getPassword()).equals(member.getPassword())){
             throw new AuthenticationException(ErrorCode.WRONG_PASSWROD); //비밀번호 일치 하지 않으면 예외처리
         }
 

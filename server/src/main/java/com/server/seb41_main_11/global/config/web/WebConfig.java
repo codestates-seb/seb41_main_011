@@ -52,7 +52,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(authenticationInterceptor)
                 .order(1) //시행 순서 지정
                 .addPathPatterns("/api/**") //인증 인터셉터가 어떤 api에 작동할지 지정
-                .excludePathPatterns("/members", //회원가입
+                .excludePathPatterns( //인증 인터셉터가 어떤 api에 작동하지 않을지 지정
+                        "/members", //회원가입
                         "/api/access-token/issue", //토큰 재발급
                         "/api/logout", //
                         "/members/login", //자체 로그인

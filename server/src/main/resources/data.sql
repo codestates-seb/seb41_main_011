@@ -1,0 +1,2 @@
+INSERT INTO member(EMAIL, PASSWORD, ROLE, NICK_NAME, MEMBER_NAME, MEMBER_TYPE)
+VALUES ('mason@gmail.com', 'aaaa1111!', 'ADMIN', '관리자1', '이대겸', 'DEFAULT');
