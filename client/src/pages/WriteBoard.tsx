@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, MouseEvent, ChangeEvent } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router';
@@ -104,26 +104,31 @@ const Button = styled.button`
 
 const WriteBoard = () => {
   const navigate = useNavigate();
+  const [category, setCategory] = useState('');
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
 
-  const onChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeCategory = (event: ChangeEvent<HTMLSelectElement>) => {
+    setCategory(event.target.value);
+  };
+
+  const onChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
 
-  const clickCancelHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const clickCancelHandler = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     navigate(-1);
     window.location.reload();
   };
 
-  const onSubmitHandler = (event: React.MouseEvent<HTMLFormElement>) => {
+  const onSubmitHandler = (event: MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (title && contents) {
+    if (category && title && contents) {
       alert('submit!');
     } else {
-      alert('제목과 내용을 모두 입력해주세요.');
+      alert('게시글 분류와 제목과 내용을 모두 입력해주세요.');
     }
   };
   return (
@@ -131,10 +136,10 @@ const WriteBoard = () => {
       <h3>게시판</h3>
       <Form onSubmit={onSubmitHandler}>
         <Title>
-          <select>
+          <select onChange={onChangeCategory} value={category}>
             <option value=''>게시글 분류</option>
-            <option value='normal'>일반</option>
-            <option value='review'>후기</option>
+            <option value='일반'>일반</option>
+            <option value='후기'>후기</option>
           </select>
           <input
             type='text'
