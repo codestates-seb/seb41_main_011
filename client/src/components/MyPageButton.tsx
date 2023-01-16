@@ -34,7 +34,7 @@ const SubNav = styled.ul`
   display: ${({ isShow }: { isShow: boolean }) => (isShow ? 'block' : 'none')};
   position: absolute;
   top: 64px;
-  right: -20px;
+  right: -12px;
   width: max-content;
   min-width: 140px;
   background: #f7f9ed;
@@ -60,6 +60,7 @@ const SubNav = styled.ul`
 
   @media screen and (min-width: 1200px) {
     top: 70px;
+    right: -20px;
   }
 `;
 

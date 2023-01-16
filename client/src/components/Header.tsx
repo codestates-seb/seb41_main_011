@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import NavBar from './NavBar';
-import HeaderButtons from './SignButtons';
-import MyPage from './MyPageButton';
+import SignButtons from './SignButtons';
+import MyPageButton from './MyPageButton';
 import { useState } from 'react';
 
 const Contents = styled.header`
@@ -23,7 +23,7 @@ const Contents = styled.header`
   }
 
   h1 {
-    font-size: 1.83rem;
+    font-size: 1.63rem;
     font-weight: 700;
     color: #b3b3b3;
   }
@@ -49,7 +49,7 @@ const Header = () => {
         <Link to='/'>LOGO TEXT</Link>
       </h1>
       <NavBar />
-      {isLoggedIn ? <MyPage /> : <HeaderButtons />}
+      {isLoggedIn ? <MyPageButton /> : <SignButtons />}
     </Contents>
   );
 };
