@@ -107,16 +107,36 @@ public class MemberService {
     }
 
     /**
-     * 로그인 회원 정보 id 조회
+     * 로그인 회원 정보 조회
      */
-    public Long getLoginMemberId(HttpServletRequest httpServletRequest){
+    public Member getLoginMember(HttpServletRequest httpServletRequest){
+        String authorizationHeader = httpServletRequest.getHeader("Authorization");
+        String accessToken = authorizationHeader.split(" ")[1]; // Bearer askdhqwdkjwqbdkjwqbdkjqwbdkjwqb
+
+        Claims tokenClaims = tokenManager.getTokenClaims(accessToken);
+        Long memberId = Long.valueOf( (Integer) tokenClaims.get("memberId"));
+        return findVerifiedMemberByMemberId(memberId);
+    }
+
+    /**
+     * 로그인한 회원 Role 조회(USER OR counselor)
+     * */
+    public Role getLoginRole(HttpServletRequest httpServletRequest) {
         String authorizationHeader = httpServletRequest.getHeader("Authorization");
         String accessToken = authorizationHeader.split(" ")[1];
 
         Claims tokenClaims = tokenManager.getTokenClaims(accessToken);
-        Long memberId = Long.valueOf( (Integer) tokenClaims.get("memberId"));
-        return memberId;
+        String role = (String) tokenClaims.get("role");
+        if(role.equals("USER")) {
+            return (Role) Enum.valueOf(Role.class, role);
+        }else if (role.equals("COUNSELOR")){
+            return (Role) Enum.valueOf(Role.class, role);
+        }else{
+            return (Role) Enum.valueOf(Role.class, "ADMIN");
+        }
     }
+
+
     /**
      * 회원 중복 확인(있으면 예외)
      */

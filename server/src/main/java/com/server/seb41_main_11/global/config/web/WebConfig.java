@@ -48,13 +48,15 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        //todo : 수정 요망
         registry.addInterceptor(authenticationInterceptor)
                 .order(1) //시행 순서 지정
                 .addPathPatterns("/api/**") //인증 인터셉터가 어떤 api에 작동할지 지정
-                .excludePathPatterns("/api/oauth/login",
-                        "/api/access-token/issue",
-                        "/api/logout",
-                        "/api/health"); // 인증 인터셉터를 동작시키지 않을 예외적인 uri 작성
+                .excludePathPatterns("/members", //회원가입
+                        "/api/access-token/issue", //토큰 재발급
+                        "/api/logout", //
+                        "/members/login", //자체 로그인
+                        "/api/oauth/login"); // 인증 인터셉터를 동작시키지 않을 예외적인 uri 작성
 
         registry.addInterceptor(adminAuthorizationInterceptor) //인증 인터셉터 다음 인가 인터셉터 실행
                 .order(2)
