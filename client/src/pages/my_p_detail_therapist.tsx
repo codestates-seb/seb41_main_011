@@ -151,6 +151,9 @@ const MyProgramDetailT = () => {
     /^((https)\:\/\/)([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}(\:[0-9]+)?(\/\S*)?$/; //eslint-disable-line
 
   const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === '') {
+      setIsShow(false);
+    }
     setInputValue(event.target.value);
   };
 
