@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class MemberService {
 
@@ -114,6 +113,7 @@ public class MemberService {
     /**
      * 로그인 회원 정보 조회
      */
+    @Transactional(readOnly = true)
     public Member getLoginMember(HttpServletRequest httpServletRequest){
         String authorizationHeader = httpServletRequest.getHeader("Authorization");
         String accessToken = authorizationHeader.split(" ")[1]; // Bearer askdhqwdkjwqbdkjwqbdkjqwbdkjwqb
@@ -126,6 +126,7 @@ public class MemberService {
     /**
      * 로그인한 회원 Role 조회(USER OR counselor)
      * */
+    @Transactional(readOnly = true)
     public Role getLoginRole(HttpServletRequest httpServletRequest) {
         String authorizationHeader = httpServletRequest.getHeader("Authorization");
         String accessToken = authorizationHeader.split(" ")[1];
@@ -156,6 +157,7 @@ public class MemberService {
     /**
      * 회원 존재 확인(없으면 예외)
      */
+    @Transactional(readOnly = true)
     public Member findVerifiedMemberByMemberId(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MEMBER_NOT_EXISTS));

@@ -2,6 +2,7 @@ package com.server.seb41_main_11.domain.member.controller;
 
 import com.server.seb41_main_11.api.login.validator.OauthValidator;
 import com.server.seb41_main_11.domain.common.SingleResponseDto;
+import com.server.seb41_main_11.domain.member.constant.Role;
 import com.server.seb41_main_11.domain.member.dto.MemberDto;
 import com.server.seb41_main_11.domain.member.entity.Member;
 import com.server.seb41_main_11.domain.member.mapper.MemberMapper;
@@ -67,10 +68,10 @@ public class MemberController {
         );
     }
 
-//    getLoginMemberId 정상 확인 테스트
+////    getLoginMemberId 정상 확인 테스트
 //    @GetMapping("/info")
 //    public void getMember(HttpServletRequest httpServletRequest){
-//        Long Id = memberService.getLoginMemberId(httpServletRequest);
+////        Long Id = memberService.getLoginMemberId(httpServletRequest);
 //        System.out.printf("======================================"+ Id + "===========================================");
 //    }
 
@@ -88,10 +89,16 @@ public class MemberController {
             throw new EntityNotFoundException(ErrorCode.PASSWORD_MISMATCH); //새 비밀번호와 비밀번호 확인이 같지 않을 경우 예외 처리
         }
 
-        String password = memberService.decryptPassword(preMember.getPassword()); //기존 비밀번호 복호화
+        if(preMember.getRole()!= Role.ADMIN) {
+            String password = memberService.decryptPassword(preMember.getPassword()); //기존 비밀번호 복호화
 
-        if(!password.equals(memberPatchDto.getPassword())){
-            throw new AuthenticationException(ErrorCode.WRONG_PASSWROD); //기존 비밀번호와 현재 비밀번호가 일치 하지 않으면 예외처리
+            if (!password.equals(memberPatchDto.getPassword())) {
+                throw new AuthenticationException(ErrorCode.WRONG_PASSWROD); //기존 비밀번호와 현재 비밀번호가 일치 하지 않으면 예외처리
+            }
+        }else{
+            if(!preMember.getPassword().equals(memberPatchDto.getPassword())){
+                throw new AuthenticationException(ErrorCode.WRONG_PASSWROD);
+            }
         }
 
 
