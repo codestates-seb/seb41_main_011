@@ -34,13 +34,15 @@ const ContentWrapper = styled.div`
 `
 
 const Title = styled.div`
-    width: 70vw;
+  width: 70vw;
 	color: #4B6A4D;
 	font-weight: 700;
 	font-size: 2.25rem;
-    text-align: left;
-    left: 0;
-    top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  left: 0;
+  top: 0;
 `
 
 const ProgramTable =  styled.table `
@@ -124,6 +126,20 @@ const Pagination = styled.div`
     
 `
 
+const Button = styled.button`
+  border: none;
+  background-color: #009879;
+  color: #ffffff;
+  height: 40px;
+  width: 120px;
+  font-size: 16px;
+  border-radius: 10px;
+  &:hover {
+    cursor: pointer;
+    background-color: #006d57;
+  }
+`
+
 const ProgramManagement = (props: any) => {
    const [isModalOpened, setIsModalOpened] = useState(false);
 
@@ -134,6 +150,7 @@ const ProgramManagement = (props: any) => {
                 <PageWrapper>
                     <Title>
                         개설 프로그램 현황
+                        <Button onClick={() => setIsModalOpened(!isModalOpened)}>프로그램 생성</Button>
                     </Title> 
                     <Sidebar/> 
                         <ProgramTable>
