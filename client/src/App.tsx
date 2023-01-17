@@ -26,6 +26,7 @@ import Main from './admin/pages/adminIndex';
 import UserManagement from './admin/pages/userManagement';
 import ProgramManagement from './admin/pages/programManagement';
 import CommunityMain from './pages/community_main';
+import AdminAllPrograms from './admin/pages/allPrograms';
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -73,6 +74,7 @@ function App() {
           <Route path='/login-general' element={<LoginGeneral />} />
           <Route path='/login-therapist' element={<LoginTherapist />} />
           <Route path='/admin' element={<Main />} />
+          <Route path='/admin/programs' element={<AdminAllPrograms />} />
           <Route path='/UserManagement' element={<UserManagement />} />
           <Route path='/programsManagement' element={<ProgramManagement />} />
           <Route path='/AssetManagement' element={<Main />} />
