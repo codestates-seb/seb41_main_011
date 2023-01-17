@@ -19,13 +19,16 @@ public enum ErrorCode {
     FORBIDDEN_ADMIN(HttpStatus.FORBIDDEN, "A-008", "관리자 Role이 아닙니다."),
     PASSWORD_MISMATCH(HttpStatus.UNAUTHORIZED, "A-009", "비밀번호가 일치하지 않습니다."),
     WRONG_PASSWROD(HttpStatus.UNAUTHORIZED, "A-010", "잘못된 비밀번호 입니다."),
+
+    FORBIDDEN_COUNSELOR(HttpStatus.FORBIDDEN, "A-011", "상담사 Role이 아닙니다."),
     // 회원
     INVALID_MEMBER_TYPE(HttpStatus.BAD_REQUEST, "M-001", "잘못된 회원 타입 입니다.(memberType : KAKAO, DEFAULT)"),
     ALREADY_REGISTERED_MEMBER(HttpStatus.BAD_REQUEST, "M-002", "이미 가입된 회원 입니다."),
     MEMBER_NOT_EXISTS(HttpStatus.BAD_REQUEST, "M-003", "해당 회원은 존재하지 않습니다."),
 
     //상담사
-    ALREADY_REGISTERED_COUNSELOR(HttpStatus.BAD_REQUEST, "C-002", "이미 가입된 상담사 입니다.")
+    ALREADY_REGISTERED_COUNSELOR(HttpStatus.BAD_REQUEST, "C-001", "이미 가입된 상담사 입니다."),
+    COUNSELOR_NOT_EXISTS(HttpStatus.BAD_REQUEST, "C-002", "해당 상담사는 존재하지 않습니다."),
     ;
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String message) {

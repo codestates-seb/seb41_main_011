@@ -2,6 +2,8 @@ package com.server.seb41_main_11.domain.counselor.entity;
 
 import com.server.seb41_main_11.domain.member.constant.MemberType;
 import com.server.seb41_main_11.domain.member.constant.Role;
+import com.server.seb41_main_11.global.jwt.dto.JwtTokenDto;
+import com.server.seb41_main_11.global.util.DateTimeUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,9 +56,9 @@ public class Counselor {
     @Column(nullable = false, length = 10)
     private Role role;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 10)
-    private MemberType memberType;
+//    @Enumerated(EnumType.STRING)
+//    @Column(nullable = false, length = 10)
+//    private MemberType memberType;
 
     @Column(length = 250)
     private String refreshToken;
@@ -76,4 +78,8 @@ public class Counselor {
     }
 
 
+    public void updateRefreshToken(JwtTokenDto jwtTokenDto) {
+        this.refreshToken = jwtTokenDto.getRefreshToken();
+        this.tokenExpirationTime = DateTimeUtils.convertToLocalDateTime(jwtTokenDto.getRefreshTokenExpireTime());
+    }
 }
