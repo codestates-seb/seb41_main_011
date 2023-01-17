@@ -3,15 +3,18 @@ import styled from "styled-components";
 import Tabbar from "../components/tabbar";
 
 
-const ContentWrapper = styled.div`
+export const ContentWrapper = styled.div`
     height: 100vh;
     width: 100vw;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+<<<<<<< HEAD
     gap: 40px;
 
+=======
+>>>>>>> 734c37a45179251c2b3dd6ff42bc3309c24ce7e6
     @media screen and (max-width: 768px) {
         padding-top: 0vh;
         padding-bottom: 0vh;
