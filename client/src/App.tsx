@@ -10,7 +10,6 @@ import AllPrograms from './pages/all_programs';
 import ProgramDetail from './pages/program_detail';
 import Signup from './pages/signup';
 import EditUserInfo from './pages/edit_userinfo_general';
-import EditUserInfoTherapist from './pages/edit_userinfo_therapist'; 
 import MyPageGeneral from './pages/mypage_general';
 import Tabbar from './components/tabbar';
 import MyProgramDetailG from './pages/my_p_detail_general';
@@ -26,6 +25,7 @@ import LoginTherapist from './pages/login_therapist';
 import Main from './admin/pages/adminIndex';
 import UserManagement from './admin/pages/userManagement';
 import ProgramManagement from './admin/pages/programManagement';
+import CommunityMain from './pages/community_main';
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -83,6 +83,8 @@ function App() {
           <Route path='/board/write' element={<WriteBoard />} />
           <Route path='/notice/modify' element={<ModifyNotice />} />
           <Route path='/board/modify' element={<ModifyBoard />} />
+
+          <Route path='/community' element={<CommunityMain />} />
         </Routes>
       </BrowserRouter>
     </div>
