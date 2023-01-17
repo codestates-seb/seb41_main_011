@@ -106,6 +106,8 @@ public class ProgramController {
                 response, CounselorProgramPage), HttpStatus.OK);
     }
 
+    // 화면정의서 29p
+    // 관리자 - 개설 프로그램 전체 조회
     @GetMapping("/admin/lookup/list")
     public ResponseEntity getAdminPrograms(@Positive @RequestParam(defaultValue = "1") int page,
         @Positive @RequestParam(defaultValue = "10") int size) {
