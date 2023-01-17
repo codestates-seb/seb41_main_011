@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import javax.persistence.MappedSuperclass;
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
@@ -21,4 +22,6 @@ public interface MemberMapper {
 
     @Mapping(source = "newPassword", target = "password")
     Member memberPatchDtoToMember(MemberDto.Patch memberPatchDto);
+
+    List<MemberDto.Response> membersToMemberMyPageResponses(List<Member> members);
 }

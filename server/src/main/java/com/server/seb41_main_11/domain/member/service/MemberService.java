@@ -15,6 +15,9 @@ import com.server.seb41_main_11.global.jwt.service.TokenManager;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,7 +70,7 @@ public class MemberService {
 
         Member findMember = optioanlMember.get();
 
-        if(findMember.getRole() == Role.ADMIN){ // todo: 현재 db에 관리자 비밀번호는 암호화되지 않음.. 어떻게 처리해야 하는가?
+        if(findMember.getRole() == Role.ADMIN){
             if(!findMember.getPassword().equals(member.getPassword())){
                 throw new AuthenticationException(ErrorCode.WRONG_PASSWROD);
             }
@@ -77,11 +80,23 @@ public class MemberService {
         }
 
         jwtTokenDto = tokenManager.createJwtTokenDto(findMember.getMemberId(), findMember.getRole()); //토큰 생성
-        findMember.updateRefreshToken(jwtTokenDto); //db에 리프레쉬 토큰 업데이트
+
+        findMember.updateRefreshToken(jwtTokenDto); //토큰값 설정
+        memberRepository.save(findMember); //db에 리프레쉬 토큰 업데이트
 
         return MemberDto.LoginResponse.of(jwtTokenDto);
     }
 
+    /**
+     * 회원 목록 조회
+     */
+    @Transactional(readOnly = true)
+    public Page<Member> findMembers(int page, int size) {
+        Page<Member> findAllMember = memberRepository.findAll(
+                PageRequest.of(page,size, Sort.by("memberId").descending())
+        );
+        return findAllMember;
+    }
     /**
      * 회원 수정 (카카오 회원은 비밀번호 수정 불가능)
      */
