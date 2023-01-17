@@ -14,7 +14,7 @@ const SideBar = styled.div`
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        padding-right: 1.2vw;
+        padding-right: 1vw;
         color: #333;
         width: 100%;
         height: 20%;
@@ -35,7 +35,8 @@ const SideBar = styled.div`
 const SideBarWrapper = styled.div`
     background-color: #ffffff;
     height: 100vh;
-    width: auto;
+    width: 10vw;
+    min-width: 220px;
     border-right: 2px solid #cfcfcf;
     position: absolute;
     left: 0%;
