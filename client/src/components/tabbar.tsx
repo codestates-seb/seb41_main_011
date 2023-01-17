@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import reset from 'styled-reset';
 import { FaListAlt, FaSyringe, FaRegLaughSquint, FaRegFileAlt } from 'react-icons/fa';
+import { useNavigate } from "react-router";
 
 
 const Box = styled.div`
@@ -11,17 +12,32 @@ const Box = styled.div`
     width: 100vw;
     height: 70px;
     background-color: white;
-    margin-top: 25px;    
-
+    z-index: 1;
+    
     @media screen and (min-width: 768px) {
         display: none;
     }
-
     * {
         @media screen and (min-width: 768px) {
             display: none;
         }
     }
+`
+const CenterIcon = styled.div`
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #B3D2B0;
+    /* outline: 6px solid white; */
+    box-shadow: ;
+    object-fit: scale-down;
+    margin-bottom: 60px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    cursor: pointer; 
 `
 
 const IconWrapper = styled.div`
@@ -45,21 +61,6 @@ const IconWrapper = styled.div`
      }
  
 `
-const CenterIcon = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: #B3D2B0;
-    /* outline: 6px solid white; */
-    box-shadow: ;
-    object-fit: scale-down;
-    margin-bottom: 60px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    cursor: pointer; 
-`
 
 const CenterIconImage = styled.img`
     max-height: 70%;
@@ -77,21 +78,35 @@ const CenterIconImage = styled.img`
 
 
 const Tabbar = () => {
+    const navigate = useNavigate();
+    const toMain = ()  => {
+        navigate('/')
+    }
+    const toTest = ()  => {
+        navigate('/test')
+    }    
+    const toMyPage = ()  => {
+        navigate('/mypage')
+    }
+    const toCommunity = ()  => {
+        navigate('/community')
+    }
+
     return (
         <div>
                 <Box>
-                    <IconWrapper>
+                    <IconWrapper onClick={toMain}>
                         <FaListAlt color='#777777' size={30}/>
                         프로그램
                     </IconWrapper>
-                    <IconWrapper>
+                    <IconWrapper onClick={toTest}>
                         <FaSyringe color='#777777' size={30}/>
                         테스트                        
                     </IconWrapper>
-                        <CenterIcon>
+                        <CenterIcon onClick={toMyPage}>
                             <CenterIconImage src='teacup.png'/>
                         </CenterIcon>
-                    <IconWrapper>
+                    <IconWrapper onClick={toCommunity}>
                         <FaRegLaughSquint color='#777777' size={30}/>                   
                         커뮤니티                       
                     </IconWrapper>
@@ -105,5 +120,3 @@ const Tabbar = () => {
 
 }
 export default Tabbar;
-
-
