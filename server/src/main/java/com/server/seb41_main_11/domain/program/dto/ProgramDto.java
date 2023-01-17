@@ -17,6 +17,7 @@ public class ProgramDto {
     @Getter
     @Builder
     public static class Post {
+
         @NotBlank
         private String title;
 
@@ -56,6 +57,7 @@ public class ProgramDto {
     @Setter
     @Builder
     public static class Patch {
+
         private Long programId;
         @NotBlank
         private String title;
@@ -99,6 +101,7 @@ public class ProgramDto {
     @Getter
     @Builder
     public static class Response {
+
         private Long programId;
         private String title;
         private String content;
@@ -133,6 +136,7 @@ public class ProgramDto {
     @Getter
     @Builder
     public static class PageResponse {
+
         private Long programId;
         private String title;
         private String dateStart;
@@ -154,7 +158,8 @@ public class ProgramDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class CounselorProgramResponse {
+    public static class MyPageProgramResponse {
+
         private Long programId;
         private String title;
         private String dateStart;
@@ -162,8 +167,32 @@ public class ProgramDto {
         private int userMax;
         private int userCount;
 
-        public static ProgramDto.CounselorProgramResponse of(Program program) {
-            return CounselorProgramResponse.builder()
+        public static ProgramDto.MyPageProgramResponse of(Program program) {
+            return MyPageProgramResponse.builder()
+                .programId(program.getProgramId())
+                .title(program.getTitle())
+                .dateStart(program.getDateStart())
+                .dateEnd(program.getDateEnd())
+                .userMax(program.getUserMax())
+                .userCount(program.getUserCount())
+                .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AdminPageResponse {
+        private Long programId;
+        private String title;
+        private String dateStart;
+        private String dateEnd;
+        private int userMax;
+        private int userCount;
+
+        public static ProgramDto.AdminPageResponse of(Program program) {
+            return AdminPageResponse.builder()
                 .programId(program.getProgramId())
                 .title(program.getTitle())
                 .dateStart(program.getDateStart())

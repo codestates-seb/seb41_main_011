@@ -98,12 +98,23 @@ public class ProgramController {
 
         Page<Program> CounselorProgramPage = programService.searchCounselorProgram(counselorId, page-1, size);
         List<Program> programList = CounselorProgramPage.getContent();
-        List<ProgramDto.CounselorProgramResponse> response = programMapper.ProgramsToCounselorProgramResponseDtos(programList);
+        List<ProgramDto.MyPageProgramResponse> response = programMapper.ProgramsToMyProgramResponseDtos(programList);
 
 
         return new ResponseEntity(
             new MultiResponseDto<>(
                 response, CounselorProgramPage), HttpStatus.OK);
+    }
+
+    @GetMapping("/admin/lookup/list")
+    public ResponseEntity getAdminPrograms(@Positive @RequestParam(defaultValue = "1") int page,
+        @Positive @RequestParam(defaultValue = "10") int size) {
+        Page<Program> programPage = programService.findPrograms(page-1, size);
+        List<Program> programs = programPage.getContent();
+        List<ProgramDto.MyPageProgramResponse> response = programMapper.ProgramsToMyProgramResponseDtos(programs);
+
+        return new ResponseEntity<>(
+            new MultiResponseDto<>(response, programPage), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{program-id}")
