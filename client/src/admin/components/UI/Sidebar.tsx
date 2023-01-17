@@ -10,11 +10,11 @@ const SideBar = styled.div`
 
 
     a {
+        padding: 1%;
         display: block;
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        padding-right: 1vw;
         color: #333;
         width: 100%;
         height: 20%;
