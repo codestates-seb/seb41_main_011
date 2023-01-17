@@ -5,5 +5,5 @@ INSERT INTO member(EMAIL, PASSWORD, ROLE, NICK_NAME, MEMBER_NAME, MEMBER_TYPE)
 VALUES ('mason2@gmail.com', 'aaaa1111!', 'ADMIN', '관리자1_2', '이대겸', 'DEFAULT');
 
 INSERT INTO member(EMAIL, PASSWORD, ROLE, NICK_NAME, MEMBER_NAME, MEMBER_TYPE)
-VALUES ('1013as@naver.com', '1q2w3e4r5%', 'ADMIN', '관리자2', '정동규', 'DEFAULT');
+VALUES ('1013aq@gmail.com', 'aaaa1111!', 'ADMIN', '관리자2', '정동규', 'DEFAULT');
 -- SELECT * FROM MEMBER
