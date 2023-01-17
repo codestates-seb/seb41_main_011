@@ -29,7 +29,9 @@ public enum ErrorCode {
     //상담사
     ALREADY_REGISTERED_COUNSELOR(HttpStatus.BAD_REQUEST, "C-001", "이미 가입된 상담사 입니다."),
     COUNSELOR_NOT_EXISTS(HttpStatus.BAD_REQUEST, "C-002", "해당 상담사는 존재하지 않습니다."),
-    ;
+
+    // 프로그램
+    PROGRAM_NOT_FOUND(HttpStatus.BAD_REQUEST, "P-001", "해당 프로그램이 없습니다.");
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
         this.httpStatus = httpStatus;
