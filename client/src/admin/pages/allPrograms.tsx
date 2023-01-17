@@ -7,7 +7,7 @@ const ContentWrapper = styled.div`
     width: 100vw;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     @media screen and (max-width: 768px) {
         padding-top: 0vh;
@@ -18,7 +18,8 @@ const ContentWrapper = styled.div`
 `
 
 const Title = styled.div`
-
+    width: 70vw;
+    height: 50vh;
 	color: #4B6A4D;
 	font-weight: 700;
 	font-size: 2.25rem;
@@ -30,14 +31,6 @@ const Title = styled.div`
     margin-top: 5vh;
     
 `
-// const ProgramWrapper = styled.div`
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     width: 70vw;
-//     height: 50vh;
-//     border: 1px solid black;
-// `
 
 const ProgramTable =  styled.table `
     width: 70vw;
@@ -52,29 +45,72 @@ const ProgramTable =  styled.table `
         background-color: #009879;
         color: #ffffff;
         text-align: center;
+
         .title {
-            width: 30%;
+            width: 40%;
         }
-        .wheen {
-            width: 20%;
+        .when {
+            width: 15%;
         }
         .index, .status, .edit, .people{
             width:8%;
         }
     }
-    th, td {
-    padding: 12px 15px;
+    tbody
+    {
+        background-color: white;
+            tr:nth-of-type(even) {
+                background-color: #f3f3f3;
+            }
+            tr:last-of-type {
+            border-bottom: 2px solid #009879;
+            }
+    }
+    .openEditModal{
+        color: #156cb4;
+        font-weight: bold;
 
-    tbody{
-    border-bottom: 1px solid #dddddd;
-        &tr:nth-of-type(even) {
-            background-color: #f3f3f3;
+        &:hover{
+            cursor: pointer;
+            text-decoration: underline;
         }
-        &tr:last-of-type {
-        border-bottom: 2px solid #009879;
     }
+    th, td {
+        padding: 12px 15px;
+        text-align: center;
+        vertical-align: middle;
     }
-}
+`
+
+const Pagination = styled.div`
+
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.11) 0px 3px 8px;
+
+
+    .pagination {
+        display: inline-block;
+        
+
+        
+    }
+    a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        background-color: white;
+            &:active {
+                background-color: #009879;
+                color: white;
+            }
+            &:hover {
+                background-color: #009879;
+                color: white;
+            }
+        }
+    
 `
 
 const AdminAllPrograms = () => {
@@ -85,7 +121,6 @@ const AdminAllPrograms = () => {
                     개설 프로그램 현황
                 </Title> 
                 <Sidebar/> 
-                {/* <ProgramWrapper> */}
                     <ProgramTable>
                         <thead>
                             <tr>
@@ -100,30 +135,57 @@ const AdminAllPrograms = () => {
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td>6000</td>
-                                <td>6000</td>
-                                <td>6000</td>
-                                <td>6000</td>
-                                <td>6000</td>
+                                <td>프로그램명</td>
+                                <td>2/10</td>
+                                <td>2023-02-11 08:30</td>
+                                <td>예정</td>
+                                <td className="openEditModal">수정</td>
                             </tr>
                             <tr>
                                 <td>1</td>
-                                <td>6000</td>
-                                <td>6000</td>
-                                <td>6000</td>
-                                <td>6000</td>
-                                <td>6000</td>
+                                <td>프로그램명</td>
+                                <td>2/10</td>
+                                <td>2023-02-11 08:30</td>
+                                <td>예정</td>
+                                <td className="openEditModal">수정</td>
                             </tr>
-                            <tr className="active-row">
+                            <tr>
                                 <td>1</td>
-                                <td>6000</td>
-                                <td>6000</td>
-                                <td>6000</td>
-                                <td>6000</td>
-                                <td>6000</td>
+                                <td>프로그램명</td>
+                                <td>2/10</td>
+                                <td>2023-02-11 08:30</td>
+                                <td>예정</td>
+                                <td className="openEditModal">수정</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>프로그램명</td>
+                                <td>2/10</td>
+                                <td>2023-02-11 08:30</td>
+                                <td>예정</td>
+                                <td className="openEditModal">수정</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>프로그램명</td>
+                                <td>2/10</td>
+                                <td>2023-02-11 08:30</td>
+                                <td>예정</td>
+                                <td className="openEditModal">수정</td>
                             </tr>
                         </tbody>
                     </ProgramTable>
+                    {/* 하단 페이지 네이션은 아직 장식임 */}
+                    <Pagination className="pagination"> 
+                        <a href="#">&laquo;</a>
+                        <a href="#">1</a>
+                        <a className="active" href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">&raquo;</a>
+                    </Pagination>
 
                 {/* </ProgramWrapper> */}
           
