@@ -10,5 +10,6 @@ public interface ProgramMapper {
     Program ProgramPostDtoToProgram(ProgramDto.Post requestBody);
     Program ProgramPatchDtoToProgram(ProgramDto.Patch requestBody);
     ProgramDto.Response ProgramToProgramResponseDto(Program program);
-    List<ProgramDto.Response> ProgramsToProgramResponseDtos(List<Program> programs);
+    List<ProgramDto.PageResponse> ProgramsToProgramResponseDtos(List<Program> programs);
+    List<ProgramDto.CounselorProgramResponse> ProgramsToCounselorProgramResponseDtos(List<Program> programs);
 }

@@ -25,7 +25,11 @@ public enum ErrorCode {
     MEMBER_NOT_EXISTS(HttpStatus.BAD_REQUEST, "M-003", "해당 회원은 존재하지 않습니다."),
 
     // 프로그램
-    PROGRAM_NOT_FOUND(HttpStatus.BAD_REQUEST, "P-001", "해당 프로그램이 없습니다.")
+    PROGRAM_NOT_FOUND(HttpStatus.BAD_REQUEST, "P-001", "해당 프로그램이 없습니다."),
+
+    // 결제 및 예약
+    RESERVATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "R-001", "결제 내역이 없습니다."),
+    RESERVATION_EXISTS(HttpStatus.BAD_REQUEST, "R-002", "이미 예약한 프로그램입니다."),
     ;
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
