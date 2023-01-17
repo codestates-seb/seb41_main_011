@@ -70,4 +70,20 @@ public class PayController {
             new MultiResponseDto<>(
                 response, myReserveProgramPage), HttpStatus.OK);
     }
+
+    // 화면정의서 33p
+    // 관리자 - 마이페이지 유저 상담 내역 전체 조회
+    @GetMapping("/admin/lookup/list")
+    public ResponseEntity getAdminReservePrograms(@PathVariable("member-id") @Positive Long memberId,
+        @Positive @RequestParam(defaultValue = "1") int page,
+        @Positive @RequestParam(defaultValue = "10") int size) {
+        Page<Pay> myReserveProgramPage = payService.searchMyReserveProgram(memberId, page-1, size);
+        List<Pay> payList = myReserveProgramPage.getContent();
+        List<PayDto.MyPageProgramResponse> response = payMapper.ReserveProgramToMyPageProgramResponse(payList);
+
+
+        return new ResponseEntity(
+            new MultiResponseDto<>(
+                response, myReserveProgramPage), HttpStatus.OK);
+    }
 }

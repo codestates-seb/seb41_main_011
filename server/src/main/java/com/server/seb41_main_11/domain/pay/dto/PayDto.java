@@ -92,6 +92,7 @@ public class PayDto {
     @AllArgsConstructor
     public static class MyPageProgramResponse {
         private Long payId;
+        private Long memberId;
         private Long programId;
         private String title;
         private String dateStart;
@@ -102,6 +103,7 @@ public class PayDto {
         public static PayDto.MyPageProgramResponse of(Pay pay) {
             return MyPageProgramResponse.builder()
                 .payId(pay.getPayId())
+                .memberId(pay.getMember().getMemberId())
                 .programId(pay.getProgram().getProgramId())
                 .title(pay.getProgram().getTitle())
                 .dateStart(pay.getProgram().getDateStart())
