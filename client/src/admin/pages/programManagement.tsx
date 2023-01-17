@@ -1,4 +1,4 @@
-import CreatePrograms from '../components/CreatePrograms';
+import CreatePrograms from './componentes/CreatePrograms';
 import Sidebar from '../components/UI/Sidebar';
 import { PageWrapper } from '../components/UI/PageWrapper';
 const ProgramManagement = ()=>{
