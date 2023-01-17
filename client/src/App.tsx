@@ -15,7 +15,12 @@ import MyPageGeneral from './pages/mypage_general';
 import Tabbar from './components/tabbar';
 import MyProgramDetailG from './pages/my_p_detail_general';
 import MyProgramDetailT from './pages/my_p_detail_therapist';
-import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';  
+import EditUserInfoTherapist from './pages/edit_userinfo_therapist';
+import WriteNotice from './pages/WriteNotice';
+import WriteBoard from './pages/WriteBoard';
+import ModifyNotice from './pages/ModifyNotice';
+import ModifyBoard from './pages/ModifyBoard';
+import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
 import LoginGeneral from './pages/login_general';
 import LoginTherapist from './pages/login_therapist';
 import Main from './admin/pages/adminIndex';
@@ -74,6 +79,10 @@ function App() {
         
           <Route path='/myprogramg/:id' element={<MyProgramDetailG />} />
           <Route path='/myprogramt/:id' element={<MyProgramDetailT />} />
+          <Route path='/notice/write' element={<WriteNotice />} />
+          <Route path='/board/write' element={<WriteBoard />} />
+          <Route path='/notice/modify' element={<ModifyNotice />} />
+          <Route path='/board/modify' element={<ModifyBoard />} />
         </Routes>
       </BrowserRouter>
     </div>
