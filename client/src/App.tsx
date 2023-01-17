@@ -15,6 +15,7 @@ import LoginGeneral from './pages/login_general';
 import LoginTherapist from './pages/login_therapist';
 import Main from './admin/pages/adminIndex';
 import UserManagement from './admin/pages/userManagement';
+import ProgramManagement from './admin/pages/programManagement';
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -63,7 +64,7 @@ function App() {
           <Route path='/login-therapist' element={<LoginTherapist />} />
           <Route path='/admin' element={<Main />} />
           <Route path='/UserManagement' element={<UserManagement />} />
-          <Route path='/programsManagement' element={<Main />} />
+          <Route path='/programsManagement' element={<ProgramManagement />} />
           <Route path='/AssetManagement' element={<Main />} />
         
         </Routes>

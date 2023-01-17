@@ -11,10 +11,8 @@ const TextAreaWrapper = styled.div`
 
 `
 const CustomTa = styled.textarea`
-    
     width: 100%;
-    height: 60%;
-
+    height: 100%;
 `
 type TaProps = {
     placeholder?: string;

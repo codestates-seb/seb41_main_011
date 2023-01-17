@@ -1,4 +1,4 @@
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/UI/Sidebar";
 import './adminIndex.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 

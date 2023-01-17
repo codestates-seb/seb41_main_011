@@ -1,4 +1,4 @@
-import { SideMenu } from "../route"
+import { SideMenu } from "../../route"
 import { NavLink , Link} from "react-router-dom"
 import styled from "styled-components"
 
