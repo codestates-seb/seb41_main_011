@@ -1,6 +1,6 @@
 import Sidebar from "../components/UI/Sidebar";
 import styled from "styled-components";
-import CreateTherapist from '../components/CreateTherapist';
+import CreateTherapist from './componentes/CreateTherapist';
 import { PageWrapper } from '../components/UI/PageWrapper';
 
 

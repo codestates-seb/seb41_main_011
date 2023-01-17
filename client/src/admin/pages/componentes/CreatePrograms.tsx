@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import axios from 'axios';
 import styled from "styled-components";
-import InputAdmin from './UI/Input';
-import TextArea from './UI/Textarea';
-import SelectBox from './UI/SelectBox';
+import InputAdmin from '../../components/UI/Input';
+import TextArea from '../../components/UI/Textarea';
+import SelectBox from '../../components/UI/SelectBox';
 interface CreateProgram {
   id: string,
   startingtime:string,

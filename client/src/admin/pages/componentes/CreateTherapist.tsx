@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import {FaUserCircle} from "react-icons/fa";
 import React, {useState} from 'react'
-import InputAdmin from "./UI/Input";
-import TextArea from "./UI/Textarea";
-import Sidebar from './UI/Sidebar';
+import InputAdmin from "../../components/UI/Input";
+import TextArea from "../../components/UI/Textarea";
+import Sidebar from '../../components/UI/Sidebar';
 import axios from 'axios';
 interface CreateTherapist {
     url: string,
