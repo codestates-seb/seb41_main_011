@@ -25,7 +25,6 @@ import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
 import LoginGeneral from './pages/login_general';
 import LoginTherapist from './pages/login_therapist';
 import Main from './admin/pages/adminIndex';
-import AdminAllPrograms from './admin/pages/allPrograms';
 import UserManagement from './admin/pages/userManagement';
 import ProgramManagement from './admin/pages/programManagement';
 import PaymentManagement from './admin/pages/paymentManagement';
@@ -81,7 +80,6 @@ function App() {
           <Route path='/login-general' element={<LoginGeneral />} />
           <Route path='/login-therapist' element={<LoginTherapist />} />
           <Route path='/admin' element={<Main />} />
-          <Route path='/admin/programs' element={<AdminAllPrograms />} />
           <Route path='/userManagement' element={<UserManagement />} />
           <Route path='/programsManagement' element={<ProgramManagement />} />
           <Route path='/paymentManagement' element={<PaymentManagement />} />
