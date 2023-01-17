@@ -204,19 +204,19 @@ const CreateTherapist = () =>{
             // window.alert('비밀번호가 같지 않습니다.')
         }else{
               // axios
-              const reqbody:CreateTherapist ={
-                  url: url,
-                  name:signupName,
-                  birth: birth,
-                  college: college,
-                  email: signupEmail,
-                  password : signupPassword,
-                  career: career,
-                  promote: promote
-              };
-              axios.post('https://jsonplaceholder.typicode.com/posts',JSON.stringify(reqbody))
-              .then((res)=>console.log)
-              .catch((err)=>console.log)
+            const reqbody:CreateTherapist ={
+                url: url,
+                name:signupName,
+                birth: birth,
+                college: college,
+                email: signupEmail,
+                password : signupPassword,
+                career: career,
+                promote: promote
+            };
+            axios.post('https://jsonplaceholder.typicode.com/posts',JSON.stringify(reqbody))
+            .then((res)=>console.log)
+            .catch((err)=>console.log)
 
 
             }
