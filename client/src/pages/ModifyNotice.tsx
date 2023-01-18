@@ -3,6 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import Header from '../components/Header';
 
 import TextEditor from '../components/UI/TextEditor';
 
@@ -11,7 +12,7 @@ const Content = styled.main`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 60px 20px 20px;
   gap: 16px;
 
   h3 {
@@ -21,10 +22,13 @@ const Content = styled.main`
     padding-bottom: 8px;
   }
 
+  @media screen and (min-width: 768px) {
+    padding: 84px 20px 20px;
+  }
   @media screen and (min-width: 1200px) {
     width: 1200px;
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 90px 0 20px;
   }
 `;
 
@@ -145,6 +149,7 @@ const ModifyNotice = () => {
   };
   return (
     <Content>
+      <Header />
       <h3>공지사항</h3>
       <Form onSubmit={onSubmitHandler}>
         <Title>

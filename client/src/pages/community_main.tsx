@@ -180,10 +180,10 @@ const CommunityMain = (props: any) => {
   );
 
   const toWriteBoard = () => {
-    navigate('/board/write');
+    navigate('/community/general/write');
   };
   const toWriteNotice = () => {
-    navigate('/notice/write');
+    navigate('/community/notice/write');
   };
   const toCommunityNotice = () => {
     navigate('/community/notice');
