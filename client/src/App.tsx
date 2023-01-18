@@ -28,11 +28,9 @@ import UserManagement from './admin/pages/userManagement';
 import ProgramManagement from './admin/pages/programManagement';
 import PaymentManagement from './admin/pages/paymentManagement';
 import CommunityMain from './pages/community_main';
-import Generalinquiry from './admin/components/UI/Generalinquiry';
-import Therapistinquiry from './admin/components/UI/Therapistinquiry';
 import AdminEditInfo from './admin/pages/adminEditInfo';
 import CommunityPost from './pages/community_post';
-
+import AdminIndex from './admin/pages/adminIndex';
 
 const GlobalStyle = createGlobalStyle`
  ${reset}
@@ -82,6 +80,7 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/login-general' element={<LoginGeneral />} />
           <Route path='/login-therapist' element={<LoginTherapist />} />
+          <Route path='/admin' element={<AdminIndex/>} />
         
           <Route path='/userManagement' element={<UserManagement />} />
           <Route path='/programsManagement' element={<ProgramManagement />} />
