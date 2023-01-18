@@ -7,15 +7,13 @@ import com.server.seb41_main_11.domain.program.entity.Program;
 import com.server.seb41_main_11.domain.program.repository.ProgramRepository;
 import com.server.seb41_main_11.global.error.ErrorCode;
 import com.server.seb41_main_11.global.error.exception.BusinessException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -100,14 +98,15 @@ public class ProgramService {
 
     @Transactional(readOnly = true)
     public Page<Program> searchCounselorProgram(Long counselorId, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("program_id").descending());
+        Page<Program> programPage = programRepository.findAllByCounselor(counselorId, pageable);
+        return programPage;
+    }
 
-        List<Program> searchResult = programRepository.findAllByCounselor(counselorId);
+    public Page<Program> searchProgram(String search, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("programId").descending());
+        Page<Program> programPage = programRepository.findAllBySymptomTypes(search, pageable);
 
-        int start = (int)pageRequest.getOffset();
-        int end = Math.min((start + pageRequest.getPageSize()), searchResult.size());
-        Page<Program> programs = new PageImpl<>(searchResult.subList(start, end), pageRequest, searchResult.size());
-
-        return programs;
+        return programPage;
     }
 }

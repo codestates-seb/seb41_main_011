@@ -2,6 +2,7 @@ package com.server.seb41_main_11.domain.program.mapper;
 
 import com.server.seb41_main_11.domain.program.dto.ProgramDto;
 import com.server.seb41_main_11.domain.program.entity.Program;
+import java.util.ArrayList;
 import java.util.List;
 import org.mapstruct.Mapper;
 
@@ -19,6 +20,14 @@ public interface ProgramMapper {
         ProgramDto.GetResponse response = ProgramDto.GetResponse.of(program);
         return response;
     }
-    List<ProgramDto.PageResponse> ProgramsToProgramResponseDtos(List<Program> programs);
-    List<ProgramDto.MyPageProgramResponse> ProgramsToMyProgramResponseDtos(List<Program> programs);
+    default List<ProgramDto.PageResponse> ProgramsToProgramResponseDtos(List<Program> programs) {
+        List<ProgramDto.PageResponse> list = new ArrayList<ProgramDto.PageResponse>(programs.size());
+
+        for(Program program : programs) {
+            list.add(ProgramDto.PageResponse.of(program));
+        }
+        return list;
+    }
+    List<ProgramDto.GetCounselorProgramResponse> ProgramsToGetCounselorProgramResponseDtos(List<Program> programs);
+    List<ProgramDto.GetAdminProgramResponse> ProgramsToGetAdminProgramResponseDtos(List<Program> programs);
 }

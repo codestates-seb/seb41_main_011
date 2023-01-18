@@ -1,7 +1,6 @@
 package com.server.seb41_main_11.domain.program.dto;
 
 
-import com.server.seb41_main_11.domain.counselor.entity.Counselor;
 import com.server.seb41_main_11.domain.program.entity.Program;
 import java.util.Set;
 import javax.validation.constraints.Min;
@@ -197,6 +196,7 @@ public class ProgramDto {
         private String dateStart;
         private String dateEnd;
         private Set<String> symptomTypes;
+        private String counselorName;
 
         public static ProgramDto.PageResponse of(Program program) {
             return ProgramDto.PageResponse.builder()
@@ -205,6 +205,7 @@ public class ProgramDto {
                 .dateStart(program.getDateStart())
                 .dateEnd(program.getDateEnd())
                 .symptomTypes(program.getSymptomTypes())
+                .counselorName(program.getCounselor().getCounselorName())
                 .build();
         }
     }
@@ -213,7 +214,7 @@ public class ProgramDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class MyPageProgramResponse {
+    public static class GetCounselorProgramResponse {
 
         private Long programId;
         private String title;
@@ -222,8 +223,33 @@ public class ProgramDto {
         private int userMax;
         private int userCount;
 
-        public static ProgramDto.MyPageProgramResponse of(Program program) {
-            return MyPageProgramResponse.builder()
+        public static ProgramDto.GetCounselorProgramResponse of(Program program) {
+            return GetCounselorProgramResponse.builder()
+                .programId(program.getProgramId())
+                .title(program.getTitle())
+                .dateStart(program.getDateStart())
+                .dateEnd(program.getDateEnd())
+                .userMax(program.getUserMax())
+                .userCount(program.getUserCount())
+                .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class GetAdminProgramResponse {
+
+        private Long programId;
+        private String title;
+        private String dateStart;
+        private String dateEnd;
+        private int userMax;
+        private int userCount;
+
+        public static ProgramDto.GetAdminProgramResponse of(Program program) {
+            return GetAdminProgramResponse.builder()
                 .programId(program.getProgramId())
                 .title(program.getTitle())
                 .dateStart(program.getDateStart())

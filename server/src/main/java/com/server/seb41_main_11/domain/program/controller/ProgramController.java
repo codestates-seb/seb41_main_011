@@ -10,7 +10,6 @@ import com.server.seb41_main_11.domain.program.mapper.ProgramMapper;
 import com.server.seb41_main_11.domain.program.service.ProgramService;
 import java.util.List;
 import javax.validation.constraints.Positive;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -70,7 +69,7 @@ public class ProgramController {
             new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    // 화면정의서 6p, 12p
+    // 화면정의서 6p
     // 전체 프로그램 조회
     @GetMapping("/lookup/list")
     public ResponseEntity getPrograms(@Positive @RequestParam(defaultValue = "1") int page,
@@ -102,7 +101,7 @@ public class ProgramController {
 
         Page<Program> CounselorProgramPage = programService.searchCounselorProgram(counselorId, page-1, size);
         List<Program> programList = CounselorProgramPage.getContent();
-        List<ProgramDto.MyPageProgramResponse> response = programMapper.ProgramsToMyProgramResponseDtos(programList);
+        List<ProgramDto.GetCounselorProgramResponse> response = programMapper.ProgramsToGetCounselorProgramResponseDtos(programList);
 
 
         return new ResponseEntity(
@@ -117,10 +116,25 @@ public class ProgramController {
         @Positive @RequestParam(defaultValue = "10") int size) {
         Page<Program> programPage = programService.findPrograms(page-1, size);
         List<Program> programs = programPage.getContent();
-        List<ProgramDto.MyPageProgramResponse> response = programMapper.ProgramsToMyProgramResponseDtos(programs);
+        List<ProgramDto.GetAdminProgramResponse> response = programMapper.ProgramsToGetAdminProgramResponseDtos(programs);
 
         return new ResponseEntity<>(
             new MultiResponseDto<>(response, programPage), HttpStatus.OK);
+    }
+
+    // 화면정의서 7p, 12p
+    // 고민별 프로그램 조회, 추천 프로그램 조회
+    @GetMapping("/lookup/search")
+    public ResponseEntity searchProgramsBySymptom(@RequestParam String search,
+        @Positive @RequestParam(defaultValue = "1") int page,
+        @Positive @RequestParam(defaultValue = "10") int size) {
+        Page<Program> searchProgramPage = programService.searchProgram(search, page-1, size);
+        List<Program> searchProgramList = searchProgramPage.getContent();
+
+        List<ProgramDto.PageResponse> response = programMapper.ProgramsToProgramResponseDtos(searchProgramList);
+
+        return new ResponseEntity<>(
+            new MultiResponseDto<>(response, searchProgramPage), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{program-id}")
