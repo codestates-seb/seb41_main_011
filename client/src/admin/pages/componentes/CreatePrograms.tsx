@@ -16,14 +16,17 @@ interface CreateProgram {
   url: string,
 }
 
-const ScreenWrapper = styled.div<{modal : boolean}>`
+export const ScreenWrapper = styled.div<{modal : boolean}>`
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   background-color: #00000042;
   position: absolute;
+  left: 0;
+  top: 0;
   z-index: 1;
   display: ${props => !props.modal ? "none" : null};
   &.closed {
@@ -122,7 +125,7 @@ const Row5 = styled.div`
 
 
 `
-const Button = styled.button`
+export const Button = styled.button`
   width: 100px;
   height: 80px;
   background-color: blue;
@@ -154,7 +157,7 @@ const CreatePrograms = () =>{
   const [url,setUrl] = useState<string>('');
   const [regularnumber,setRegularnumber] = useState<any>();
   const [modal, setModal] = useState<boolean>(true);
-
+  const [price,setPrice] = useState<any>(0);
   const handleTitleChange =(e: React.ChangeEvent) =>{
     const target = e.target as HTMLInputElement
     setTitle(target.value);
@@ -186,6 +189,10 @@ const CreatePrograms = () =>{
   const handleEndtimeChange =(e: React.ChangeEvent) =>{
     const target = e.target as HTMLInputElement
     setEndtime(target.value);
+  }
+  const handlePriceChange =(e: React.ChangeEvent) =>{
+    const target = e.target as HTMLInputElement
+    setPrice(target.value);
   }
   const handleSubmit =(e:React.FormEvent) =>{
     e.preventDefault();
@@ -227,9 +234,10 @@ const CreatePrograms = () =>{
           <InputAdmin type='text' id='title' onChange={handleTitleChange}/>
         </Row2>
         <Row3>
+          <label htmlFor='price'>가격</label>
+          <InputAdmin category='birth' type='number' id='price' onChange={handlePriceChange}></InputAdmin>
           <SelectBox></SelectBox>
           <TextArea id='description' cols={30} rows={15} child='설명' onChange={handleDescriptionChange} placeholder='프로그램 설명'/>
-          
         </Row3>
         <Row4>
           <label htmlFor='url'>이미지 url</label>

@@ -29,6 +29,8 @@ import ProgramManagement from './admin/pages/programManagement';
 import PaymentManagement from './admin/pages/paymentManagement';
 import CommunityMain from './pages/community_main';
 import EditUserInfoTherapist from './pages/edit_userinfo_therapist';
+import Generalinquiry from './admin/components/UI/Generalinquiry';
+import Therapistinquiry from './admin/components/UI/Therapistinquiry';
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {

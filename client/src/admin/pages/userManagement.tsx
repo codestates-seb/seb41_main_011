@@ -1,9 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Sidebar from "../components/UI/Sidebar";
-
-
-
+import Generalinquiry from '../components/UI/Generalinquiry';
+import Therapistinquiry from '../components/UI/Therapistinquiry';
 export const PageWrapper = styled.div`
     width: 90vw;
     height: 100vh;
@@ -149,6 +148,8 @@ const MenuBar = styled.div`
 const UserManagement = (props: any) => {
     const [isActive1, setIsActive1] = useState(true);
     const [isActive2, setIsActive2] = useState(false);
+    const [isModalOpened1, setIsModalOpened1] = useState(false);
+    const [isModalOpened2, setIsModalOpened2] = useState(false);
 
     return (
         <div>
@@ -173,6 +174,8 @@ const UserManagement = (props: any) => {
                         {
                             isActive1 ? 
                             <ProgramTable>
+                        
+                            {isModalOpened1? <Generalinquiry/>: null}
                             <thead>
                                 <tr>
                                     <th className='index'>No.</th>
@@ -188,7 +191,7 @@ const UserManagement = (props: any) => {
                                     <td>하헌진</td>
                                     <td>고양이</td>
                                     <td>2023.01.18</td>
-                                    <td className="openUserDetail">그룹상담내역</td>
+                                    <td className="openUserDetail" onClick={() => setIsModalOpened1(!isModalOpened1)}>그룹상담내역</td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
@@ -221,6 +224,7 @@ const UserManagement = (props: any) => {
                             </tbody>
                         </ProgramTable> 
                         : <ProgramTable>
+                            {isModalOpened2? <Therapistinquiry/>: null}
                             <thead>
                                 <tr>
                                     <th className='index'>No.</th>
@@ -232,7 +236,7 @@ const UserManagement = (props: any) => {
                                 <tr>
                                     <td>1</td>
                                     <td>하헌진</td>
-                                    <td className="openProgramDetail">그룹상담내역</td>
+                                    <td className="openProgramDetail" onClick={() => setIsModalOpened2(!isModalOpened2)} >그룹상담내역</td>
                                 </tr>
                                 <tr>
                                     <td>1</td>
