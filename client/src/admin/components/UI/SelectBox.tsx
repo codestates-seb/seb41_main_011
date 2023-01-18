@@ -1,5 +1,5 @@
 import { Category } from '../../SelectOptions'
-import styled from "styled-components";
+import styled from 'styled-components'
 
 const CheckboxWrapper = styled.form`
     display: flex;
@@ -16,15 +16,24 @@ type SelectBoxProps = {
   onChange?: any;
 }
 
+const SelectWrapper = styled.div`
+  display: flex;
+  gap: 15px;
+`
 
 
-const SelectBox = ({onChange}: SelectBoxProps) =>{
 
 
-  return (<CheckboxWrapper>
-  
-  {Category.map((item,idx)=> <div><label htmlFor={item.id}>{item.name}</label><input type='checkbox' key={idx} value={item.name} id={item.id} onChange={onChange}></input></div>)}
-  </CheckboxWrapper>)
+
+const SelectBox = ({onChange, value}: SelectBoxProps) =>{
+  return (
+  <div>
+    카테고리
+    <SelectWrapper>
+    {Category.map((item,idx)=> <a><input type='checkbox' key={idx} value={item.name} id={item.id} onChange={onChange}></input><label htmlFor={item.id}>{item.name}</label></a>)}
+    </SelectWrapper>
+  </div>
+)
 
 }
     

@@ -137,6 +137,8 @@ const EditUserInfoTherapist = () => {
             <Text>상담사</Text>
             <Label>이름</Label>
             <Text>하헌진</Text>
+            <Label>아이디(이메일)</Label>
+            <Text>gkgjswls@gmail.com</Text>
           </Grid>
           <Title>
             비밀번호 변경

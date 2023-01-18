@@ -10,9 +10,10 @@ import AllPrograms from './pages/all_programs';
 import ProgramDetail from './pages/program_detail';
 import Signup from './pages/signup';
 import EditUserInfo from './pages/edit_userinfo_general';
-import EditUserInfoTherapist from './pages/edit_userinfo_therapist'; 
 import MyPageGeneral from './pages/mypage_general';
-import Tabbar from './components/tabbar';
+import Book from './pages/book';
+import BookingCompleted from './pages/bookingCompleted';
+import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';  
 import MyProgramDetailG from './pages/my_p_detail_general';
 import MyProgramDetailT from './pages/my_p_detail_therapist';
 import WriteNotice from './pages/WriteNotice';
@@ -25,6 +26,10 @@ import LoginTherapist from './pages/login_therapist';
 import Main from './admin/pages/adminIndex';
 import UserManagement from './admin/pages/userManagement';
 import ProgramManagement from './admin/pages/programManagement';
+import PaymentManagement from './admin/pages/paymentManagement';
+import CommunityMain from './pages/community_main';
+
+
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -66,15 +71,17 @@ function App() {
           <Route path="/edit-userinfo" element={<EditUserInfo />} />
           <Route path="/edit-userinfo-therapist" element={<EditUserInfoTherapist />} />
           <Route path="/mypage" element={<MyPageGeneral />} />
+          <Route path="/book" element={<Book />} />
+          <Route path="/booking-completed" element={<BookingCompleted />} />
           <Route path='/' element={<AllPrograms />} />
           <Route path='/program/:id' element={<ProgramDetail />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/login-general' element={<LoginGeneral />} />
           <Route path='/login-therapist' element={<LoginTherapist />} />
           <Route path='/admin' element={<Main />} />
-          <Route path='/UserManagement' element={<UserManagement />} />
+          <Route path='/userManagement' element={<UserManagement />} />
           <Route path='/programsManagement' element={<ProgramManagement />} />
-          <Route path='/AssetManagement' element={<Main />} />
+          <Route path='/paymentManagement' element={<PaymentManagement />} />
         
           <Route path='/myprogramg/:id' element={<MyProgramDetailG />} />
           <Route path='/myprogramt/:id' element={<MyProgramDetailT />} />
@@ -82,6 +89,8 @@ function App() {
           <Route path='/board/write' element={<WriteBoard />} />
           <Route path='/notice/modify' element={<ModifyNotice />} />
           <Route path='/board/modify' element={<ModifyBoard />} />
+
+          <Route path='/community' element={<CommunityMain />} />
         </Routes>
       </BrowserRouter>
     </div>

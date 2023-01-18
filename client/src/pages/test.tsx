@@ -10,6 +10,11 @@ export const ContentWrapper = styled.div`
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+<<<<<<< HEAD
+    gap: 40px;
+
+=======
+>>>>>>> 734c37a45179251c2b3dd6ff42bc3309c24ce7e6
     @media screen and (max-width: 768px) {
         padding-top: 0vh;
         padding-bottom: 0vh;
@@ -20,12 +25,13 @@ export const ContentWrapper = styled.div`
 
 const TagContainer = styled.div`
     display: grid;
-    grid-template-columns: auto auto;
-    gap: 12px;
+    grid-template-columns: 48% 48%;
+    justify-content: center;
+    gap: 15px;
     background-color: #ECEEE2;
-    width: 50vw;
-    height: 20vh;
-    padding: 3%;
+    width: 80vw;
+    height: 30vh;
+    padding: 15px;
     border-radius: 10px;
 
 
@@ -34,15 +40,13 @@ const TagContainer = styled.div`
 
     @media screen and (min-width: 768px) {
         font-size: 14px;
-        width: 230px;
+        width: 500px;
         height: 20vh;
-        padding: 1%;
     }
     @media screen and (min-width: 1200px) {
         font-size: 16px;
-        width: 250px;
+        width: 500px;
         height: 20vh;
-        padding: 1%;
     }
 `
 
@@ -53,13 +57,14 @@ const Tag = styled.div`
 
   background-color: #B3D2B0;
   border-radius: 5px;
-  font-size: 11px;
-  color: #ffffff;
+  font-size: 14px;
+  color: #112f1c;
   font-weight: 500;
   text-align: center;
 
   &:hover {
     background-color: #71AB75;
+    color: #ffffff;
     cursor: pointer;
   }
 
@@ -68,7 +73,8 @@ const Tag = styled.div`
   } 
 
   @media screen and (min-width: 768px) {
-        font-size: 13px;
+        font-size: 16px;
+        font-weight: 400;
   }
 
 `
@@ -103,12 +109,10 @@ const ButtonWrapper = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	* {
-        margin: 10px;
-	}
-    @media screen and (max-width: 415px) {
-        margin-top: -20px;
-    }
+  gap: 10px;
+  @media screen and (max-width: 415px) {
+      margin-top: -20px;
+  }
 `
 
 const Button = styled.button`
@@ -146,6 +150,10 @@ const Logo = styled.img`
 `
 
 const Test = () => {
+  const navigate = useNavigate()
+  const toTestResult = () => {
+    navigate('/test-result')
+  }
   return (
     <div>
       <ContentWrapper>
@@ -158,17 +166,13 @@ const Test = () => {
         마오옹 님에게 적합한 테라피 프로그램을 추천해 드릴게요😊 <br/> 여러 개를 선택해 주셔도 괜찮아요.
         </SubMessage>
         <TagContainer>
-          <Tag>우울해요</Tag>
-          <Tag>불안해요</Tag>
-          <Tag>감정기복</Tag>
-          <Tag>불면증</Tag>
-          <Tag>샘플</Tag>
-          <Tag>샘플</Tag>
-          <Tag>샘플</Tag>
-          <Tag>샘플</Tag>
+          <Tag>무력감이 들고 <br/> 우울해요</Tag>
+          <Tag>불안하고 <br/>혼란스러워요</Tag>
+          <Tag>스트레스 <br/>상태에요</Tag>
+          <Tag>술이나 약물을<br/> 끊기 힘들어요</Tag>
         </TagContainer>
         <ButtonWrapper>
-          <Button>
+          <Button onClick={toTestResult}>
           적합한 프로그램 찾기            
           </Button>
           <Button>

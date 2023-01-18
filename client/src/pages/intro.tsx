@@ -1,18 +1,6 @@
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import { createGlobalStyle } from "styled-components";
 import Tabbar from "../components/tabbar"; //탭바 테스트용. 해당 부분 삭제 예정
-
-const GlobalStyle = createGlobalStyle`
-
-  body {
-		height: 100vh;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-
-  }
-`;
 
 const OuterWrapper = styled.div`
 	height: 100vh;
@@ -132,7 +120,6 @@ const Intro = () => {
 
 	return (
 		<div>
-			<GlobalStyle/>
 			<OuterWrapper>
 					{/* <Tabbar />  */}
 

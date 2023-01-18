@@ -18,7 +18,7 @@ export const SideMenu: MenuItemsProps[] = [
         icon: <FaRegCalendarAlt/>,
     },
     {
-        path: '/AssetManagement',
+        path: '/paymentManagement',
         name: '결제 관리',
         icon: <FaDonate />,
     },
