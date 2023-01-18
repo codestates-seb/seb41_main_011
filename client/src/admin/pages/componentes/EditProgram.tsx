@@ -16,23 +16,42 @@ interface CreateProgram {
   url: string,
 }
 
+export const ScreenWrapper = styled.div<{modal : boolean}>`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: #00000042;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  display: ${props => !props.modal ? "none" : null};
+  &.closed {
+    display: none;
+  }
+`
 
 const RowWrapper = styled.div`
-  border: 1px solid blue;
+  background-color: white;
   display: flex;
   flex-direction: column;
-  width: 80vw;
-  height: 50vh;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  width: 70vw;
+  height: auto;
+  padding: 3%;
+  justify-content: center;
   align-items: center;
+  gap: 1vh;
 `
 const Row1 = styled.div`
   display: flex;
-  border: 1px solid red;
+  flex-direction: column;
+  align-items: left;
   grid-column: 1 / 2;
   width: 100%;
-  height: 10%;
+  /* height: 5%; */
   align-items: center;
   div{
     height: 30%;
@@ -48,6 +67,9 @@ const Row1 = styled.div`
     margin-left: 5px;
     margin-right: 10px;
   }
+  div {
+    width: 100%;
+  }
 `
 const Row2 = styled.div`
   display: flex;
@@ -56,7 +78,6 @@ const Row2 = styled.div`
     margin-left: 5px;
     margin-right: 5px;
   }
-  border: 1px solid red;
   width: 100%;
   height: 10%;
   input {
@@ -67,11 +88,11 @@ const Row2 = styled.div`
 `
 const Row3 = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
   margin-left: 5px;
   margin-right: 5px;
   align-items: center;
-  border: 1px solid red;
   div {
     width: 70%;
   }
@@ -83,7 +104,6 @@ const Row3 = styled.div`
 `
 const Row4 = styled.div`
   display: flex;
-  border: 1px solid red;
   width: 100%;
   height: 10%;
   input {
@@ -95,7 +115,6 @@ const Row4 = styled.div`
 `
 const Row5 = styled.div`
   display: flex;
-  border: 1px solid red;
   width: 100%;
   height: 10%;
   justify-content: flex-end;
@@ -103,9 +122,14 @@ const Row5 = styled.div`
     margin-right: 20px;
 
   }
-
 `
-const Button = styled.button`
+const PriceDiv = styled.div`
+  label {
+    margin-right: 5px;
+  }
+`
+
+export const Button = styled.button`
   width: 100px;
   height: 80px;
   background-color: blue;
@@ -113,9 +137,21 @@ const Button = styled.button`
   font-weight: bold;
   font-size: 1.5rem;
   border-radius: 12px;
+  &:hover {
+    cursor: pointer;
+  }
+  &.closeButton {
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    font-size: 16px;
+    background-color: #991515;
+    border-radius: 5px;
+    border: none;
+  } 
 `
 
-const EditProgram = () =>{
+const EditPrograms = () =>{
   const [id,setId] = useState<string>('');
   const [startingtime,setStartingtime] = useState<string>('');
   const [endtime,setEndtime] = useState<string>('');
@@ -124,9 +160,8 @@ const EditProgram = () =>{
   const [tag,setTag] = useState<string>('');
   const [url,setUrl] = useState<string>('');
   const [regularnumber,setRegularnumber] = useState<any>();
-
-  const category:string[] = [''];
-
+  const [modal, setModal] = useState<boolean>(true);
+  const [price,setPrice] = useState<any>(0);
   const handleTitleChange =(e: React.ChangeEvent) =>{
     const target = e.target as HTMLInputElement
     setTitle(target.value);
@@ -138,7 +173,6 @@ const EditProgram = () =>{
   const handleTagChange =(e: React.ChangeEvent) =>{
     const target = e.target as HTMLInputElement
     setTag(target.value);
-    category.push(tag)
   }
   const handleUrlChange =(e: React.ChangeEvent) =>{
     const target = e.target as HTMLInputElement
@@ -160,6 +194,10 @@ const EditProgram = () =>{
     const target = e.target as HTMLInputElement
     setEndtime(target.value);
   }
+  const handlePriceChange =(e: React.ChangeEvent) =>{
+    const target = e.target as HTMLInputElement
+    setPrice(target.value);
+  }
   const handleSubmit =(e:React.FormEvent) =>{
     e.preventDefault();
     const reqbody:CreateProgram = {
@@ -178,42 +216,49 @@ const EditProgram = () =>{
     .catch((err)=>console.log)
   }
   return (
-
-    <form onSubmit={handleSubmit}>
-
-        <RowWrapper>
-          <Row1>
-            <div>세션시간</div>
+    <ScreenWrapper modal={modal}>
+      <form onSubmit={handleSubmit}>
+        <Button className='closeButton' type='button' onClick={()=>setModal(!modal)}>X</Button>
+      <RowWrapper>
+        <Row1>
+          <div>세션시간</div>
+          <div>
             <label htmlFor='startingtime'>시작일시</label>
             <InputAdmin type='datetime-local'  id='startingtime' onChange={handleStartingtimeChange}/>
             <label htmlFor='endtime' >종료일시</label>
             <InputAdmin type='datetime-local' id='endtime' onChange={handleEndtimeChange}/>
             <label htmlFor='regularnumber'>정원</label>
-            <InputAdmin type='number' id='regularnumber' onChange={handleRegularnumberChange}/>
-            <label htmlFor='therapist' >상담사</label>
-            <InputAdmin type='text' id='therapist' onChange={handleTherapistChange}/>
-          </Row1>
-          <Row2>
-            <label htmlFor='title'>제목</label>
-            <InputAdmin type='text' id='title' onChange={handleTitleChange}/>
-          </Row2>
-          <Row3>
-            <TextArea id='description' cols={30} rows={15} child='설명' onChange={handleDescriptionChange} placeholder='프로그램 설명'/>
-            <SelectBox onChange={handleTagChange} />
-          </Row3>
-          <Row4>
-            <label htmlFor='url'>이미지 url</label>
-            <InputAdmin type='text'id='url' placeholder='url을 입력해주세요' onChange={handleUrlChange}/>
-          </Row4>
-          <Row5>
-            <Button>등록</Button>
-          </Row5>
-        </RowWrapper>
-    </form>
+            <InputAdmin type='number' id='regularnumber'/>
+            <label htmlFor='therapist'>상담사</label>
+            <InputAdmin type='text' id='therapist'/>
+          </div>
+        </Row1>
+        <Row2>
+          <label htmlFor='title'>제목</label>
+          <InputAdmin type='text' id='title' onChange={handleTitleChange}/>
+        </Row2>
+        <Row3>
+          <PriceDiv>
+            <label htmlFor='price'>가격</label>
+          <InputAdmin category='birth' type='number' id='price' onChange={handlePriceChange}></InputAdmin>
+          </PriceDiv>
+          <SelectBox></SelectBox>
+          <TextArea id='description' cols={30} rows={15} child='설명' onChange={handleDescriptionChange} placeholder='프로그램 설명'/>
+        </Row3>
+        <Row4>
+          <label htmlFor='url'>이미지 url</label>
+          <InputAdmin type='text'id='url' placeholder='url을 입력해주세요' onChange={handleUrlChange}/>
+        </Row4>
+        <Row5>
+          <Button>수정</Button>
+        </Row5>
+      </RowWrapper>
+      </form>
+    </ScreenWrapper>   
   )
 
 
 
 }
 
-export default EditProgram;
+export default EditPrograms;

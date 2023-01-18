@@ -1,9 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { createProgram } from "typescript";
 import Sidebar from "../components/UI/Sidebar";
 import CreatePrograms from "./componentes/CreatePrograms";
-
+import EditPrograms from './componentes/EditProgram';
 
 
 export const PageWrapper = styled.div`
@@ -142,11 +141,13 @@ const Button = styled.button`
 
 const ProgramManagement = (props: any) => {
    const [isModalOpened, setIsModalOpened] = useState(false);
+   const [isModalOpened2, setIsModalOpened2] = useState(false);
 
     return (
         <div>
             <ContentWrapper>
                 {isModalOpened ? <CreatePrograms/> : null}
+                {isModalOpened2? <EditPrograms/>: null}
                 <PageWrapper>
                     <Title>
                         개설 프로그램 현황
@@ -173,7 +174,7 @@ const ProgramManagement = (props: any) => {
                                     <td>2/10</td>
                                     <td>2023-02-11 08:30</td>
                                     <td>예정</td>
-                                    <td className="openEditModal" onClick={() => setIsModalOpened(!isModalOpened)}>수정</td>
+                                    <td className="openEditModal" onClick={() => setIsModalOpened2(!isModalOpened2)}>수정</td>
                                 </tr>
                                 )
                               })}

@@ -24,7 +24,6 @@ import ModifyBoard from './pages/ModifyBoard';
 import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
 import LoginGeneral from './pages/login_general';
 import LoginTherapist from './pages/login_therapist';
-import Main from './admin/pages/adminIndex';
 import UserManagement from './admin/pages/userManagement';
 import ProgramManagement from './admin/pages/programManagement';
 import PaymentManagement from './admin/pages/paymentManagement';
@@ -32,7 +31,7 @@ import CommunityMain from './pages/community_main';
 import Generalinquiry from './admin/components/UI/Generalinquiry';
 import Therapistinquiry from './admin/components/UI/Therapistinquiry';
 import AdminEditInfo from './admin/pages/adminEditInfo';
-
+import AdminIndex from './admin/pages/adminIndex';
 
 const GlobalStyle = createGlobalStyle`
  ${reset}
@@ -82,19 +81,18 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/login-general' element={<LoginGeneral />} />
           <Route path='/login-therapist' element={<LoginTherapist />} />
-          
-          <Route path='/admin' element={<Main />} />
+        
           <Route path='/userManagement' element={<UserManagement />} />
           <Route path='/programsManagement' element={<ProgramManagement />} />
           <Route path='/paymentManagement' element={<PaymentManagement />} />
           <Route path='/admin/editInfo' element={<AdminEditInfo/>} />
-        
           <Route path='/myprogramg/:id' element={<MyProgramDetailG />} />
           <Route path='/myprogramt/:id' element={<MyProgramDetailT />} />
           <Route path='/notice/write' element={<WriteNotice />} />
           <Route path='/board/write' element={<WriteBoard />} />
           <Route path='/notice/modify' element={<ModifyNotice />} />
           <Route path='/board/modify' element={<ModifyBoard />} />
+          <Route path='/admin' element={<AdminIndex />} />
 
           <Route path='/community/notice' element={<CommunityMain />} />
           <Route path='/community/general' element={<CommunityMain />} />
