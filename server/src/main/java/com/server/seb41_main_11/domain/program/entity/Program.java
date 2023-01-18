@@ -2,12 +2,17 @@ package com.server.seb41_main_11.domain.program.entity;
 
 import com.server.seb41_main_11.domain.pay.entity.Pay;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,30 +50,19 @@ public class Program {
     @Column(nullable = false)
     private String dateEnd;
 
-    private SymptomTypes symptomTypes;
+    @ElementCollection
+    @CollectionTable(name = "SYMPTOM_TYPES", joinColumns = @JoinColumn(name = "PROGRAM_ID"))
+    @Column(name = "SYMPTOM_TYPE")
+    private Set<String> SymptomTypes = new HashSet<>();
 
     @OneToMany(mappedBy = "program")
     private List<Pay> payList = new ArrayList<>();
-
-    public enum SymptomTypes {
-        STRESS("스트레스"),
-        UNREST("불안"),
-        DEPRESSED("우울"),
-        ADDICTED("중독");
-
-        @Getter
-        private String status;
-
-        SymptomTypes(String status) {
-            this.status = status;
-        }
-    }
 
     @Builder
     public Program(Long programId, String title, String content, int userMax, int userCount,
         int cost,
         String image, String announce, String zoomLink, String dateStart, String dateEnd,
-        SymptomTypes symptomTypes, List<Pay> payList) {
+        Set<String> symptomTypes, List<Pay> payList) {
         this.programId = programId;
         this.title = title;
         this.content = content;
@@ -80,7 +74,7 @@ public class Program {
         this.zoomLink = zoomLink;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
-        this.symptomTypes = symptomTypes;
+        SymptomTypes = symptomTypes;
         this.payList = payList;
     }
 
