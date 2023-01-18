@@ -1,8 +1,6 @@
-import { useState } from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
-import { createProgram } from "typescript";
 import Sidebar from "../components/UI/Sidebar";
-import CreatePrograms from "./componentes/CreatePrograms";
 
 
 
@@ -34,15 +32,13 @@ const ContentWrapper = styled.div`
 `
 
 const Title = styled.div`
-  width: 70vw;
+    width: 70vw;
 	color: #4B6A4D;
 	font-weight: 700;
 	font-size: 2.25rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  left: 0;
-  top: 0;
+    text-align: left;
+    left: 0;
+    top: 0;
 `
 
 const ProgramTable =  styled.table `
@@ -126,31 +122,13 @@ const Pagination = styled.div`
     
 `
 
-const Button = styled.button`
-  border: none;
-  background-color: #009879;
-  color: #ffffff;
-  height: 40px;
-  width: 120px;
-  font-size: 16px;
-  border-radius: 10px;
-  &:hover {
-    cursor: pointer;
-    background-color: #006d57;
-  }
-`
-
-const ProgramManagement = (props: any) => {
-   const [isModalOpened, setIsModalOpened] = useState(false);
-
+const AdminAllPrograms = () => {
     return (
         <div>
             <ContentWrapper>
-                {isModalOpened ? <CreatePrograms/> : null}
                 <PageWrapper>
                     <Title>
                         개설 프로그램 현황
-                        <Button onClick={() => setIsModalOpened(!isModalOpened)}>프로그램 생성</Button>
                     </Title> 
                     <Sidebar/> 
                         <ProgramTable>
@@ -165,18 +143,46 @@ const ProgramManagement = (props: any) => {
                                 </tr>
                             </thead>
                             <tbody>
-                              {[1,2,3,4,5].map((item) => {
-                                return (
-                                  <tr>
+                                <tr>
                                     <td>1</td>
                                     <td>프로그램명</td>
                                     <td>2/10</td>
                                     <td>2023-02-11 08:30</td>
                                     <td>예정</td>
-                                    <td className="openEditModal" onClick={() => setIsModalOpened(!isModalOpened)}>수정</td>
+                                    <td className="openEditModal">수정</td>
                                 </tr>
-                                )
-                              })}
+                                <tr>
+                                    <td>1</td>
+                                    <td>프로그램명</td>
+                                    <td>2/10</td>
+                                    <td>2023-02-11 08:30</td>
+                                    <td>예정</td>
+                                    <td className="openEditModal">수정</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>프로그램명</td>
+                                    <td>2/10</td>
+                                    <td>2023-02-11 08:30</td>
+                                    <td>예정</td>
+                                    <td className="openEditModal">수정</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>프로그램명</td>
+                                    <td>2/10</td>
+                                    <td>2023-02-11 08:30</td>
+                                    <td>예정</td>
+                                    <td className="openEditModal">수정</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>프로그램명</td>
+                                    <td>2/10</td>
+                                    <td>2023-02-11 08:30</td>
+                                    <td>예정</td>
+                                    <td className="openEditModal">수정</td>
+                                </tr>
                             </tbody>
                         </ProgramTable>
                         {/* 하단 페이지 네이션은 아직 장식임 */}
@@ -189,12 +195,16 @@ const ProgramManagement = (props: any) => {
                             <a href="#">5</a>
                             <a href="#">6</a>
                             <a href="#">&raquo;</a>
-                        </Pagination>           
+                        </Pagination>
+
+                    {/* </ProgramWrapper> */}
+            
                 </PageWrapper>
+
             </ContentWrapper>
             
         </div>
     )
 }
 
-export default ProgramManagement;
+export default AdminAllPrograms;
