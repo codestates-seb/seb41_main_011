@@ -47,6 +47,9 @@ public class OauthLoginService {
             // 토큰 생성
             jwtTokenDto = tokenManager.createJwtTokenDto(oauthMember.getMemberId(), oauthMember.getRole());
             oauthMember.updateRefreshToken(jwtTokenDto);
+
+            return OauthLoginDto.Response.of(jwtTokenDto, oauthMember.getRole());
+            // grantType, accessToken, refreshToken, 만료시간 등 설정
         } else { // 기존 회원일 경우
             Member oauthMember = optionalMember.get();
 
@@ -54,10 +57,10 @@ public class OauthLoginService {
             jwtTokenDto = tokenManager.createJwtTokenDto(oauthMember.getMemberId(), oauthMember.getRole());
             oauthMember.updateRefreshToken(jwtTokenDto);
             // DB에 리프레쉬 토큰과 토큰 만료시간 업데이트
-        }
 
-        return OauthLoginDto.Response.of(jwtTokenDto);
-        // grantType, accessToken, refreshToken, 만료시간 등 설정
+            return OauthLoginDto.Response.of(jwtTokenDto, oauthMember.getRole());
+            // grantType, accessToken, refreshToken, 만료시간 등 설정
+        }
     }
 
 }

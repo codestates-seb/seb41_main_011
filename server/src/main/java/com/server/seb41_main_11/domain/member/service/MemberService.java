@@ -84,7 +84,7 @@ public class MemberService {
         findMember.updateRefreshToken(jwtTokenDto); //토큰값 설정
         memberRepository.save(findMember); //db에 리프레쉬 토큰 업데이트
 
-        return MemberDto.LoginResponse.of(jwtTokenDto);
+        return MemberDto.LoginResponse.of(jwtTokenDto, findMember.getRole());
     }
 
     /**

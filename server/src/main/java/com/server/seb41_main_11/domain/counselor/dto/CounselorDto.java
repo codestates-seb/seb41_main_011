@@ -113,8 +113,11 @@ public class CounselorDto {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         private Date refreshTokenExpireTime;
 
-        public static CounselorDto.LoginResponse of(JwtTokenDto jwtTokenDto){
-            return CounselorDto.LoginResponse.builder()
+        private Role role;
+
+        public static CounselorDto.LoginResponse of(JwtTokenDto jwtTokenDto, Role role){
+            return LoginResponse.builder()
+                    .role(role)
                     .grantType(jwtTokenDto.getGrantType())
                     .accessToken(jwtTokenDto.getAccessToken())
                     .accessTokenExpireTime(jwtTokenDto.getAccessTokenExpireTime())
