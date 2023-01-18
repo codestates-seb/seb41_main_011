@@ -19,7 +19,7 @@ const Contents = styled.header`
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  gap: 32px;
+  gap: 28px;
   padding: 0 20px;
   z-index: 999999;
 
@@ -42,6 +42,7 @@ const Contents = styled.header`
   @media screen and (min-width: 1200px) {
     height: 70px;
     line-height: 70px;
+    gap: 32px;
     padding: 0 40px;
   }
 `;
