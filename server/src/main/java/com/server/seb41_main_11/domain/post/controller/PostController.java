@@ -2,6 +2,9 @@ package com.server.seb41_main_11.domain.post.controller;
 
 import com.server.seb41_main_11.domain.common.MultiResponseDto;
 import com.server.seb41_main_11.domain.common.SingleResponseDto;
+import com.server.seb41_main_11.domain.counselor.entity.Counselor;
+import com.server.seb41_main_11.domain.counselor.service.CounselorService;
+import com.server.seb41_main_11.domain.member.constant.Role;
 import com.server.seb41_main_11.domain.member.service.MemberService;
 import com.server.seb41_main_11.domain.post.dto.PostDto;
 import com.server.seb41_main_11.domain.post.mapper.PostMapper;
@@ -27,15 +30,26 @@ public class PostController {
 
     private final PostService postService;
     private final MemberService memberService;
+    private final CounselorService counselorService;
     private final PostMapper mapper;
 
     // 일반 유저가 글 등록
     @PostMapping("/post")
     public ResponseEntity createPost(@Valid @RequestBody PostDto.Post post,
                                      HttpServletRequest request) {
-        Post findPost = postService.create(mapper.postToEntity(post), memberService.getLoginMember(request));
 
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleResponse(findPost)), HttpStatus.CREATED);
+        Role role = memberService.getLoginRole(request);
+
+        if (role.equals(Role.USER)) {
+            Post findPostByMember = postService.createByMember(mapper.postToEntity(post), memberService.getLoginMember(request));
+            return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleResponse(findPostByMember)), HttpStatus.CREATED);
+        } else if (role.equals(Role.COUNSELOR)) {
+            Post findPostByCounselor = postService.createByCounselor(mapper.postToEntity(post), counselorService.getLoginCounselor(request));
+            return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleResponse(findPostByCounselor)), HttpStatus.CREATED);
+        } else {
+            Post findPostByMember = postService.createByMember(mapper.postToEntity(post), memberService.getLoginMember(request));
+            return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleResponse(findPostByMember)), HttpStatus.CREATED);
+        }
     }
 
     @PatchMapping("/patch/{post-id}")

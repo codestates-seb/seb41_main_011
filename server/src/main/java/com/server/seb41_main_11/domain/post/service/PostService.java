@@ -1,5 +1,7 @@
 package com.server.seb41_main_11.domain.post.service;
 
+import com.server.seb41_main_11.domain.counselor.entity.Counselor;
+import com.server.seb41_main_11.domain.counselor.service.CounselorService;
 import com.server.seb41_main_11.domain.member.entity.Member;
 import com.server.seb41_main_11.domain.member.service.MemberService;
 import com.server.seb41_main_11.domain.post.entity.Post;
@@ -22,13 +24,19 @@ import java.util.Optional;
 public class PostService {
     // ----------------- DI ---------------------
     private final PostRepository postRepository;
-    private final MemberService memberService;
     // ----------------- DI ---------------------
 
-    // 글 등록
-    public Post create(Post post, Member member) {
-        post.setMember(member);
+    // 멤버 글 등록
+    public Post createByMember(Post post, Member member) {
 
+        post.setMember(member);
+        return postRepository.save(post);
+    }
+
+    // 상담사 글 등록
+    public Post createByCounselor(Post post, Counselor counselor) {
+
+        post.setCounselor(counselor);
         return postRepository.save(post);
     }
 

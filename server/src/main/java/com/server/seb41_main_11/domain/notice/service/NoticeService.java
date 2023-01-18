@@ -29,14 +29,14 @@ public class NoticeService {
     // ----------------- DI ---------------------
 
     // 공지 등록
-    public Notice create(Notice notice) {
-        Member member = memberService.findVerifiedMemberByMemberId(notice.getMember().getMemberId());
+    public Notice create(Notice notice, Member member) {
+
+        notice.setMember(member);
 
         if (!member.getRole().equals(Role.ADMIN)) {
             throw new BusinessException(ErrorCode.FORBIDDEN_ADMIN);
         } else {
             notice.setMember(member);
-            notice.setWriter(member.getMemberName());
             return noticeRepository.save(notice);
         }
     }
@@ -57,7 +57,6 @@ public class NoticeService {
         Notice notice = findVerifiedNotice(noticeId);
 
         String writer = notice.getMember().getMemberName();
-        notice.setWriter(writer);
         updateViews(noticeId);
 
         return notice;

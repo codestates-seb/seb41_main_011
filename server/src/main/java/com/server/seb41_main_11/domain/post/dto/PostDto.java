@@ -1,5 +1,6 @@
 package com.server.seb41_main_11.domain.post.dto;
 
+import com.server.seb41_main_11.domain.member.constant.Role;
 import com.server.seb41_main_11.domain.post.entity.Post;
 import lombok.*;
 
@@ -11,10 +12,9 @@ public class PostDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Post {
-        private long memberId;
-        //        private long counselorId;
         private String title;
         private String content;
+        private Role role;
         private com.server.seb41_main_11.domain.post.entity.Post.Kind kinds;
     }
 
@@ -39,7 +39,6 @@ public class PostDto {
     @Builder
     public static class SingleResponse {
         private long postId;
-        //        private long counselorId;
         private String title;
         private String content;
         private com.server.seb41_main_11.domain.post.entity.Post.Kind kinds;
@@ -67,7 +66,6 @@ public class PostDto {
     @Builder
     public static class MultiResponse {
         private long postId;
-        //        private long counselorId;
         private String title;
         private com.server.seb41_main_11.domain.post.entity.Post.Kind kinds;
         private int views;

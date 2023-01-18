@@ -11,8 +11,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface PostMapper {
 
-    @Mapping(source = "memberId" ,target = "member.memberId")
-//    @Mapping(source = "counselorId", target = "counselor.counselorId")
     Post postToEntity(PostDto.Post post);
 
     Post patchToEntity(PostDto.Patch patch);
