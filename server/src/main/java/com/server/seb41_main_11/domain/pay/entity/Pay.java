@@ -55,7 +55,7 @@ public class Pay extends BaseEntity {
 
     public enum Status {
         COMPLETE_PAYMENT("결제 완료"),
-        WAITING_FOR_PAYMENT("결제 대기중"),
+        WAITING_CANCEL_PAYMENT("취소 대기중"),
         CANCEL_PAYMENT("결제 취소");
 
         private String message;

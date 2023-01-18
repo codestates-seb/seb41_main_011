@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,15 +60,11 @@ public class PayService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Pay> searchMyReserveProgram(Long memberId, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
+    public Page<Pay> searchUserReserveProgram(Long memberId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("pay_id").descending());
 
-        List<Pay> searchResult = payRepository.findAllByMember(memberId);
+        Page<Pay> payPage = payRepository.findAllByMember(memberId, pageable);
 
-        int start = (int)pageRequest.getOffset();
-        int end = Math.min((start + pageRequest.getPageSize()), searchResult.size());
-        Page<Pay> pays = new PageImpl<>(searchResult.subList(start, end), pageRequest, searchResult.size());
-
-        return pays;
+        return payPage;
     }
 }
