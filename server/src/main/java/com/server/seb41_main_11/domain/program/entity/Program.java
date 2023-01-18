@@ -1,14 +1,14 @@
 package com.server.seb41_main_11.domain.program.entity;
 
-import com.server.seb41_main_11.domain.member.entity.Member;
+import com.server.seb41_main_11.domain.pay.entity.Pay;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,13 +47,8 @@ public class Program {
 
     private SymptomTypes symptomTypes;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member;
-
-    public void setMember(Member member) {
-        this.member = member;
-    }
+    @OneToMany(mappedBy = "program")
+    private List<Pay> payList = new ArrayList<>();
 
     public enum SymptomTypes {
         STRESS("스트레스"),
@@ -72,7 +67,8 @@ public class Program {
     @Builder
     public Program(Long programId, String title, String content, int userMax, int userCount,
         int cost,
-        String image, String announce, String zoomLink, String dateStart, String dateEnd) {
+        String image, String announce, String zoomLink, String dateStart, String dateEnd,
+        SymptomTypes symptomTypes, List<Pay> payList) {
         this.programId = programId;
         this.title = title;
         this.content = content;
@@ -84,6 +80,8 @@ public class Program {
         this.zoomLink = zoomLink;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
+        this.symptomTypes = symptomTypes;
+        this.payList = payList;
     }
 
     public static Program of(Program program) {
@@ -99,6 +97,8 @@ public class Program {
             .zoomLink(program.getZoomLink())
             .dateStart(program.getDateStart())
             .dateEnd(program.getDateEnd())
+            .symptomTypes(program.getSymptomTypes())
+            .payList(program.getPayList())
             .build();
     }
 }

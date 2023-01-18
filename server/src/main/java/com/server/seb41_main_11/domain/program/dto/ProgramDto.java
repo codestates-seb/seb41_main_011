@@ -3,16 +3,21 @@ package com.server.seb41_main_11.domain.program.dto;
 
 import com.server.seb41_main_11.domain.program.entity.Program;
 import com.server.seb41_main_11.domain.program.entity.Program.SymptomTypes;
+import java.time.LocalDateTime;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 public class ProgramDto {
+
     @Getter
     @Builder
     public static class Post {
+
         @NotBlank
         private String title;
 
@@ -29,6 +34,9 @@ public class ProgramDto {
         @NotBlank
         private String dateEnd;
 
+        @NotBlank
+        private int cost;
+
         private SymptomTypes symptomTypes;
 
         public static ProgramDto.Post of(ProgramDto.Post requestBody) {
@@ -39,6 +47,7 @@ public class ProgramDto {
                 .userMax(requestBody.getUserMax())
                 .dateStart(requestBody.getDateStart())
                 .dateEnd(requestBody.getDateEnd())
+                .cost(requestBody.getCost())
                 .symptomTypes(requestBody.getSymptomTypes())
                 .build();
         }
@@ -48,6 +57,7 @@ public class ProgramDto {
     @Setter
     @Builder
     public static class Patch {
+
         private Long programId;
         @NotBlank
         private String title;
@@ -65,6 +75,9 @@ public class ProgramDto {
         @NotBlank
         private String dateEnd;
 
+        @NotBlank
+        private int cost;
+
         private SymptomTypes symptomTypes;
 
         public void setProgramId(Long programId) {
@@ -72,13 +85,14 @@ public class ProgramDto {
         }
 
         public static ProgramDto.Patch of(Program program) {
-            return Patch.builder()
+            return ProgramDto.Patch.builder()
                 .title(program.getTitle())
                 .content(program.getContent())
                 .image(program.getImage())
                 .userMax(program.getUserMax())
                 .dateStart(program.getDateStart())
                 .dateEnd(program.getDateEnd())
+                .cost(program.getCost())
                 .symptomTypes(program.getSymptomTypes())
                 .build();
         }
@@ -87,6 +101,7 @@ public class ProgramDto {
     @Getter
     @Builder
     public static class Response {
+
         private Long programId;
         private String title;
         private String content;
@@ -114,6 +129,76 @@ public class ProgramDto {
                 .dateStart(program.getDateStart())
                 .dateEnd(program.getDateEnd())
                 .symptomTypes(program.getSymptomTypes())
+                .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    public static class PageResponse {
+
+        private Long programId;
+        private String title;
+        private String dateStart;
+        private String dateEnd;
+        private SymptomTypes symptomTypes;
+
+        public static ProgramDto.PageResponse of(Program program) {
+            return ProgramDto.PageResponse.builder()
+                .programId(program.getProgramId())
+                .title(program.getTitle())
+                .dateStart(program.getDateStart())
+                .dateEnd(program.getDateEnd())
+                .symptomTypes(program.getSymptomTypes())
+                .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MyPageProgramResponse {
+
+        private Long programId;
+        private String title;
+        private String dateStart;
+        private String dateEnd;
+        private int userMax;
+        private int userCount;
+
+        public static ProgramDto.MyPageProgramResponse of(Program program) {
+            return MyPageProgramResponse.builder()
+                .programId(program.getProgramId())
+                .title(program.getTitle())
+                .dateStart(program.getDateStart())
+                .dateEnd(program.getDateEnd())
+                .userMax(program.getUserMax())
+                .userCount(program.getUserCount())
+                .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AdminPageResponse {
+        private Long programId;
+        private String title;
+        private String dateStart;
+        private String dateEnd;
+        private int userMax;
+        private int userCount;
+
+        public static ProgramDto.AdminPageResponse of(Program program) {
+            return AdminPageResponse.builder()
+                .programId(program.getProgramId())
+                .title(program.getTitle())
+                .dateStart(program.getDateStart())
+                .dateEnd(program.getDateEnd())
+                .userMax(program.getUserMax())
+                .userCount(program.getUserCount())
                 .build();
         }
     }
