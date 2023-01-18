@@ -1,12 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import './font.css';
-import { createGlobalStyle } from "styled-components";
-
+import reset from 'styled-reset';
+import { createGlobalStyle } from 'styled-components';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css'; 
+import Intro from './pages/intro';
+import About from './pages/about';
+import Test from './pages/test';
+import TestResult from './pages/test_result';
+import AllPrograms from './pages/all_programs';
+import ProgramDetail from './pages/program_detail';
+import Signup from './pages/signup';
+import EditUserInfo from './pages/edit_userinfo_general';
+import EditUserInfoTherapist from './pages/edit_userinfo_therapist'; 
+import MyPageGeneral from './pages/mypage_general';
+import Tabbar from './components/tabbar';
+import MyProgramDetailG from './pages/my_p_detail_general';
+import MyProgramDetailT from './pages/my_p_detail_therapist';
+import EditUserInfoTherapist from './pages/edit_userinfo_therapist';
+import WriteNotice from './pages/WriteNotice';
+import WriteBoard from './pages/WriteBoard';
+import ModifyNotice from './pages/ModifyNotice';
+import ModifyBoard from './pages/ModifyBoard';
+import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
+import LoginGeneral from './pages/login_general';
+import LoginTherapist from './pages/login_therapist';
+import Main from './admin/pages/adminIndex';
+import UserManagement from './admin/pages/userManagement';
+import ProgramManagement from './admin/pages/programManagement';
 const GlobalStyle = createGlobalStyle`
+ ${reset}
   *, *::before, *::after {
     box-sizing: border-box;
+    font-family: 'IBM Plex Sans KR', sans-serif;
   }
 
   html {
@@ -14,8 +38,13 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    background-color: #F7F9ED;
     font-family: 'IBM Plex Sans KR', sans-serif;
     line-height: 1.5;
+  }
+
+  a {
+    text-decoration: none;
   }
 
   @media screen and (min-width: 768px) {
@@ -27,22 +56,35 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   return (
-    <div className="App">
-      <GlobalStyle />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <BrowserRouter>
+        <GlobalStyle />
+        <Routes>
+          <Route path="/intro" element={<Intro />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/test" element={<Test />} />
+          <Route path="/test-result" element={<TestResult />} />
+          <Route path="/edit-userinfo" element={<EditUserInfo />} />
+          <Route path="/edit-userinfo-therapist" element={<EditUserInfoTherapist />} />
+          <Route path="/mypage" element={<MyPageGeneral />} />
+          <Route path='/' element={<AllPrograms />} />
+          <Route path='/program/:id' element={<ProgramDetail />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/login-general' element={<LoginGeneral />} />
+          <Route path='/login-therapist' element={<LoginTherapist />} />
+          <Route path='/admin' element={<Main />} />
+          <Route path='/UserManagement' element={<UserManagement />} />
+          <Route path='/programsManagement' element={<ProgramManagement />} />
+          <Route path='/AssetManagement' element={<Main />} />
+        
+          <Route path='/myprogramg/:id' element={<MyProgramDetailG />} />
+          <Route path='/myprogramt/:id' element={<MyProgramDetailT />} />
+          <Route path='/notice/write' element={<WriteNotice />} />
+          <Route path='/board/write' element={<WriteBoard />} />
+          <Route path='/notice/modify' element={<ModifyNotice />} />
+          <Route path='/board/modify' element={<ModifyBoard />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
