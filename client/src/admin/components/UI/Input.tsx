@@ -8,8 +8,7 @@ const Input = styled.input`
     font-size: 1rem;
     border: 1px #DDDDDD solid;
     margin-bottom: 10px;
-    padding-left: 5%;
-    padding-right: 5%;
+    padding-left: 1%;
 `
 const InputName = styled(Input)`
     
