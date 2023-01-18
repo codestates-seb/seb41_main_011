@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,7 +30,7 @@ public class NoticeService {
 
     // 공지 등록
     public Notice create(Notice notice) {
-        Member member = memberService.findMemberByMemberId(notice.getMember().getMemberId());
+        Member member = memberService.findVerifiedMemberByMemberId(notice.getMember().getMemberId());
 
         if (!member.getRole().equals(Role.ADMIN)) {
             throw new BusinessException(ErrorCode.FORBIDDEN_ADMIN);
@@ -43,6 +44,7 @@ public class NoticeService {
     // 공지 수정
     public Notice update(Notice notice) {
         Notice findNotice = findVerifiedNotice(notice.getNoticeId());
+        String memberName = findNotice.getMember().getMemberName();
 
         findNotice.update(notice.getTitle(), notice.getContent());
 
@@ -64,12 +66,26 @@ public class NoticeService {
     // 공지 전체 조회
     @Transactional(readOnly = true)
     public Page<Notice> findAll(int page, int size) {
-        return noticeRepository.findAll(PageRequest.of(page, size, Sort.by("noticeId").descending()));
+        Page<Notice> pageNotice = noticeRepository.findAll(PageRequest.of(page, size, Sort.by("noticeId").descending()));
+        List<Notice> listNotice = pageNotice.getContent();
+
+        for (Notice a : listNotice) {
+            a.getMember().getMemberName();
+        }
+
+        return pageNotice;
     }
 
     // 공지 삭제
     public void delete(long noticeId) {
-        noticeRepository.deleteById(noticeId);
+
+        Notice notice = findVerifiedNotice(noticeId);
+
+        if (!notice.getMember().getRole().equals(Role.ADMIN)) {
+            throw new BusinessException(ErrorCode.FORBIDDEN_ADMIN);
+        } else {
+            noticeRepository.deleteById(noticeId);
+        }
     }
 
     // 조회수 증가 로직

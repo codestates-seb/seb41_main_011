@@ -1,11 +1,9 @@
 package com.server.seb41_main_11.domain.notice.dto;
 
-import com.server.seb41_main_11.domain.member.entity.Member;
 import com.server.seb41_main_11.domain.notice.entity.Notice;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 public class NoticeDto {
 
@@ -16,18 +14,6 @@ public class NoticeDto {
         private long memberId;
         private String title;
         private String content;
-
-        public static Post of(Long memberId, String title, String content) {
-            return new Post(memberId,title,content);
-        }
-
-        public Notice toEntity(Member member) {
-            return Notice.of(
-                    title,
-                    content,
-                    member
-            );
-        }
     }
 
     @Getter
@@ -41,35 +27,53 @@ public class NoticeDto {
         public void setNoticeId(long noticeId) {
             this.noticeId = noticeId;
         }
-
-        public static Patch of(Long noticeId, String title, String content) {
-            return new Patch(noticeId,title,content);
-        }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Response {
+    public static class SingleResponse {
         private long noticeId;
-        private long memberId;
         private String title;
         private String content;
         private int views;
         private String writer;
+        private LocalDateTime createdTime;
 
-        public static Response of(long noticeId, long memberId, String title, String content, int views, String writer) {
-            return new Response(noticeId,memberId,title,content,views,writer);
+        public static SingleResponse of(Notice notice) {
+            return SingleResponse.builder()
+                    .noticeId(notice.getNoticeId())
+                    .title(notice.getTitle())
+                    .content(notice.getContent())
+                    .views(notice.getViews())
+                    .writer(notice.getMember().getMemberName())
+                    .createdTime(notice.getCreateTime())
+                    .build();
         }
+    }
 
-        public static Response from(Notice entity) {
-            return new Response(
-                    entity.getNoticeId(),
-                    entity.getMember().getMemberId(),
-                    entity.getTitle(),
-                    entity.getContent(),
-                    entity.getViews(),
-                    entity.getWriter());
+    @Getter
+    @Setter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MultiResponse {
+        private long noticeId;
+        private String title;
+        private int views;
+        private String writer;
+        private LocalDateTime createdTime;
+
+        public static MultiResponse of(Notice notice) {
+            return MultiResponse.builder()
+                    .noticeId(notice.getNoticeId())
+                    .title(notice.getTitle())
+                    .views(notice.getViews())
+                    .writer(notice.getMember().getMemberName())
+                    .createdTime(notice.getCreateTime())
+                    .build();
         }
     }
 }

@@ -5,6 +5,7 @@ import com.server.seb41_main_11.domain.notice.entity.Notice;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -15,8 +16,19 @@ public interface NoticeMapper {
 
     Notice patchToEntity(NoticeDto.Patch patch);
 
-    @Mapping(source = "member.memberId", target = "memberId")
-    NoticeDto.Response entityToResponse(Notice notice);
+    default NoticeDto.SingleResponse entityToSingleResponse(Notice notice) {
+        return NoticeDto.SingleResponse.of(notice);
+    }
 
-    List<NoticeDto.Response> entityToResponses(List<Notice> notices);
+    default List<NoticeDto.MultiResponse> entityToMultiResponse(List<Notice> notices) {
+        List<NoticeDto.MultiResponse> list = new ArrayList<NoticeDto.MultiResponse>(notices.size());
+
+        for (Notice a : notices) {
+            list.add(NoticeDto.MultiResponse.of(a));
+        }
+
+        return list;
+    }
+
+
 }
