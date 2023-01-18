@@ -1,5 +1,6 @@
 package com.server.seb41_main_11.domain.program.entity;
 
+import com.server.seb41_main_11.domain.counselor.entity.Counselor;
 import com.server.seb41_main_11.domain.pay.entity.Pay;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,13 +14,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class Program {
     @Id
@@ -53,16 +57,20 @@ public class Program {
     @ElementCollection
     @CollectionTable(name = "SYMPTOM_TYPES", joinColumns = @JoinColumn(name = "PROGRAM_ID"))
     @Column(name = "SYMPTOM_TYPE")
-    private Set<String> SymptomTypes = new HashSet<>();
+    private Set<String> symptomTypes = new HashSet<>();
 
     @OneToMany(mappedBy = "program")
     private List<Pay> payList = new ArrayList<>();
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "COUNSELOR_ID")
+    private Counselor counselor;
 
     @Builder
     public Program(Long programId, String title, String content, int userMax, int userCount,
         int cost,
         String image, String announce, String zoomLink, String dateStart, String dateEnd,
-        Set<String> symptomTypes, List<Pay> payList) {
+        Set<String> symptomTypes, List<Pay> payList, Counselor counselor) {
         this.programId = programId;
         this.title = title;
         this.content = content;
@@ -74,8 +82,9 @@ public class Program {
         this.zoomLink = zoomLink;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
-        SymptomTypes = symptomTypes;
+        this.symptomTypes = symptomTypes;
         this.payList = payList;
+        this.counselor = counselor;
     }
 
     public static Program of(Program program) {
@@ -93,6 +102,7 @@ public class Program {
             .dateEnd(program.getDateEnd())
             .symptomTypes(program.getSymptomTypes())
             .payList(program.getPayList())
+            .counselor(program.getCounselor())
             .build();
     }
 }

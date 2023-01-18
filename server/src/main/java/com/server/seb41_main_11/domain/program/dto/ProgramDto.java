@@ -1,9 +1,9 @@
 package com.server.seb41_main_11.domain.program.dto;
 
 
+import com.server.seb41_main_11.domain.counselor.entity.Counselor;
 import com.server.seb41_main_11.domain.program.entity.Program;
-import com.server.seb41_main_11.domain.program.entity.Program.SymptomTypes;
-import java.time.LocalDateTime;
+import java.util.Set;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -16,6 +16,8 @@ public class ProgramDto {
 
     @Getter
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Post {
 
         @NotBlank
@@ -37,7 +39,9 @@ public class ProgramDto {
         @NotBlank
         private int cost;
 
-        private SymptomTypes symptomTypes;
+        private Set<String> symptomTypes;
+
+        private Long counselorId;
 
         public static ProgramDto.Post of(ProgramDto.Post requestBody) {
             return Post.builder()
@@ -49,16 +53,18 @@ public class ProgramDto {
                 .dateEnd(requestBody.getDateEnd())
                 .cost(requestBody.getCost())
                 .symptomTypes(requestBody.getSymptomTypes())
+                .counselorId(requestBody.getCounselorId())
                 .build();
         }
     }
 
     @Getter
-    @Setter
     @Builder
     public static class Patch {
 
+        @Setter
         private Long programId;
+
         @NotBlank
         private String title;
 
@@ -78,14 +84,59 @@ public class ProgramDto {
         @NotBlank
         private int cost;
 
-        private SymptomTypes symptomTypes;
+        private Set<String> symptomTypes;
 
-        public void setProgramId(Long programId) {
-            this.programId = programId;
-        }
+        @NotBlank
+        private Long counselorId;
 
-        public static ProgramDto.Patch of(Program program) {
+        public static ProgramDto.Patch of(ProgramDto.Patch requestBody) {
             return ProgramDto.Patch.builder()
+                .title(requestBody.getTitle())
+                .content(requestBody.getContent())
+                .image(requestBody.getImage())
+                .userMax(requestBody.getUserMax())
+                .dateStart(requestBody.getDateStart())
+                .dateEnd(requestBody.getDateEnd())
+                .cost(requestBody.getCost())
+                .symptomTypes(requestBody.getSymptomTypes())
+                .counselorId(requestBody.getCounselorId())
+                .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    public static class PatchResponse {
+        @Setter
+        private Long programId;
+
+        @NotBlank
+        private String title;
+
+        @NotBlank
+        private String content;
+        private String image;
+
+        @Min(1)
+        private int userMax;
+
+        @NotBlank
+        private String dateStart;
+
+        @NotBlank
+        private String dateEnd;
+
+        @NotBlank
+        private int cost;
+
+        private Set<String> symptomTypes;
+
+        @NotBlank
+        private Long counselorId;
+
+        public static ProgramDto.PatchResponse of(Program program) {
+            return PatchResponse.builder()
+                .programId(program.getProgramId())
                 .title(program.getTitle())
                 .content(program.getContent())
                 .image(program.getImage())
@@ -94,13 +145,14 @@ public class ProgramDto {
                 .dateEnd(program.getDateEnd())
                 .cost(program.getCost())
                 .symptomTypes(program.getSymptomTypes())
+                .counselorId(program.getCounselor().getCounselorId())
                 .build();
         }
     }
 
     @Getter
     @Builder
-    public static class Response {
+    public static class GetResponse {
 
         private Long programId;
         private String title;
@@ -109,14 +161,16 @@ public class ProgramDto {
         private int userCount;
         private int cost;
         private String image;
-        private String announce;
-        private String zoomLink;
         private String dateStart;
         private String dateEnd;
-        private SymptomTypes symptomTypes;
+        private Set<String> symptomTypes;
+        private String counselorName;
+        private String profile;
+        private String introduce;
 
-        public static ProgramDto.Response of(Program program) {
-            return ProgramDto.Response.builder()
+
+        public static ProgramDto.GetResponse of(Program program) {
+            return ProgramDto.GetResponse.builder()
                 .programId(program.getProgramId())
                 .title(program.getTitle())
                 .content(program.getContent())
@@ -124,11 +178,12 @@ public class ProgramDto {
                 .userCount(program.getUserCount())
                 .cost(program.getCost())
                 .image(program.getImage())
-                .announce(program.getAnnounce())
-                .zoomLink(program.getZoomLink())
                 .dateStart(program.getDateStart())
                 .dateEnd(program.getDateEnd())
                 .symptomTypes(program.getSymptomTypes())
+                .counselorName(program.getCounselor().getCounselorName())
+                .profile(program.getCounselor().getProfile())
+                .introduce(program.getCounselor().getIntroduce())
                 .build();
         }
     }
@@ -141,7 +196,7 @@ public class ProgramDto {
         private String title;
         private String dateStart;
         private String dateEnd;
-        private SymptomTypes symptomTypes;
+        private Set<String> symptomTypes;
 
         public static ProgramDto.PageResponse of(Program program) {
             return ProgramDto.PageResponse.builder()

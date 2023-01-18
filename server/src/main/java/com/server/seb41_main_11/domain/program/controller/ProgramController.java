@@ -2,6 +2,8 @@ package com.server.seb41_main_11.domain.program.controller;
 
 import com.server.seb41_main_11.domain.common.MultiResponseDto;
 import com.server.seb41_main_11.domain.common.SingleResponseDto;
+import com.server.seb41_main_11.domain.counselor.entity.Counselor;
+import com.server.seb41_main_11.domain.counselor.service.CounselorService;
 import com.server.seb41_main_11.domain.program.dto.ProgramDto;
 import com.server.seb41_main_11.domain.program.entity.Program;
 import com.server.seb41_main_11.domain.program.mapper.ProgramMapper;
@@ -29,14 +31,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProgramController {
     private final ProgramService programService;
     private final ProgramMapper programMapper;
+    private final CounselorService counselorService;
 
     // 화면정의서 30p
     // 프로그램 생성
     @PostMapping("/post")
     public ResponseEntity postProgram(@RequestBody ProgramDto.Post requestBody) {
-
         Program program = programMapper.ProgramPostDtoToProgram(requestBody);
-        Program createdProgram = programService.createProgram(program);
+        Counselor counselor = counselorService.findVerifiedCounselorByCounselorId(requestBody.getCounselorId());
+        Program createdProgram = programService.createProgram(program, counselor);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -46,11 +49,12 @@ public class ProgramController {
     @PatchMapping("/patch/{program-id}")
     public ResponseEntity patchProgram(@PathVariable("program-id") @Positive Long programId,
         @RequestBody ProgramDto.Patch requestBody) {
-
         requestBody.setProgramId(programId);
         Program program = programMapper.ProgramPatchDtoToProgram(requestBody);
-        Program updatedProgram = programService.updateProgram(program);
-        ProgramDto.Response response = programMapper.ProgramToProgramResponseDto(updatedProgram);
+
+        Counselor counselor = counselorService.findVerifiedCounselorByCounselorId(requestBody.getCounselorId());
+        Program updatedProgram = programService.updateProgram(program, counselor);
+        ProgramDto.PatchResponse response = programMapper.ProgramToPatchProgramResponseDto(updatedProgram);
 
         return new ResponseEntity<>(
             new SingleResponseDto<>(response), HttpStatus.OK);
@@ -61,7 +65,7 @@ public class ProgramController {
     @GetMapping("/lookup/{program-id}")
     public ResponseEntity getProgram(@PathVariable("program-id") @Positive Long programId) {
         Program program = programService.findProgram(programId);
-        ProgramDto.Response response = programMapper.ProgramToProgramResponseDto(program);
+        ProgramDto.GetResponse response = programMapper.ProgramToGetProgramResponseDto(program);
         return new ResponseEntity<>(
             new SingleResponseDto<>(response), HttpStatus.OK);
     }
