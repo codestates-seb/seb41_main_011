@@ -19,6 +19,7 @@ import java.util.Date;
 
 /**
  * 토큰 생성 및 유효성 확인, 만료시간 리턴에 대한 메서드 포함 클래스
+ * 회원 상담사 모두 하나의 클래스 처리
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -65,7 +66,7 @@ public class TokenManager {
                 .setSubject(TokenType.ACCESS.name())    // 토큰 제목
                 .setIssuedAt(new Date())                // 토큰 발급 시간
                 .setExpiration(expirationTime)          // 토큰 만료 시간
-                .claim("memberId", memberId)      // 회원 아이디
+                .claim("memberId", memberId)      // 회원, 상담사 아이디
                 .claim("role", role)              // 유저 role
                 .signWith(SignatureAlgorithm.HS512, tokenSecret.getBytes(StandardCharsets.UTF_8))
                 .setHeaderParam("typ", "JWT")
@@ -78,7 +79,7 @@ public class TokenManager {
                 .setSubject(TokenType.REFRESH.name())   // 토큰 제목
                 .setIssuedAt(new Date())                // 토큰 발급 시간
                 .setExpiration(expirationTime)          // 토큰 만료 시간
-                .claim("memberId", memberId)      // 회원 아이디
+                .claim("memberId", memberId)      // 회원, 상담사 아이디
                 .signWith(SignatureAlgorithm.HS512, tokenSecret.getBytes(StandardCharsets.UTF_8))
                 .setHeaderParam("typ", "JWT")
                 .compact();

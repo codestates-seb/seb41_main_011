@@ -15,6 +15,9 @@ import com.server.seb41_main_11.global.jwt.service.TokenManager;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +26,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class MemberService {
 
@@ -68,16 +70,33 @@ public class MemberService {
 
         Member findMember = optioanlMember.get();
 
-        if(!decryptPassword(findMember.getPassword()).equals(member.getPassword())){
+        if(findMember.getRole() == Role.ADMIN){
+            if(!findMember.getPassword().equals(member.getPassword())){
+                throw new AuthenticationException(ErrorCode.WRONG_PASSWROD);
+            }
+        }
+        else if(!decryptPassword(findMember.getPassword()).equals(member.getPassword())){
             throw new AuthenticationException(ErrorCode.WRONG_PASSWROD); //비밀번호 일치 하지 않으면 예외처리
         }
 
         jwtTokenDto = tokenManager.createJwtTokenDto(findMember.getMemberId(), findMember.getRole()); //토큰 생성
-        findMember.updateRefreshToken(jwtTokenDto); //db에 리프레쉬 토큰 업데이트
+
+        findMember.updateRefreshToken(jwtTokenDto); //토큰값 설정
+        memberRepository.save(findMember); //db에 리프레쉬 토큰 업데이트
 
         return MemberDto.LoginResponse.of(jwtTokenDto);
     }
 
+    /**
+     * 회원 목록 조회
+     */
+    @Transactional(readOnly = true)
+    public Page<Member> findMembers(int page, int size) {
+        Page<Member> findAllMember = memberRepository.findAll(
+                PageRequest.of(page,size, Sort.by("memberId").descending())
+        );
+        return findAllMember;
+    }
     /**
      * 회원 수정 (카카오 회원은 비밀번호 수정 불가능)
      */
@@ -109,6 +128,7 @@ public class MemberService {
     /**
      * 로그인 회원 정보 조회
      */
+    @Transactional(readOnly = true)
     public Member getLoginMember(HttpServletRequest httpServletRequest){
         String authorizationHeader = httpServletRequest.getHeader("Authorization");
         String accessToken = authorizationHeader.split(" ")[1]; // Bearer askdhqwdkjwqbdkjwqbdkjqwbdkjwqb
@@ -121,6 +141,7 @@ public class MemberService {
     /**
      * 로그인한 회원 Role 조회(USER OR counselor)
      * */
+    @Transactional(readOnly = true)
     public Role getLoginRole(HttpServletRequest httpServletRequest) {
         String authorizationHeader = httpServletRequest.getHeader("Authorization");
         String accessToken = authorizationHeader.split(" ")[1];
@@ -151,6 +172,7 @@ public class MemberService {
     /**
      * 회원 존재 확인(없으면 예외)
      */
+    @Transactional(readOnly = true)
     public Member findVerifiedMemberByMemberId(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MEMBER_NOT_EXISTS));

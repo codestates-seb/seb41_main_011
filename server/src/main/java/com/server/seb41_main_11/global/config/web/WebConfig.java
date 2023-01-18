@@ -3,6 +3,7 @@ package com.server.seb41_main_11.global.config.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.seb41_main_11.global.interceptor.AdminAuthorizationInterceptor;
 import com.server.seb41_main_11.global.interceptor.AuthenticationInterceptor;
+import com.server.seb41_main_11.global.interceptor.CounselorAuthorizationInterceptor;
 import com.server.seb41_main_11.global.resolver.memberinfo.MemberInfoArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -25,11 +26,11 @@ public class WebConfig implements WebMvcConfigurer {
     private final AuthenticationInterceptor authenticationInterceptor;
     private final MemberInfoArgumentResolver memberInfoArgumentResolver;
     private final AdminAuthorizationInterceptor adminAuthorizationInterceptor;
-    private final ObjectMapper objectMapper;
+    private final CounselorAuthorizationInterceptor counselorAuthorizationInterceptor;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**") //어떤 url로 요청이 왔을 때 허용할 것인지
+        registry.addMapping("/**") //어떤 url로 요청이 왔을 때 허용할 것인지
                 .allowedOrigins("*")
                 .allowedMethods(
                         //별표(*) 사용 시 모든 오리진 허용 및 콤마로 여러 origin을 설정할 수도 있음
@@ -52,15 +53,28 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(authenticationInterceptor)
                 .order(1) //시행 순서 지정
                 .addPathPatterns("/api/**") //인증 인터셉터가 어떤 api에 작동할지 지정
-                .excludePathPatterns("/members", //회원가입
-                        "/api/access-token/issue", //토큰 재발급
-                        "/api/logout", //
-                        "/members/login", //자체 로그인
-                        "/api/oauth/login"); // 인증 인터셉터를 동작시키지 않을 예외적인 uri 작성
+                .excludePathPatterns( //인증 인터셉터가 어떤 api에 작동하지 않을지 지정
+                        "/kakao/login",
+                        "/api/logout", //로그아웃
+                        "/api/access-token/issue", // Access 토큰 재발급
+                        "/api/members/new", //회원가입
+                        "/api/members/login", //자체 로그인
+                        "/api/oauth/login", //카카오 로그인
+//                        "/api/counselors/new", //상담사 회원가입 (관리자 토큰 필요)
+                        "/api/counselors/login" //상담사 로그인
+                        ); // 인증 인터셉터를 동작시키지 않을 예외적인 uri 작성
 
-        registry.addInterceptor(adminAuthorizationInterceptor) //인증 인터셉터 다음 인가 인터셉터 실행
+        registry.addInterceptor(adminAuthorizationInterceptor) //인증 인터셉터 다음 관리자 인가 인터셉터 실행
                 .order(2)
-                .addPathPatterns("/api/admin/**"); //어떤 uri에 대해 인가 인터셉터를 동작하게 할 것인가?
+                .addPathPatterns("/api/members/total-look-up") //관리자 페이지 회원 전체 조회
+                .addPathPatterns("/api/counselors/new") //상담사 등록
+                .addPathPatterns("/api/counselors/total-look-up"); //관리자 페이지 상담사 전체 조회
+
+        registry.addInterceptor(counselorAuthorizationInterceptor) // 상담사 인가 인터셉터 실행
+                .order(3)
+                .addPathPatterns("/api/counselors/look-up/{counselorId}") //상담사 마이페이지
+                .addPathPatterns("/api/counselors/edit/{counselorId}") // 상담사 마이페이지 수정
+                .addPathPatterns("/api/counselors/delete/{counselorId}"); //상담사 삭제
     }
 
     @Override
