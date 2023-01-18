@@ -11,7 +11,6 @@ public class NoticeDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Post {
-        private long memberId;
         private String title;
         private String content;
     }

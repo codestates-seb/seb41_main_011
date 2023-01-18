@@ -27,9 +27,6 @@ public class Notice extends BaseEntity {
     @Column(columnDefinition = "integer default 0" ,nullable = false)
     private int views;
 
-    @Column(length = 30)
-    private String writer;
-
     // ------------------ 연관관계 매핑 ------------------
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
