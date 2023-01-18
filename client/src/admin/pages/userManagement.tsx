@@ -178,7 +178,7 @@ const UserManagement = (props: any) => {
                                     <th className='index'>No.</th>
                                     <th className='title'>유저 이름</th>
                                     <th className='people'>닉네임</th>
-                                    <th className='when'>상담횟수</th>
+                                    <th className='when'>생년월일</th>
                                     <th className='detail'>상세보기</th>
                                 </tr>
                             </thead>
@@ -187,36 +187,36 @@ const UserManagement = (props: any) => {
                                     <td>1</td>
                                     <td>하헌진</td>
                                     <td>고양이</td>
-                                    <td>3</td>
-                                    <td className="openUserDetail">수정</td>
+                                    <td>2023.01.18</td>
+                                    <td className="openUserDetail">그룹상담내역</td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
                                     <td>하헌진</td>
                                     <td>고양이</td>
-                                    <td>3</td>
-                                    <td className="openUserDetail">수정</td>
+                                    <td>2023.01.18</td>
+                                    <td className="openUserDetail">그룹상담내역</td>
                                 </tr>
                                 <tr>
                                     <td>3</td>
                                     <td>하헌진</td>
                                     <td>고양이</td>
-                                    <td>3</td>
-                                    <td className="openUserDetail">수정</td>
+                                    <td>2023.01.18</td>
+                                    <td className="openUserDetail">그룹상담내역</td>
                                 </tr>
                                 <tr>
                                     <td>4</td>
                                     <td>하헌진</td>
                                     <td>고양이</td>
-                                    <td>3</td>
-                                    <td className="openUserDetail">수정</td>
+                                    <td>2023.01.18</td>
+                                    <td className="openUserDetail">그룹상담내역</td>
                                 </tr>
                                 <tr>
                                     <td>5</td>
                                     <td>하헌진</td>
                                     <td>고양이</td>
-                                    <td>3</td>
-                                    <td className="openUserDetail">수정</td>
+                                    <td>2023.01.18</td>
+                                    <td className="openUserDetail">그룹상담내역</td>
                                 </tr>
                             </tbody>
                         </ProgramTable> 

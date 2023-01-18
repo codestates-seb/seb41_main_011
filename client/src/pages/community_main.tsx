@@ -58,6 +58,11 @@ const Post = styled.div`
         justify-content: center;
         align-items: center;
     }
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
     .postIndex {
         color: #70846C;
         font-weight: 500;
@@ -71,6 +76,10 @@ const Post = styled.div`
             color: #009779;
         }
     }
+    .postInfo {
+        font-size: 0.8rem;
+        color: #7e7e7e;
+    }
     .postButton {
         color: #70846C;
         font-size: 1.5rem;
@@ -83,6 +92,7 @@ const Post = styled.div`
 		width: 70vw;
     }
 `
+
 const PostWRapper = styled.div `
     width: 80vw;
     height: 60vh;
@@ -218,10 +228,16 @@ const CommunityMain = (props: any) => {
                         return (
                         <Post>
                             <div className='postIndex'>{item}</div>
-                            <div className = 'postTitle'>
-                                {isActive1 ? <Tag>공지</Tag> : <Tag>후기</Tag>}
-                                {isActive1 ? '안녕하세요 상담사 햄토끼 입니다.' : '상담사 햄토끼님의 세션에 참가하고 부자가 되었어요!'}
+                            <div className="wrapper">
+                                <div className = 'postTitle'>
+                                    {isActive1 ? <Tag>공지</Tag> : <Tag>후기</Tag>}
+                                    {isActive1 ? '안녕하세요 상담사 햄토끼 입니다.' : '상담사 햄토끼님 덕에 부자가 되었어요!'}
+                                </div>
+                                <div className='postInfo'>
+                                    2023.01.05 09:00 · {isActive1 ? '햄토끼' : '햄토끼찬양'}
+                                </div>
                             </div>
+
                             <div className = 'postButton'>+</div>
                         </Post>)
                     })}
