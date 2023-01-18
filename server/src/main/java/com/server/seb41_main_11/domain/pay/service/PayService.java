@@ -1,6 +1,7 @@
 package com.server.seb41_main_11.domain.pay.service;
 
 import com.server.seb41_main_11.domain.member.entity.Member;
+import com.server.seb41_main_11.domain.member.service.MemberService;
 import com.server.seb41_main_11.domain.pay.entity.Pay;
 import com.server.seb41_main_11.domain.pay.repository.PayRepository;
 import com.server.seb41_main_11.domain.program.entity.Program;
@@ -25,10 +26,19 @@ public class PayService {
 
     public Pay createPay(Pay pay, Long programId, Member member) {
         Program program = programService.findVerifiedExistsReserveProgram(
-            programId, member.getMemberId());
+            member.getMemberId(), programId);
+
+
+        if(program.getUserCount() >= program.getUserMax()) {
+            throw new BusinessException(ErrorCode.PROGRAM_CAPACITY_EXCEEDED);
+        } else {
+            int findUserCount = program.getUserCount() + 1;
+            program.setUserCount(findUserCount);
+        }
 
         pay.setMember(member);
         pay.setProgram(program);
+
 
         return payRepository.save(pay);
     }

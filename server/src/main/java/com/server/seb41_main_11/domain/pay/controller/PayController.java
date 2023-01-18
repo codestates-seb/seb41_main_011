@@ -48,7 +48,7 @@ public class PayController {
     // 화면정의서 23p
     // 유저 - 예약된 프로그램 개별 조회
     @GetMapping("/lookup/{pay-id}")
-    public ResponseEntity getMyReserveProgram(@PathVariable("pay-id") @Positive Long payId) {
+    public ResponseEntity getUserReserveProgram(@PathVariable("pay-id") @Positive Long payId) {
         Pay findReserveProgram = payService.findReservation(payId);
         PayDto.GetResponse response = payMapper.PayToPayGetResponseDto(findReserveProgram);
         return new ResponseEntity<>(
@@ -58,7 +58,7 @@ public class PayController {
     // 화면정의서 22p
     // 유저 - 마이페이지 나의 프로그램 예약 내역 전체 조회
     @GetMapping("/{member-id}/lookup/list")
-    public ResponseEntity getMyReservePrograms(@PathVariable("member-id") @Positive Long memberId,
+    public ResponseEntity getUserReservePrograms(@PathVariable("member-id") @Positive Long memberId,
         @Positive @RequestParam(defaultValue = "1") int page,
         @Positive @RequestParam(defaultValue = "10") int size) {
         Page<Pay> myReserveProgramPage = payService.searchMyReserveProgram(memberId, page-1, size);
