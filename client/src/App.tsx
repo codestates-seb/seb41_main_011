@@ -10,6 +10,7 @@ import AllPrograms from './pages/all_programs';
 import ProgramDetail from './pages/program_detail';
 import Signup from './pages/signup';
 import EditUserInfo from './pages/edit_userinfo_general';
+import EditUserInfoTherapist from './pages/edit_userinfo_therapist';
 import MyPageGeneral from './pages/mypage_general';
 import Book from './pages/book';
 import BookingCompleted from './pages/bookingCompleted';
