@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Header from '../components/Header';
 
 import ProgramFilter from '../components/ProgramFilter';
 import ProgramList from '../components/ProgramList';
@@ -9,6 +10,7 @@ const Contents = styled.main`
   display: flex;
   flex-direction: column;
   text-align: center;
+  padding-top: 40px;
 
   /* 캐러셀 */
   .carousel {
@@ -36,6 +38,7 @@ const Contents = styled.main`
   }
 
   @media screen and (min-width: 700px) {
+    padding-top: 64px;
     .listwrap {
       > div {
         width: 700px;
@@ -46,6 +49,7 @@ const Contents = styled.main`
   }
 
   @media screen and (min-width: 1200px) {
+    padding-top: 70px;
     .listwrap {
       width: 1100px;
       margin: 0 auto;
@@ -71,7 +75,8 @@ const Contents = styled.main`
 const AllPrograms = () => {
   return (
     <Contents>
-      <div className='carousel'>carousel container</div>
+      <Header />
+      {/* <div className='carousel'>carousel container</div> */}
       <div className='listwrap'>
         <h2>
           그룹 테라피
