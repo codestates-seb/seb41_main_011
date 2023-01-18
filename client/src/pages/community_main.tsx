@@ -9,7 +9,7 @@ const ContentWrapper = styled.div`
     width: 100vw;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     @media screen and (max-width: 768px) {
         padding-top: 0vh;
@@ -157,7 +157,7 @@ const CustomHr2 = styled.hr`
     background-color: #C4DCBF;
     border: 1px solid #C4DCBF;
     top: 0%;
-    margin-top: 85px;
+    margin-top: 70px;
     position: absolute;
     @media screen and (max-width: 768px) {
 		margin-top: 40px;
@@ -231,7 +231,7 @@ const CommunityMain = (props: any) => {
                         글쓰기
                     </button>
                 </MessageGrid>
-                <PostWRapper>
+                <PostWRapper onClick={() => navigate(isActive1 ? '/community/notice/:id' : '/community/general/:id')}>
                     <CustomHr />
                     {[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20].map((item) => {
                         return (

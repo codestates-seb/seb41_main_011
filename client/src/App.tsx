@@ -32,6 +32,7 @@ import CommunityMain from './pages/community_main';
 import Generalinquiry from './admin/components/UI/Generalinquiry';
 import Therapistinquiry from './admin/components/UI/Therapistinquiry';
 import AdminEditInfo from './admin/pages/adminEditInfo';
+import CommunityPost from './pages/community_post';
 
 
 const GlobalStyle = createGlobalStyle`
@@ -97,7 +98,9 @@ function App() {
           <Route path='/board/modify' element={<ModifyBoard />} />
 
           <Route path='/community/notice' element={<CommunityMain />} />
+          <Route path='/community/notice/:id' element={<CommunityPost />} />
           <Route path='/community/general' element={<CommunityMain />} />
+          <Route path='/community/general/:id' element={<CommunityPost />} />
         </Routes>
       </BrowserRouter>
     </div>
