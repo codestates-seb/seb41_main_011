@@ -25,7 +25,7 @@ const SelectWrapper = styled.div`
 
 
 
-const SelectBox = ({onChange, value}: SelectBoxProps) =>{
+const SelectBox = ({onChange}: SelectBoxProps) =>{
   return (
   <div>
     카테고리

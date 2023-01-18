@@ -28,8 +28,7 @@ import UserManagement from './admin/pages/userManagement';
 import ProgramManagement from './admin/pages/programManagement';
 import PaymentManagement from './admin/pages/paymentManagement';
 import CommunityMain from './pages/community_main';
-
-
+import EditUserInfoTherapist from './pages/edit_userinfo_therapist';
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -89,7 +88,6 @@ function App() {
           <Route path='/board/write' element={<WriteBoard />} />
           <Route path='/notice/modify' element={<ModifyNotice />} />
           <Route path='/board/modify' element={<ModifyBoard />} />
-
           <Route path='/community' element={<CommunityMain />} />
         </Routes>
       </BrowserRouter>
