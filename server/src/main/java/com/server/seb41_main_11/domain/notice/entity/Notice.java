@@ -38,24 +38,10 @@ public class Notice extends BaseEntity {
 
     public void setMember(Member member) {
         this.member = member;
-        if (!this.member.getNotices().contains(this)) {
-            this.member.getNotices().add(this);
-        }
     }
 
     public void update(String title, String content) {
         this.title = title;
         this.content = content;
-    }
-
-    // ------------------ Test 를 위한 팩토리 메서드 ------------------
-    private Notice(String title, String content, Member member) {
-        this.title = title;
-        this.content = content;
-        this.member = member;
-    }
-
-    public static Notice of(String title, String content, Member member) {
-        return new Notice(title,content,member);
     }
 }

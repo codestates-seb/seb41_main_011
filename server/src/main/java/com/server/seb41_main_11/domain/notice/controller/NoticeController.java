@@ -18,45 +18,45 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/notices")
+@RequestMapping("/api/notices")
 public class NoticeController {
     private final NoticeMapper mapper;
     private final NoticeService noticeService;
 
-    @PostMapping
+    @PostMapping("/post")
     public ResponseEntity postNotice(@Valid @RequestBody NoticeDto.Post post) {
         Notice findNotice = noticeService.create(mapper.postToEntity(post));
 
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToResponse(findNotice)), HttpStatus.CREATED);
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleResponse(findNotice)), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{notice-id}")
+    @PatchMapping("/patch/{notice-id}")
     public ResponseEntity patchNotice(@PathVariable("notice-id") @Positive long noticeId,
                                       @Valid @RequestBody NoticeDto.Patch patch) {
         patch.setNoticeId(noticeId);
 
         Notice update = noticeService.update(mapper.patchToEntity(patch));
 
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToResponse(update)), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleResponse(update)), HttpStatus.OK);
     }
 
-    @GetMapping("/{notice-id}")
+    @GetMapping("/lookup/{notice-id}")
     public ResponseEntity get(@PathVariable("notice-id") @Positive long noticeId) {
         Notice findNotice = noticeService.find(noticeId);
 
-        return new ResponseEntity(new SingleResponseDto<>(mapper.entityToResponse(findNotice)), HttpStatus.OK);
+        return new ResponseEntity(new SingleResponseDto<>(mapper.entityToSingleResponse(findNotice)), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/lookup/list")
     public ResponseEntity getAll(@Positive @RequestParam(defaultValue = "1") int page,
                                  @Positive @RequestParam(defaultValue = "10") int size) {
-        Page<Notice> pagenotice = noticeService.findAll(page-1, size);
-        List<Notice> notices = pagenotice.getContent();
+        Page<Notice> pageNotice = noticeService.findAll(page-1, size);
+        List<Notice> notices = pageNotice.getContent();
 
-        return new ResponseEntity<>(new MultiResponseDto<>(mapper.entityToResponses(notices), pagenotice), HttpStatus.OK);
+        return new ResponseEntity<>(new MultiResponseDto<>(mapper.entityToMultiResponse(notices), pageNotice), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{notice-id}")
+    @DeleteMapping("/delete/{notice-id}")
     public ResponseEntity delete(@PathVariable("notice-id") @Positive long noticeId) {
         noticeService.delete(noticeId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

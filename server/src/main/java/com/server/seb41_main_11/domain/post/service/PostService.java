@@ -1,7 +1,5 @@
 package com.server.seb41_main_11.domain.post.service;
 
-import com.server.seb41_main_11.domain.comment.entity.Comment;
-import com.server.seb41_main_11.domain.common.CustomBeanUtils;
 import com.server.seb41_main_11.domain.member.entity.Member;
 import com.server.seb41_main_11.domain.member.service.MemberService;
 import com.server.seb41_main_11.domain.post.entity.Post;
@@ -28,10 +26,8 @@ public class PostService {
     // ----------------- DI ---------------------
 
     // 글 등록
-    public Post create(Post post) {
-        Member member = memberService.findMemberByMemberId(post.getMember().getMemberId());
+    public Post create(Post post, Member member) {
         post.setMember(member);
-        post.setWriter(post.getMember().getMemberName());
 
         return postRepository.save(post);
     }
@@ -39,9 +35,9 @@ public class PostService {
     // 글 수정
     public Post update(Post post) {
         Post findPost = findVerifiedPost(post.getPostId());
+        String memberName = findPost.getMember().getMemberName();
 
         findPost.update(post.getTitle(),post.getContent(),post.getKinds());
-        findPost.setComments(post.getComments());
 
         return postRepository.save(findPost);
     }
@@ -51,15 +47,9 @@ public class PostService {
     public Post find(long postId) {
 
         Post post = findVerifiedPost(postId);
-
-        List<Comment> comments = post.getComments();
-
-        for(Comment a : comments) {
-            a.getContent();
-        }
+        String memberName = post.getMember().getMemberName();
 
         updateViews(postId);
-        post.setCountComments(comments.size());
 
         return post;
     }
@@ -67,15 +57,15 @@ public class PostService {
     // 글 전체 조회
     @Transactional(readOnly = true)
     public Page<Post> findAll(int page, int size) {
-        Page<Post> postPage = postRepository.findAll(PageRequest.of(page, size, Sort.by("postId").descending()));
+        Page<Post> pagePost = postRepository.findAll(PageRequest.of(page, size, Sort.by("postId").descending()));
 
-        List<Post> postList = postPage.getContent();
-        for (Post a : postList) {
-            List<Comment> comments = a.getComments();
-            Member member = a.getMember();
+        List<Post> listPost = pagePost.getContent();
+
+        for (Post a : listPost) {
+            a.getMember().getMemberName();
         }
 
-        return postPage;
+        return pagePost;
     }
 
     // 글 삭제
