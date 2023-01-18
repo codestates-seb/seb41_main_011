@@ -49,7 +49,7 @@ const SubNav = styled.ul`
   left: -20px;
   width: max-content;
   min-width: 140px;
-  background: #f7f9ed;
+  background: #f9f9f5;
   border-bottom-right-radius: 12px;
   padding: 4px 0;
   border-right: 1px solid #9db5af;
