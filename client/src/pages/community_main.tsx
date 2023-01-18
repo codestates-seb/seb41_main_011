@@ -30,7 +30,7 @@ const MessageGrid = styled.div`
   justify-content: space-between;
   align-items: flex-end;
   width: 100%;
-  margin: 10px auto;
+  margin: 8px auto;
 
   .totalPostCount {
     font-size: 0.9rem;
@@ -44,10 +44,17 @@ const MessageGrid = styled.div`
     background-color: #c4dcbf;
     color: #333;
     font-weight: 500;
+    font-size: 0.95rem;
     cursor: pointer;
     &:hover {
       background-color: #70846c;
       color: #fff;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    button {
+      font-size: 0.85rem;
     }
   }
 `;
