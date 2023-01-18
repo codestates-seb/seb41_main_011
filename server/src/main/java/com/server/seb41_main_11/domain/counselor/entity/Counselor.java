@@ -1,5 +1,6 @@
 package com.server.seb41_main_11.domain.counselor.entity;
 
+import com.server.seb41_main_11.domain.common.BaseEntity;
 import com.server.seb41_main_11.domain.member.constant.MemberType;
 import com.server.seb41_main_11.domain.member.constant.Role;
 import com.server.seb41_main_11.global.jwt.dto.JwtTokenDto;
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Counselor {
+public class Counselor extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

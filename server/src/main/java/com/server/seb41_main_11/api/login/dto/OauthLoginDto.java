@@ -1,6 +1,7 @@
 package com.server.seb41_main_11.api.login.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.server.seb41_main_11.domain.member.constant.Role;
 import com.server.seb41_main_11.global.jwt.dto.JwtTokenDto;
 import lombok.*;
 
@@ -41,8 +42,10 @@ public class OauthLoginDto {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         private Date refreshTokenExpireTime;
 
-        public static Response of(JwtTokenDto jwtTokenDto) {
+        private Role role;
+        public static Response of(JwtTokenDto jwtTokenDto, Role role) {
             return Response.builder()
+                    .role(role)
                     .grantType(jwtTokenDto.getGrantType())
                     .accessToken(jwtTokenDto.getAccessToken())
                     .accessTokenExpireTime(jwtTokenDto.getAccessTokenExpireTime())

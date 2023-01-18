@@ -68,13 +68,13 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(2)
                 .addPathPatterns("/api/members/total-look-up") //관리자 페이지 회원 전체 조회
                 .addPathPatterns("/api/counselors/new") //상담사 등록
-                .addPathPatterns("/api/counselors/total-look-up"); //관리자 페이지 상담사 전체 조회
+                .addPathPatterns("/api/counselors/total-look-up")//관리자 페이지 상담사 전체 조회
+                .addPathPatterns("/api/counselors/delete/{counselorId}"); //상담사 삭제
 
         registry.addInterceptor(counselorAuthorizationInterceptor) // 상담사 인가 인터셉터 실행
                 .order(3)
                 .addPathPatterns("/api/counselors/look-up/{counselorId}") //상담사 마이페이지
-                .addPathPatterns("/api/counselors/edit/{counselorId}") // 상담사 마이페이지 수정
-                .addPathPatterns("/api/counselors/delete/{counselorId}"); //상담사 삭제
+                .addPathPatterns("/api/counselors/edit/{counselorId}"); // 상담사 마이페이지 수정
     }
 
     @Override

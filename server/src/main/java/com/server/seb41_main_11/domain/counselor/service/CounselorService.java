@@ -70,12 +70,13 @@ public class CounselorService {
         findCounselor.updateRefreshToken(jwtTokenDto); //토큰값 설정
         counselorRepository.save(findCounselor); //db에 토큰 업데이트
 
-        return CounselorDto.LoginResponse.of(jwtTokenDto);
+        return CounselorDto.LoginResponse.of(jwtTokenDto, findCounselor.getRole());
     }
 
     /**
      * 상담사 목록 조회
      */
+    @Transactional(readOnly = true)
     public Page<Counselor> findMembers(int page, int size) {
         Page<Counselor> findAllCounselor = counselorRepository.findAll(
                 PageRequest.of(page,size, Sort.by("counselorId").descending())
