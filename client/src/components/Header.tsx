@@ -11,7 +11,7 @@ const Contents = styled.header`
   top: 0;
   left: 0;
   background: #f7f9ed;
-  border-bottom: 2px solid #b3d2b0;
+  border-bottom: 1px solid #c9d697;
   width: 100%;
   height: 40px;
   line-height: 40px;
@@ -21,6 +21,7 @@ const Contents = styled.header`
   justify-content: space-around;
   gap: 32px;
   padding: 0 20px;
+  z-index: 999999;
 
   a {
     color: inherit;
