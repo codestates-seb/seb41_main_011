@@ -66,6 +66,17 @@ const ProgramTable =  styled.table `
               border-bottom: 2px solid #009879;
           }
   }
+
+    .paymentCancel {
+    color: #156cb4;
+    font-weight: bold;
+
+        &:hover{
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+
   th {
       font-weight: bold;
   }
@@ -73,6 +84,7 @@ const ProgramTable =  styled.table `
       padding: 12px 15px;
       text-align: center;
       vertical-align: middle;
+    
   }
 `
 
@@ -157,7 +169,7 @@ const PaymentManagement = (props: any) => {
                       <div className={isActive2 ? 'clicked' : ''} onClick={() => {setIsActive2(!isActive2)
                       setIsActive1(false);
                       setIsActive2(true);}}>
-                          취소된 결제
+                          취소 요청
                       </div>
                   </MenuBar>
                   <Sidebar/> 
@@ -193,7 +205,10 @@ const PaymentManagement = (props: any) => {
                                 <td>4a116464-969c-11ed-a1eb-0242ac120002</td>
                                 <td>25,000원</td>
                                 <td>신용카드</td>
-                                <td>취소</td>
+                                <td className='paymentCancel' onClick={()=>{
+                                    alert('결제를 취소 하시겠습니까?')
+                                    alert('결제 취소가 완료되었습니다.')
+                                }}>취소</td>
                               </tr> 
                             )
                           })}
