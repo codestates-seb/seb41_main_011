@@ -115,7 +115,7 @@ const Button = styled.button`
   border-radius: 12px;
 `
 
-const CreatePrograms = () =>{
+const EditProgram = () =>{
   const [id,setId] = useState<string>('');
   const [startingtime,setStartingtime] = useState<string>('');
   const [endtime,setEndtime] = useState<string>('');
@@ -124,7 +124,9 @@ const CreatePrograms = () =>{
   const [tag,setTag] = useState<string>('');
   const [url,setUrl] = useState<string>('');
   const [regularnumber,setRegularnumber] = useState<any>();
-  
+
+  const category:string[] = [''];
+
   const handleTitleChange =(e: React.ChangeEvent) =>{
     const target = e.target as HTMLInputElement
     setTitle(target.value);
@@ -136,6 +138,7 @@ const CreatePrograms = () =>{
   const handleTagChange =(e: React.ChangeEvent) =>{
     const target = e.target as HTMLInputElement
     setTag(target.value);
+    category.push(tag)
   }
   const handleUrlChange =(e: React.ChangeEvent) =>{
     const target = e.target as HTMLInputElement
@@ -213,4 +216,4 @@ const CreatePrograms = () =>{
 
 }
 
-export default CreatePrograms;
+export default EditProgram;

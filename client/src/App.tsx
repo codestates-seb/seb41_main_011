@@ -15,7 +15,6 @@ import MyPageGeneral from './pages/mypage_general';
 import Tabbar from './components/tabbar';
 import MyProgramDetailG from './pages/my_p_detail_general';
 import MyProgramDetailT from './pages/my_p_detail_therapist';
-import EditUserInfoTherapist from './pages/edit_userinfo_therapist';
 import WriteNotice from './pages/WriteNotice';
 import WriteBoard from './pages/WriteBoard';
 import ModifyNotice from './pages/ModifyNotice';
