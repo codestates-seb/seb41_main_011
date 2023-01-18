@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { FaExclamationTriangle } from 'react-icons/fa';
 
 import Label from '../components/UI/Label';
 import Button from '../components/UI/Button';
@@ -81,6 +82,7 @@ const Detail = styled.div`
     }
     textarea {
       height: 80px;
+      padding: 8px 16px;
     }
 
     .tip {
@@ -109,6 +111,22 @@ const Detail = styled.div`
   }
 `;
 
+const Warning = styled.div`
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  padding-left: 12px;
+  margin: 4px 0 8px;
+  color: #b50000;
+  font-size: 0.92rem;
+  font-weight: 400;
+  display: ${({ isShow }: { isShow: boolean }) => (isShow ? 'flex' : 'none')};
+
+  @media screen and (min-width: 768px) {
+    font-size: 0.82rem;
+  }
+`;
+
 const ButtonWrapper = styled.div`
   width: 100%;
   margin-top: ${({ mgt }: { mgt: string }) => mgt};
@@ -127,21 +145,26 @@ const MyProgramDetailT = () => {
   const [isEditable, setIsEditable] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [textareaValue, setTextareaValue] = useState('');
+  const [isShow, setIsShow] = useState(false);
 
-  const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const linkRegex =
+    /^((https)\:\/\/)([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}(\:[0-9]+)?(\/\S*)?$/; //eslint-disable-line
+
+  const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === '') {
+      setIsShow(false);
+    }
     setInputValue(event.target.value);
   };
 
-  const textareaChangeHandler = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-  ) => {
+  const textareaChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setTextareaValue(event.target.value);
   };
 
   const editBtnClickHandler = () => {
     if (isEditable) {
-      if (inputValue && inputValue.slice(0, 8) !== 'https://') {
-        alert('정확한 링크를 입력해주세요.');
+      if (inputValue && !linkRegex.test(inputValue)) {
+        setIsShow(true);
         return;
       }
       const isConfirm = window.confirm(
@@ -154,6 +177,9 @@ const MyProgramDetailT = () => {
       if (!isConfirm) return;
     }
     setIsEditable(!isEditable);
+    setInputValue('');
+    setTextareaValue('');
+    setIsShow(false);
   };
 
   return (
@@ -203,6 +229,10 @@ const MyProgramDetailT = () => {
                   value={inputValue}
                 />
               </p>
+              <Warning isShow={isShow}>
+                <FaExclamationTriangle />
+                <span>올바른 URL 주소가 아닙니다.</span>
+              </Warning>
             </li>
             <li>
               <strong>참여자 전달 사항</strong>
