@@ -10,6 +10,7 @@ import AllPrograms from './pages/all_programs';
 import ProgramDetail from './pages/program_detail';
 import Signup from './pages/signup';
 import EditUserInfo from './pages/edit_userinfo_general';
+import EditUserInfoTherapist from './pages/edit_userinfo_therapist';
 import MyPageGeneral from './pages/mypage_general';
 import Book from './pages/book';
 import BookingCompleted from './pages/bookingCompleted';
@@ -28,9 +29,11 @@ import UserManagement from './admin/pages/userManagement';
 import ProgramManagement from './admin/pages/programManagement';
 import PaymentManagement from './admin/pages/paymentManagement';
 import CommunityMain from './pages/community_main';
-import EditUserInfoTherapist from './pages/edit_userinfo_therapist';
 import Generalinquiry from './admin/components/UI/Generalinquiry';
 import Therapistinquiry from './admin/components/UI/Therapistinquiry';
+import AdminEditInfo from './admin/pages/adminEditInfo';
+
+
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -79,10 +82,12 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/login-general' element={<LoginGeneral />} />
           <Route path='/login-therapist' element={<LoginTherapist />} />
+          
           <Route path='/admin' element={<Main />} />
           <Route path='/userManagement' element={<UserManagement />} />
           <Route path='/programsManagement' element={<ProgramManagement />} />
           <Route path='/paymentManagement' element={<PaymentManagement />} />
+          <Route path='/admin/editInfo' element={<AdminEditInfo/>} />
         
           <Route path='/myprogramg/:id' element={<MyProgramDetailG />} />
           <Route path='/myprogramt/:id' element={<MyProgramDetailT />} />

@@ -68,13 +68,18 @@ const ProgramTable =  styled.table `
   }
 
     .paymentCancel {
-    color: #156cb4;
-    font-weight: bold;
+        color: #156cb4;
+        font-weight: bold;
+        text-decoration: underline;
 
         &:hover{
             cursor: pointer;
-            text-decoration: underline;
         }
+    }
+    .paymentCancelCompleted, .paymentCompleted {
+        color: #009879;
+        font-weight: bold;
+
     }
 
   th {
@@ -121,7 +126,7 @@ const Pagination = styled.div`
 
 const MenuBar = styled.div`
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto auto auto;
   width: 80vw;
   height: 4vh;
   overflow: hidden;
@@ -152,6 +157,8 @@ const MenuBar = styled.div`
 const PaymentManagement = (props: any) => {
   const [isActive1, setIsActive1] = useState(true);
   const [isActive2, setIsActive2] = useState(false);
+  const [isActive3, setIsActive3] = useState(false);
+  const [isCancellationConfirmed, setIsCancellationConfirmed] = useState(false);
 
   return (
       <div>
@@ -163,13 +170,21 @@ const PaymentManagement = (props: any) => {
                   <MenuBar>
                       <div className={isActive1 ? 'clicked' : ''} onClick={() => {setIsActive1(!isActive1)
                       setIsActive1(true);
-                      setIsActive2(false);}}>
+                      setIsActive2(false);
+                      setIsActive3(false);}}>
                           일반 결제
                       </div>
                       <div className={isActive2 ? 'clicked' : ''} onClick={() => {setIsActive2(!isActive2)
                       setIsActive1(false);
-                      setIsActive2(true);}}>
-                          취소 요청
+                      setIsActive2(true);
+                      setIsActive3(false);}}>
+                          취소 진행중
+                      </div>
+                      <div className={isActive3 ? 'clicked' : ''} onClick={() => {setIsActive3(!isActive3)
+                      setIsActive1(false);
+                      setIsActive2(false);
+                      setIsActive3(true);}}>
+                          취소 완료
                       </div>
                   </MenuBar>
                   <Sidebar/> 
@@ -193,11 +208,11 @@ const PaymentManagement = (props: any) => {
                                     <td>4a116464-969c-11ed-a1eb-0242ac120002</td>
                                     <td>25,000원</td>
                                     <td>신용카드</td>
-                                    <td>완료</td>
+                                    <td className='paymentCompleted'>완료</td>
                                 </tr>
                               )
                             })
-                          : [1,2,3,4,5].map(item => {
+                          : isActive2 ?[1,2,3,4,5].map(item => {
                             return (
                               <tr>
                                 <td>1</td>
@@ -206,12 +221,27 @@ const PaymentManagement = (props: any) => {
                                 <td>25,000원</td>
                                 <td>신용카드</td>
                                 <td className='paymentCancel' onClick={()=>{
-                                    alert('결제를 취소 하시겠습니까?')
-                                    alert('결제 취소가 완료되었습니다.')
-                                }}>취소</td>
+                                   if (window.confirm("결제를 취소 하시겠습니까?")) {
+                                    //결제 취소하는 함수 실행시키기
+                                    window.alert(" 결제 취소가 완료되었습니다.");
+                                  }
+                                }}>결제 취소</td>
                               </tr> 
                             )
-                          })}
+                          })
+                          : [1,2,3,4,5].map(item => {
+                            return (
+                              <tr>
+                                <td>1</td>
+                                <td>하헌진</td>
+                                <td>4a116464-969c-11ed-a1eb-0242ac120002</td>
+                                <td>25,000원</td>
+                                <td>신용카드</td>
+                                <td className='paymentCancelCompleted'>취소 완료</td>
+                              </tr> 
+                            )
+                          })
+                        }
                           </tbody>
                       </ProgramTable> 
                       

@@ -42,7 +42,7 @@ const SideBarWrapper = styled.div`
     left: 0%;
     display: grid;
     grid-template-columns: 200px;
-    grid-template-rows: 150px 150px 150px 1fr;
+    grid-template-rows: 150px 150px 150px 150px 150px 1fr;
 `
 
 const Sidebar = () =>{
