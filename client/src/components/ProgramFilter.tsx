@@ -48,14 +48,7 @@ const ProgramFilter = () => {
     setCurrentTag(index);
   };
 
-  const programTags = [
-    '전체',
-    '우울감',
-    '감정기복',
-    '불안',
-    '수면장애',
-    '트라우마',
-  ];
+  const programTags = ['전체', '스트레스', '불안', '우울', '중독'];
 
   return (
     <Contents>

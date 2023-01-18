@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from './UI/Button';
 
@@ -14,6 +15,11 @@ const Contents = styled.div`
     font-size: 0.92rem;
   }
 
+  a {
+    color: inherit;
+    display: block;
+  }
+
   @media screen and (min-width: 1200px) {
     width: calc(50% - 24px);
     margin: 0 auto 0 0;
@@ -26,7 +32,7 @@ const BtnBooking = () => {
     <Contents>
       <p>자리가 얼마 남지 않았어요. 정원 마감 전 예약하세요!</p>
       <Button width='100%' height='40px' fontsize='1.1rem'>
-        예약하기
+        <Link to='/book'>예약하기</Link>
       </Button>
     </Contents>
   );

@@ -1,8 +1,10 @@
 import styled from 'styled-components';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 import ProgramFilter from '../components/ProgramFilter';
 import ProgramList from '../components/ProgramList';
+import Tabbar from '../components/tabbar';
 
 const Contents = styled.main`
   width: 100%;
@@ -88,6 +90,8 @@ const AllPrograms = () => {
           <ProgramList />
         </div>
       </div>
+      <Footer />
+      <Tabbar />
     </Contents>
   );
 };
