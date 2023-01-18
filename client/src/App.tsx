@@ -91,7 +91,8 @@ function App() {
           <Route path='/notice/modify' element={<ModifyNotice />} />
           <Route path='/board/modify' element={<ModifyBoard />} />
 
-          <Route path='/community' element={<CommunityMain />} />
+          <Route path='/community/notice' element={<CommunityMain />} />
+          <Route path='/community/general' element={<CommunityMain />} />
         </Routes>
       </BrowserRouter>
     </div>

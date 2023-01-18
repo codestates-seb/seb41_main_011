@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useNavigate} from "react-router";
 import { useState } from "react";
 import styled from "styled-components";
 import Tabbar from "../components/tabbar";
@@ -181,15 +181,22 @@ const Tag = styled.span`
 `
 
 const CommunityMain = (props: any) => {
-    const [isActive1, setIsActive1] = useState(true);
-    const [isActive2, setIsActive2] = useState(false);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [isActive1, setIsActive1] = useState(window.location.pathname === '/community/notice' ? true : false);
+    const [isActive2, setIsActive2] = useState(window.location.pathname === '/community/general' ? true : false);
+
 
     const toWriteBoard = () => {
         navigate('/board/write');
     }
     const toWriteNotice = () => {
         navigate('/notice/write');
+    }
+    const toCommunityNotice = () => {
+        navigate('/community/notice');
+    }
+    const toCommunityGeneral = () => {
+        navigate('/community/general');
     }
 
     
@@ -204,12 +211,14 @@ const CommunityMain = (props: any) => {
                 <MenuBar>
                     <div className={isActive1 ? 'clicked' : ''} onClick={() => {setIsActive1(!isActive1)
                     setIsActive1(true);
-                    setIsActive2(false);}}>
+                    setIsActive2(false);
+                    toCommunityNotice()}}>
                         공지사항
                     </div>
                     <div className={isActive2 ? 'clicked' : ''} onClick={() => {setIsActive2(!isActive2)
                     setIsActive1(false);
-                    setIsActive2(true);}}>
+                    setIsActive2(true);
+                    toCommunityGeneral()}}>
                         유저 커뮤니티
                     </div>
                 </MenuBar>
