@@ -6,4 +6,16 @@ VALUES ('mason2@gmail.com', 'aaaa1111!', 'ADMIN', '관리자1_2', '이대겸', '
 
 INSERT INTO member(EMAIL, PASSWORD, ROLE, NICK_NAME, MEMBER_NAME, MEMBER_TYPE)
 VALUES ('1013aq@gmail.com', 'aaaa1111!', 'ADMIN', '관리자2', '정동규', 'DEFAULT');
+
+INSERT INTO member(EMAIL, PASSWORD, ROLE, NICK_NAME, MEMBER_NAME, MEMBER_TYPE)
+VALUES ('ahnseo.yoo@gmail.com', 'aaaa1111!', 'ADMIN', '관리자3', '유안서', 'DEFAULT');
+
+INSERT INTO member(EMAIL, PASSWORD, ROLE, NICK_NAME, MEMBER_NAME, MEMBER_TYPE)
+VALUES ('choco920@gmail.com', 'aaaa1111!', 'ADMIN', '관리자4', '김초이', 'DEFAULT');
+
+INSERT INTO member(EMAIL, PASSWORD, ROLE, NICK_NAME, MEMBER_NAME, MEMBER_TYPE)
+VALUES ('roseforemily@gmail.com', 'aaaa1111!', 'ADMIN', '관리자5', '하헌진', 'DEFAULT');
+
+INSERT INTO member(EMAIL, PASSWORD, ROLE, NICK_NAME, MEMBER_NAME, MEMBER_TYPE)
+VALUES ('replicaset03@gmail.com', 'aaaa1111!', 'ADMIN', '관리자6', '신건우', 'DEFAULT');
 -- SELECT * FROM MEMBER
