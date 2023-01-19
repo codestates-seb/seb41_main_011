@@ -9,4 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface PayRepository extends JpaRepository<Pay, Long> {
     @Query(value = "select * from pay where member_id = :memberId", nativeQuery = true)
     Page<Pay> findAllByMember(long memberId, Pageable pageable);
+
+    @Query(value = "select * from pay where status = :status", nativeQuery = true)
+    Page<Pay> findAllByStatus(String status, Pageable pageable);
 }
