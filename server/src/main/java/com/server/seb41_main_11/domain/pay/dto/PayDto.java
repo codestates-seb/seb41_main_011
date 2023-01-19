@@ -67,6 +67,14 @@ public class PayDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class PayPatchResponse {
+        private Status status;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class GetResponse {
         private Long payId;
         private LocalDateTime createdAt;

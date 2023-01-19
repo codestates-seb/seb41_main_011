@@ -97,4 +97,28 @@ public class PayService {
             throw new EntityNotFoundException(ErrorCode.STATUS_NOT_FOUND);
         }
     }
+
+    /**
+     * 결제 상태 변경 : 결제 완료 -> 결제 취소 요청
+     * */
+    public Pay updatePayStatus(Long payId) {
+        Pay pay = findVerifiedPay(payId);
+        pay.setStatus(Status.WAITING_CANCEL_PAYMENT);
+
+        return payRepository.save(pay);
+    }
+
+    /**
+     * 결제 상태 변경 : 결제 취소 요청 -> 결제 취소
+     */
+    public Pay confirmPayStatus(Long payId){
+        Pay pay = findVerifiedPay(payId);
+        pay.setStatus(Status.CANCEL_PAYMENT);
+
+        Program program = programService.findProgram(pay.getProgram().getProgramId());
+        int user = program.getUserCount() - 1;
+        program.setUserCount(user);
+
+        return payRepository.save(pay);
+    }
 }
