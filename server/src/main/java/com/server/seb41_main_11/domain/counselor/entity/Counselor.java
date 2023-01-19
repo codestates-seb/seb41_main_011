@@ -53,6 +53,10 @@ public class Counselor extends BaseEntity{
     @Column
     private String introduce;
     //소개
+
+    @Column(length = 100)
+    private String expertiseField;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private Role role;
@@ -66,9 +70,10 @@ public class Counselor extends BaseEntity{
 
     private LocalDateTime tokenExpirationTime;
     @Builder
-    public Counselor(Long counselorId, String email, String password, String counselorName, String birth, String graduated, String profile, String career, String introduce) {
+    public Counselor(Long counselorId, String email, String password,String expertiseField, String counselorName, String birth, String graduated, String profile, String career, String introduce) {
         this.counselorId = counselorId;
         this.email = email;
+        this.expertiseField = expertiseField;
         this.password = password;
         this.counselorName = counselorName;
         this.birth = birth;
