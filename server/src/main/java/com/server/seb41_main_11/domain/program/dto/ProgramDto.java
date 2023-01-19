@@ -166,6 +166,7 @@ public class ProgramDto {
         private String counselorName;
         private String profile;
         private String introduce;
+        private String expertiseField;
 
 
         public static ProgramDto.GetResponse of(Program program) {
@@ -183,6 +184,7 @@ public class ProgramDto {
                 .counselorName(program.getCounselor().getCounselorName())
                 .profile(program.getCounselor().getProfile())
                 .introduce(program.getCounselor().getIntroduce())
+                .expertiseField(program.getCounselor().getExpertiseField())
                 .build();
         }
     }
