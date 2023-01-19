@@ -12,6 +12,8 @@ import org.mapstruct.Mapper;
 public interface PayMapper {
     Pay PayPostDtoToPay(PayDto.Post requestBody);
 
+    PayDto.PayPatchResponse PayToPayPatchResponse(Pay pay);
+
     default PayDto.PostResponse PayToPayPostResponseDto(Pay pay) {
         PayDto.PostResponse postResponse = PayDto.PostResponse.of(pay);
         return postResponse;
@@ -38,4 +40,13 @@ public interface PayMapper {
         }
         return list;
     }
+    default List<PayDto.AdminPayStatusPageResponse> ReserveProgramToAdminPayStatusPageResponse(List<Pay> pays) {
+        List<PayDto.AdminPayStatusPageResponse> list = new ArrayList<PayDto.AdminPayStatusPageResponse>(pays.size());
+
+        for(Pay pay : pays) {
+            list.add(PayDto.AdminPayStatusPageResponse.of(pay));
+        }
+        return list;
+    }
+
 }
