@@ -77,6 +77,15 @@ public class ProgramService {
         return findProgram;
     }
 
+    public Program findVerifiedProgramByCounselorId(long counselorId, long programId) {
+        Optional<Program> optionalProgram = programRepository.findByProgramIdAndCounselorCounselorId(programId, counselorId);
+        Program findProgram = optionalProgram.orElseThrow(
+            () -> new BusinessException(ErrorCode.PROGRAM_NOT_FOUND)
+        );
+
+        return findProgram;
+    }
+
     public void deleteProgram(long programId) {
         Program findProgram = findVerifiedProgram(programId);
 
