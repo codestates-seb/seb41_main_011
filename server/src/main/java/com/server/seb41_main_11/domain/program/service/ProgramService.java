@@ -89,7 +89,11 @@ public class ProgramService {
 
         for(Pay p : payList) {
             if(Objects.equals(p.getMember().getMemberId(), memberId)) {
-                throw new BusinessException(ErrorCode.RESERVATION_EXISTS);
+                if(p.getStatus().equals("COMPLETE_PAYMENT") || p.getStatus().equals("WAITING_CANCEL_PAYMENT")) {
+                    throw new BusinessException(ErrorCode.RESERVATION_EXISTS);
+                } else if (p.getStatus().equals("CANCEL_PAYMENT")) {
+                    return program;
+                }
             }
         }
 
