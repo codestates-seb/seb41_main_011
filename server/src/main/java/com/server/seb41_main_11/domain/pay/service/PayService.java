@@ -1,7 +1,9 @@
 package com.server.seb41_main_11.domain.pay.service;
 
 import com.server.seb41_main_11.domain.member.entity.Member;
+import com.server.seb41_main_11.domain.member.service.MemberService;
 import com.server.seb41_main_11.domain.pay.entity.Pay;
+import com.server.seb41_main_11.domain.pay.entity.Pay.Status;
 import com.server.seb41_main_11.domain.pay.repository.PayRepository;
 import com.server.seb41_main_11.domain.program.entity.Program;
 import com.server.seb41_main_11.domain.program.service.ProgramService;
@@ -11,8 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,10 +27,21 @@ public class PayService {
 
     public Pay createPay(Pay pay, Long programId, Member member) {
         Program program = programService.findVerifiedExistsReserveProgram(
-            programId, member.getMemberId());
+            member.getMemberId(), programId);
+
+        // 결제 시 프로그램 참여자 수 증가
+        if(program.getUserCount() >= program.getUserMax()) {
+            throw new BusinessException(ErrorCode.PROGRAM_CAPACITY_EXCEEDED);
+        } else {
+            int findUserCount = program.getUserCount() + 1;
+            program.setUserCount(findUserCount);
+        }
+
+        createPayStatusSave(pay);
 
         pay.setMember(member);
         pay.setProgram(program);
+
 
         return payRepository.save(pay);
     }
@@ -49,15 +62,16 @@ public class PayService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Pay> searchMyReserveProgram(Long memberId, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
+    public Page<Pay> searchUserReserveProgram(Long memberId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("pay_id").descending());
 
-        List<Pay> searchResult = payRepository.findAllByMember(memberId);
+        Page<Pay> payPage = payRepository.findAllByMember(memberId, pageable);
 
-        int start = (int)pageRequest.getOffset();
-        int end = Math.min((start + pageRequest.getPageSize()), searchResult.size());
-        Page<Pay> pays = new PageImpl<>(searchResult.subList(start, end), pageRequest, searchResult.size());
+        return payPage;
+    }
 
-        return pays;
+    public Pay createPayStatusSave(Pay pay) {
+        pay.setStatus(Status.COMPLETE_PAYMENT);
+        return pay;
     }
 }

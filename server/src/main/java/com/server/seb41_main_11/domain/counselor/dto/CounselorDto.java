@@ -23,6 +23,8 @@ public class CounselorDto {
 
         private String graduated;
         //학력
+
+        private String expertiseField;
         @Email
         private String email;
 
@@ -85,6 +87,8 @@ public class CounselorDto {
         private String career;
 
         private String introduce;
+
+        private String expertiseField;
 
         private Role role;
 

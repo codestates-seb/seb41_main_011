@@ -1,6 +1,7 @@
 package com.server.seb41_main_11.domain.pay.dto;
 
 import com.server.seb41_main_11.domain.pay.entity.Pay;
+import com.server.seb41_main_11.domain.pay.entity.Pay.Status;
 import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -46,6 +47,8 @@ public class PayDto {
         private String dateStart;
         private String dateEnd;
         private int cost;
+        private String counselorName;
+        private String status;
 
         public static PayDto.PostResponse of(Pay pay) {
             return PayDto.PostResponse.builder()
@@ -54,6 +57,8 @@ public class PayDto {
                 .dateStart(pay.getProgram().getDateStart())
                 .dateEnd(pay.getProgram().getDateEnd())
                 .cost(pay.getProgram().getCost())
+                .counselorName(pay.getProgram().getCounselor().getCounselorName())
+                .status(pay.getStatus().getStatusMessage())
                 .build();
         }
     }
@@ -64,24 +69,32 @@ public class PayDto {
     @AllArgsConstructor
     public static class GetResponse {
         private Long payId;
+        private LocalDateTime createdAt;
+        private Status status;
         private Long programId;
         private String title;
         private String dateStart;
         private String dateEnd;
         private int userMax;
+        private int cost;
         private String zoomLink;
         private String announce;
+        private String counselorName;
 
         public static PayDto.GetResponse of(Pay pay) {
             return GetResponse.builder()
                 .payId(pay.getPayId())
+                .createdAt(pay.getCreateTime())
+                .status(pay.getStatus())
                 .programId(pay.getProgram().getProgramId())
                 .title(pay.getProgram().getTitle())
                 .dateStart(pay.getProgram().getDateStart())
                 .dateEnd(pay.getProgram().getDateEnd())
                 .userMax(pay.getProgram().getUserMax())
+                .cost(pay.getProgram().getCost())
                 .zoomLink(pay.getProgram().getZoomLink())
                 .announce(pay.getProgram().getAnnounce())
+                .counselorName(pay.getProgram().getCounselor().getCounselorName())
                 .build();
         }
     }
@@ -90,26 +103,52 @@ public class PayDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class MyPageProgramResponse {
+    public static class UserReservePageResponse {
         private Long payId;
         private Long memberId;
-        private Long programId;
         private String title;
         private String dateStart;
         private String dateEnd;
         private int userMax;
         private LocalDateTime createdAt;
+        private String counselorName;
 
-        public static PayDto.MyPageProgramResponse of(Pay pay) {
-            return MyPageProgramResponse.builder()
+        public static PayDto.UserReservePageResponse of(Pay pay) {
+            return UserReservePageResponse.builder()
                 .payId(pay.getPayId())
                 .memberId(pay.getMember().getMemberId())
-                .programId(pay.getProgram().getProgramId())
                 .title(pay.getProgram().getTitle())
                 .dateStart(pay.getProgram().getDateStart())
                 .dateEnd(pay.getProgram().getDateEnd())
                 .userMax(pay.getProgram().getUserMax())
                 .createdAt(pay.getCreateTime())
+                .counselorName(pay.getProgram().getCounselor().getCounselorName())
+                .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AdminReservePageResponse {
+        private Long payId;
+        private Long memberId;
+        private String title;
+        private String dateStart;
+        private String dateEnd;
+        private int userMax;
+        private String counselorName;
+
+        public static PayDto.AdminReservePageResponse of(Pay pay) {
+            return AdminReservePageResponse.builder()
+                .payId(pay.getPayId())
+                .memberId(pay.getMember().getMemberId())
+                .title(pay.getProgram().getTitle())
+                .dateStart(pay.getProgram().getDateStart())
+                .dateEnd(pay.getProgram().getDateEnd())
+                .userMax(pay.getProgram().getUserMax())
+                .counselorName(pay.getProgram().getCounselor().getCounselorName())
                 .build();
         }
     }

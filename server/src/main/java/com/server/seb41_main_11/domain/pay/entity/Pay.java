@@ -5,6 +5,8 @@ import com.server.seb41_main_11.domain.member.entity.Member;
 import com.server.seb41_main_11.domain.program.entity.Program;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,6 +37,7 @@ public class Pay extends BaseEntity {
     @Column(nullable = false)
     private String expirationTime;
 
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @ManyToOne(optional = false)
@@ -55,14 +58,19 @@ public class Pay extends BaseEntity {
 
     public enum Status {
         COMPLETE_PAYMENT("결제 완료"),
-        WAITING_FOR_PAYMENT("결제 대기중"),
+        WAITING_CANCEL_PAYMENT("취소 대기중"),
         CANCEL_PAYMENT("결제 취소");
 
-        private String message;
+        @Getter
+        private String statusMessage;
 
-        Status(String message) {
-            this.message = message;
+        Status(String statusMessage) {
+            this.statusMessage = statusMessage;
         }
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Builder
