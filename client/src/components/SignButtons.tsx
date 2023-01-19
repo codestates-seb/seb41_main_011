@@ -17,10 +17,14 @@ const ButtonWrapper = styled.div`
 const Button = styled.button`
   font-weight: 500;
   border-radius: 8px;
-  padding: 4px 20px;
   border: 0;
-  cursor: pointer;
+  /* cursor: pointer; */
   font-size: 0.85rem;
+
+  a {
+    padding: 6px;
+    display: block;
+  }
 
   &.style1 {
     background: #dae2b6;
@@ -40,8 +44,11 @@ const Button = styled.button`
   }
 
   @media screen and (min-width: 1200px) {
-    padding: 8px 24px;
     border-radius: 12px;
+
+    a {
+      padding: 8px 24px;
+    }
   }
 `;
 
@@ -49,7 +56,7 @@ const HeaderButtons = () => {
   return (
     <ButtonWrapper>
       <Button className='style1'>
-        <Link to='#'>로그인</Link>
+        <Link to='/login-general'>로그인</Link>
       </Button>
       <Button className='style2'>
         <Link to='/signup'>회원가입</Link>
