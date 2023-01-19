@@ -68,6 +68,14 @@ public class PayDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class PayPatchResponse {
+        private Status status;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class GetResponse {
         private Long payId;
         private LocalDateTime createdAt;
@@ -167,6 +175,35 @@ public class PayDto {
                 .nickName(pay.getMember().getNickName())
                 .birth(pay.getMember().getBirth())
                 .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AdminPayStatusPageResponse{
+        private long memberId;
+
+        private String memberName;
+
+        private long payId;
+
+        private Status status;
+
+        private String title;
+
+        private int cost;
+
+        public static PayDto.AdminPayStatusPageResponse of(Pay pay){
+            return AdminPayStatusPageResponse.builder()
+                    .memberId(pay.getMember().getMemberId())
+                    .memberName(pay.getMember().getMemberName())
+                    .payId(pay.getPayId())
+                    .status(pay.getStatus())
+                    .title(pay.getProgram().getTitle())
+                    .cost(pay.getProgram().getCost())
+                    .build();
         }
     }
 }

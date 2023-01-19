@@ -14,13 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/pays")
@@ -71,6 +65,19 @@ public class PayController {
                 response, myReserveProgramPage), HttpStatus.OK);
     }
 
+    // 화면정의서 23p
+    // 유저 - 마이페이지 예약 취소
+    @PatchMapping("/lookup/{pay-id}/edit")
+    public ResponseEntity cancelPay(@PathVariable("pay-id") @Positive Long payId) {
+        Pay pay = payService.updatePayStatus(payId);
+
+        PayDto.PayPatchResponse response = payMapper.PayToPayPatchResponse(pay);
+
+        return new ResponseEntity(
+                new SingleResponseDto<>(response), HttpStatus.OK
+        );
+    }
+
     // 화면정의서 33p
     // 관리자 - 마이페이지 특정 유저 상담 내역 전체 조회
     @GetMapping("/admin/{member-id}/lookup/list")
@@ -85,5 +92,33 @@ public class PayController {
         return new ResponseEntity(
             new MultiResponseDto<>(
                 response, myReserveProgramPage), HttpStatus.OK);
+    }
+
+
+    // 화면정의서 38p
+    // 관리자 - 완료된 결제 내역 조회
+    @GetMapping("/admin/payment/list")
+    public ResponseEntity getAdminCompletePayment(@Positive @RequestParam("page") int page,
+                                                  @Positive @RequestParam("size") int size,
+                                                  @RequestParam("status") String status){
+        Page<Pay> searchResult = payService.searchCompletePayment(page-1, size, status);
+        List<Pay> pays = searchResult.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(
+                payMapper.ReserveProgramToAdminPayStatusPageResponse(pays), searchResult), HttpStatus.OK
+        );
+    }
+
+    // 화면정의서 38p
+    // 관리자 - 결제 취소 요청 결제 확정
+    @PatchMapping("/admin/{pay-id}/edit")
+    public ResponseEntity cancelPayConfirm(@PathVariable("pay-id") @Positive Long payId) {
+        Pay pay = payService.confirmPayStatus(payId);
+
+        PayDto.PayPatchResponse response = payMapper.PayToPayPatchResponse(pay);
+
+        return new ResponseEntity(
+                new SingleResponseDto<>(response), HttpStatus.OK
+        );
     }
 }
