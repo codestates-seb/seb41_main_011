@@ -48,6 +48,7 @@ public class PayDto {
         private String dateEnd;
         private int cost;
         private String counselorName;
+        private String status;
 
         public static PayDto.PostResponse of(Pay pay) {
             return PayDto.PostResponse.builder()
@@ -57,6 +58,7 @@ public class PayDto {
                 .dateEnd(pay.getProgram().getDateEnd())
                 .cost(pay.getProgram().getCost())
                 .counselorName(pay.getProgram().getCounselor().getCounselorName())
+                .status(pay.getStatus().getStatusMessage())
                 .build();
         }
     }
