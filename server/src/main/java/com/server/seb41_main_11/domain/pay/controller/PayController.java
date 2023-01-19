@@ -66,7 +66,7 @@ public class PayController {
     }
 
     // 화면정의서 23p
-    // 유저 - 마이페이지 예약 취소
+    // 유저 - 마이페이지 결제 취소 요청
     @PatchMapping("/lookup/{pay-id}/edit")
     public ResponseEntity cancelPay(@PathVariable("pay-id") @Positive Long payId) {
         Pay pay = payService.updatePayStatus(payId);

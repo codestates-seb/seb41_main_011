@@ -113,6 +113,11 @@ public class PayService {
      */
     public Pay confirmPayStatus(Long payId){
         Pay pay = findVerifiedPay(payId);
+
+        if(Status.CANCEL_PAYMENT.equals(pay.getStatus())) {
+            throw new BusinessException(ErrorCode.CANCEL_RESERVATION);
+        }
+
         pay.setStatus(Status.CANCEL_PAYMENT);
 
         Program program = programService.findProgram(pay.getProgram().getProgramId());

@@ -99,10 +99,10 @@ public class ProgramService {
 
         for(Pay p : payList) {
             if(Objects.equals(p.getMember().getMemberId(), memberId)) {
-                if(Status.COMPLETE_PAYMENT.equals(Status.valueOf(p.getStatus().getStatusMessage()))
-                || Status.WAITING_CANCEL_PAYMENT.equals(Status.valueOf(p.getStatus().getStatusMessage()))) {
+                if(Status.COMPLETE_PAYMENT.equals(p.getStatus())
+                || Status.WAITING_CANCEL_PAYMENT.equals(p.getStatus())) {
                     throw new BusinessException(ErrorCode.RESERVATION_EXISTS);
-                } else if (Status.CANCEL_PAYMENT.equals(Status.valueOf(p.getStatus().getStatusMessage()))) {
+                } else if (Status.CANCEL_PAYMENT.equals(p.getStatus())) {
                     return program;
                 }
             }

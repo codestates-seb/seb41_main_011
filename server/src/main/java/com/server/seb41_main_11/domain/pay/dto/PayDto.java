@@ -125,6 +125,7 @@ public class PayDto {
         private int userMax;
         private LocalDateTime createdAt;
         private String counselorName;
+        private String status;
 
         public static PayDto.UserReservePageResponse of(Pay pay) {
             return UserReservePageResponse.builder()
@@ -136,6 +137,7 @@ public class PayDto {
                 .userMax(pay.getProgram().getUserMax())
                 .createdAt(pay.getCreateTime())
                 .counselorName(pay.getProgram().getCounselor().getCounselorName())
+                .status(pay.getStatus().getStatusMessage())
                 .build();
         }
     }
