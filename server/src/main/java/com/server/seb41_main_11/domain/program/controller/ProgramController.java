@@ -84,13 +84,14 @@ public class ProgramController {
 
     // 화면정의서 25p
     // 상담사 - 마이페이지 나의 프로그램 개별 조회
-//    @GetMapping("/{counselor-id}/lookup/{program-id}")
-//    public ResponseEntity getCounselorProgram(@PathVariable("counselor-id") @Positive Long counselorId,
-//        @PathVariable("program-id") @Positive Long programId) {
-//        // pull받은 후 카운슬러 매핑 필요
-//        return new ResponseEntity<>(
-//            new SingleResponseDto<>(), HttpStatus.OK);
-//    }
+    @GetMapping("/{counselor-id}/lookup/{program-id}")
+    public ResponseEntity getCounselorProgram(@PathVariable("counselor-id") @Positive Long counselorId,
+        @PathVariable("program-id") @Positive Long programId) {
+        Program program = programService.findVerifiedProgramByCounselorId(counselorId, programId);
+        ProgramDto.GetCounselorProgramResponse response = programMapper.ProgramToGetCounselorProgramResponseDto(program);
+        return new ResponseEntity<>(
+            new SingleResponseDto<>(response), HttpStatus.OK);
+    }
 
     // 화면정의서 24p
     // 상담사 - 마이페이지 나의 프로그램 전체 조회
@@ -101,7 +102,7 @@ public class ProgramController {
 
         Page<Program> CounselorProgramPage = programService.searchCounselorProgram(counselorId, page-1, size);
         List<Program> programList = CounselorProgramPage.getContent();
-        List<ProgramDto.GetCounselorProgramResponse> response = programMapper.ProgramsToGetCounselorProgramResponseDtos(programList);
+        List<ProgramDto.GetCounselorProgramsResponse> response = programMapper.ProgramsToGetCounselorProgramsResponseDtos(programList);
 
 
         return new ResponseEntity(

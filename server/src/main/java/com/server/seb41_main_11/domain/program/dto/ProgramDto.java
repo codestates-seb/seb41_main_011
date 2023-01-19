@@ -1,7 +1,11 @@
 package com.server.seb41_main_11.domain.program.dto;
 
 
+import com.server.seb41_main_11.domain.pay.dto.PayDto;
+import com.server.seb41_main_11.domain.pay.dto.PayDto.MemberInPayList;
+import com.server.seb41_main_11.domain.pay.entity.Pay;
 import com.server.seb41_main_11.domain.program.entity.Program;
+import java.util.List;
 import java.util.Set;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -166,6 +170,7 @@ public class ProgramDto {
         private String counselorName;
         private String profile;
         private String introduce;
+        private String expertiseField;
 
 
         public static ProgramDto.GetResponse of(Program program) {
@@ -183,6 +188,7 @@ public class ProgramDto {
                 .counselorName(program.getCounselor().getCounselorName())
                 .profile(program.getCounselor().getProfile())
                 .introduce(program.getCounselor().getIntroduce())
+                .expertiseField(program.getCounselor().getExpertiseField())
                 .build();
         }
     }
@@ -215,6 +221,36 @@ public class ProgramDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class GetCounselorProgramResponse {
+        private Long programId;
+        private String title;
+        private String dateStart;
+        private String dateEnd;
+        private int userMax;
+        private int userCount;
+        private String zoomLink;
+        private String announce;
+        private List<MemberInPayList> memberInPayList;
+
+        public static ProgramDto.GetCounselorProgramResponse of(Program program, List<PayDto.MemberInPayList> memberInPayList) {
+            return GetCounselorProgramResponse.builder()
+                .programId(program.getProgramId())
+                .title(program.getTitle())
+                .dateStart(program.getDateStart())
+                .dateEnd(program.getDateEnd())
+                .userMax(program.getUserMax())
+                .userCount(program.getUserCount())
+                .zoomLink(program.getZoomLink())
+                .announce(program.getAnnounce())
+                .memberInPayList(memberInPayList)
+                .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class GetCounselorProgramsResponse {
 
         private Long programId;
         private String title;
@@ -223,8 +259,8 @@ public class ProgramDto {
         private int userMax;
         private int userCount;
 
-        public static ProgramDto.GetCounselorProgramResponse of(Program program) {
-            return GetCounselorProgramResponse.builder()
+        public static ProgramDto.GetCounselorProgramsResponse of(Program program) {
+            return GetCounselorProgramsResponse.builder()
                 .programId(program.getProgramId())
                 .title(program.getTitle())
                 .dateStart(program.getDateStart())

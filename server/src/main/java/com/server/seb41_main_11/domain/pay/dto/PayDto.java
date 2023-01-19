@@ -2,6 +2,7 @@ package com.server.seb41_main_11.domain.pay.dto;
 
 import com.server.seb41_main_11.domain.pay.entity.Pay;
 import com.server.seb41_main_11.domain.pay.entity.Pay.Status;
+import com.server.seb41_main_11.domain.program.dto.ProgramDto;
 import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -157,6 +158,22 @@ public class PayDto {
                 .dateEnd(pay.getProgram().getDateEnd())
                 .userMax(pay.getProgram().getUserMax())
                 .counselorName(pay.getProgram().getCounselor().getCounselorName())
+                .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MemberInPayList {
+        private String nickName;
+        private String birth;
+
+        public static PayDto.MemberInPayList of(Pay pay) {
+            return MemberInPayList.builder()
+                .nickName(pay.getMember().getNickName())
+                .birth(pay.getMember().getBirth())
                 .build();
         }
     }

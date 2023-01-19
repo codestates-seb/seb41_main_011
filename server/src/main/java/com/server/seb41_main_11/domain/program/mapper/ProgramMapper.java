@@ -1,8 +1,14 @@
 package com.server.seb41_main_11.domain.program.mapper;
 
+import com.server.seb41_main_11.domain.counselor.entity.Counselor;
+import com.server.seb41_main_11.domain.pay.dto.PayDto;
+import com.server.seb41_main_11.domain.pay.dto.PayDto.MemberInPayList;
+import com.server.seb41_main_11.domain.pay.entity.Pay;
 import com.server.seb41_main_11.domain.program.dto.ProgramDto;
+import com.server.seb41_main_11.domain.program.dto.ProgramDto.GetCounselorProgramResponse;
 import com.server.seb41_main_11.domain.program.entity.Program;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.mapstruct.Mapper;
 
@@ -28,6 +34,18 @@ public interface ProgramMapper {
         }
         return list;
     }
-    List<ProgramDto.GetCounselorProgramResponse> ProgramsToGetCounselorProgramResponseDtos(List<Program> programs);
+
+    default ProgramDto.GetCounselorProgramResponse ProgramToGetCounselorProgramResponseDto(Program program) {
+        List<PayDto.MemberInPayList> member = new ArrayList<>(program.getPayList().size());
+        List<Pay> payList = program.getPayList();
+        for(int i = 0; i < payList.size(); i++) {
+            member.add(i, MemberInPayList.of(payList.get(i)));
+        }
+
+        ProgramDto.GetCounselorProgramResponse response = ProgramDto.GetCounselorProgramResponse.of(program, member);
+        return response;
+    }
+    List<ProgramDto.GetCounselorProgramsResponse> ProgramsToGetCounselorProgramsResponseDtos(List<Program> programs);
     List<ProgramDto.GetAdminProgramResponse> ProgramsToGetAdminProgramResponseDtos(List<Program> programs);
+
 }
