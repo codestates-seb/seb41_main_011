@@ -5,20 +5,22 @@ import Footer from '../components/Footer';
 import Tabbar from '../components/tabbar';
 
 const OuterWrapper = styled.div`
-  min-height: calc(100vh - 40px);
+  min-height: 100vh;
   display: flex;
-  flex-direction: column-reverse;
   justify-content: center;
-  align-items: center;
-  padding-top: 40px;
+  align-items: flex-start;
   gap: 5vw;
+  width: 100%;
+  padding: 60px 20px 110px;
+
   @media screen and (min-width: 768px) {
-    padding-top: 64px;
+    padding: 84px 20px 0;
     min-height: calc(100vh - 64px);
   }
   @media screen and (min-width: 1200px) {
     flex-direction: row;
-    padding-top: 70px;
+    align-items: center;
+    padding: 70px 0 0;
     min-height: calc(100vh - 70px);
   }
 `;
@@ -28,7 +30,12 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 24px;
+  width: 100%;
+
+  @media screen and (min-width: 1200px) {
+    width: 500px;
+  }
 `;
 
 const MainMessage = styled.div`
@@ -37,61 +44,53 @@ const MainMessage = styled.div`
   font-size: 2.25rem;
   text-align: center;
   width: 100%;
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1200px) {
     text-align: left;
+    width: 500px;
   }
 `;
 
 const SubMessage = styled.div`
   display: grid;
-  padding: 5%;
-  height: auto;
+  padding: 16px 20px;
   grid-template-columns: 30% 70%;
-  line-height: 30px;
-  width: 80vw;
+  line-height: 2;
+  width: 100%;
   background-color: #eceee2;
   border-radius: 10px;
   justify-content: center;
   align-items: center;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-  @media screen and (min-width: 768px) {
-    font-size: 14px;
-    width: 400px;
-  }
-
-  @media screen and (min-width: 1200px) {
-    font-size: 16px;
-  }
 
   .contentName {
     font-weight: 500;
     color: #5e430b;
   }
+
+  @media screen and (min-width: 768px) {
+    width: 500px;
+    padding: 16px 24px;
+  }
 `;
 
 const InputGrid = styled.div`
-  display: grid;
-  width: 80vw;
-  height: auto;
-  grid-template-columns: auto;
-  gap: 10%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
   @media screen and (min-width: 768px) {
-    font-size: 14px;
-    width: 400px;
+    width: 500px;
   }
   .div {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 58% 40%;
+    gap: 2%;
   }
   .select {
     color: gray;
-    width: 50%;
-    @media screen and (max-width: 768px) {
-      width: 45%;
-    }
-    border-radius: 5px;
-    border: 1px solid #d3d3d3;
+    border-radius: 12px;
+    border: 1px solid #ddd;
     padding-left: 3%;
     padding-right: 3%;
     .placeholder {
@@ -100,55 +99,44 @@ const InputGrid = styled.div`
   }
 `;
 const Button = styled.button`
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 4px;
   border-radius: 10px;
   border: none;
   height: 3em;
-  width: 20em;
+  width: 100%;
   background-color: #c4dcbf;
-  font-weight: 500;
-  color: #3d553e;
+  color: #333;
   font-size: 1rem;
-  margin-top: 10px;
+  cursor: pointer;
 
   &:hover {
     background-color: #70846c;
     color: white;
-    cursor: pointer;
   }
 
   @media screen and (min-width: 768px) {
-    height: 3em;
-    width: 35vw;
-    font-size: 14px;
-  }
-
-  @media screen and (min-width: 1200px) {
-    height: 3em;
-    width: 400px;
-    font-size: 16px;
+    width: 500px;
   }
 `;
 
 const Input = styled.input`
-  height: 30px;
-  border-radius: 5px;
-  border: 1px solid #d3d3d3;
-  padding-left: 3%;
-  padding-right: 3%;
-  @media screen and (min-width: 768px) {
-  }
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
   &:focus {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
       rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
     outline: none;
   }
   ::placeholder {
+    color: #828282;
+    font-size: 0.85rem;
   }
 `;
 
 const Logo = styled.img`
   width: 400px;
+  height: 400px;
   @media screen and (max-width: 1200px) {
     display: none;
   }
@@ -167,15 +155,14 @@ const MobileLogo = styled.img`
 const Book = () => {
   const navigate = useNavigate();
   const ToBookingConfirmed = () => {
-    navigate('/booking-completed');
+    navigate('/program/booking-completed');
   };
   return (
     <div>
       <Header />
       <OuterWrapper>
-        <Tabbar />
         <ContentWrapper>
-          <MobileLogo src='teacup.png' />
+          <MobileLogo src='/teacup.png' />
 
           <MainMessage>예약 결제하기</MainMessage>
           <SubMessage>
@@ -205,14 +192,14 @@ const Book = () => {
               <Input placeholder='cvv'></Input>
             </div>
           </InputGrid>
-
           <Button onClick={() => ToBookingConfirmed()}>결제하기</Button>
         </ContentWrapper>
         {/* 결제 버튼 클릭 시 requst body(POST): 일반회원 고유ID, 이름(실명), 결제 고유ID, 결제 방법, 결제상태 */}
 
-        <Logo src='green-tea.png'></Logo>
+        <Logo src='/green-tea.png'></Logo>
       </OuterWrapper>
       <Footer />
+      <Tabbar />
     </div>
   );
 };

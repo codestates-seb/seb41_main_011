@@ -1,35 +1,27 @@
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Tabbar from '../components/tabbar';
 
 export const ContentWrapper = styled.div`
-  min-height: 100vh;
+  min-height: calc(100vh - 60px);
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  padding-top: 40px;
-
-  @media screen and (min-width: 768px) {
-    padding-top: 64px;
-  }
-  @media screen and (min-width: 1200px) {
-    padding-top: 70px;
-  }
-`;
-
-const Content = styled.div`
-  width: 100%;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  padding: 60px 20px 110px;
+  gap: 24px;
+
+  @media screen and (min-width: 768px) {
+    padding: 84px 20px 0;
+    min-height: calc(100vh - 64px);
+  }
   @media screen and (min-width: 1200px) {
+    padding: 90px 0 0;
     width: 1200px;
     margin: 0 auto;
-    padding: 20px 0;
-    gap: 24px;
+    min-height: calc(100vh - 70px);
   }
 `;
 
@@ -115,13 +107,13 @@ const Button = styled.button`
   border-radius: 10px;
   border: none;
   width: 100%;
-  height: 50px;
-  background-color: #fbf4d3;
+  height: 3em;
+  background-color: #f4e7a4;
   font-weight: 500;
   color: #535353;
   font-size: 1rem;
   &:hover {
-    background-color: #f4e7a4;
+    background-color: #f2e293;
     cursor: pointer;
   }
   @media screen and (min-width: 500px) {
@@ -130,10 +122,9 @@ const Button = styled.button`
 `;
 
 const Logo = styled.img`
-  width: 110px;
-  margin: 12px auto;
+  width: 20vw;
   @media screen and (min-width: 768px) {
-    width: 120px;
+    width: 15vw;
   }
   @media screen and (min-width: 1200px) {
     width: 140px;
@@ -143,16 +134,16 @@ const Logo = styled.img`
 const Test = () => {
   const navigate = useNavigate();
   const toTestResult = () => {
-    navigate('/test-result');
+    navigate('/about/test-result');
   };
   const toHistoryBack = () => {
     navigate(-1);
   };
   return (
-    <ContentWrapper>
+    <div>
       <Header />
-      <Content>
-        <Logo src='teacup.png' />
+      <ContentWrapper>
+        <Logo src='/teacup.png' />
         <MainMessage>
           오늘, 마오옹 님의 기분은
           <br />
@@ -183,9 +174,10 @@ const Test = () => {
           <Button onClick={toTestResult}>적합한 프로그램 찾기</Button>
           <Button onClick={toHistoryBack}>건너뛸래요</Button>
         </ButtonWrapper>
-      </Content>
+      </ContentWrapper>
       <Tabbar />
-    </ContentWrapper>
+      <Footer />
+    </div>
   );
 };
 

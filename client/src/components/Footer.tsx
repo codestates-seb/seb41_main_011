@@ -7,6 +7,7 @@ const StyledFooter = styled.footer`
     display: block;
     padding: 20px 0;
     color: #828282;
+    text-align: center;
   }
 `;
 

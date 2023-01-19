@@ -1,8 +1,9 @@
 import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { useLocation } from 'react-router';
 
 const Content = styled.nav`
   display: none;
@@ -82,6 +83,16 @@ const SubNav = styled.ul`
 `;
 
 const NavBar = () => {
+  const location: string = useLocation().pathname;
+  const [isProgram, setIsProgram] = useState(false);
+  useEffect(() => {
+    if (location.includes('/program')) {
+      setIsProgram(true);
+    } else {
+      setIsProgram(false);
+    }
+  }, [location]);
+
   const [showOptions, setShowOptions] = useState(0);
   const onMouseOver = (index: number) => {
     setShowOptions(index);
@@ -97,7 +108,9 @@ const NavBar = () => {
     <Content>
       <ul>
         <li onMouseOver={() => onMouseOver(1)} onMouseOut={onMouseOut}>
-          <NavLink to='/'>그룹 테라피 프로그램</NavLink>
+          <NavLink to='/' className={isProgram ? 'active' : ''}>
+            그룹 테라피 프로그램
+          </NavLink>
           <SubNav isShow={showOptions === 1 ? true : false}>
             <li>
               <Link to='#'>#무력감이_들고_우울해요</Link>
@@ -122,7 +135,7 @@ const NavBar = () => {
               <Link to='/about'>#서비스_소개</Link>
             </li>
             <li>
-              <Link to='/test'>#나에게_맞는_프로그램_찾기</Link>
+              <Link to='/about/test'>#나에게_맞는_프로그램_찾기</Link>
             </li>
           </SubNav>
         </li>

@@ -1,35 +1,31 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Tabbar from '../components/tabbar';
 
 const ContentWrapper = styled.div`
-  min-height: 100vh;
+  min-height: calc(100vh - 60px);
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 40px;
+  padding: 60px 20px 110px;
+  gap: 16px;
 
   @media screen and (min-width: 768px) {
-    padding-top: 64px;
+    padding: 84px 20px 20px;
+    min-height: calc(100vh - 64px);
   }
-  @media screen and (min-width: 1200px) {
-    padding-top: 70px;
-  }
-`;
-
-const Content = styled.div`
-  width: 100%;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
   @media screen and (min-width: 1000px) {
     width: 1000px;
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 90px 0 20px;
     gap: 24px;
+  }
+  @media screen and (min-width: 1200px) {
+    padding-top: 90px 0 20px;
+    min-height: calc(100vh - 70px);
   }
 `;
 
@@ -71,6 +67,7 @@ const ButtonWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  width: 100%;
 
   @media screen and (min-width: 1200px) {
     gap: 1.3rem;
@@ -98,12 +95,12 @@ const Button = styled.button`
 
 const About = () => {
   return (
-    <ContentWrapper>
+    <div>
       <Header />
-      <Content>
+      <ContentWrapper>
         <MainMessage>그룹테라피란?</MainMessage>
         <SubMessage>
-          <img src='./about.jpg' alt='모닥불에 둥글게 모인 사람들' />
+          <img src='/about.jpg' alt='모닥불에 둥글게 모인 사람들' />
           <p>
             그룹 테라피는 비슷한 주제에 관심이 있는 그룹원들이 모여 이야기를
             나누며 자신과 타인에 대한 이해를 통해 서로의 성장을 돕는 상담입니다.
@@ -129,12 +126,15 @@ const About = () => {
             <Link to='/'>그렇군요! 전체 프로그램을 보여주세요.</Link>
           </Button>
           <Button>
-            <Link to='/test'>저에게 맞는 프로그램을 추천받고 싶어요.</Link>
+            <Link to='/about/test'>
+              저에게 맞는 프로그램을 추천받고 싶어요.
+            </Link>
           </Button>
         </ButtonWrapper>
-      </Content>
+      </ContentWrapper>
       <Tabbar />
-    </ContentWrapper>
+      <Footer />
+    </div>
   );
 };
 

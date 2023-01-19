@@ -3,37 +3,42 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaExclamationTriangle } from 'react-icons/fa';
 
-import Label from '../components/UI/Label';
 import Button from '../components/UI/Button';
 import AppointmentTable from '../components/AppointmentTable';
+import Tabbar from '../components/tabbar';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 const Contents = styled.main`
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 20px;
+  padding: 60px 20px 110px;
   color: #333;
 
-  @media screen and (min-width: 1200px) {
-    width: 1200px;
+  @media screen and (min-width: 768px) {
+    padding: 84px 20px 20px;
+    min-height: calc(100vh - 64px);
+  }
+
+  @media screen and (min-width: 1000px) {
+    width: 1000px;
     margin: 0 auto;
-    padding: 20px 0;
+  }
+
+  @media screen and (min-width: 1200px) {
+    padding: 90px 0 20px;
+    min-height: calc(100vh - 70px);
   }
 `;
 
 const Detail = styled.div`
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 12px;
-
-  h3 {
-    font-size: 1.23rem;
-    font-weight: 700;
-    line-height: 1.35;
-    word-break: keep-all;
-    margin: 1rem 0;
-  }
+  background-color: #eceee2;
+  padding: 1.43rem;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px;
 
   h4 {
     font-weight: 500;
@@ -71,7 +76,7 @@ const Detail = styled.div`
       resize: none;
       overflow: auto;
       ::placeholder {
-        color: #bdbdbd;
+        color: #828282;
         font-size: 0.85rem;
       }
       &:focus {
@@ -94,10 +99,6 @@ const Detail = styled.div`
   }
 
   @media screen and (min-width: 768px) {
-    h3 {
-      margin: 0.75rem 0;
-      font-size: 1.33rem;
-    }
     h4 {
       font-size: 1.15rem;
       margin-bottom: 8px;
@@ -134,11 +135,29 @@ const ButtonWrapper = styled.div`
   a {
     color: inherit;
   }
+`;
 
-  @media screen and (min-width: 1200px) {
-    width: 200px;
-    margin: ${({ mgt }: { mgt: string }) => mgt} auto 0;
-  }
+const Title = styled.div`
+  color: #4b6a4d;
+  font-weight: 700;
+  font-size: 1.83rem;
+  text-align: left;
+  width: 100%;
+  line-height: 1.3;
+  margin-bottom: 0.4rem;
+`;
+
+const Status = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #e2d48a;
+  color: #5b3e00;
+  font-weight: 700;
 `;
 
 const MyProgramDetailT = () => {
@@ -183,92 +202,97 @@ const MyProgramDetailT = () => {
   };
 
   return (
-    <Contents>
-      <Detail>
-        <Label>진행예정</Label>
-        <h3>
+    <div>
+      <Header />
+      <Contents>
+        <Status>진행예정</Status>
+        <Title>
           프로그램 제목 어쩌구 저쩌구 프로그램 제목 어쩌구 저쩌구 프로그램 제목
           어쩌구
-        </h3>
-        <ul>
-          <li>
-            <strong>일정</strong>2023년 0월 00일 3:30PM ~ 4:30PM
-          </li>
-          <li>
-            <strong>신청인원</strong> 4인 / 최대 10인
-          </li>
-        </ul>
-      </Detail>
-
-      <Detail>
-        <h4>프로그램 참여 안내</h4>
-        {!isEditable ? (
+        </Title>
+        <Detail>
           <ul>
             <li>
-              <strong>그룹 상담 접속 링크</strong>
-              <p>
-                <a href='https://google.com' target='blank'>
-                  https://google.com
-                </a>
-              </p>
+              <strong>일정</strong>2023년 0월 00일 3:30PM ~ 4:30PM
             </li>
             <li>
-              <strong>참여자 전달 사항</strong>
-              <p>프로그램 시작 5분 전까지 상담실로 입장해주세요.</p>
+              <strong>신청인원</strong> 4인 / 최대 10인
             </li>
           </ul>
-        ) : (
-          <ul>
-            <li>
-              <strong>그룹 상담 접속 링크</strong>
-              <p>
-                <input
-                  type='text'
-                  placeholder='https://us02web.zoom.us/...'
-                  onChange={inputChangeHandler}
-                  value={inputValue}
-                />
-              </p>
-              <Warning isShow={isShow}>
-                <FaExclamationTriangle />
-                <span>올바른 URL 주소가 아닙니다.</span>
-              </Warning>
-            </li>
-            <li>
-              <strong>참여자 전달 사항</strong>
-              <p>
-                <textarea
-                  placeholder='프로그램 참여자에게 전달할 사항이 있으면 작성해주세요.'
-                  onChange={textareaChangeHandler}
-                  value={textareaValue}
-                />
-              </p>
-            </li>
-          </ul>
-        )}
+        </Detail>
 
-        <ButtonWrapper mgt='12px'>
-          <Button
-            width='100%'
-            height='40px'
-            fontsize='1rem'
-            onClick={editBtnClickHandler}
-          >
-            {!isEditable ? '수정' : '확인'}
+        <Detail>
+          <h4>프로그램 참여 안내</h4>
+          {!isEditable ? (
+            <ul>
+              <li>
+                <strong>그룹 상담 접속 링크</strong>
+                <p>
+                  <a href='https://google.com' target='blank'>
+                    https://google.com
+                  </a>
+                </p>
+              </li>
+              <li>
+                <strong>참여자 전달 사항</strong>
+                <p>프로그램 시작 5분 전까지 상담실로 입장해주세요.</p>
+              </li>
+            </ul>
+          ) : (
+            <ul>
+              <li>
+                <strong>그룹 상담 접속 링크</strong>
+                <p>
+                  <input
+                    type='text'
+                    placeholder='https://us02web.zoom.us/...'
+                    onChange={inputChangeHandler}
+                    value={inputValue}
+                  />
+                </p>
+                <Warning isShow={isShow}>
+                  <FaExclamationTriangle />
+                  <span>올바른 URL 주소가 아닙니다.</span>
+                </Warning>
+              </li>
+              <li>
+                <strong>참여자 전달 사항</strong>
+                <p>
+                  <textarea
+                    placeholder='프로그램 참여자에게 전달할 사항이 있으면 작성해주세요.'
+                    onChange={textareaChangeHandler}
+                    value={textareaValue}
+                  />
+                </p>
+              </li>
+            </ul>
+          )}
+
+          <ButtonWrapper mgt='12px'>
+            <Button
+              width='100%'
+              height='40px'
+              fontsize='1rem'
+              onClick={editBtnClickHandler}
+            >
+              {!isEditable ? '수정' : '확인'}
+            </Button>
+          </ButtonWrapper>
+        </Detail>
+
+        <Detail>
+          <h4>예약 정보</h4>
+          <AppointmentTable />
+        </Detail>
+        <ButtonWrapper mgt='4px'>
+          <Button width='100%' height='3em' fontsize='1rem'>
+            <Link to='/mypage'>목록보기</Link>
           </Button>
         </ButtonWrapper>
-      </Detail>
-
-      <Detail>
-        <h4>예약 정보</h4>
-        <AppointmentTable />
-      </Detail>
-      <ButtonWrapper mgt='4px'>
-        <Button width='100%' height='40px' fontsize='1rem'>
-          <Link to='#'>목록보기</Link>
-        </Button>
-      </ButtonWrapper>
-    </Contents>
+      </Contents>
+      <Tabbar />
+      <Footer />
+    </div>
   );
 };
 

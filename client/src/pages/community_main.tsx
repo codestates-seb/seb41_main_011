@@ -3,26 +3,33 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Tabbar from '../components/tabbar';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const ContentWrapper = styled.div`
+  min-height: calc(100vh - 60px);
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const Content = styled.div`
-  width: 100%;
-  padding: 40px 20px 20px;
-
+  padding: 60px 20px 110px;
   @media screen and (min-width: 768px) {
-    padding: 64px 20px 20px;
+    padding: 84px 20px 20px;
+    min-height: calc(100vh - 64px);
   }
   @media screen and (min-width: 1200px) {
     width: 1200px;
     margin: 0 auto;
-    padding: 70px 0 20px;
+    padding: 90px 0 20px;
+    min-height: calc(100vh - 70px);
   }
+`;
+
+const MainMessage = styled.div`
+  color: #4b6a4d;
+  font-weight: 700;
+  font-size: 2.25rem;
+  text-align: left;
+  width: 100%;
 `;
 
 const MessageGrid = styled.div`
@@ -121,14 +128,11 @@ const Post = styled.div`
 `;
 
 const PostWRapper = styled.div`
+  width: 100%;
   border-top: 2px solid #009779;
-  max-height: 60vh;
-  overflow-y: auto;
-  ::-webkit-scrollbar {
-    display: none;
-  }
 `;
 const MenuBar = styled.div`
+  width: 100%;
   display: grid;
   grid-template-columns: auto auto;
   margin: 16px auto;
@@ -153,10 +157,6 @@ const MenuBar = styled.div`
         color: #5b3e00;
       }
     }
-  }
-
-  @media screen and (min-width: 1200px) {
-    margin: 20px auto;
   }
 `;
 
@@ -193,9 +193,10 @@ const CommunityMain = (props: any) => {
   };
 
   return (
-    <ContentWrapper>
+    <div>
       <Header />
-      <Content>
+      <ContentWrapper>
+        <MainMessage>{isActive1 ? '공지사항' : '유저 커뮤니티'}</MainMessage>
         <MenuBar>
           <div
             className={isActive1 ? 'clicked' : ''}
@@ -234,10 +235,7 @@ const CommunityMain = (props: any) => {
         </MessageGrid>
 
         <PostWRapper>
-          {[
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-            20,
-          ].map((item) => {
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((item) => {
             return (
               <Post>
                 <div className='postIndex'>{item}</div>
@@ -258,9 +256,10 @@ const CommunityMain = (props: any) => {
             );
           })}
         </PostWRapper>
-      </Content>
+      </ContentWrapper>
       <Tabbar />
-    </ContentWrapper>
+      <Footer />
+    </div>
   );
 };
 
