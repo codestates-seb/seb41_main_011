@@ -86,4 +86,18 @@ public class PayController {
             new MultiResponseDto<>(
                 response, myReserveProgramPage), HttpStatus.OK);
     }
+
+    // 화면정의서 38p
+    // 관리자 - 완료된 결제 내역 조회
+    @GetMapping("/admin/complete-payment")
+    public ResponseEntity getAdminCompletePayment(@Positive @RequestParam("page") int page,
+                                                  @Positive @RequestParam("size") int size,
+                                                  @RequestParam("status") String status){
+        Page<Pay> searchResult = payService.searchCompletePayment(page-1, size, status);
+        List<Pay> pays = searchResult.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(
+                payMapper.ReserveProgramToAdminPayStatusPageResponse(pays), searchResult), HttpStatus.OK
+        );
+    }
 }

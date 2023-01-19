@@ -11,6 +11,8 @@ import com.server.seb41_main_11.global.error.ErrorCode;
 import com.server.seb41_main_11.global.error.exception.BusinessException;
 import java.util.List;
 import java.util.Optional;
+
+import com.server.seb41_main_11.global.error.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,10 +29,10 @@ public class PayService {
 
     public Pay createPay(Pay pay, Long programId, Member member) {
         Program program = programService.findVerifiedExistsReserveProgram(
-            member.getMemberId(), programId);
+                member.getMemberId(), programId);
 
         // 결제 시 프로그램 참여자 수 증가
-        if(program.getUserCount() >= program.getUserMax()) {
+        if (program.getUserCount() >= program.getUserMax()) {
             throw new BusinessException(ErrorCode.PROGRAM_CAPACITY_EXCEEDED);
         } else {
             int findUserCount = program.getUserCount() + 1;
@@ -55,7 +57,7 @@ public class PayService {
     public Pay findVerifiedPay(Long payId) {
         Optional<Pay> optionalPay = payRepository.findById(payId);
         Pay findPay = optionalPay.orElseThrow(
-            () -> new BusinessException(ErrorCode.RESERVATION_NOT_FOUND)
+                () -> new BusinessException(ErrorCode.RESERVATION_NOT_FOUND)
         );
 
         return findPay;
@@ -73,5 +75,26 @@ public class PayService {
     public Pay createPayStatusSave(Pay pay) {
         pay.setStatus(Status.COMPLETE_PAYMENT);
         return pay;
+    }
+
+
+    /**
+     * 결제 상태별 조회
+     */
+    public Page<Pay> searchCompletePayment(int page, int size, String status) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("pay_id").descending());
+
+        if (Status.COMPLETE_PAYMENT.equals(Status.valueOf(status))) {
+            Page<Pay> pays = payRepository.findAllByStatus(status, pageable);
+            return pays;
+        } else if (Status.WAITING_CANCEL_PAYMENT.equals(Status.valueOf(status))) {
+            Page<Pay> pays = payRepository.findAllByStatus(status, pageable);
+            return pays;
+        } else if (Status.CANCEL_PAYMENT.equals(Status.valueOf(status))) {
+            Page<Pay> pays = payRepository.findAllByStatus(status, pageable);
+            return pays;
+        } else {
+            throw new EntityNotFoundException(ErrorCode.STATUS_NOT_FOUND);
+        }
     }
 }

@@ -38,4 +38,13 @@ public interface PayMapper {
         }
         return list;
     }
+    default List<PayDto.AdminPayStatusPageResponse> ReserveProgramToAdminPayStatusPageResponse(List<Pay> pays) {
+        List<PayDto.AdminPayStatusPageResponse> list = new ArrayList<PayDto.AdminPayStatusPageResponse>(pays.size());
+
+        for(Pay pay : pays) {
+            list.add(PayDto.AdminPayStatusPageResponse.of(pay));
+        }
+        return list;
+    }
+
 }
