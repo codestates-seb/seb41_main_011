@@ -1,6 +1,7 @@
 package com.server.seb41_main_11.domain.program.service;
 
 import com.server.seb41_main_11.domain.common.CustomBeanUtils;
+import com.server.seb41_main_11.domain.counselor.entity.Counselor;
 import com.server.seb41_main_11.domain.pay.entity.Pay;
 import com.server.seb41_main_11.domain.program.entity.Program;
 import com.server.seb41_main_11.domain.program.repository.ProgramRepository;
@@ -11,8 +12,8 @@ import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,19 +25,36 @@ public class ProgramService {
     private final ProgramRepository programRepository;
     private final CustomBeanUtils<Program> beanUtils;
 
-    public Program createProgram(Program program) {
+    public Program createProgram(Program program, Counselor counselor) {
+        program.setCounselor(counselor);
 
         return programRepository.save(program);
     }
 
-    public Program updateProgram(Program program) {
+    public Program updateProgram(Program program, Counselor counselor) {
         // 유효한 program인지 검증
         Program findProgram = findVerifiedProgram(program.getProgramId());
 
-        // 전달받은 program 데이터를 기존 데이터와 교체
-        Program updatedProgram = beanUtils.copyNonNullProperties(program, findProgram);
+        Optional.ofNullable(program.getTitle())
+            .ifPresent(findProgram::setTitle);
+        Optional.ofNullable(program.getContent())
+            .ifPresent(findProgram::setContent);
+        Optional.ofNullable(program.getImage())
+            .ifPresent(findProgram::setImage);
+        Optional.ofNullable(program.getUserMax())
+            .ifPresent(findProgram::setUserMax);
+        Optional.ofNullable(program.getDateStart())
+            .ifPresent(findProgram::setDateStart);
+        Optional.ofNullable(program.getDateEnd())
+            .ifPresent(findProgram::setDateEnd);
+        Optional.ofNullable(program.getCost())
+            .ifPresent(findProgram::setCost);
+        Optional.ofNullable(program.getSymptomTypes())
+                .ifPresent(findProgram::setSymptomTypes);
 
-        return programRepository.save(updatedProgram);
+        findProgram.setCounselor(counselor);
+
+        return programRepository.save(findProgram);
     }
 
     @Transactional(readOnly = true)
@@ -80,14 +98,15 @@ public class ProgramService {
 
     @Transactional(readOnly = true)
     public Page<Program> searchCounselorProgram(Long counselorId, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("program_id").descending());
+        Page<Program> programPage = programRepository.findAllByCounselor(counselorId, pageable);
+        return programPage;
+    }
 
-        List<Program> searchResult = programRepository.findAllByCounselor(counselorId);
+    public Page<Program> searchProgram(String search, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("programId").descending());
+        Page<Program> programPage = programRepository.findAllBySymptomTypes(search, pageable);
 
-        int start = (int)pageRequest.getOffset();
-        int end = Math.min((start + pageRequest.getPageSize()), searchResult.size());
-        Page<Program> programs = new PageImpl<>(searchResult.subList(start, end), pageRequest, searchResult.size());
-
-        return programs;
+        return programPage;
     }
 }

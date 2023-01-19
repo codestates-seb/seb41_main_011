@@ -1,7 +1,8 @@
 package com.server.seb41_main_11.domain.pay.mapper;
 
 import com.server.seb41_main_11.domain.pay.dto.PayDto;
-import com.server.seb41_main_11.domain.pay.dto.PayDto.MyPageProgramResponse;
+import com.server.seb41_main_11.domain.pay.dto.PayDto.AdminReservePageResponse;
+import com.server.seb41_main_11.domain.pay.dto.PayDto.UserReservePageResponse;
 import com.server.seb41_main_11.domain.pay.entity.Pay;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +21,20 @@ public interface PayMapper {
         PayDto.GetResponse getResponse = PayDto.GetResponse.of(pay);
         return getResponse;
     }
-    default List<PayDto.MyPageProgramResponse> ReserveProgramToMyPageProgramResponse(List<Pay> pays) {
-        List<PayDto.MyPageProgramResponse> list = new ArrayList<MyPageProgramResponse>(pays.size());
+    default List<PayDto.UserReservePageResponse> ReserveProgramToUserPageProgramResponse(List<Pay> pays) {
+        List<PayDto.UserReservePageResponse> list = new ArrayList<UserReservePageResponse>(pays.size());
 
         for(Pay pay : pays) {
-            list.add(PayDto.MyPageProgramResponse.of(pay));
+            list.add(PayDto.UserReservePageResponse.of(pay));
+        }
+        return list;
+    }
+
+    default List<PayDto.AdminReservePageResponse> ReserveProgramToAdminPageProgramResponse(List<Pay> pays) {
+        List<PayDto.AdminReservePageResponse> list = new ArrayList<AdminReservePageResponse>(pays.size());
+
+        for(Pay pay : pays) {
+            list.add(PayDto.AdminReservePageResponse.of(pay));
         }
         return list;
     }

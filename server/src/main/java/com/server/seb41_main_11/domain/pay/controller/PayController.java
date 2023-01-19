@@ -48,7 +48,7 @@ public class PayController {
     // 화면정의서 23p
     // 유저 - 예약된 프로그램 개별 조회
     @GetMapping("/lookup/{pay-id}")
-    public ResponseEntity getMyReserveProgram(@PathVariable("pay-id") @Positive Long payId) {
+    public ResponseEntity getUserReserveProgram(@PathVariable("pay-id") @Positive Long payId) {
         Pay findReserveProgram = payService.findReservation(payId);
         PayDto.GetResponse response = payMapper.PayToPayGetResponseDto(findReserveProgram);
         return new ResponseEntity<>(
@@ -58,12 +58,12 @@ public class PayController {
     // 화면정의서 22p
     // 유저 - 마이페이지 나의 프로그램 예약 내역 전체 조회
     @GetMapping("/{member-id}/lookup/list")
-    public ResponseEntity getMyReservePrograms(@PathVariable("member-id") @Positive Long memberId,
+    public ResponseEntity getUserReservePrograms(@PathVariable("member-id") @Positive Long memberId,
         @Positive @RequestParam(defaultValue = "1") int page,
         @Positive @RequestParam(defaultValue = "10") int size) {
-        Page<Pay> myReserveProgramPage = payService.searchMyReserveProgram(memberId, page-1, size);
+        Page<Pay> myReserveProgramPage = payService.searchUserReserveProgram(memberId, page-1, size);
         List<Pay> payList = myReserveProgramPage.getContent();
-        List<PayDto.MyPageProgramResponse> response = payMapper.ReserveProgramToMyPageProgramResponse(payList);
+        List<PayDto.UserReservePageResponse> response = payMapper.ReserveProgramToUserPageProgramResponse(payList);
 
 
         return new ResponseEntity(
@@ -72,14 +72,14 @@ public class PayController {
     }
 
     // 화면정의서 33p
-    // 관리자 - 마이페이지 유저 상담 내역 전체 조회
-    @GetMapping("/admin/lookup/list")
+    // 관리자 - 마이페이지 특정 유저 상담 내역 전체 조회
+    @GetMapping("/admin/{member-id}/lookup/list")
     public ResponseEntity getAdminReservePrograms(@PathVariable("member-id") @Positive Long memberId,
         @Positive @RequestParam(defaultValue = "1") int page,
         @Positive @RequestParam(defaultValue = "10") int size) {
-        Page<Pay> myReserveProgramPage = payService.searchMyReserveProgram(memberId, page-1, size);
+        Page<Pay> myReserveProgramPage = payService.searchUserReserveProgram(memberId, page-1, size);
         List<Pay> payList = myReserveProgramPage.getContent();
-        List<PayDto.MyPageProgramResponse> response = payMapper.ReserveProgramToMyPageProgramResponse(payList);
+        List<PayDto.AdminReservePageResponse> response = payMapper.ReserveProgramToAdminPageProgramResponse(payList);
 
 
         return new ResponseEntity(
