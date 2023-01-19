@@ -40,7 +40,7 @@ public class PayController {
     }
 
     // 화면정의서 23p
-    // 유저 - 예약된 프로그램 개별 조회
+    // 유저 - 마이페이지 나의 프로그램 예약내역 개별조회
     @GetMapping("/lookup/{pay-id}")
     public ResponseEntity getUserReserveProgram(@PathVariable("pay-id") @Positive Long payId) {
         Pay findReserveProgram = payService.findReservation(payId);
@@ -110,7 +110,7 @@ public class PayController {
     }
 
     // 화면정의서 38p
-    // 관리자 - 결제 취소 요청 결제 확정
+    // 관리자 - 결제 취소 요청 승인
     @PatchMapping("/admin/{pay-id}/edit")
     public ResponseEntity cancelPayConfirm(@PathVariable("pay-id") @Positive Long payId) {
         Pay pay = payService.confirmPayStatus(payId);

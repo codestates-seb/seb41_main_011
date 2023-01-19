@@ -3,6 +3,7 @@ package com.server.seb41_main_11.domain.program.service;
 import com.server.seb41_main_11.domain.common.CustomBeanUtils;
 import com.server.seb41_main_11.domain.counselor.entity.Counselor;
 import com.server.seb41_main_11.domain.pay.entity.Pay;
+import com.server.seb41_main_11.domain.pay.entity.Pay.Status;
 import com.server.seb41_main_11.domain.program.entity.Program;
 import com.server.seb41_main_11.domain.program.repository.ProgramRepository;
 import com.server.seb41_main_11.global.error.ErrorCode;
@@ -98,9 +99,10 @@ public class ProgramService {
 
         for(Pay p : payList) {
             if(Objects.equals(p.getMember().getMemberId(), memberId)) {
-                if(p.getStatus().equals("COMPLETE_PAYMENT") || p.getStatus().equals("WAITING_CANCEL_PAYMENT")) {
+                if(Status.COMPLETE_PAYMENT.equals(Status.valueOf(p.getStatus().getStatusMessage()))
+                || Status.WAITING_CANCEL_PAYMENT.equals(Status.valueOf(p.getStatus().getStatusMessage()))) {
                     throw new BusinessException(ErrorCode.RESERVATION_EXISTS);
-                } else if (p.getStatus().equals("CANCEL_PAYMENT")) {
+                } else if (Status.CANCEL_PAYMENT.equals(Status.valueOf(p.getStatus().getStatusMessage()))) {
                     return program;
                 }
             }

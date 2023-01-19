@@ -12,7 +12,10 @@ import org.mapstruct.Mapper;
 public interface PayMapper {
     Pay PayPostDtoToPay(PayDto.Post requestBody);
 
-    PayDto.PayPatchResponse PayToPayPatchResponse(Pay pay);
+    default PayDto.PayPatchResponse PayToPayPatchResponse(Pay pay) {
+        PayDto.PayPatchResponse payPatchResponse = PayDto.PayPatchResponse.of(pay);
+        return payPatchResponse;
+    }
 
     default PayDto.PostResponse PayToPayPostResponseDto(Pay pay) {
         PayDto.PostResponse postResponse = PayDto.PostResponse.of(pay);

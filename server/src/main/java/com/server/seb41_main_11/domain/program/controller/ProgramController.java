@@ -138,6 +138,7 @@ public class ProgramController {
             new MultiResponseDto<>(response, searchProgramPage), HttpStatus.OK);
     }
 
+    // 화면정의서 31p
     @DeleteMapping("/delete/{program-id}")
     public ResponseEntity deleteProgram(@PathVariable("program-id") @Positive Long programId) {
         programService.deleteProgram(programId);
