@@ -116,8 +116,11 @@ public class PayService {
         pay.setStatus(Status.CANCEL_PAYMENT);
 
         Program program = programService.findProgram(pay.getProgram().getProgramId());
-        int user = program.getUserCount() - 1;
-        program.setUserCount(user);
+
+        if(program.getUserCount() > 0) {
+            int user = program.getUserCount() - 1;
+            program.setUserCount(user);
+        }
 
         return payRepository.save(pay);
     }
