@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import reset from 'styled-reset';
 import {
   FaListAlt,
   FaSyringe,
@@ -9,6 +8,9 @@ import {
 import { useNavigate } from 'react-router';
 
 const Box = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
   box-shadow: rgba(0, 0, 0, 0.13) 0px 5px 15px 3px;
   display: flex;
   justify-content: space-evenly;
@@ -16,15 +18,10 @@ const Box = styled.div`
   width: 100vw;
   height: 70px;
   background-color: white;
-  z-index: 1;
+  z-index: 10;
 
   @media screen and (min-width: 768px) {
     display: none;
-  }
-  * {
-    @media screen and (min-width: 768px) {
-      display: none;
-    }
   }
 `;
 const CenterIcon = styled.div`
@@ -37,7 +34,6 @@ const CenterIcon = styled.div`
   border-radius: 50%;
   background-color: #b3d2b0;
   /* outline: 6px solid white; */
-  box-shadow: ;
   object-fit: scale-down;
   margin-bottom: 60px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
