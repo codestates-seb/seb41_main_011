@@ -58,6 +58,17 @@ public class ProgramService {
         return programRepository.save(findProgram);
     }
 
+    public Program updateProgram(Program program) {
+        Program findProgram = findVerifiedProgram(program.getProgramId());
+
+        Optional.ofNullable(program.getZoomLink())
+            .ifPresent(findProgram::setZoomLink);
+        Optional.ofNullable(program.getAnnounce())
+            .ifPresent(findProgram::setAnnounce);
+
+        return programRepository.save(findProgram);
+    }
+
     @Transactional(readOnly = true)
     public Program findProgram(long programId) {
         Program findProgram = findVerifiedProgram(programId);

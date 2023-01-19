@@ -2,6 +2,7 @@ package com.server.seb41_main_11.domain.program.controller;
 
 import com.server.seb41_main_11.domain.common.MultiResponseDto;
 import com.server.seb41_main_11.domain.common.SingleResponseDto;
+import com.server.seb41_main_11.domain.counselor.dto.CounselorDto.Response;
 import com.server.seb41_main_11.domain.counselor.entity.Counselor;
 import com.server.seb41_main_11.domain.counselor.service.CounselorService;
 import com.server.seb41_main_11.domain.program.dto.ProgramDto;
@@ -54,6 +55,20 @@ public class ProgramController {
         Counselor counselor = counselorService.findVerifiedCounselorByCounselorId(requestBody.getCounselorId());
         Program updatedProgram = programService.updateProgram(program, counselor);
         ProgramDto.PatchResponse response = programMapper.ProgramToPatchProgramResponseDto(updatedProgram);
+
+        return new ResponseEntity<>(
+            new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
+    // 화면정의서 26p
+    // 상담사 - 마이페이지 나의 프로그램 수정
+    @PatchMapping("/patch/counselor/{program-id}")
+    public ResponseEntity patchCounselorProgram(@PathVariable("program-id") @Positive Long programId,
+        @RequestBody ProgramDto.PatchCounselor requestBody) {
+        requestBody.setProgramId(programId);
+        Program program = programMapper.PatchCounselorDtoToProgram(requestBody);
+        Program updatedProgram = programService.updateProgram(program);
+        ProgramDto.PatchCounselorResponse response = programMapper.ProgramToPatchCounselorResponse(updatedProgram);
 
         return new ResponseEntity<>(
             new SingleResponseDto<>(response), HttpStatus.OK);
@@ -119,6 +134,20 @@ public class ProgramController {
         List<Program> programs = programPage.getContent();
         List<ProgramDto.GetAdminProgramResponse> response = programMapper.ProgramsToGetAdminProgramResponseDtos(programs);
 
+        return new ResponseEntity<>(
+            new MultiResponseDto<>(response, programPage), HttpStatus.OK);
+    }
+
+    // 화면정의서 35p
+    // 관리자 - 상담사 상담이력 전체 조회
+    @GetMapping("/admin/lookup/{counselor-id}/list")
+    public ResponseEntity getCounselorProgramByAdmin(@PathVariable("counselor-id") @Positive Long counselorId,
+        @Positive @RequestParam(defaultValue = "1") int page,
+        @Positive @RequestParam(defaultValue = "10") int size) {
+        Page<Program> programPage = programService.searchCounselorProgram(counselorId, page-1, size);
+        List<Program> programList = programPage.getContent();
+
+        List<ProgramDto.GetCounselorProgramsByAdminResponse> response = programMapper.ProgramsToGetCounselorProgramsByAdminResponseDtos(programList);
         return new ResponseEntity<>(
             new MultiResponseDto<>(response, programPage), HttpStatus.OK);
     }
