@@ -65,24 +65,24 @@ const SubNav = styled.ul`
 `;
 
 const MyPage = () => {
-  const [showOptions, setShowOptions] = useState(false);
-  const onClickHandler = () => {
-    setShowOptions(!showOptions);
+  const [showOptions, setShowOptions] = useState(0);
+  const onMouseOver = (index: number) => {
+    setShowOptions(index);
   };
-  const onBlurHandler = () => {
-    setShowOptions(false);
+  const onMouseOut = () => {
+    setShowOptions(0);
   };
 
   return (
-    <Content onClick={onClickHandler} onBlur={onBlurHandler}>
+    <Content onMouseOver={() => onMouseOver(1)} onMouseOut={onMouseOut}>
       <FaUser className='icon' />
       <span>{showOptions ? '▲' : '▼'}</span>
       <SubNav isShow={showOptions ? true : false}>
         <li>
-          <Link to='#'>#나의_프로그램</Link>
+          <Link to='/mypage'>#나의_프로그램</Link>
         </li>
         <li>
-          <Link to='#'>#회원정보_수정</Link>
+          <Link to='/edit-userinfo'>#회원정보_수정</Link>
         </li>
       </SubNav>
     </Content>

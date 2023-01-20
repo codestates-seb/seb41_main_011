@@ -8,32 +8,36 @@ import Tabbar from '../components/tabbar';
 
 const Contents = styled.main`
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 130px);
   display: flex;
   flex-direction: column;
   text-align: center;
-  padding-top: 40px;
+  padding: 40px 0 90px;
 
   @media screen and (min-width: 768px) {
-    padding-top: 64px;
+    padding: 64px 0 0;
+    min-height: calc(100vh - 64px);
   }
   @media screen and (min-width: 1200px) {
     width: 1200px;
     margin: 0 auto;
     gap: 24px;
     padding-top: 90px;
+    min-height: calc(100vh - 70px);
   }
 `;
 
 const ProgramDetail = () => {
   return (
-    <Contents>
+    <div>
       <Header />
-      <ProgramInfo />
-      <BtnBooking />
-      <Footer />
+      <Contents>
+        <ProgramInfo />
+        <BtnBooking />
+      </Contents>
       <Tabbar />
-    </Contents>
+      <Footer />
+    </div>
   );
 };
 

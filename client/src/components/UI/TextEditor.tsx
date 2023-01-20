@@ -4,7 +4,11 @@ const TextEditor = styled.div`
   background: #fff;
 
   .ql-editor {
-    height: 60vh;
+    height: 50vh;
+
+    @media screen and (min-width: 768px) {
+      height: 60vh;
+    }
   }
 
   .ql-snow.ql-toolbar button:hover,
@@ -85,7 +89,7 @@ const TextEditor = styled.div`
   }
 
   .ql-editor.ql-blank::before {
-    color: #bdbdbd;
+    color: #828282;
     font-style: normal;
   }
 `;
