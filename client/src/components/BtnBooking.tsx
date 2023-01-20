@@ -32,7 +32,7 @@ const BtnBooking = () => {
     <Contents>
       <p>자리가 얼마 남지 않았어요. 정원 마감 전 예약하세요!</p>
       <Button width='100%' height='40px' fontsize='1.1rem'>
-        <Link to='/book'>예약하기</Link>
+        <Link to='/program/book'>예약하기</Link>
       </Button>
     </Contents>
   );

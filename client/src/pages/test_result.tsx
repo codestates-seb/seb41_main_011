@@ -3,40 +3,33 @@ import Header from '../components/Header';
 import Tabbar from '../components/tabbar';
 import Program from '../components/Program';
 import { Link } from 'react-router-dom';
+import Footer from '../components/Footer';
 
 const ContentWrapper = styled.div`
-  min-height: 100vh;
+  min-height: (100vh - 60px);
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  padding-top: 40px;
-
-  @media screen and (min-width: 768px) {
-    padding-top: 64px;
-  }
-  @media screen and (min-width: 1200px) {
-    padding-top: 70px;
-  }
-`;
-
-const Content = styled.div`
-  width: 100%;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  padding: 60px 20px 110px;
+  gap: 24px;
+
+  @media screen and (min-width: 768px) {
+    padding: 84px 20px 0;
+    min-height: calc(100vh - 64px);
+  }
   @media screen and (min-width: 1200px) {
+    padding: 90px 0 0;
+    min-height: calc(100vh - 70px);
     width: 1200px;
     margin: 0 auto;
-    padding: 20px 0;
   }
 `;
+
 const Logo = styled.img`
-  width: 110px;
-  margin: 12px auto;
+  width: 20vw;
   @media screen and (min-width: 768px) {
-    width: 120px;
+    width: 15vw;
   }
   @media screen and (min-width: 1200px) {
     width: 140px;
@@ -91,10 +84,10 @@ const ProgramWrapper = styled.div`
 
 const TestResult = () => {
   return (
-    <ContentWrapper>
+    <div>
       <Header />
-      <Content>
-        <Logo src='teacup.png' />
+      <ContentWrapper>
+        <Logo src='/teacup.png' />
         <Top>
           <MainMessage>
             마오옹 님에게 추천하는 <br />
@@ -109,9 +102,10 @@ const TestResult = () => {
           <Program />
           <Program />
         </ProgramWrapper>
-      </Content>
+      </ContentWrapper>
       <Tabbar />
-    </ContentWrapper>
+      <Footer />
+    </div>
   );
 };
 
