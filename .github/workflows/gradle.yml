@@ -33,7 +33,7 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     - name: Run chmod to make gradlew executable
-      run: chmod +x gradlew
+      run: chmod +x ./gradlew
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
@@ -41,7 +41,7 @@ jobs:
         
     # build한 후 프로젝트를 압축합니다.
     - name: Make zip file
-      run: zip -r ./main.zip .
+      run: zip -r server//main.zip .
       shell: bash
     
     # Access Key와 Secret Access Key를 통해 권한을 확인합니다.
