@@ -20,7 +20,7 @@ env:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: centos-latest
     defaults:
         run:
           working-directory: ./server
