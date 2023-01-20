@@ -1,4 +1,5 @@
-import {FaUserAlt,FaRegCalendarAlt,FaDonate} from "react-icons/fa";
+import {FaUserAlt, FaRegCalendarAlt, FaDonate, FaHome} from "react-icons/fa";
+import {RiAdminFill} from "react-icons/ri"
 
 export interface MenuItemsProps {
     path: string,
@@ -22,7 +23,15 @@ export const SideMenu: MenuItemsProps[] = [
         name: '결제 관리',
         icon: <FaDonate />,
     },
-    
-
+    {
+        path: '/admin/editInfo',
+        name: '마이페이지',
+        icon: <RiAdminFill />,
+    },
+    {
+        path: '/',
+        name: '홈페이지 가기',
+        icon: <FaHome />,
+    },
 
 ]

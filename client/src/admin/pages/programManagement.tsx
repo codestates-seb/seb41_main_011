@@ -45,7 +45,7 @@ const Title = styled.div`
   top: 0;
 `
 
-const ProgramTable =  styled.table `
+export const ProgramTable =  styled.table `
     width: 70vw;
     height: 50vh;
     border-collapse: collapse;

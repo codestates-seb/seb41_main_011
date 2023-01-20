@@ -4,15 +4,19 @@ const TextAreaWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    
     label {
-    
-    
+
     }
 
 `
 const CustomTa = styled.textarea`
     width: 100%;
     height: 100%;
+    resize: none;
+    padding-left: 1%;
+
+
 `
 type TaProps = {
     placeholder?: string;
