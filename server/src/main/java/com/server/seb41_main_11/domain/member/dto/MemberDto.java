@@ -58,6 +58,8 @@ public class MemberDto {
 
         private String confirmNewPassword;
 
+        private String birth;
+
         public void updateMemberId(Long memberId){
             this.memberId = memberId;
         }

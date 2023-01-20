@@ -115,6 +115,9 @@ public class MemberService {
             preMember.setPassword(password); //암호화된 비밀번호 설정
         }
 
+        Optional.ofNullable(member.getBirth())
+                .ifPresent(birth -> preMember.setBirth(birth));
+
         return memberRepository.save(preMember);
     }
 
@@ -142,11 +145,11 @@ public class MemberService {
      * 로그인한 회원 Role 조회(USER OR counselor)
      * */
     @Transactional(readOnly = true)
-    public Role getLoginRole(HttpServletRequest httpServletRequest) {
-        String authorizationHeader = httpServletRequest.getHeader("Authorization");
-        String accessToken = authorizationHeader.split(" ")[1];
+        public Role getLoginRole(HttpServletRequest httpServletRequest) {
+            String authorizationHeader = httpServletRequest.getHeader("Authorization");
+            String accessToken = authorizationHeader.split(" ")[1];
 
-        Claims tokenClaims = tokenManager.getTokenClaims(accessToken);
+            Claims tokenClaims = tokenManager.getTokenClaims(accessToken);
         String role = (String) tokenClaims.get("role");
         if(role.equals("USER")) {
             return (Role) Enum.valueOf(Role.class, role);
