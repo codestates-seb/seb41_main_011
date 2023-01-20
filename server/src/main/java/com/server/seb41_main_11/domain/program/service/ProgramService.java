@@ -3,6 +3,7 @@ package com.server.seb41_main_11.domain.program.service;
 import com.server.seb41_main_11.domain.common.CustomBeanUtils;
 import com.server.seb41_main_11.domain.counselor.entity.Counselor;
 import com.server.seb41_main_11.domain.pay.entity.Pay;
+import com.server.seb41_main_11.domain.pay.entity.Pay.Status;
 import com.server.seb41_main_11.domain.program.entity.Program;
 import com.server.seb41_main_11.domain.program.repository.ProgramRepository;
 import com.server.seb41_main_11.global.error.ErrorCode;
@@ -57,10 +58,15 @@ public class ProgramService {
         return programRepository.save(findProgram);
     }
 
-    @Transactional(readOnly = true)
-    public Program findProgram(long programId) {
-        Program findProgram = findVerifiedProgram(programId);
-        return findProgram;
+    public Program updateProgram(Program program) {
+        Program findProgram = findVerifiedProgram(program.getProgramId());
+
+        Optional.ofNullable(program.getZoomLink())
+            .ifPresent(findProgram::setZoomLink);
+        Optional.ofNullable(program.getAnnounce())
+            .ifPresent(findProgram::setAnnounce);
+
+        return programRepository.save(findProgram);
     }
 
     @Transactional(readOnly = true)
@@ -68,6 +74,7 @@ public class ProgramService {
         return programRepository.findAll(PageRequest.of(page, size, Sort.by("programId").descending()));
     }
 
+    @Transactional(readOnly = true)
     public Program findVerifiedProgram(long programId) {
         Optional<Program> optionalProgram = programRepository.findById(programId);
         Program findProgram = optionalProgram.orElseThrow(
@@ -93,14 +100,14 @@ public class ProgramService {
     }
 
     public Program findVerifiedExistsReserveProgram(long memberId, long programId) {
-        Program program = findProgram(programId);
+        Program program = findVerifiedProgram(programId);
         List<Pay> payList = program.getPayList();
 
         for(Pay p : payList) {
             if(Objects.equals(p.getMember().getMemberId(), memberId)) {
-                if(p.getStatus().equals("COMPLETE_PAYMENT") || p.getStatus().equals("WAITING_CANCEL_PAYMENT")) {
+                if(Status.COMPLETE_PAYMENT.equals(p.getStatus()) || Status.WAITING_CANCEL_PAYMENT.equals(p.getStatus())) {
                     throw new BusinessException(ErrorCode.RESERVATION_EXISTS);
-                } else if (p.getStatus().equals("CANCEL_PAYMENT")) {
+                } else if (Status.CANCEL_PAYMENT.equals(p.getStatus())) {
                     return program;
                 }
             }

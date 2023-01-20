@@ -38,8 +38,10 @@ public enum ErrorCode {
     // 결제 및 예약
     RESERVATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "R-001", "결제 내역이 없습니다."),
     RESERVATION_EXISTS(HttpStatus.BAD_REQUEST, "R-002", "이미 예약한 프로그램입니다."),
-
-    STATUS_NOT_FOUND(HttpStatus.BAD_REQUEST, "R-003", "존재하지 않는 결제상태입니다.")
+    STATUS_NOT_FOUND(HttpStatus.BAD_REQUEST, "R-003", "존재하지 않는 결제상태입니다."),
+    CANCEL_RESERVATION(HttpStatus.BAD_REQUEST, "R-004", "이미 취소 완료된 결제입니다."),
+    NO_CANCELLATION_REQUEST(HttpStatus.BAD_REQUEST, "R-005", "결제 취소 요청이 존재하지 않습니다."),
+    ALREADY_CANCELLATION_REQUESTED(HttpStatus.BAD_REQUEST, "R-006", "이미 결제 취소를 요청했습니다.")
     ;
 
 

@@ -22,6 +22,9 @@ public interface ProgramMapper {
         return response;
     }
 
+    Program PatchCounselorDtoToProgram(ProgramDto.PatchCounselor requestBody);
+    ProgramDto.PatchCounselorResponse ProgramToPatchCounselorResponse(Program program);
+
     default ProgramDto.GetResponse ProgramToGetProgramResponseDto(Program program) {
         ProgramDto.GetResponse response = ProgramDto.GetResponse.of(program);
         return response;
@@ -46,6 +49,15 @@ public interface ProgramMapper {
         return response;
     }
     List<ProgramDto.GetCounselorProgramsResponse> ProgramsToGetCounselorProgramsResponseDtos(List<Program> programs);
+
+    default List<ProgramDto.GetCounselorProgramsByAdminResponse> ProgramsToGetCounselorProgramsByAdminResponseDtos(List<Program> programs) {
+        List<ProgramDto.GetCounselorProgramsByAdminResponse> list = new ArrayList<>(programs.size());
+
+        for(Program program : programs) {
+            list.add(ProgramDto.GetCounselorProgramsByAdminResponse.of(program));
+        }
+        return list;
+    }
     List<ProgramDto.GetAdminProgramResponse> ProgramsToGetAdminProgramResponseDtos(List<Program> programs);
 
 }
