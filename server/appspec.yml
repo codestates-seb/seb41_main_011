@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source:  /
-    destination: /root/backend
+    destination: /root/main/back
     overwrite: yes
 
 permissions:
