@@ -98,26 +98,22 @@ const ProgramWrapper = styled.div`
   gap: 16px;
 `;
 
-const MyPageGeneral = (props: any) => {
+const MyPageTherapist = (props: any) => {
   const [allPrograms, setAllPrograms] = useState(true);
   const [programsConfirmed, setProgramsConfirmed] = useState(false);
   const [programsInProcess, setProgramsInProcess] = useState(false);
   const [programsCompleted, setProgramsCompleted] = useState(false);
-  const [cancellationInProcess, setCancellationInProcess] = useState(false);
-  const [programsCancelled, setProgramsCancelled] = useState(false);
   const [isActive1, setIsActive1] = useState(true);
   const [isActive2, setIsActive2] = useState(false);
   const [isActive3, setIsActive3] = useState(false);
   const [isActive4, setIsActive4] = useState(false);
-  const [isActive5, setIsActive5] = useState(false);
-  const [isActive6, setIsActive6] = useState(false);
 
   return (
     <div>
       <Header />
       <ContentWrapper>
         {/* <Logo src='/Teacup.png' /> */}
-        <Title>나의 테라피 프로그램</Title>
+        <Title>나의 개설 프로그램</Title>
         <ListWrapper>
           <StatusWrapper>
             <Status
@@ -127,14 +123,10 @@ const MyPageGeneral = (props: any) => {
                 setProgramsConfirmed(false);
                 setProgramsInProcess(false);
                 setProgramsCompleted(false);
-                setCancellationInProcess(false);
-                setProgramsCancelled(false);
                 setIsActive1(true);
                 setIsActive2(false);
                 setIsActive3(false);
                 setIsActive4(false);
-                setIsActive5(false);
-                setIsActive6(false);
               }}
             >
               전체 목록
@@ -146,14 +138,10 @@ const MyPageGeneral = (props: any) => {
                 setProgramsConfirmed(true);
                 setProgramsInProcess(false);
                 setProgramsCompleted(false);
-                setCancellationInProcess(false);
-                setProgramsCancelled(false);
                 setIsActive1(false);
                 setIsActive2(true);
                 setIsActive3(false);
                 setIsActive4(false);
-                setIsActive5(false);
-                setIsActive6(false);
               }}
             >
               진행 예정
@@ -165,14 +153,10 @@ const MyPageGeneral = (props: any) => {
                 setProgramsConfirmed(false);
                 setProgramsInProcess(true);
                 setProgramsCompleted(false);
-                setCancellationInProcess(false);
-                setProgramsCancelled(false);
                 setIsActive1(false);
                 setIsActive2(false);
                 setIsActive3(true);
                 setIsActive4(false);
-                setIsActive5(false);
-                setIsActive6(false);
               }}
             >
               진행 중
@@ -184,61 +168,18 @@ const MyPageGeneral = (props: any) => {
                 setProgramsConfirmed(false);
                 setProgramsInProcess(false);
                 setProgramsCompleted(true);
-                setCancellationInProcess(false);
-                setProgramsCancelled(false);
                 setIsActive1(false);
                 setIsActive2(false);
                 setIsActive3(false);
                 setIsActive4(true);
-                setIsActive5(false);
-                setIsActive6(false);
               }}
             >
               완료
-            </Status>
-            <Status
-              className={isActive5 ? 'clicked' : ''}
-              onClick={() => {
-                setAllPrograms(false);
-                setProgramsConfirmed(false);
-                setProgramsInProcess(false);
-                setProgramsCompleted(false);
-                setCancellationInProcess(true);
-                setProgramsCancelled(false);
-                setIsActive1(false);
-                setIsActive2(false);
-                setIsActive3(false);
-                setIsActive4(false);
-                setIsActive5(true);
-                setIsActive6(false);
-              }}
-            >
-              취소 신청중
-            </Status>
-            <Status
-              className={isActive6 ? 'clicked' : ''}
-              onClick={() => {
-                setAllPrograms(false);
-                setProgramsConfirmed(false);
-                setProgramsInProcess(false);
-                setProgramsCompleted(false);
-                setCancellationInProcess(false);
-                setProgramsCancelled(true);
-                setIsActive1(false);
-                setIsActive2(false);
-                setIsActive3(false);
-                setIsActive4(false);
-                setIsActive5(false);
-                setIsActive6(true);
-              }}
-            >
-              취소 완료
             </Status>
           </StatusWrapper>
           <ProgramWrapper>
             {allPrograms ? (
               <>
-                <MyPageProgram category={'진행 예정'} color={'red'} />
                 <MyPageProgram category={'진행 예정'} color={'red'} />
                 <MyPageProgram category={'진행 예정'} color={'red'} />
                 <MyPageProgram category={'진행 중'} color={'#ffffff'} />
@@ -251,7 +192,6 @@ const MyPageGeneral = (props: any) => {
               <>
                 <MyPageProgram category={'진행 예정'} />
                 <MyPageProgram category={'진행 예정'} />
-                <MyPageProgram category={`진행 예정`} />
               </>
             ) : null}
             {programsInProcess ? (
@@ -266,18 +206,6 @@ const MyPageGeneral = (props: any) => {
                 <MyPageProgram category={'완료'} />
               </>
             ) : null}
-            {cancellationInProcess ? (
-              <>
-                <MyPageProgram category={'취소 신청중'} />
-                <MyPageProgram category={'취소 신청중'} />
-              </>
-            ) : null}
-            {programsCancelled ? (
-              <>
-                <MyPageProgram category={'취소 완료'} />
-                <MyPageProgram category={'취소 완료'} />
-              </>
-            ) : null}
           </ProgramWrapper>
         </ListWrapper>
         <Tabbar />
@@ -288,4 +216,4 @@ const MyPageGeneral = (props: any) => {
   );
 };
 
-export default MyPageGeneral;
+export default MyPageTherapist;
