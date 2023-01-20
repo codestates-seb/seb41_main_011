@@ -78,7 +78,7 @@ public class ProgramController {
     // 개별 프로그램 조회
     @GetMapping("/lookup/{program-id}")
     public ResponseEntity getProgram(@PathVariable("program-id") @Positive Long programId) {
-        Program program = programService.findProgram(programId);
+        Program program = programService.findVerifiedProgram(programId);
         ProgramDto.GetResponse response = programMapper.ProgramToGetProgramResponseDto(program);
         return new ResponseEntity<>(
             new SingleResponseDto<>(response), HttpStatus.OK);
@@ -109,7 +109,7 @@ public class ProgramController {
     }
 
     // 화면정의서 24p
-    // 상담사 - 마이페이지 나의 프로그램 전체 조회
+    // 상담사 - 상담사 상담 이력 전체 조회
     @GetMapping("/{counselor-id}/lookup/list")
     public ResponseEntity getCounselorPrograms(@PathVariable("counselor-id") @Positive Long counselorId,
         @Positive @RequestParam(defaultValue = "1") int page,
@@ -168,6 +168,7 @@ public class ProgramController {
     }
 
     // 화면정의서 31p
+    // 프로그램 삭제
     @DeleteMapping("/delete/{program-id}")
     public ResponseEntity deleteProgram(@PathVariable("program-id") @Positive Long programId) {
         programService.deleteProgram(programId);

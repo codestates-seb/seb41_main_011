@@ -96,7 +96,9 @@ public class PayController {
 
 
     // 화면정의서 38p
-    // 관리자 - 완료된 결제 내역 조회
+    // 관리자 - 결제 완료 내역 조회
+    // 관리자 - 결제 취소 대기중 내역 조회
+    // 관리자 - 결제 취소 내역 조회
     @GetMapping("/admin/payment/list")
     public ResponseEntity getAdminCompletePayment(@Positive @RequestParam("page") int page,
                                                   @Positive @RequestParam("size") int size,

@@ -70,16 +70,11 @@ public class ProgramService {
     }
 
     @Transactional(readOnly = true)
-    public Program findProgram(long programId) {
-        Program findProgram = findVerifiedProgram(programId);
-        return findProgram;
-    }
-
-    @Transactional(readOnly = true)
     public Page<Program> findPrograms(int page, int size) {
         return programRepository.findAll(PageRequest.of(page, size, Sort.by("programId").descending()));
     }
 
+    @Transactional(readOnly = true)
     public Program findVerifiedProgram(long programId) {
         Optional<Program> optionalProgram = programRepository.findById(programId);
         Program findProgram = optionalProgram.orElseThrow(
@@ -105,13 +100,12 @@ public class ProgramService {
     }
 
     public Program findVerifiedExistsReserveProgram(long memberId, long programId) {
-        Program program = findProgram(programId);
+        Program program = findVerifiedProgram(programId);
         List<Pay> payList = program.getPayList();
 
         for(Pay p : payList) {
             if(Objects.equals(p.getMember().getMemberId(), memberId)) {
-                if(Status.COMPLETE_PAYMENT.equals(p.getStatus())
-                || Status.WAITING_CANCEL_PAYMENT.equals(p.getStatus())) {
+                if(Status.COMPLETE_PAYMENT.equals(p.getStatus()) || Status.WAITING_CANCEL_PAYMENT.equals(p.getStatus())) {
                     throw new BusinessException(ErrorCode.RESERVATION_EXISTS);
                 } else if (Status.CANCEL_PAYMENT.equals(p.getStatus())) {
                     return program;
