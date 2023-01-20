@@ -180,30 +180,30 @@ const MyPageTherapist = (props: any) => {
           <ProgramWrapper>
             {allPrograms ? (
               <>
-                <MyPageProgram category={'진행 예정'} color={'red'} />
-                <MyPageProgram category={'진행 예정'} color={'red'} />
-                <MyPageProgram category={'진행 중'} color={'#ffffff'} />
-                <MyPageProgram category={'진행 중'} color={'#ffffff'} />
-                <MyPageProgram category={'완료'} color={'#ffffff'} />
-                <MyPageProgram category={'완료'} color={'#ffffff'} />
+                <MyPageProgram therapist={true} category={'진행 예정'} color={'red'} />
+                <MyPageProgram therapist={true} category={'진행 예정'} color={'red'} />
+                <MyPageProgram therapist={true} category={'진행 중'} color={'#ffffff'} />
+                <MyPageProgram therapist={true} category={'진행 중'} color={'#ffffff'} />
+                <MyPageProgram therapist={true} category={'완료'} color={'#ffffff'} />
+                <MyPageProgram therapist={true} category={'완료'} color={'#ffffff'} />
               </>
             ) : null}
             {programsConfirmed ? (
               <>
-                <MyPageProgram category={'진행 예정'} />
-                <MyPageProgram category={'진행 예정'} />
+                <MyPageProgram therapist={true} category={'진행 예정'} />
+                <MyPageProgram therapist={true} category={'진행 예정'} />
               </>
             ) : null}
             {programsInProcess ? (
               <>
-                <MyPageProgram category={'진행 중'} />
-                <MyPageProgram category={'진행 중'} />
+                <MyPageProgram therapist={true} category={'진행 중'} />
+                <MyPageProgram therapist={true} category={'진행 중'} />
               </>
             ) : null}
             {programsCompleted ? (
               <>
-                <MyPageProgram category={'완료'} />
-                <MyPageProgram category={'완료'} />
+                <MyPageProgram therapist={true} category={'완료'} />
+                <MyPageProgram therapist={true} category={'완료'} />
               </>
             ) : null}
           </ProgramWrapper>
