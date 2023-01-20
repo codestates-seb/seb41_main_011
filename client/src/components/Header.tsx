@@ -7,6 +7,11 @@ import MyPageButton from './MyPageButton';
 import { useState } from 'react';
 
 const Contents = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #f7f9ed;
+  border-bottom: 1px solid #c9d697;
   width: 100%;
   height: 40px;
   line-height: 40px;
@@ -14,8 +19,9 @@ const Contents = styled.header`
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  gap: 32px;
+  gap: 28px;
   padding: 0 20px;
+  z-index: 999999;
 
   a {
     color: inherit;
@@ -36,6 +42,7 @@ const Contents = styled.header`
   @media screen and (min-width: 1200px) {
     height: 70px;
     line-height: 70px;
+    gap: 32px;
     padding: 0 40px;
   }
 `;
@@ -46,7 +53,7 @@ const Header = () => {
   return (
     <Contents>
       <h1>
-        <Link to='/'>LOGO TEXT</Link>
+        <Link to='/'>TEATIME</Link>
       </h1>
       <NavBar />
       {isLoggedIn ? <MyPageButton /> : <SignButtons />}

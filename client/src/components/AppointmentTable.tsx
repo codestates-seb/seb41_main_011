@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Content = styled.table`
   width: 100%;
   text-align: center;
-  border-bottom: 1px solid #72ab76;
+  border-bottom: 1px solid #4b6b4d;
   margin: 8px auto 0;
 
   th,
@@ -13,7 +13,7 @@ const Content = styled.table`
   }
   thead {
     th {
-      background: #72ab76;
+      background: #4b6b4d;
       color: #fff;
       font-weight: 500;
     }
@@ -22,6 +22,9 @@ const Content = styled.table`
   tbody {
     tr:nth-child(even) {
       background: #eef3e8;
+    }
+    tr:nth-child(odd) {
+      background: #fbfcf4;
     }
   }
 `;

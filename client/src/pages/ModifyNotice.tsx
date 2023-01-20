@@ -3,15 +3,18 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import Tabbar from '../components/tabbar';
 
 import TextEditor from '../components/UI/TextEditor';
 
 const Content = styled.main`
+  min-height: calc(100vh - 60px);
   width: 100%;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 60px 20px 110px;
   gap: 16px;
 
   h3 {
@@ -21,10 +24,15 @@ const Content = styled.main`
     padding-bottom: 8px;
   }
 
+  @media screen and (min-width: 768px) {
+    padding: 84px 20px 20px;
+    min-height: calc(100vh - 64px);
+  }
   @media screen and (min-width: 1200px) {
-    width: 1200px;
+    width: 1000px;
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 90px 0 20px;
+    min-height: calc(100vh - 70px);
   }
 `;
 
@@ -49,7 +57,7 @@ const Title = styled.div`
     appearance: none;
     border-radius: 0;
     ::placeholder {
-      color: #bdbdbd;
+      color: #828282;
     }
     &:focus {
       outline: none;
@@ -144,39 +152,48 @@ const ModifyNotice = () => {
     }
   };
   return (
-    <Content>
-      <h3>공지사항</h3>
-      <Form onSubmit={onSubmitHandler}>
-        <Title>
-          <select onChange={onChangeCategory} value={category}>
-            <option value=''>게시글 분류</option>
-            <option value='공지'>공지</option>
-          </select>
-          <input
-            type='text'
-            placeholder='제목을 입력해주세요'
-            value={title}
-            onChange={onChangeTitle}
-          />
-        </Title>
-        <TextEditor>
-          <ReactQuill
-            theme='snow'
-            value={contents}
-            onChange={setContents}
-            placeholder='내용을 입력해주세요'
-          />
-        </TextEditor>
-        <ButtonWrapper>
-          <Button type='button' className='style2' onClick={clickCancelHandler}>
-            취소
-          </Button>
-          <Button type='submit' className='style1'>
-            수정
-          </Button>
-        </ButtonWrapper>
-      </Form>
-    </Content>
+    <div>
+      <Header />
+      <Content>
+        <h3>공지사항</h3>
+        <Form onSubmit={onSubmitHandler}>
+          <Title>
+            <select onChange={onChangeCategory} value={category}>
+              <option value=''>게시글 분류</option>
+              <option value='공지'>공지</option>
+            </select>
+            <input
+              type='text'
+              placeholder='제목을 입력해주세요'
+              value={title}
+              onChange={onChangeTitle}
+            />
+          </Title>
+          <TextEditor>
+            <ReactQuill
+              theme='snow'
+              value={contents}
+              onChange={setContents}
+              placeholder='내용을 입력해주세요'
+            />
+          </TextEditor>
+          <ButtonWrapper>
+            <Button
+              type='button'
+              className='style2'
+              onClick={clickCancelHandler}
+            >
+              취소
+            </Button>
+            <Button type='submit' className='style1'>
+              수정
+            </Button>
+          </ButtonWrapper>
+        </Form>
+      </Content>
+      <Tabbar />
+      <Footer />
+    </div>
   );
 };
 

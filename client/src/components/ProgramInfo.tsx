@@ -111,8 +111,8 @@ const ProgramInfo = () => {
 
         <div className='pd-x20'>
           <div className='flex-row'>
-            <Label>우울감</Label>
-            <Label>불안감</Label>
+            <Label>우울</Label>
+            <Label>불안</Label>
           </div>
           <h3>
             프로그램 제목 어쩌구 저쩌구 프로그램 제목 어쩌구 저쩌구 프로그램

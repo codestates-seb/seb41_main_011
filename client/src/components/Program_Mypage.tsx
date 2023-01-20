@@ -1,28 +1,27 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { GrFormNext } from 'react-icons/gr';
 
 const Label = styled.div`
   background: #f3f0ca;
-  border-radius: 10px;
   font-weight: 500;
-  font-size: 14px;
   text-align: center;
-  width: 22%;
-  height: 70%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 4px;
   color: #7b5108;
-  @media screen and (min-width: 768px) {
-    font-size: 16px;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.93rem;
+  @media screen and (min-width: 700px) {
+    width: 140px;
+    height: 100px;
+    line-height: 100px;
+    border-radius: 10px;
+    padding: 0;
+    font-size: 1rem;
   }
-
 `;
 
 const Contents = styled.div`
-  width: 80vw;
-  padding: 1rem 1.15rem 0.8rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -32,19 +31,19 @@ const Contents = styled.div`
   color: #333;
   cursor: pointer;
   position: relative;
-  margin-bottom: 15px;
+  padding: 0.8rem 1rem;
 
-  @media screen and (min-width: 768px) {
-    width: 600px;
+  a {
+    color: inherit;
   }
 
-  .squretag {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    polyline {
-      stroke: #4b6a4d;
+  @media screen and (min-width: 700px) {
+    padding: 1rem 1.3rem;
+    .squretag {
+      position: absolute;
+      right: 1.3rem;
+      top: 50%;
+      transform: translateY(-50%);
     }
   }
 
@@ -52,11 +51,6 @@ const Contents = styled.div`
   &:active {
     background: #70846c;
     color: #fff;
-    .squretag {
-      polyline {
-        stroke: #8db990;
-      }
-    }
   }
 
   .flex-row {
@@ -73,6 +67,10 @@ const Contents = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
     margin-top: 0.6rem;
+
+    @media screen and (min-width: 700px) {
+      width: calc(92% - 140px);
+    }
   }
 
   .info {
@@ -89,32 +87,33 @@ const Contents = styled.div`
 const MyPageProgram = (props: any) => {
   return (
     <Contents>
-      <Label className='squretag'>{props.category}</Label>
-      <div className='flex-row'>
-      </div>
-      <h3 className='title'>프로그램 제목 어쩌구 저쩌구</h3>
-      <div className='flex-row'>
-        <div className='info'>
-          <strong>예약일자</strong>
-          2023년 01월 02일 
+      <Link to='/myprogram/1'>
+        <Label className='squretag'>{props.category}</Label>
+        <div className='flex-row'></div>
+        <h3 className='title'>프로그램 제목 어쩌구 저쩌구</h3>
+        <div className='flex-row'>
+          <div className='info'>
+            <strong>예약일자</strong>
+            2023년 01월 02일
+          </div>
         </div>
-      </div>
-      <div className='flex-row'>
-        <div className='info'>
-          <strong>상담사</strong>
-          햄토끼
+        <div className='flex-row'>
+          <div className='info'>
+            <strong>상담사</strong>
+            햄토끼
+          </div>
         </div>
-      </div>
-      <div className='flex-row'>
-        <div className='info'>
-          <strong>일시</strong>
-          2023.01.09
+        <div className='flex-row'>
+          <div className='info'>
+            <strong>일시</strong>
+            2023.01.09
+          </div>
+          <div className='info'>
+            <strong>정원</strong>
+            17/30
+          </div>
         </div>
-        <div className='info'>
-          <strong>정원</strong>
-          17/30
-        </div>
-      </div>
+      </Link>
     </Contents>
   );
 };

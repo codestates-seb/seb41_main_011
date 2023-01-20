@@ -1,7 +1,9 @@
 import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { useLocation } from 'react-router';
 
 const Content = styled.nav`
   display: none;
@@ -49,7 +51,7 @@ const SubNav = styled.ul`
   left: -20px;
   width: max-content;
   min-width: 140px;
-  background: #f7f9ed;
+  background: #f9f9f5;
   border-bottom-right-radius: 12px;
   padding: 4px 0;
   border-right: 1px solid #9db5af;
@@ -81,6 +83,16 @@ const SubNav = styled.ul`
 `;
 
 const NavBar = () => {
+  const location: string = useLocation().pathname;
+  const [isProgram, setIsProgram] = useState(false);
+  useEffect(() => {
+    if (location.includes('/program')) {
+      setIsProgram(true);
+    } else {
+      setIsProgram(false);
+    }
+  }, [location]);
+
   const [showOptions, setShowOptions] = useState(0);
   const onMouseOver = (index: number) => {
     setShowOptions(index);
@@ -88,12 +100,17 @@ const NavBar = () => {
   const onMouseOut = () => {
     setShowOptions(0);
   };
+  const navLinkClickHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+  };
 
   return (
     <Content>
       <ul>
         <li onMouseOver={() => onMouseOver(1)} onMouseOut={onMouseOut}>
-          <NavLink to='/'>그룹 테라피 프로그램</NavLink>
+          <NavLink to='/' className={isProgram ? 'active' : ''}>
+            그룹 테라피 프로그램
+          </NavLink>
           <SubNav isShow={showOptions === 1 ? true : false}>
             <li>
               <Link to='#'>#무력감이_들고_우울해요</Link>
@@ -110,24 +127,28 @@ const NavBar = () => {
           </SubNav>
         </li>
         <li onMouseOver={() => onMouseOver(2)} onMouseOut={onMouseOut}>
-          <NavLink to='/about'>소개 페이지</NavLink>
+          <NavLink to='/about' onClick={navLinkClickHandler}>
+            소개 페이지
+          </NavLink>
           <SubNav isShow={showOptions === 2 ? true : false}>
             <li>
-              <Link to='#'>#서비스_소개</Link>
+              <Link to='/about'>#서비스_소개</Link>
             </li>
             <li>
-              <Link to='#'>#나에게_맞는_프로그램_찾기</Link>
+              <Link to='/about/test'>#나에게_맞는_프로그램_찾기</Link>
             </li>
           </SubNav>
         </li>
         <li onMouseOver={() => onMouseOver(3)} onMouseOut={onMouseOut}>
-          <NavLink to='/notice'>커뮤니티</NavLink>
+          <NavLink to='/community' onClick={navLinkClickHandler}>
+            커뮤니티
+          </NavLink>
           <SubNav isShow={showOptions === 3 ? true : false}>
             <li>
-              <Link to='#'>#공지사항</Link>
+              <Link to='/community/notice'>#공지사항</Link>
             </li>
             <li>
-              <Link to='#'>#게시판</Link>
+              <Link to='/community/general'>#유저_커뮤니티</Link>
             </li>
           </SubNav>
         </li>
