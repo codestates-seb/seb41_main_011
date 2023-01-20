@@ -2,6 +2,7 @@ package com.server.seb41_main_11.domain.program.controller;
 
 import com.server.seb41_main_11.domain.common.MultiResponseDto;
 import com.server.seb41_main_11.domain.common.SingleResponseDto;
+import com.server.seb41_main_11.domain.counselor.dto.CounselorDto.Response;
 import com.server.seb41_main_11.domain.counselor.entity.Counselor;
 import com.server.seb41_main_11.domain.counselor.service.CounselorService;
 import com.server.seb41_main_11.domain.program.dto.ProgramDto;
@@ -59,11 +60,25 @@ public class ProgramController {
             new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
+    // 화면정의서 26p
+    // 상담사 - 마이페이지 나의 프로그램 수정
+    @PatchMapping("/patch/counselor/{program-id}")
+    public ResponseEntity patchCounselorProgram(@PathVariable("program-id") @Positive Long programId,
+        @RequestBody ProgramDto.PatchCounselor requestBody) {
+        requestBody.setProgramId(programId);
+        Program program = programMapper.PatchCounselorDtoToProgram(requestBody);
+        Program updatedProgram = programService.updateProgram(program);
+        ProgramDto.PatchCounselorResponse response = programMapper.ProgramToPatchCounselorResponse(updatedProgram);
+
+        return new ResponseEntity<>(
+            new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
     // 화면정의서 8p
     // 개별 프로그램 조회
     @GetMapping("/lookup/{program-id}")
     public ResponseEntity getProgram(@PathVariable("program-id") @Positive Long programId) {
-        Program program = programService.findProgram(programId);
+        Program program = programService.findVerifiedProgram(programId);
         ProgramDto.GetResponse response = programMapper.ProgramToGetProgramResponseDto(program);
         return new ResponseEntity<>(
             new SingleResponseDto<>(response), HttpStatus.OK);
@@ -94,7 +109,7 @@ public class ProgramController {
     }
 
     // 화면정의서 24p
-    // 상담사 - 마이페이지 나의 프로그램 전체 조회
+    // 상담사 - 상담사 상담 이력 전체 조회
     @GetMapping("/{counselor-id}/lookup/list")
     public ResponseEntity getCounselorPrograms(@PathVariable("counselor-id") @Positive Long counselorId,
         @Positive @RequestParam(defaultValue = "1") int page,
@@ -123,6 +138,20 @@ public class ProgramController {
             new MultiResponseDto<>(response, programPage), HttpStatus.OK);
     }
 
+    // 화면정의서 35p
+    // 관리자 - 상담사 상담이력 전체 조회
+    @GetMapping("/admin/lookup/{counselor-id}/list")
+    public ResponseEntity getCounselorProgramByAdmin(@PathVariable("counselor-id") @Positive Long counselorId,
+        @Positive @RequestParam(defaultValue = "1") int page,
+        @Positive @RequestParam(defaultValue = "10") int size) {
+        Page<Program> programPage = programService.searchCounselorProgram(counselorId, page-1, size);
+        List<Program> programList = programPage.getContent();
+
+        List<ProgramDto.GetCounselorProgramsByAdminResponse> response = programMapper.ProgramsToGetCounselorProgramsByAdminResponseDtos(programList);
+        return new ResponseEntity<>(
+            new MultiResponseDto<>(response, programPage), HttpStatus.OK);
+    }
+
     // 화면정의서 7p, 12p
     // 고민별 프로그램 조회, 추천 프로그램 조회
     @GetMapping("/lookup/search")
@@ -138,6 +167,8 @@ public class ProgramController {
             new MultiResponseDto<>(response, searchProgramPage), HttpStatus.OK);
     }
 
+    // 화면정의서 31p
+    // 프로그램 삭제
     @DeleteMapping("/delete/{program-id}")
     public ResponseEntity deleteProgram(@PathVariable("program-id") @Positive Long programId) {
         programService.deleteProgram(programId);

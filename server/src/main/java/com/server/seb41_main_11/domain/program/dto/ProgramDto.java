@@ -155,6 +155,36 @@ public class ProgramDto {
 
     @Getter
     @Builder
+    public static class PatchCounselor {
+        @Setter
+        private Long programId;
+        private String zoomLink;
+        private String announce;
+
+        public static ProgramDto.PatchCounselor of(Program program) {
+            return PatchCounselor.builder()
+                .zoomLink(program.getZoomLink())
+                .announce(program.getAnnounce())
+                .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    public static class PatchCounselorResponse {
+        private String zoomLink;
+        private String announce;
+
+        public static ProgramDto.PatchCounselorResponse of(Program program) {
+            return PatchCounselorResponse.builder()
+                .zoomLink(program.getZoomLink())
+                .announce(program.getAnnounce())
+                .build();
+        }
+    }
+
+    @Getter
+    @Builder
     public static class GetResponse {
 
         private Long programId;
@@ -251,7 +281,6 @@ public class ProgramDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class GetCounselorProgramsResponse {
-
         private Long programId;
         private String title;
         private String dateStart;
@@ -267,6 +296,34 @@ public class ProgramDto {
                 .dateEnd(program.getDateEnd())
                 .userMax(program.getUserMax())
                 .userCount(program.getUserCount())
+                .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class GetCounselorProgramsByAdminResponse {
+        private Long programId;
+        private String title;
+        private String dateStart;
+        private String dateEnd;
+        private int userMax;
+        private int userCount;
+        private Long counselorId;
+        private String counselorName;
+
+        public static ProgramDto.GetCounselorProgramsByAdminResponse of(Program program) {
+            return GetCounselorProgramsByAdminResponse.builder()
+                .programId(program.getProgramId())
+                .title(program.getTitle())
+                .dateStart(program.getDateStart())
+                .dateEnd(program.getDateEnd())
+                .userMax(program.getUserMax())
+                .userCount(program.getUserCount())
+                .counselorId(program.getCounselor().getCounselorId())
+                .counselorName(program.getCounselor().getCounselorName())
                 .build();
         }
     }

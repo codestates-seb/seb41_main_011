@@ -103,6 +103,11 @@ public class PayService {
      * */
     public Pay updatePayStatus(Long payId) {
         Pay pay = findVerifiedPay(payId);
+
+        if(Status.WAITING_CANCEL_PAYMENT.equals(pay.getStatus())) {
+            throw new BusinessException(ErrorCode.ALREADY_CANCELLATION_REQUESTED);
+        }
+
         pay.setStatus(Status.WAITING_CANCEL_PAYMENT);
 
         return payRepository.save(pay);
@@ -113,11 +118,21 @@ public class PayService {
      */
     public Pay confirmPayStatus(Long payId){
         Pay pay = findVerifiedPay(payId);
+
+        if(Status.CANCEL_PAYMENT.equals(pay.getStatus())) {
+            throw new BusinessException(ErrorCode.CANCEL_RESERVATION);
+        } else if(Status.COMPLETE_PAYMENT.equals(pay.getStatus())) {
+            throw  new BusinessException(ErrorCode.NO_CANCELLATION_REQUEST);
+        }
+
         pay.setStatus(Status.CANCEL_PAYMENT);
 
-        Program program = programService.findProgram(pay.getProgram().getProgramId());
-        int user = program.getUserCount() - 1;
-        program.setUserCount(user);
+        Program program = programService.findVerifiedProgram(pay.getProgram().getProgramId());
+
+        if(program.getUserCount() > 0) {
+            int user = program.getUserCount() - 1;
+            program.setUserCount(user);
+        }
 
         return payRepository.save(pay);
     }

@@ -1,8 +1,6 @@
 package com.server.seb41_main_11.domain.pay.dto;
 
 import com.server.seb41_main_11.domain.pay.entity.Pay;
-import com.server.seb41_main_11.domain.pay.entity.Pay.Status;
-import com.server.seb41_main_11.domain.program.dto.ProgramDto;
 import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -69,7 +67,13 @@ public class PayDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class PayPatchResponse {
-        private Status status;
+        private String status;
+
+        public static PayDto.PayPatchResponse of(Pay pay) {
+            return PayPatchResponse.builder()
+                .status(pay.getStatus().getStatusMessage())
+                .build();
+        }
     }
 
     @Getter
@@ -79,7 +83,7 @@ public class PayDto {
     public static class GetResponse {
         private Long payId;
         private LocalDateTime createdAt;
-        private Status status;
+        private String status;
         private Long programId;
         private String title;
         private String dateStart;
@@ -94,7 +98,7 @@ public class PayDto {
             return GetResponse.builder()
                 .payId(pay.getPayId())
                 .createdAt(pay.getCreateTime())
-                .status(pay.getStatus())
+                .status(pay.getStatus().getStatusMessage())
                 .programId(pay.getProgram().getProgramId())
                 .title(pay.getProgram().getTitle())
                 .dateStart(pay.getProgram().getDateStart())
@@ -121,6 +125,7 @@ public class PayDto {
         private int userMax;
         private LocalDateTime createdAt;
         private String counselorName;
+        private String status;
 
         public static PayDto.UserReservePageResponse of(Pay pay) {
             return UserReservePageResponse.builder()
@@ -132,6 +137,7 @@ public class PayDto {
                 .userMax(pay.getProgram().getUserMax())
                 .createdAt(pay.getCreateTime())
                 .counselorName(pay.getProgram().getCounselor().getCounselorName())
+                .status(pay.getStatus().getStatusMessage())
                 .build();
         }
     }
@@ -189,7 +195,7 @@ public class PayDto {
 
         private long payId;
 
-        private Status status;
+        private String status;
 
         private String title;
 
@@ -200,7 +206,7 @@ public class PayDto {
                     .memberId(pay.getMember().getMemberId())
                     .memberName(pay.getMember().getMemberName())
                     .payId(pay.getPayId())
-                    .status(pay.getStatus())
+                    .status(pay.getStatus().getStatusMessage())
                     .title(pay.getProgram().getTitle())
                     .cost(pay.getProgram().getCost())
                     .build();
