@@ -17,7 +17,7 @@ const ContentWrapper = styled.div`
     min-height: calc(100vh - 64px);
   }
   @media screen and (min-width: 1200px) {
-    width: 1200px;
+    width: 1000px;
     margin: 0 auto;
     padding: 90px 0 20px;
     min-height: calc(100vh - 70px);

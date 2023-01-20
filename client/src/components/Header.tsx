@@ -53,7 +53,7 @@ const Header = () => {
   return (
     <Contents>
       <h1>
-        <Link to='/'>LOGO TEXT</Link>
+        <Link to='/'>TEATIME</Link>
       </h1>
       <NavBar />
       {isLoggedIn ? <MyPageButton /> : <SignButtons />}
