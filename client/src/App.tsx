@@ -1,7 +1,7 @@
 import reset from 'styled-reset';
 import { createGlobalStyle } from 'styled-components';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css'; 
+import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
 import Intro from './pages/intro';
 import About from './pages/about';
 import Test from './pages/test';
@@ -14,7 +14,7 @@ import EditUserInfoTherapist from './pages/edit_userinfo_therapist';
 import MyPageGeneral from './pages/mypage_general';
 import Book from './pages/book';
 import BookingCompleted from './pages/bookingCompleted';
-import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';  
+import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
 import MyProgramDetailG from './pages/my_p_detail_general';
 import MyProgramDetailT from './pages/my_p_detail_therapist';
 import WriteNotice from './pages/WriteNotice';
@@ -33,7 +33,6 @@ import Generalinquiry from './admin/components/UI/Generalinquiry';
 import Therapistinquiry from './admin/components/UI/Therapistinquiry';
 import AdminEditInfo from './admin/pages/adminEditInfo';
 import CommunityPost from './pages/community_post';
-
 
 const GlobalStyle = createGlobalStyle`
  ${reset}
@@ -69,15 +68,18 @@ function App() {
       <BrowserRouter>
         <GlobalStyle />
         <Routes>
-          <Route path="/intro" element={<Intro />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="/test-result" element={<TestResult />} />
-          <Route path="/edit-userinfo" element={<EditUserInfo />} />
-          <Route path="/edit-userinfo-therapist" element={<EditUserInfoTherapist />} />
-          <Route path="/mypage" element={<MyPageGeneral />} />
-          <Route path="/book" element={<Book />} />
-          <Route path="/booking-completed" element={<BookingCompleted />} />
+          <Route path='/intro' element={<Intro />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/test' element={<Test />} />
+          <Route path='/test-result' element={<TestResult />} />
+          <Route path='/edit-userinfo' element={<EditUserInfo />} />
+          <Route
+            path='/edit-userinfo-therapist'
+            element={<EditUserInfoTherapist />}
+          />
+          <Route path='/mypage' element={<MyPageGeneral />} />
+          <Route path='/book' element={<Book />} />
+          <Route path='/booking-completed' element={<BookingCompleted />} />
           <Route path='/' element={<AllPrograms />} />
           <Route path='/program/:id' element={<ProgramDetail />} />
           <Route path='/signup' element={<Signup />} />
@@ -92,10 +94,10 @@ function App() {
         
           <Route path='/myprogramg/:id' element={<MyProgramDetailG />} />
           <Route path='/myprogramt/:id' element={<MyProgramDetailT />} />
-          <Route path='/notice/write' element={<WriteNotice />} />
-          <Route path='/board/write' element={<WriteBoard />} />
-          <Route path='/notice/modify' element={<ModifyNotice />} />
-          <Route path='/board/modify' element={<ModifyBoard />} />
+          <Route path='/community/notice/write' element={<WriteNotice />} />
+          <Route path='/community/general/write' element={<WriteBoard />} />
+          <Route path='/community/notice/modify' element={<ModifyNotice />} />
+          <Route path='/community/general/modify' element={<ModifyBoard />} />
 
           <Route path='/community/notice' element={<CommunityMain />} />
           <Route path='/community/notice/:id' element={<CommunityPost />} />
