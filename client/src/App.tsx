@@ -72,40 +72,27 @@ function App() {
 
           <Route path='/' element={<AllPrograms />} />
           <Route path='/program/:id' element={<ProgramDetail />} />
-          <Route path='/program/book' element={<Book />} />
-          <Route
-            path='/program/booking-completed'
-            element={<BookingCompleted />}
-          />
-
-          <Route path='/about' element={<About />} />
-          <Route path='/about/test' element={<Test />} />
-          <Route path='/about/test-result' element={<TestResult />} />
-
-          <Route path='/community/notice' element={<CommunityMain />} />
-          <Route path='/community/general' element={<CommunityMain />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/login-general' element={<LoginGeneral />} />
+          <Route path='/login-therapist' element={<LoginTherapist />} />
+          
+          <Route path='/admin' element={<Main />} />
+          <Route path='/userManagement' element={<UserManagement />} />
+          <Route path='/programsManagement' element={<ProgramManagement />} />
+          <Route path='/paymentManagement' element={<PaymentManagement />} />
+          <Route path='/admin/editInfo' element={<AdminEditInfo/>} />
+        
+          <Route path='/myprogramg/:id' element={<MyProgramDetailG />} />
+          <Route path='/myprogramt/:id' element={<MyProgramDetailT />} />
           <Route path='/community/notice/write' element={<WriteNotice />} />
           <Route path='/community/general/write' element={<WriteBoard />} />
           <Route path='/community/notice/modify' element={<ModifyNotice />} />
           <Route path='/community/general/modify' element={<ModifyBoard />} />
 
-          <Route path='/mypage' element={<MyPageGeneral />} />
-          <Route path='/myprogram/:id' element={<MyProgramDetailG />} />
-          <Route path='/myprogramt/:id' element={<MyProgramDetailT />} />
-          <Route path='/edit-userinfo' element={<EditUserInfo />} />
-          <Route
-            path='/edit-userinfo-therapist'
-            element={<EditUserInfoTherapist />}
-          />
-
-          <Route path='/login-general' element={<LoginGeneral />} />
-          <Route path='/login-therapist' element={<LoginTherapist />} />
-          <Route path='/signup' element={<Signup />} />
-
-          <Route path='/admin' element={<Main />} />
-          <Route path='/userManagement' element={<UserManagement />} />
-          <Route path='/programsManagement' element={<ProgramManagement />} />
-          <Route path='/paymentManagement' element={<PaymentManagement />} />
+          <Route path='/community/notice' element={<CommunityMain />} />
+          <Route path='/community/notice/:id' element={<CommunityPost />} />
+          <Route path='/community/general' element={<CommunityMain />} />
+          <Route path='/community/general/:id' element={<CommunityPost />} />
         </Routes>
       </BrowserRouter>
     </div>
