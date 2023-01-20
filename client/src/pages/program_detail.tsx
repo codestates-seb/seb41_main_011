@@ -19,7 +19,7 @@ const Contents = styled.main`
     min-height: calc(100vh - 64px);
   }
   @media screen and (min-width: 1200px) {
-    width: 1200px;
+    width: 1080px;
     margin: 0 auto;
     gap: 24px;
     padding-top: 90px;
