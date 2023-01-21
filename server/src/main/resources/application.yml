@@ -9,14 +9,10 @@ server:
 spring:
   # todo 개발 데이터베이스 연결
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://main-db.clbhpaxnrw12.ap-northeast-2.rds.amazonaws.com:3306/main?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: 12341234
-  #   url: jdbc:h2:tcp://localhost/~/test
- #   username: sa
- #   password:
- #   driver-class-name: org.h2.Driver
+     url: jdbc:h2:tcp://localhost/~/test
+     username: sa
+     password:
+     driver-class-name: org.h2.Driver
   h2:
     console:
       enabled: true
