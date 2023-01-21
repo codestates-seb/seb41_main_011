@@ -2,6 +2,7 @@ package com.server.seb41_main_11.domain.member.service;
 
 import com.server.seb41_main_11.domain.member.constant.MemberType;
 import com.server.seb41_main_11.domain.member.constant.Role;
+import com.server.seb41_main_11.domain.member.constant.Status;
 import com.server.seb41_main_11.domain.member.dto.MemberDto;
 import com.server.seb41_main_11.domain.member.entity.Member;
 import com.server.seb41_main_11.domain.member.repository.MemberRepository;
@@ -124,8 +125,11 @@ public class MemberService {
     /**
      * 회원 삭제 (마이페이지를 통해서 삭제하기 때문에 별도 인증 과정 X)
      */
-    public void deleteMember(Long memberId) {
-        memberRepository.deleteById(memberId);
+    public Member deleteMember(Long memberId) {
+        Member member = findVerifiedMemberByMemberId(memberId);
+        member.setStatus(Status.DELETE);
+
+        return memberRepository.save(member);
     }
 
     /**
