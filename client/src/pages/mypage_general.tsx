@@ -86,8 +86,13 @@ const Status = styled.div`
   }
 `;
 
-const StatusWrapper = styled.div`
+const ScrollContainer = styled.div`
   width: 100%;
+  overflow-x: auto;
+`;
+
+const StatusWrapper = styled.div`
+  width: max-content;
   display: flex;
   gap: 12px;
 `;
@@ -115,68 +120,124 @@ const MyPageGeneral = (props: any) => {
         {/* <Logo src='/Teacup.png' /> */}
         <Title>나의 테라피 프로그램</Title>
         <ListWrapper>
-          <StatusWrapper>
-            <Status
-              className={isActive1 ? 'clicked' : ''}
-              onClick={(e) => {
-                setAllPrograms(true);
-                setProgramsConfirmed(false);
-                setProgramsInProcess(false);
-                setProgramsCompleted(false);
-                setIsActive1(true);
-                setIsActive2(false);
-                setIsActive3(false);
-                setIsActive4(false);
-              }}
-            >
-              전체 목록
-            </Status>
-            <Status
-              className={isActive2 ? 'clicked' : ''}
-              onClick={() => {
-                setAllPrograms(false);
-                setProgramsConfirmed(true);
-                setProgramsInProcess(false);
-                setProgramsCompleted(false);
-                setIsActive1(false);
-                setIsActive2(true);
-                setIsActive3(false);
-                setIsActive4(false);
-              }}
-            >
-              진행 예정
-            </Status>
-            <Status
-              className={isActive3 ? 'clicked' : ''}
-              onClick={() => {
-                setAllPrograms(false);
-                setProgramsConfirmed(false);
-                setProgramsInProcess(true);
-                setProgramsCompleted(false);
-                setIsActive1(false);
-                setIsActive2(false);
-                setIsActive3(true);
-                setIsActive4(false);
-              }}
-            >
-              진행 중
-            </Status>
-            <Status
-              className={isActive4 ? 'clicked' : ''}
-              onClick={() => {
-                setAllPrograms(false);
-                setProgramsConfirmed(false);
-                setProgramsInProcess(false);
-                setProgramsCompleted(true);
-                setIsActive1(false);
-                setIsActive2(false);
-                setIsActive3(false);
-                setIsActive4(true);
-              }}
-            >
-              완료
-            </Status>
-          </StatusWrapper>
+          <ScrollContainer>
+            <StatusWrapper>
+              <Status
+                className={isActive1 ? 'clicked' : ''}
+                onClick={(e) => {
+                  setAllPrograms(true);
+                  setProgramsConfirmed(false);
+                  setProgramsInProcess(false);
+                  setProgramsCompleted(false);
+                  setCancellationInProcess(false);
+                  setProgramsCancelled(false);
+                  setIsActive1(true);
+                  setIsActive2(false);
+                  setIsActive3(false);
+                  setIsActive4(false);
+                  setIsActive5(false);
+                  setIsActive6(false);
+                }}
+              >
+                전체 목록
+              </Status>
+              <Status
+                className={isActive2 ? 'clicked' : ''}
+                onClick={() => {
+                  setAllPrograms(false);
+                  setProgramsConfirmed(true);
+                  setProgramsInProcess(false);
+                  setProgramsCompleted(false);
+                  setCancellationInProcess(false);
+                  setProgramsCancelled(false);
+                  setIsActive1(false);
+                  setIsActive2(true);
+                  setIsActive3(false);
+                  setIsActive4(false);
+                  setIsActive5(false);
+                  setIsActive6(false);
+                }}
+              >
+                진행 예정
+              </Status>
+              <Status
+                className={isActive3 ? 'clicked' : ''}
+                onClick={() => {
+                  setAllPrograms(false);
+                  setProgramsConfirmed(false);
+                  setProgramsInProcess(true);
+                  setProgramsCompleted(false);
+                  setCancellationInProcess(false);
+                  setProgramsCancelled(false);
+                  setIsActive1(false);
+                  setIsActive2(false);
+                  setIsActive3(true);
+                  setIsActive4(false);
+                  setIsActive5(false);
+                  setIsActive6(false);
+                }}
+              >
+                진행 중
+              </Status>
+              <Status
+                className={isActive4 ? 'clicked' : ''}
+                onClick={() => {
+                  setAllPrograms(false);
+                  setProgramsConfirmed(false);
+                  setProgramsInProcess(false);
+                  setProgramsCompleted(true);
+                  setCancellationInProcess(false);
+                  setProgramsCancelled(false);
+                  setIsActive1(false);
+                  setIsActive2(false);
+                  setIsActive3(false);
+                  setIsActive4(true);
+                  setIsActive5(false);
+                  setIsActive6(false);
+                }}
+              >
+                완료
+              </Status>
+              <Status
+                className={isActive5 ? 'clicked' : ''}
+                onClick={() => {
+                  setAllPrograms(false);
+                  setProgramsConfirmed(false);
+                  setProgramsInProcess(false);
+                  setProgramsCompleted(false);
+                  setCancellationInProcess(true);
+                  setProgramsCancelled(false);
+                  setIsActive1(false);
+                  setIsActive2(false);
+                  setIsActive3(false);
+                  setIsActive4(false);
+                  setIsActive5(true);
+                  setIsActive6(false);
+                }}
+              >
+                취소 신청
+              </Status>
+              <Status
+                className={isActive6 ? 'clicked' : ''}
+                onClick={() => {
+                  setAllPrograms(false);
+                  setProgramsConfirmed(false);
+                  setProgramsInProcess(false);
+                  setProgramsCompleted(false);
+                  setCancellationInProcess(false);
+                  setProgramsCancelled(true);
+                  setIsActive1(false);
+                  setIsActive2(false);
+                  setIsActive3(false);
+                  setIsActive4(false);
+                  setIsActive5(false);
+                  setIsActive6(true);
+                }}
+              >
+                취소 완료
+              </Status>
+            </StatusWrapper>
+          </ScrollContainer>
           <ProgramWrapper>
             {allPrograms ? (
               <>
@@ -204,6 +265,18 @@ const MyPageGeneral = (props: any) => {
               <>
                 <MyPageProgram category={'완료'} />
                 <MyPageProgram category={'완료'} />
+              </>
+            ) : null}
+            {cancellationInProcess ? (
+              <>
+                <MyPageProgram category={'취소 신청'} />
+                <MyPageProgram category={'취소 신청'} />
+              </>
+            ) : null}
+            {programsCancelled ? (
+              <>
+                <MyPageProgram category={'취소 완료'} />
+                <MyPageProgram category={'취소 완료'} />
               </>
             ) : null}
           </ProgramWrapper>

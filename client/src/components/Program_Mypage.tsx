@@ -91,28 +91,49 @@ const MyPageProgram = (props: any) => {
         <Label className='squretag'>{props.category}</Label>
         <div className='flex-row'></div>
         <h3 className='title'>프로그램 제목 어쩌구 저쩌구</h3>
-        <div className='flex-row'>
-          <div className='info'>
-            <strong>예약일자</strong>
-            2023년 01월 02일
+        {!props.therapist ? (
+          <div className='flex-row'>
+            <div className='info'>
+              <strong>예약일자</strong>
+              2023년 01월 02일
+            </div>
           </div>
-        </div>
-        <div className='flex-row'>
-          <div className='info'>
-            <strong>상담사</strong>
-            햄토끼
+        ) : null}
+        {!props.therapist ? (
+          <div className='flex-row'>
+            <div className='info'>
+              <strong>상담사</strong>
+              햄토끼
+            </div>
           </div>
-        </div>
-        <div className='flex-row'>
-          <div className='info'>
-            <strong>일시</strong>
-            2023.01.09
+        ) : null}
+        {!props.therapist ? (
+          <div className='flex-row'>
+            <div className='info'>
+              <strong>일시</strong>
+              2023.01.09
+            </div>
+            <div className='info'>
+              <strong>정원</strong>
+              17/30
+            </div>
           </div>
-          <div className='info'>
-            <strong>정원</strong>
-            17/30
-          </div>
-        </div>
+        ) : (
+          <>
+            <div className='flex-row'>
+              <div className='info'>
+                <strong>일시</strong>
+                2023.01.09
+              </div>
+            </div>
+            <div className='flex-row'>
+              <div className='info'>
+                <strong>정원</strong>
+                17/30
+              </div>
+            </div>
+          </>
+        )}
       </Link>
     </Contents>
   );
