@@ -4,15 +4,17 @@ import styled from 'styled-components';
 const Label = styled.div`
   background: #f3f0ca;
   font-weight: 500;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: #7b5108;
   width: fit-content;
+  height: 80%;
   padding: 2px 8px;
   border-radius: 6px;
   font-size: 0.93rem;
   @media screen and (min-width: 700px) {
     width: 140px;
-    height: 100px;
     line-height: 100px;
     border-radius: 10px;
     padding: 0;
@@ -87,22 +89,22 @@ const Contents = styled.div`
 const MyPageProgram = (props: any) => {
   return (
     <Contents>
-      <Link to='/myprogram/1'>
+      <Link to={props.therapist ? '/myprogramt/1' : '/myprogram/1'}>
         <Label className='squretag'>{props.category}</Label>
         <div className='flex-row'></div>
         <h3 className='title'>프로그램 제목 어쩌구 저쩌구</h3>
-        <div className='flex-row'>
+        {!props.therapist ? <div className='flex-row'>
           <div className='info'>
             <strong>예약일자</strong>
             2023년 01월 02일
           </div>
-        </div>
-        <div className='flex-row'>
+        </div> : null}
+        {!props.therapist ? <div className='flex-row'>
           <div className='info'>
             <strong>상담사</strong>
             햄토끼
           </div>
-        </div>
+        </div> : null}
         <div className='flex-row'>
           <div className='info'>
             <strong>일시</strong>
