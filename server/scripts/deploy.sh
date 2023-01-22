@@ -7,7 +7,7 @@ echo "> 현재 시간: $(date)" >> /root/main/back/deploy.log
 echo "> build 파일명: $JAR_NAME" >> /root/main/back/deploy.log
 
 echo "> build 파일 복사" >> /root/main/back/deploy.log
-DEPLOY_PATH=/root/main/back
+DEPLOY_PATH=/root/main/back/build/libs
 cp $BUILD_JAR $DEPLOY_PATH
 
 echo "> 현재 실행중인 애플리케이션 pid 확인" >> /root/main/back/deploy.log
