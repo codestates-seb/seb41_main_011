@@ -9,7 +9,7 @@ server:
 spring:
   # todo 개발 데이터베이스 연결
   datasource:
-    url: jdbc:mysql://main-db.clbhpaxnrw12.ap-northeast-2.rds.amazonaws.com:3306/main?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: ${RDS_URL}
     username: root
     password: 12341234
     driver-class-name: com.mysql.cj.jdbc.Driver
