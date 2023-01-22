@@ -2,6 +2,7 @@ import reset from 'styled-reset';
 import { createGlobalStyle } from 'styled-components';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
+import ScrollToTop from './utils/ScrollToTop';
 import Intro from './pages/intro';
 import About from './pages/about';
 import Test from './pages/test';
@@ -60,6 +61,7 @@ function App() {
     <div className='App'>
       <BrowserRouter>
         <GlobalStyle />
+        <ScrollToTop />
         <Routes>
           <Route path='/intro' element={<Intro />} />
 
