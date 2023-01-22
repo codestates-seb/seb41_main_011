@@ -9,7 +9,7 @@ server:
 spring:
   # todo 개발 데이터베이스 연결
   datasource:
-    url: ${RDS_URL}
+    url: $ {{ secrets.RDS_URL }}
     username: root
     password: 12341234
     driver-class-name: com.mysql.cj.jdbc.Driver
