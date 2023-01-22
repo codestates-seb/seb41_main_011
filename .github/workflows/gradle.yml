@@ -24,6 +24,17 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RDS_URL: ${{ secrets.RDS_URL }}
+      RDS_USERNAME: $ {{ RDS_USERNAME }}
+      RDS_PASSWORD: $ {{ RDS_PASSWORD }}
+
+      KAKAO_CLIENT_ID: ${{ KAKAO_CLIENT_ID }}
+      KAKAO_CLIENT_SECRET: ${{ KAKAO_CLIENT_SECRET }}
+
+      TOKEN_SECRET: ${{ TOKEN_SECRET }}
+      ACCESS_TOKEN_EXPIRATION_TIME: ${ACCESS_TOKEN_EXPIRATION_TIME}  # 15분 1000(ms) x 60(s) x 15(m)
+      REFRESH_TOKEN_EXPIRATION_TIME: ${REFRESH_TOKEN_EXPIRATION_TIME} # 2주 1000(ms) x 60 (s) x 60(m) x 24(h) x 14(d)
+      JASYPT_PASSWORD: ${JASYPT_PASSWORD}
+
     defaults:
         run:
           working-directory: ./server
