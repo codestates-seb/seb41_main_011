@@ -34,6 +34,7 @@ spring:
         # 쿼리에서 조건문 in절로 수행하게됨, n번 쿼리 수행 -> 1번 쿼리에서 수행(n개를 파라미터로 넣어줌)
         # DB와 애플리케이션 부하를 고려해서 개수를 설정할 것
         # oracle의 경우 최대 1000개
+        dialect: org.hibernate.dialect.MySQLDialect
     open-in-view: true # 영속성 컨텍스트의 생존 범위를 트랜잭션 범위로 한정
       # 기본값 true -> View 랜더링 또는 API 요청일 경우 클라이언트 응답까지 영속성 컨텍스트 생존
       # false 설정 시 -> 생존 범위가 트랜잭션 범위로 줄어들게 됨
