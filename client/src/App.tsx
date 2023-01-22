@@ -31,6 +31,7 @@ import ProgramManagement from './admin/pages/programManagement';
 import PaymentManagement from './admin/pages/paymentManagement';
 import CommunityMain from './pages/community_main';
 import CommunityPost from './pages/community_post';
+import MyPageTherapist from './pages/mypage_therapist';
 
 const GlobalStyle = createGlobalStyle`
  ${reset}
@@ -87,6 +88,7 @@ function App() {
           <Route path='/community/general/modify' element={<ModifyBoard />} />
 
           <Route path='/mypage' element={<MyPageGeneral />} />
+          <Route path='/mypaget' element={<MyPageTherapist />} />
           <Route path='/myprogram/:id' element={<MyProgramDetailG />} />
           <Route path='/myprogramt/:id' element={<MyProgramDetailT />} />
           <Route path='/edit-userinfo' element={<EditUserInfo />} />
