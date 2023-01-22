@@ -78,7 +78,7 @@ kakao:
 #   보안 - 코드 값 복사
 
 token:
-  secret: ENC(l9lcZQ+UyKywHrkVv3x+5xg7psUCfAw1ok+5PIW/FUDm3tZEAOSKLdGlIDQ847C22OQVPvbPthP+uEOCOTDXAzmQ+EBHZLmJDH9j8fTFVkf9gmgxcP7pQslsMWLXJNSaq4TBaxGzxyo=)
+  secret: ${TOKEN_SECRET}
   access-token-expiration-time: ${ACCESS_TOKEN_EXPIRATION_TIME}  # 15분 1000(ms) x 60(s) x 15(m)
   refresh-token-expiration-time: ${REFRESH_TOKEN_EXPIRATION_TIME} # 2주 1000(ms) x 60 (s) x 60(m) x 24(h) x 14(d)
 
