@@ -17,13 +17,6 @@ const Content = styled.main`
   padding: 60px 20px 110px;
   gap: 16px;
 
-  h3 {
-    font-weight: 700;
-    color: #333;
-    border-bottom: 3px solid #b3d2b0;
-    padding-bottom: 8px;
-  }
-
   @media screen and (min-width: 768px) {
     padding: 84px 20px 20px;
     min-height: calc(100vh - 64px);
@@ -40,6 +33,8 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  border-top: 3px solid #b3d2b0;
+  padding-top: 8px;
 `;
 
 const Title = styled.div`
@@ -120,6 +115,15 @@ const Button = styled.button`
   }
 `;
 
+const MainMessage = styled.div`
+  color: #4b6a4d;
+  font-weight: 700;
+  font-size: 2.25rem;
+  text-align: left;
+  width: 100%;
+  line-height: 1;
+`;
+
 const ModifyNotice = () => {
   const navigate = useNavigate();
   // --게시글 분류, 제목, 내용의 초기값은 기존 데이터에 저장된 내용으로 설정해야 한다.
@@ -155,7 +159,7 @@ const ModifyNotice = () => {
     <div>
       <Header />
       <Content>
-        <h3>공지사항</h3>
+        <MainMessage>공지사항</MainMessage>
         <Form onSubmit={onSubmitHandler}>
           <Title>
             <select onChange={onChangeCategory} value={category}>
