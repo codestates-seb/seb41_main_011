@@ -22,7 +22,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env: ${{ secrets.RDS_URL }}
+    env:
+      RDS_URL: ${{ secrets.RDS_URL }}
     defaults:
         run:
           working-directory: ./server
