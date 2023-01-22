@@ -108,10 +108,14 @@ const MyPageGeneral = (props: any) => {
   const [programsConfirmed, setProgramsConfirmed] = useState(false);
   const [programsInProcess, setProgramsInProcess] = useState(false);
   const [programsCompleted, setProgramsCompleted] = useState(false);
+  const [cancellationInProcess, setCancellationInProcess] = useState(false);
+  const [programsCancelled, setProgramsCancelled] = useState(false);
   const [isActive1, setIsActive1] = useState(true);
   const [isActive2, setIsActive2] = useState(false);
   const [isActive3, setIsActive3] = useState(false);
   const [isActive4, setIsActive4] = useState(false);
+  const [isActive5, setIsActive5] = useState(false);
+  const [isActive6, setIsActive6] = useState(false);
 
   return (
     <div>
