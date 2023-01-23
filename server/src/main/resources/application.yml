@@ -11,7 +11,7 @@ spring:
   datasource:
     url: ${RDS_URL}
     username: ${RDS_USERNAME}
-    password: ${RDS_PASSWORD}
+    password: 12341234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 #     url: jdbc:h2:tcp://localhost/~/test
@@ -74,17 +74,17 @@ feign:
 # 연결은 됐는데 요청한 서버에서 응답이 5초내로 오지 않으면 에러 발생(readTimeout)
 kakao:
   client:
-    id: ${KAKAO_CLIENT_ID}
+    id: ENC(ZGfA/Jc8ORjddwcXnEHtqomnZMaKESHy8dH+HUyFDpK2PDKcE/cUEMrtVXVEKBYI)
     #   RESTAPI 키를 복사
-    secret: ${KAKAO_CLIENT_SECRET}
+    secret: ENC(o9bFg0h/gSGvMy2Zbb0a2GNetnzeLuDyUnvNJhNyRBrMg59TlGVIkmxlC6m8LSKl)
 #   보안 - 코드 값 복사
 
 token:
-  secret: ${TOKEN_SECRET}
-  access-token-expiration-time: ${ACCESS_TOKEN_EXPIRATION_TIME}  # 15분 1000(ms) x 60(s) x 15(m)
-  refresh-token-expiration-time: ${REFRESH_TOKEN_EXPIRATION_TIME} # 2주 1000(ms) x 60 (s) x 60(m) x 24(h) x 14(d)
+  secret: ENC(l9lcZQ+UyKywHrkVv3x+5xg7psUCfAw1ok+5PIW/FUDm3tZEAOSKLdGlIDQ847C22OQVPvbPthP+uEOCOTDXAzmQ+EBHZLmJDH9j8fTFVkf9gmgxcP7pQslsMWLXJNSaq4TBaxGzxyo=)
+  access-token-expiration-time: 900000  # 15분 1000(ms) x 60(s) x 15(m)
+  refresh-token-expiration-time: 1209600000 # 2주 1000(ms) x 60 (s) x 60(m) x 24(h) x 14(d)
 
 jasypt:
-  password: ${JASYPT_PASSWORD}
+  password: sakncksjallkasdkl#$@^#*asdsiajodias2737
 #  vmoption에 지정됨
 
