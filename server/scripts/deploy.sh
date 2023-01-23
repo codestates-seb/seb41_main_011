@@ -1,7 +1,6 @@
 #!/bin/bash
-chmod 777 /root/main/back/scripts/start.sh
 BUILD_JAR=$(ls /root/main/back/build/libs/seb41_main_11-0.0.1-SNAPSHOT.jar)
-JAR_NAME=$(basename $BUILD_JAR)
+#JAR_NAME=$(basename $BUILD_JAR)
 
 echo "> 현재 시간: $(date)" >> /root/main/back/log/deploy.log
 
@@ -23,9 +22,7 @@ else
   sleep 5
 fi
 
-#echo "> DEPLOY_JAR 배포"    >> /root/main/back/log/deploy.log
-
-DEPLOY_JAR=$JAR_NAME
+DEPLOY_JAR=$BUILD_JAR
     echo "> DEPLOY_JAR 배포"    >> /root/main/back/log/deploy.log
     cd /root/main/back/log/build/libs
     sudo nohup java -jar $DEPLOY_JAR >> /root/main/back/log/deploy.log 2>/root/main/back/log/deploy_err.log &
