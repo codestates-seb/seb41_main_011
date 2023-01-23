@@ -7,7 +7,6 @@
 
 name: Java CI with Gradle
 
-
 on:
   push:
     branches: [ "main" ]
@@ -17,12 +16,12 @@ permissions:
   
 env:
   S3_BUCKET_NAME: deploy011-bucket-replicaset
-  INIT_DATA: ${{ secrets.INIT_DATA }}
-  YML: ${{ secrets.YML }}
 
 jobs:
   build:
-
+    env:
+      INIT_DATA: ${{ secrets.INIT_DATA }}
+      YML: ${{ secrets.YML }}
     runs-on: ubuntu-latest
 
     defaults:
