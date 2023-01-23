@@ -32,28 +32,27 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - run: touch src/main/resources/templates/data.sql
+    - run: echo "${{ env.INIT_DATA }}" > src/main/resources/templates/data.sql
+    - uses: actions/upload-artifact@v3
+      with:
+        name: data.sql
+        path: src/main/resources/templates/data.sql
+
+    - uses: actions/checkout@v3
+    - run: touch src/main/resources/application.yml
+    - run: echo "${{ env.YML }}" > src/main/resources/application.yml
+    - uses: actions/upload-artifact@v3
+      with:
+        name: application.yml
+        path: src/main/resources/application.yml
+
+    - uses: actions/checkout@v3
     - name: Set up JDK 11
       uses: actions/setup-java@v3
       with:
         java-version: '11'
         distribution: 'temurin'
-
-    - uses: actions/checkout@v2
-    - run: touch ./src/main/resources/templates/data.sql
-    - run: echo "${{ env.INIT_DATA }}" > ./src/main/resources/templates/data.sql
-    - uses: actions/upload-artifact@v2
-      with:
-        name: data.sql
-        path: src/main/resources/templates/data.sql
-
-    - uses: actions/checkout@v2
-    - run: touch ./src/main/resources/application.yml
-    - run: echo "${{ env.YML }}" > ./src/main/resources/application.yml
-    - uses: actions/upload-artifact@v2
-      with:
-        name: application.yml
-        path: src/main/resources/application.yml
-
 
     - name: Run chmod to make gradlew executable
       run: chmod +x ./gradlew
@@ -61,6 +60,7 @@ jobs:
 
     - name: Build with Gradle
       run: ./gradlew build
+      working-directory: ./server
 
   
    # - name: Build with Gradle
