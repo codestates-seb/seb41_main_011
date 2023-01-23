@@ -48,7 +48,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: data.sql
-        path: ./src/main/resources/templates/data.sql
+        path: ./src/main/resources/db/data.sql
 
     - name: Run chmod to make gradlew executable
       run: chmod +x ./gradlew
