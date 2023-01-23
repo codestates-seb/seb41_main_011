@@ -30,6 +30,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+
+    - uses: actions/checkout@v3
     - name: create init data
       run: |
         touch ./src/main/resources/templates/data.sql
@@ -48,13 +55,6 @@ jobs:
       with:
         name: application.yml
         path: ./src/main/resources/application.yml
-
-    - uses: actions/checkout@v3
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
 
     - name: Run chmod to make gradlew executable
       run: chmod +x ./gradlew
