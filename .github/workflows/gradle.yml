@@ -53,6 +53,10 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
 
+    - name: Build Test
+      run: ./gradlew test -i
+      working-directory: ./server
+
     - name: Run chmod to make gradlew executable
       run: chmod +x ./gradlew
       working-directory: ./server
