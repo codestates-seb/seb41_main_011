@@ -17,14 +17,13 @@ permissions:
   
 env:
   S3_BUCKET_NAME: deploy011-bucket-replicaset
+  INIT_DATA: ${{ secrets.INIT_DATA }}
+  YML: ${{ secrets.YML }}
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      YML: ${{ secrets.YML }}
-      INIT_DATA: ${{ secrets.INIT_DATA }}
 
     defaults:
         run:
