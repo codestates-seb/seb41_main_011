@@ -24,17 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       working-directory: ./server
-      RDS_URL: ${{ secrets.RDS_URL }}
-      RDS_USERNAME: $ {{ secrets.RDS_USERNAME }}
-      RDS_PASSWORD: $ {{ secrets.RDS_PASSWORD }}
-
-      KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
-      KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
-
-      TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
-      ACCESS_TOKEN_EXPIRATION_TIME: ${{ secrets.ACCESS_TOKEN_EXPIRATION_TIME }}  # 15분 1000(ms) x 60(s) x 15(m)
-      REFRESH_TOKEN_EXPIRATION_TIME: ${{ secrets.REFRESH_TOKEN_EXPIRATION_TIME }} # 2주 1000(ms) x 60 (s) x 60(m) x 24(h) x 14(d)
-      JASYPT_PASSWORD: ${{ secrets.JASYPT_PASSWORD }}
+      YML: ${{ secrets.YML }}
 
     defaults:
         run:
@@ -49,8 +39,15 @@ jobs:
         distribution: 'temurin'
     - name: Run chmod to make gradlew executable
       run: chmod +x ./gradlew
+      working-directory: ${{ env.working-directory }}
+
     - name: Build with Gradle
       run: ./gradlew build
+      working-directory: ${{ env.working-directory }}
+
+    - name: Deploy Secrets
+    - run: touch ./src/main/resources/application.yml
+    - run: echo "${{env.YML}}" > ./src/main/resources/application.yml
   
    # - name: Build with Gradle
    #   uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
