@@ -23,7 +23,6 @@ else
   sleep 5
 fi
 
-
 echo "> DEPLOY_JAR 배포"    >> /root/main/back/log/deploy.log
 # EC2 내 Spring Boot 실행 스크립트
 
