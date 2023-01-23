@@ -39,7 +39,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Deploy init data
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
     - run: touch ./src/main/resources/templates/data.sql
     - run: echo "${{ env.INIT_DATA }}" > ./src/main/resources/templates/data.sql
     - uses: actions/upload-artifact@v2
