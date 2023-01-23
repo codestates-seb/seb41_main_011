@@ -31,7 +31,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: touch src/main/resources/templates/data.sql
-    - run: echo "${{ env.INIT_DATA }}" > src/main/resources/templates/data.sql
+    - run: echo "${{ secrets.INIT_DATA }}" > src/main/resources/templates/data.sql
     - uses: actions/upload-artifact@v2
       with:
         name: data.sql
@@ -39,7 +39,7 @@ jobs:
 
     - uses: actions/checkout@v2
     - run: touch src/main/resources/application.yml
-    - run: echo "${{ env.YML }}" > src/main/resources/application.yml
+    - run: echo "${{ secrets.YML }}" > src/main/resources/application.yml
     - uses: actions/upload-artifact@v2
       with:
         name: application.yml
