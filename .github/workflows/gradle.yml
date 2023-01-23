@@ -23,7 +23,6 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      working-directory: ./server
       YML: ${{ secrets.YML }}
       INIT_DATA: ${{ secrets.INIT_DATA }}
 
