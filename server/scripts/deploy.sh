@@ -1,4 +1,5 @@
 #!/bin/bash
+chmod 777 start.sh
 BUILD_JAR=$(ls /root/main/back/build/libs/seb41_main_11-0.0.1-SNAPSHOT.jar)
 JAR_NAME=$(basename $BUILD_JAR)
 
@@ -25,4 +26,4 @@ fi
 
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /root/main/back/log/deploy.log
-nohup java -jar $DEPLOY_JAR >> /root/main/back/log/deploy.log 2>/root/main/back/deploy_err.log &
+./start.sh 2>/root/main/back/deploy_err.log &
