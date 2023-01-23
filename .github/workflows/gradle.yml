@@ -25,6 +25,7 @@ jobs:
     env:
       working-directory: ./server
       YML: ${{ secrets.YML }}
+      INIT_DATA: ${{ secrets.INIT_DATA }}
 
     defaults:
         run:
