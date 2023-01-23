@@ -62,7 +62,7 @@ jobs:
 
     - name: Build with Gradle
       run: ./gradlew build
-      working-directory: ${{ env.working-directory }}
+      working-directory: ./server
   
    # - name: Build with Gradle
    #   uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
