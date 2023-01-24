@@ -32,6 +32,7 @@ const Contents = styled.div`
   cursor: pointer;
   position: relative;
   padding: 0.8rem 1rem;
+  transition: all 0.2s;
 
   a {
     color: inherit;

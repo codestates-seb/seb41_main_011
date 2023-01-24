@@ -55,6 +55,7 @@ const IconWrapper = styled.div`
   color: #777777;
   font-size: 11px;
   cursor: pointer;
+  transition: all 0.2s;
   * {
     margin: 3px;
   }

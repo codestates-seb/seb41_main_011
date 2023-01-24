@@ -54,6 +54,7 @@ const MessageGrid = styled.div`
     font-weight: 500;
     font-size: 0.95rem;
     cursor: pointer;
+    transition: all 0.2s;
     &:hover {
       background-color: #70846c;
       color: #fff;
@@ -102,6 +103,7 @@ const Post = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    transition: all 0.2s;
     &:hover {
       cursor: pointer;
       color: #009779;
@@ -115,6 +117,7 @@ const Post = styled.div`
     flex: 1 0 8%;
     color: #70846c;
     font-size: 1.5rem;
+    transition: all 0.2s;
     &:hover {
       cursor: pointer;
       color: #009779;
@@ -149,6 +152,7 @@ const MenuBar = styled.div`
     background-color: #d9d9d9;
     color: #777;
     padding: 8px 0;
+    transition: all 0.2s;
     &:hover {
       cursor: pointer;
       background-color: #ccc;

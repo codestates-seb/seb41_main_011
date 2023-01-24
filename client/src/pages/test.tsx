@@ -54,6 +54,7 @@ const Tag = styled.div`
   font-weight: 500;
   text-align: center;
   padding: 20px 0;
+  transition: all 0.2s;
 
   &:hover {
     background-color: #71ab75;

@@ -183,6 +183,7 @@ const ButtonWrapper = styled.div`
     border-radius: 4px;
     background-color: #d6d6d6;
     color: #333;
+    transition: all 0.2s;
     &:hover {
       cursor: pointer;
       background-color: #bebebe;

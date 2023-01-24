@@ -68,6 +68,7 @@ const Status = styled.div`
   color: #777;
   border-radius: 5px;
   cursor: pointer;
+  transition: all 0.2s;
   &:hover,
   &:active {
     background: #ccc;

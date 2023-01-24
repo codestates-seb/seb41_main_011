@@ -15,6 +15,7 @@ const Contents = styled.div`
   color: #333;
   cursor: pointer;
   position: relative;
+  transition: all 0.2s;
 
   .icon {
     position: absolute;

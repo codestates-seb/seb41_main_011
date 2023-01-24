@@ -97,6 +97,7 @@ const Button = styled.button`
   cursor: pointer;
   color: #333;
   font-weight: 400;
+  transition: all 0.2s;
 
   &.style1 {
     background: #cae2c7;
