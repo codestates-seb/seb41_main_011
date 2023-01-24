@@ -35,9 +35,10 @@ dependencies {
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4' //yml 파일 암호화
 //	implementation 'io.jsonwebtoken:jjwt:0.9.1' //jwt 라이브러리 의존성 추가(0.9.1)
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	implementation 'mysql:mysql-connector-java:8.0.32'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'com.mysql:mysql-connector-j:8.0.32'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	annotationProcessor 'org.projectlombok:lombok'

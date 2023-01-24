@@ -15,7 +15,6 @@ public class JasyptConfig {
 
 //    @Value("${jasypt.password}")
     private String password = "sakncksjallkasdkl#$@^#*asdsiajodias2737";
-
     public String getPassword() {
         return password;
     }
