@@ -19,9 +19,9 @@ public interface PostMapper {
         return PostDto.SingleResponse.ofMember(post);
     }
 
-    default PostDto.SingleResponse entityToSingleCounselorResponse(Post post) {
-        return PostDto.SingleResponse.ofCounselor(post);
-    }
+//    default PostDto.SingleResponse entityToSingleCounselorResponse(Post post) {
+//        return PostDto.SingleResponse.ofCounselor(post);
+//    }
 
     // 전체 조회
     default List<PostDto.MultiResponse> entityToMultiResponse(List<Post> posts) {

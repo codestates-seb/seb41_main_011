@@ -44,7 +44,7 @@ public class PostController {
             return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleMemberResponse(findPostByMember)), HttpStatus.CREATED);
         } else if (role.equals(Role.COUNSELOR)) {
             Post findPostByCounselor = postService.createByCounselor(mapper.postToEntity(post), counselorService.getLoginCounselor(request));
-            return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleCounselorResponse(findPostByCounselor)), HttpStatus.CREATED);
+            return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleMemberResponse(findPostByCounselor)), HttpStatus.CREATED);
         } else {
             Post findPostByMember = postService.createByMember(mapper.postToEntity(post), memberService.getLoginMember(request));
             return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleMemberResponse(findPostByMember)), HttpStatus.CREATED);
