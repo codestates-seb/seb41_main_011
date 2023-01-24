@@ -156,7 +156,7 @@ const WriteBoard = () => {
     <div>
       <Header />
       <Content>
-        <MainMessage>게시판</MainMessage>
+        <MainMessage>유저 커뮤니티</MainMessage>
         <Form onSubmit={onSubmitHandler}>
           <Title>
             <select onChange={onChangeCategory} value={category}>
