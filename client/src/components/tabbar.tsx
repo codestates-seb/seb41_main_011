@@ -6,6 +6,8 @@ import {
   FaRegFileAlt,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import MobileNav from './MobileNav';
+import { useState } from 'react';
 
 const Box = styled.div`
   position: fixed;
@@ -80,37 +82,53 @@ const CenterIconImage = styled.img`
   }
 `;
 
+export interface mobileNavProps {
+  close: () => void;
+}
+
 const Tabbar = () => {
+  const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
+
+  const openAllMenu = () => {
+    setIsNavOpen(true);
+  };
+  const closeAllMenu = () => {
+    setIsNavOpen(false);
+  };
+
   return (
-    <Box>
-      <Link to='/'>
-        <IconWrapper>
-          <FaListAlt color='#777777' size={30} />
-          프로그램
+    <>
+      {isNavOpen && <MobileNav close={closeAllMenu} />}
+      <Box>
+        <Link to='/'>
+          <IconWrapper>
+            <FaListAlt color='#777777' size={30} />
+            프로그램
+          </IconWrapper>
+        </Link>
+        <Link to='/about/test'>
+          <IconWrapper>
+            <FaSyringe color='#777777' size={30} />
+            테스트
+          </IconWrapper>
+        </Link>
+        <Link to='/mypage'>
+          <CenterIcon>
+            <CenterIconImage src='/teacup.png' />
+          </CenterIcon>
+        </Link>
+        <Link to='/community/general'>
+          <IconWrapper>
+            <FaRegLaughSquint color='#777777' size={30} />
+            커뮤니티
+          </IconWrapper>
+        </Link>
+        <IconWrapper onClick={openAllMenu}>
+          <FaRegFileAlt color='#777777' size={30} />
+          메뉴 더보기
         </IconWrapper>
-      </Link>
-      <Link to='/about/test'>
-        <IconWrapper>
-          <FaSyringe color='#777777' size={30} />
-          테스트
-        </IconWrapper>
-      </Link>
-      <Link to='/mypage'>
-        <CenterIcon>
-          <CenterIconImage src='/teacup.png' />
-        </CenterIcon>
-      </Link>
-      <Link to='/community/general'>
-        <IconWrapper>
-          <FaRegLaughSquint color='#777777' size={30} />
-          커뮤니티
-        </IconWrapper>
-      </Link>
-      <IconWrapper>
-        <FaRegFileAlt color='#777777' size={30} />
-        메뉴 더보기
-      </IconWrapper>
-    </Box>
+      </Box>
+    </>
   );
 };
 export default Tabbar;
