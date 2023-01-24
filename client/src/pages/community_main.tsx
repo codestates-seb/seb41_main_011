@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Tabbar from '../components/tabbar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { Link } from 'react-router-dom';
 
 const ContentWrapper = styled.div`
   min-height: calc(100vh - 60px);
@@ -71,6 +72,10 @@ const Post = styled.div`
   gap: 2%;
   width: 100%;
   border-bottom: 1px solid #ddd;
+
+  a {
+    color: inherit;
+  }
 
   div {
     display: flex;
@@ -241,16 +246,34 @@ const CommunityMain = (props: any) => {
                 <div className='wrapper'>
                   <div className='postTitle'>
                     {isActive1 ? <Tag>공지</Tag> : <Tag>후기</Tag>}
-                    {isActive1
-                      ? '안녕하세요 상담사 햄토끼 입니다.'
-                      : '상담사 햄토끼님 덕에 부자가 되었어요!'}
+                    <Link
+                      to={
+                        isActive1
+                          ? `/community/notice/${item}`
+                          : `/community/general/${item}`
+                      }
+                    >
+                      {isActive1
+                        ? '안녕하세요 상담사 햄토끼 입니다.'
+                        : '상담사 햄토끼님 덕에 부자가 되었어요!'}
+                    </Link>
                   </div>
                   <div className='postInfo'>
                     2023.01.05 09:00 · {isActive1 ? '햄토끼' : '햄토끼찬양'}
                   </div>
                 </div>
 
-                <div className='postButton'>+</div>
+                <div className='postButton'>
+                  <Link
+                    to={
+                      isActive1
+                        ? `/community/notice/${item}`
+                        : `/community/general/${item}`
+                    }
+                  >
+                    +
+                  </Link>
+                </div>
               </Post>
             );
           })}
