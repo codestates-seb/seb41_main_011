@@ -24,8 +24,9 @@ const Backdrop = styled.nav`
 `;
 
 const Content = styled.div`
+  position: relative;
   width: 80vw;
-  height: calc(100vh - 70px);
+  height: 100vh;
   background: #f9f9f5;
   display: flex;
   flex-direction: column;
@@ -48,11 +49,12 @@ const Content = styled.div`
 
 const GNB = styled.ul`
   width: 100%;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 16px;
   border-top: 1px solid #ddd;
-  padding-top: 12px;
+  padding: 12px 0 70px;
 
   > li {
     font-weight: 500;
@@ -138,11 +140,11 @@ const Button = styled.button`
 `;
 
 const CloseNav = styled.div`
-  position: fixed;
+  position: absolute;
   bottom: 0;
   right: 0;
   background: #c4dcbf;
-  width: 80vw;
+  width: 100%;
   height: 70px;
   display: flex;
   align-items: center;
@@ -251,11 +253,11 @@ const MobileNav = (props: mobileNavProps) => {
             </SubNav>
           </li>
         </GNB>
+        <CloseNav onClick={mobileNavHandler}>
+          <AiOutlineDoubleRight />
+          전체 메뉴 닫기
+        </CloseNav>
       </Content>
-      <CloseNav onClick={mobileNavHandler}>
-        <AiOutlineDoubleRight />
-        전체 메뉴 닫기
-      </CloseNav>
     </Backdrop>
   );
 };
