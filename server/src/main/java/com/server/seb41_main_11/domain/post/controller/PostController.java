@@ -41,13 +41,13 @@ public class PostController {
 
         if (role.equals(Role.USER)) {
             Post findPostByMember = postService.createByMember(mapper.postToEntity(post), memberService.getLoginMember(request));
-            return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleMemberResponse(findPostByMember)), HttpStatus.CREATED);
+            return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleResponse(findPostByMember)), HttpStatus.CREATED);
         } else if (role.equals(Role.COUNSELOR)) {
             Post findPostByCounselor = postService.createByCounselor(mapper.postToEntity(post), counselorService.getLoginCounselor(request));
-            return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleMemberResponse(findPostByCounselor)), HttpStatus.CREATED);
+            return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleResponse(findPostByCounselor)), HttpStatus.CREATED);
         } else {
             Post findPostByMember = postService.createByMember(mapper.postToEntity(post), memberService.getLoginMember(request));
-            return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleMemberResponse(findPostByMember)), HttpStatus.CREATED);
+            return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleResponse(findPostByMember)), HttpStatus.CREATED);
         }
     }
 
@@ -58,14 +58,14 @@ public class PostController {
 
         Post update = postService.update(mapper.patchToEntity(patch));
 
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleMemberResponse(update)), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToSingleResponse(update)), HttpStatus.OK);
     }
 
     @GetMapping("/lookup/{post-id}")
     public ResponseEntity findPost(@PathVariable("post-id") @Positive long postId) {
         Post findPost = postService.find(postId);
 
-        return new ResponseEntity(new SingleResponseDto<>(mapper.entityToSingleMemberResponse(findPost)), HttpStatus.OK);
+        return new ResponseEntity(new SingleResponseDto<>(mapper.entityToSingleResponse(findPost)), HttpStatus.OK);
     }
 
     @GetMapping("/lookup/list")

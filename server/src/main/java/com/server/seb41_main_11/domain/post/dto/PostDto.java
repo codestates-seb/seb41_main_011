@@ -45,7 +45,7 @@ public class PostDto {
         private String writer;
         private LocalDateTime createdTime;
 
-        public static SingleResponse ofMember(com.server.seb41_main_11.domain.post.entity.Post post) {
+        public static SingleResponse of(com.server.seb41_main_11.domain.post.entity.Post post) {
             return SingleResponse.builder()
                     .postId(post.getPostId())
                     .title(post.getTitle())
@@ -53,18 +53,6 @@ public class PostDto {
                     .kinds(post.getKinds())
                     .views(post.getViews())
                     .writer(post.getMember().getMemberName())
-                    .createdTime(post.getCreateTime())
-                    .build();
-        }
-
-        public static SingleResponse ofCounselor(com.server.seb41_main_11.domain.post.entity.Post post) {
-            return SingleResponse.builder()
-                    .postId(post.getPostId())
-                    .title(post.getTitle())
-                    .content(post.getContent())
-                    .kinds(post.getKinds())
-                    .views(post.getViews())
-                    .writer(post.getCounselor().getCounselorName())
                     .createdTime(post.getCreateTime())
                     .build();
         }
