@@ -49,7 +49,7 @@ public class Post extends BaseEntity {
         this.member = member;
     }
 
-       public void setCounselor(Counselor counselor) {
+    public void setCounselor(Counselor counselor) {
         this.counselor = counselor;
     }
 
