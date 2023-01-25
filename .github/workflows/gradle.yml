@@ -54,6 +54,10 @@ jobs:
       run: chmod +x ./gradlew
       working-directory: ./server
 
+    - name: Test Build
+      run: ./gradlew test -i
+      working-directory: ./server
+
     - name: Build with Gradle
       run: ./gradlew build
       working-directory: ./server
