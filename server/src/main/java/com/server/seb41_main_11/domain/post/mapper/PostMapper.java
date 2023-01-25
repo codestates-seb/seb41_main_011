@@ -15,10 +15,13 @@ public interface PostMapper {
     Post patchToEntity(PostDto.Patch patch);
 
     // 생성, 단건조회
-    default PostDto.SingleResponse entityToSingleResponse(Post post) {
-        return PostDto.SingleResponse.of(post);
+    default PostDto.SingleResponse entityToMemberSingleResponse(Post post) {
+        return PostDto.SingleResponse.ofMember(post);
     }
 
+    default PostDto.SingleResponse entityToCounselorSingleResponse(Post post) {
+        return PostDto.SingleResponse.ofMember(post);
+    }
 
     // 전체 조회
     default List<PostDto.MultiResponse> entityToMultiResponse(List<Post> posts) {
