@@ -25,4 +25,4 @@ fi
 DEPLOY_JAR=$BUILD_JAR
     echo "> DEPLOY_JAR 배포"    >> /root/main/back/log/deploy.log
     cd /root/main/back/log/build/libs
-    sudo nohup java -jar $DEPLOY_JAR >> /root/main/back/log/deploy.log 2>/root/main/back/log/deploy_err.log &
+    sudo nohup java -jar -Dspring.profiles.active=local $DEPLOY_JAR >> /root/main/back/log/deploy.log 2>/root/main/back/log/deploy_err.log &
