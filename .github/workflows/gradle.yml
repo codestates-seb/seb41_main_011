@@ -16,7 +16,6 @@ permissions:
   
 env:
   S3_BUCKET_NAME: deploy011-bucket-replicaset
-  JASYPT_PASSWORD: ${{ secrets.JAYSPT_PASSWORD }}
 
 jobs:
   build:
