@@ -127,10 +127,10 @@ public class MemberController {
     }
 
     //회원 삭제
-    @DeleteMapping("/delete/{memberId}")
+    @PatchMapping("/delete/{memberId}")
     public ResponseEntity deleteMember(@PathVariable("memberId") @Positive Long memberId){
         memberService.deleteMember(memberId);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

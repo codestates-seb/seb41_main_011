@@ -5,18 +5,17 @@ import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 /**
  * yml 암호화를 위한 설정 파일
  */
 @Configuration
 @EnableEncryptableProperties
-@Profile("local")
 public class JasyptConfig {
 
     @Value("${jasypt.password}")
     private String password;
+
     public String getPassword() {
         return password;
     }

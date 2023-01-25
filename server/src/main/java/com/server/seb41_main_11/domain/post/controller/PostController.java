@@ -2,6 +2,7 @@ package com.server.seb41_main_11.domain.post.controller;
 
 import com.server.seb41_main_11.domain.common.MultiResponseDto;
 import com.server.seb41_main_11.domain.common.SingleResponseDto;
+import com.server.seb41_main_11.domain.counselor.entity.Counselor;
 import com.server.seb41_main_11.domain.counselor.service.CounselorService;
 import com.server.seb41_main_11.domain.member.constant.Role;
 import com.server.seb41_main_11.domain.member.service.MemberService;

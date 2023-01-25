@@ -1,6 +1,7 @@
 package com.server.seb41_main_11.domain.post.dto;
 
 import com.server.seb41_main_11.domain.member.constant.Role;
+import com.server.seb41_main_11.domain.post.entity.Post;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -56,7 +57,7 @@ public class PostDto {
                     .createdTime(post.getCreateTime())
                     .build();
         }
-
+      
         public static SingleResponse ofCounselor(com.server.seb41_main_11.domain.post.entity.Post post) {
             return SingleResponse.builder()
                     .postId(post.getPostId())

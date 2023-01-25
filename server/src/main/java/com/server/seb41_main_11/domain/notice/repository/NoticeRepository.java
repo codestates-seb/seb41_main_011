@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
+
 //    @Modifying
 //    @Query("update Notice n set n.views = n.views + 1 where n.noticeId = :noticeId")
 //    void updateViews(@Param("noticeId") Long noticeId);

@@ -3,6 +3,8 @@ package com.server.seb41_main_11.domain.post.mapper;
 import com.server.seb41_main_11.domain.post.dto.PostDto;
 import com.server.seb41_main_11.domain.post.entity.Post;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ public interface PostMapper {
     Post patchToEntity(PostDto.Patch patch);
 
     // 생성, 단건조회
+
     default PostDto.SingleResponse entityToMemberSingleResponse(Post post) {
         return PostDto.SingleResponse.ofMember(post);
     }

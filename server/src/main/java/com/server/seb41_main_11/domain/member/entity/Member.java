@@ -3,6 +3,7 @@ package com.server.seb41_main_11.domain.member.entity;
 import com.server.seb41_main_11.domain.common.BaseEntity;
 import com.server.seb41_main_11.domain.member.constant.MemberType;
 import com.server.seb41_main_11.domain.member.constant.Role;
+import com.server.seb41_main_11.domain.member.constant.Status;
 import com.server.seb41_main_11.global.jwt.dto.JwtTokenDto;
 import com.server.seb41_main_11.global.util.DateTimeUtils;
 
@@ -56,6 +57,11 @@ public class Member extends BaseEntity {
     @Column(nullable = false, length = 10)
     private MemberType memberType;
     // 카카오 회원인지, 네이버 회원인지 Enum으로 관리
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Status status;
+
     @Column(length = 250)
     private String refreshToken;
     // 리프레쉬 토큰

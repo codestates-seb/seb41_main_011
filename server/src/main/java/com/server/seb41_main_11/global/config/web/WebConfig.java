@@ -54,14 +54,21 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(1) //시행 순서 지정
                 .addPathPatterns("/api/**") //인증 인터셉터가 어떤 api에 작동할지 지정
                 .excludePathPatterns( //인증 인터셉터가 어떤 api에 작동하지 않을지 지정
-                        "/kakao/login",
+                        "/kakao/login", //카카오 로그인 버튼
                         "/api/logout", //로그아웃
                         "/api/access-token/issue", // Access 토큰 재발급
                         "/api/members/new", //회원가입
                         "/api/members/login", //자체 로그인
                         "/api/oauth/login", //카카오 로그인
 //                        "/api/counselors/new", //상담사 회원가입 (관리자 토큰 필요)
-                        "/api/counselors/login" //상담사 로그인
+                        "/api/counselors/login", //상담사 로그인
+                        "/api/posts/lookup/{post-id}", //게시글 단건 조회
+                        "/api/posts/lookup/list", //게시글 전체 조회
+                        "/api/notices/lookup/{notice-id}", //공지사항 단건 조회
+                        "/api/notices/lookup/list", // 공지사항 전체 조회
+                        "/api/programs/lookup/{program-id}", //프로그램 개별 조회
+                        "/api/programs/lookup/list", //프로그램 전체 조회
+                        "/api/programs/lookup/search" // 고민별 프로그램 조회
                         ); // 인증 인터셉터를 동작시키지 않을 예외적인 uri 작성
 
         registry.addInterceptor(adminAuthorizationInterceptor) //인증 인터셉터 다음 관리자 인가 인터셉터 실행
@@ -69,12 +76,27 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/members/total-look-up") //관리자 페이지 회원 전체 조회
                 .addPathPatterns("/api/counselors/new") //상담사 등록
                 .addPathPatterns("/api/counselors/total-look-up")//관리자 페이지 상담사 전체 조회
-                .addPathPatterns("/api/counselors/delete/{counselorId}"); //상담사 삭제
+                .addPathPatterns("/api/counselors/delete/{counselorId}") //상담사 삭제
+                .addPathPatterns("/api/notices/post") //공지사항 생성
+                .addPathPatterns("/api/notices/patch") //공지사항 수정
+                .addPathPatterns("/api/notices/delete/1") //공지사항 삭제
+                .addPathPatterns("/api/programs/post") //프로그램 등록
+                .addPathPatterns("/api/programs/patch") //프로그램 수정
+                .addPathPatterns("/api/programs/admin/lookup/list") //마이페이지 개설 프로그램 전체 조회
+                .addPathPatterns("/api/programs/admin/lookup/{counselor-id}/list") //마이페이지 상담사 상담 이력 전체 조회
+                .addPathPatterns("/api/programs/delete/{program-id}") //프로그램 삭제
+                .addPathPatterns("/api/pays/admin/{pay-id}/edit") //결제 취소 요청 승인
+                .addPathPatterns("/api/pays/admin/{member-id}/lookup/list") //마이페이지 특정 회원 상담 내역 전체 조회
+                .addPathPatterns("/api/pays/admin/payment/list"); //결제 완료 내역 조회
+
 
         registry.addInterceptor(counselorAuthorizationInterceptor) // 상담사 인가 인터셉터 실행
                 .order(3)
                 .addPathPatterns("/api/counselors/look-up/{counselorId}") //상담사 마이페이지
-                .addPathPatterns("/api/counselors/edit/{counselorId}"); // 상담사 마이페이지 수정
+                .addPathPatterns("/api/counselors/edit/{counselorId}") // 상담사 마이페이지 수정
+                .addPathPatterns("/api/programs/patch/counselor/{program-id}") //마이페이지 나의 프로그램 수정
+                .addPathPatterns("/api/programs/{counselor-id}/lookup/{program-id}") // 마이페이지 나의 프로그램 개별 조회
+                .addPathPatterns("/api/programs/{member-id}/lookup/list"); //마이페이지 나의 프로그램 전체 조회
     }
 
     @Override
