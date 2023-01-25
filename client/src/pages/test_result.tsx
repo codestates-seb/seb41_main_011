@@ -62,6 +62,7 @@ const ToAllPrograms = styled.div`
   width: fit-content;
   margin-left: auto;
   text-decoration: underline;
+  transition: all 0.2s;
 
   &:hover {
     color: #b47e19;

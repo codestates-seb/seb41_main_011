@@ -68,6 +68,7 @@ const Status = styled.div`
   color: #777;
   border-radius: 5px;
   cursor: pointer;
+  transition: all 0.2s;
   &:hover,
   &:active {
     background: #ccc;
@@ -180,12 +181,36 @@ const MyPageTherapist = (props: any) => {
           <ProgramWrapper>
             {allPrograms ? (
               <>
-                <MyPageProgram therapist={true} category={'진행 예정'} color={'red'} />
-                <MyPageProgram therapist={true} category={'진행 예정'} color={'red'} />
-                <MyPageProgram therapist={true} category={'진행 중'} color={'#ffffff'} />
-                <MyPageProgram therapist={true} category={'진행 중'} color={'#ffffff'} />
-                <MyPageProgram therapist={true} category={'완료'} color={'#ffffff'} />
-                <MyPageProgram therapist={true} category={'완료'} color={'#ffffff'} />
+                <MyPageProgram
+                  therapist={true}
+                  category={'진행 예정'}
+                  color={'red'}
+                />
+                <MyPageProgram
+                  therapist={true}
+                  category={'진행 예정'}
+                  color={'red'}
+                />
+                <MyPageProgram
+                  therapist={true}
+                  category={'진행 중'}
+                  color={'#ffffff'}
+                />
+                <MyPageProgram
+                  therapist={true}
+                  category={'진행 중'}
+                  color={'#ffffff'}
+                />
+                <MyPageProgram
+                  therapist={true}
+                  category={'완료'}
+                  color={'#ffffff'}
+                />
+                <MyPageProgram
+                  therapist={true}
+                  category={'완료'}
+                  color={'#ffffff'}
+                />
               </>
             ) : null}
             {programsConfirmed ? (

@@ -19,7 +19,7 @@ const Contents = styled.header`
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  gap: 28px;
+  gap: 12px;
   padding: 0 20px;
   z-index: 999999;
 
@@ -32,11 +32,30 @@ const Contents = styled.header`
     font-size: 1.63rem;
     font-weight: 700;
     color: #b3b3b3;
+    height: 100%;
+
+    a {
+      width: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    img {
+      max-width: 60%;
+    }
   }
 
   @media screen and (min-width: 768px) {
     height: 64px;
     line-height: 64px;
+
+    h1 {
+      img {
+        max-width: 80%;
+      }
+    }
   }
 
   @media screen and (min-width: 1200px) {
@@ -44,6 +63,12 @@ const Contents = styled.header`
     line-height: 70px;
     gap: 32px;
     padding: 0 40px;
+
+    h1 {
+      img {
+        max-width: 100%;
+      }
+    }
   }
 `;
 
@@ -53,7 +78,9 @@ const Header = () => {
   return (
     <Contents>
       <h1>
-        <Link to='/'>TEATIME</Link>
+        <Link to='/'>
+          <img src='/teatime.png' alt='티타임' />
+        </Link>
       </h1>
       <NavBar />
       {isLoggedIn ? <MyPageButton /> : <SignButtons />}

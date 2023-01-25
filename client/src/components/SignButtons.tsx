@@ -18,8 +18,8 @@ const Button = styled.button`
   font-weight: 500;
   border-radius: 8px;
   border: 0;
-  /* cursor: pointer; */
   font-size: 0.85rem;
+  transition: all 0.2s;
 
   a {
     padding: 6px;

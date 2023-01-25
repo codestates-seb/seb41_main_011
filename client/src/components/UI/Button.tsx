@@ -17,6 +17,7 @@ const Button = styled.button<ButtonProps>`
   color: #333;
   border: 0;
   cursor: pointer;
+  transition: all 0.2s;
 
   &:hover,
   &:active {

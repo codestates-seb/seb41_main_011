@@ -88,6 +88,21 @@ const TextEditor = styled.div`
     stroke: #009779;
   }
 
+  .ql-editor {
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 1rem;
+  }
+  .ql-editor h1,
+  .ql-editor h2,
+  .ql-editor h3 {
+    font-weight: 500;
+  }
+  .ql-editor strong {
+    font-weight: bold;
+  }
+  .ql-editor em {
+    font-style: italic;
+  }
   .ql-editor.ql-blank::before {
     color: #828282;
     font-style: normal;

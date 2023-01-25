@@ -2,6 +2,7 @@ import reset from 'styled-reset';
 import { createGlobalStyle } from 'styled-components';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
+import ScrollToTop from './utils/ScrollToTop';
 import Intro from './pages/intro';
 import About from './pages/about';
 import Test from './pages/test';
@@ -61,6 +62,7 @@ function App() {
     <div className='App'>
       <BrowserRouter>
         <GlobalStyle />
+        <ScrollToTop />
         <Routes>
           <Route path='/intro' element={<Intro />} />
 
@@ -85,8 +87,8 @@ function App() {
           <Route path='/community/notice/modify' element={<ModifyNotice />} />
           <Route path='/community/general/modify' element={<ModifyBoard />} />
 
-          <Route path='/mypage/general' element={<MyPageGeneral />} />
-          <Route path='/mypage/therapist' element={<MyPageTherapist />} />
+          <Route path='/mypage' element={<MyPageGeneral />} />
+          <Route path='/mypaget' element={<MyPageTherapist />} />
           <Route path='/myprogram/:id' element={<MyProgramDetailG />} />
           <Route path='/myprogramt/:id' element={<MyProgramDetailT />} />
           <Route path='/edit-userinfo' element={<EditUserInfo />} />
