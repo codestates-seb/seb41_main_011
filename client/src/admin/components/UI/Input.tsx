@@ -1,5 +1,5 @@
 import styled from "styled-components"
-
+import { useEffect,useState } from 'react'
 
 const Input = styled.input`
     /* width: 250px;
@@ -36,7 +36,6 @@ type InputTempProps = {
     id?: string;
     name?: string;
     onClick?: any;
-
 }
 
 
@@ -44,7 +43,15 @@ type InputTempProps = {
 
 
 const InputAdmin = ({type,value,id,placeholder,category,onChange,name,onClick}: InputTempProps) =>{
+        const [startingTime,setStartingTime] = useState<any>('');
+        const getTime = () => {
+            const startTime = new Date().toISOString();
+            setStartingTime(startTime);
+            console.log(startTime)
+        }
+        
 
+        
         const handleInput = (e:any) => {
             const { value } = e.target;
             if (value.length >= 8) {
@@ -83,6 +90,16 @@ const InputAdmin = ({type,value,id,placeholder,category,onChange,name,onClick}: 
                 </>
         
             )
+        }
+        if(category === 'date') {
+            return(
+
+                <>
+                    <Input type={type} id={id} value={value} onChange={onChange} placeholder={placeholder as string}name={name} onClick={onClick} min='2023-01-20T15:43' required></Input>
+                    {console.log(value)}
+                </>
+            )
+
         }
         else{
             return(

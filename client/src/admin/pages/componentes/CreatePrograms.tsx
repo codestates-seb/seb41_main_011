@@ -12,6 +12,7 @@ interface CreateProgram {
   regularnumber:string,
   title: string,
   description:string,
+  price: string,
   tag?: string,
   url: string,
 }
@@ -122,9 +123,13 @@ const Row5 = styled.div`
     margin-right: 20px;
 
   }
-
-
 `
+const PriceDiv = styled.div`
+  label {
+    margin-right: 5px;
+  }
+`
+
 export const Button = styled.button`
   width: 100px;
   height: 80px;
@@ -202,6 +207,7 @@ const CreatePrograms = () =>{
     endtime,
     regularnumber,
     title,
+    price,
     description,
     tag,
     url,
@@ -220,7 +226,7 @@ const CreatePrograms = () =>{
           <div>세션시간</div>
           <div>
             <label htmlFor='startingtime'>시작일시</label>
-            <InputAdmin type='datetime-local'  id='startingtime' onChange={handleStartingtimeChange}/>
+            <InputAdmin category='date' type='datetime-local'  id='startingtime' onChange={handleStartingtimeChange}/>
             <label htmlFor='endtime' >종료일시</label>
             <InputAdmin type='datetime-local' id='endtime' onChange={handleEndtimeChange}/>
             <label htmlFor='regularnumber'>정원</label>
@@ -234,8 +240,10 @@ const CreatePrograms = () =>{
           <InputAdmin type='text' id='title' onChange={handleTitleChange}/>
         </Row2>
         <Row3>
-          <label htmlFor='price'>가격</label>
+          <PriceDiv>
+            <label htmlFor='price'>가격</label>
           <InputAdmin category='birth' type='number' id='price' onChange={handlePriceChange}></InputAdmin>
+          </PriceDiv>
           <SelectBox></SelectBox>
           <TextArea id='description' cols={30} rows={15} child='설명' onChange={handleDescriptionChange} placeholder='프로그램 설명'/>
         </Row3>

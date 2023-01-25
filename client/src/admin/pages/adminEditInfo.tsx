@@ -99,9 +99,15 @@ const AdminEditInfo = () => {
   const [verifyNewPassword,setVerifyNewPassword] = useState<string>('');
   const regexPassword = new RegExp(/^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,'g');
 
-  const handleSubmit = () => {
-    console.log(newPassword, regexPassword.test(newPassword), regexPassword.test('asdf!1234'))
-    newPassword === verifyNewPassword && regexPassword.test(newPassword) ? alert('비밀번호 수정이 완료되었습니다.') : alert('새 비밀번호를 다시 확인해주세요.')
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const regexPassword = new RegExp(/^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,'g');
+    console.log(newPassword,regexPassword.test(newPassword))
+    const regexPassword2 = new RegExp(/^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,'g');
+    console.log(verifyNewPassword,regexPassword2.test(verifyNewPassword))
+    console.log(newPassword === verifyNewPassword)
+    // regexPassword.test(newPassword) ? alert('비밀번호 수정이 완료되었습니다.') : alert('새 비밀번호를 다시 확인해주세요.')
   }
 
 

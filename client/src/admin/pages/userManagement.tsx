@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Sidebar from "../components/UI/Sidebar";
 import Generalinquiry from '../components/UI/Generalinquiry';
 import Therapistinquiry from '../components/UI/Therapistinquiry';
+import CreateTherapist from './componentes/CreateTherapist';
+
 export const PageWrapper = styled.div`
     width: 90vw;
     height: 100vh;
@@ -114,7 +116,27 @@ const Pagination = styled.div`
         }
     
 `
+const CreateWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 70vw;
+    justify-content: right;
+    `
+const Button = styled.button`
+    border: none;
+    background-color: #009879;
+    color: #ffffff;
+    height: 40px;
+    width: 120px;
+    font-size: 16px;
+    border-radius: 10px;
+    &:hover {
+    cursor: pointer;
+    background-color: #006d57;
+    }
+    `
 
+    
 const MenuBar = styled.div`
     display: grid;
     grid-template-columns: auto auto;
@@ -150,7 +172,8 @@ const UserManagement = (props: any) => {
     const [isActive2, setIsActive2] = useState(false);
     const [isModalOpened1, setIsModalOpened1] = useState(false);
     const [isModalOpened2, setIsModalOpened2] = useState(false);
-
+    const [isModalOpened3, setIsModalOpened3] = useState(false);
+    
     return (
         <div>
             <ContentWrapper>
@@ -223,7 +246,13 @@ const UserManagement = (props: any) => {
                                 </tr>
                             </tbody>
                         </ProgramTable> 
-                        : <ProgramTable>
+                        :
+                        <>
+                        {isModalOpened3? <CreateTherapist/> : null}
+                        <CreateWrapper>
+                            <Button onClick ={() => setIsModalOpened3(!isModalOpened3)}>상담사 생성 </Button>
+                        </CreateWrapper>
+                        <ProgramTable>
                             {isModalOpened2? <Therapistinquiry/>: null}
                             <thead>
                                 <tr>
@@ -260,6 +289,7 @@ const UserManagement = (props: any) => {
                                 </tr>  
                             </tbody>
                         </ProgramTable>
+                        </>
 
                         }
                         

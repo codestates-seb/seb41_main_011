@@ -25,14 +25,14 @@ import ModifyBoard from './pages/ModifyBoard';
 import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
 import LoginGeneral from './pages/login_general';
 import LoginTherapist from './pages/login_therapist';
-import Main from './admin/pages/adminIndex';
 import UserManagement from './admin/pages/userManagement';
 import ProgramManagement from './admin/pages/programManagement';
 import PaymentManagement from './admin/pages/paymentManagement';
 import CommunityMain from './pages/community_main';
 import CommunityPost from './pages/community_post';
 import MyPageTherapist from './pages/mypage_therapist';
-
+import AdminEditInfo from './admin/pages/adminEditInfo';
+import AdminIndex from './admin/pages/adminIndex';
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -101,7 +101,8 @@ function App() {
           <Route path='/login-therapist' element={<LoginTherapist />} />
           <Route path='/signup' element={<Signup />} />
 
-          <Route path='/admin' element={<Main />} />
+          <Route path='/admin' element={<AdminIndex />} />
+          <Route path='/admin/editInfo' element={<AdminEditInfo />} />
           <Route path='/userManagement' element={<UserManagement />} />
           <Route path='/programsManagement' element={<ProgramManagement />} />
           <Route path='/paymentManagement' element={<PaymentManagement />} />
