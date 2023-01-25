@@ -1,6 +1,6 @@
 #!/bin/bash
 BUILD_JAR=$(ls /root/main/back/build/libs/seb41_main_11-0.0.1-SNAPSHOT.jar)
-#JAR_NAME=$(basename $BUILD_JAR)
+JAR_NAME=seb41_main_11-0.0.1-SNAPSHOT
 
 echo "> 현재 시간: $(date)" >> /root/main/back/log/deploy.log
 
