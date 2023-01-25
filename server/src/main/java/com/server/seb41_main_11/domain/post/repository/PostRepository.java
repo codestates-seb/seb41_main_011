@@ -1,7 +1,10 @@
 package com.server.seb41_main_11.domain.post.repository;
 
+import com.server.seb41_main_11.domain.member.constant.Status;
 import com.server.seb41_main_11.domain.post.entity.Post;
 import feign.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

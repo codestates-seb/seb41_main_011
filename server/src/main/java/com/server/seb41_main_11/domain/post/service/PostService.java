@@ -1,19 +1,26 @@
 package com.server.seb41_main_11.domain.post.service;
 
 import com.server.seb41_main_11.domain.counselor.entity.Counselor;
+import com.server.seb41_main_11.domain.member.constant.Status;
 import com.server.seb41_main_11.domain.member.entity.Member;
 import com.server.seb41_main_11.domain.post.entity.Post;
 import com.server.seb41_main_11.domain.post.repository.PostRepository;
+import com.server.seb41_main_11.global.error.ErrorCode;
+import com.server.seb41_main_11.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+
+import static com.server.seb41_main_11.domain.member.constant.Status.DELETE;
 
 
 @Service
@@ -63,12 +70,18 @@ public class PostService {
     // 글 전체 조회
     @Transactional(readOnly = true)
     public Page<Post> findAll(int page, int size) {
-        Page<Post> pagePost = postRepository.findAll(PageRequest.of(page, size, Sort.by("postId").descending()));
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("postId").descending());
+
+        Page<Post> pagePost = postRepository.findAll(pageable);
 
         List<Post> listPost = pagePost.getContent();
 
         for (Post a : listPost) {
-            a.getMember().getMemberName();
+            if (Objects.equals(a.getMember().getStatus(), DELETE)) {
+//                a.setTitle("탈퇴한 회원의 글입니다." + a.getTitle());
+                a.getMember().setMemberName("탈퇴한 회원");
+            }
         }
 
         return pagePost;
