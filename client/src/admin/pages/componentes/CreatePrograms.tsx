@@ -12,6 +12,7 @@ interface CreateProgram {
   regularnumber:string,
   title: string,
   description:string,
+  price: string,
   tag?: string,
   url: string,
 }
@@ -206,6 +207,7 @@ const CreatePrograms = () =>{
     endtime,
     regularnumber,
     title,
+    price,
     description,
     tag,
     url,
@@ -224,7 +226,7 @@ const CreatePrograms = () =>{
           <div>세션시간</div>
           <div>
             <label htmlFor='startingtime'>시작일시</label>
-            <InputAdmin type='datetime-local'  id='startingtime' onChange={handleStartingtimeChange}/>
+            <InputAdmin category='date' type='datetime-local'  id='startingtime' onChange={handleStartingtimeChange}/>
             <label htmlFor='endtime' >종료일시</label>
             <InputAdmin type='datetime-local' id='endtime' onChange={handleEndtimeChange}/>
             <label htmlFor='regularnumber'>정원</label>

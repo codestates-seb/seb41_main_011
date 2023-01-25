@@ -165,19 +165,19 @@ const ProgramManagement = (props: any) => {
                                     <th className='edit'>수정</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                              {[1,2,3,4,5].map((item) => {
-                                return (
-                                  <tr>
-                                    <td>1</td>
-                                    <td>프로그램명</td>
-                                    <td>2/10</td>
-                                    <td>2023-02-11 08:30</td>
-                                    <td>예정</td>
-                                    <td className="openEditModal" onClick={() => setIsModalOpened2(!isModalOpened2)}>수정</td>
-                                </tr>
-                                )
-                              })}
+                        <tbody>
+                            {[1,2,3,4,5].map((item) => {
+                            return (
+                                <tr>
+                                <td>1</td>
+                                <td>프로그램명</td>
+                                <td>2/10</td>
+                                <td>2023-02-11 08:30</td>
+                                <td>예정</td>
+                                <td className="openEditModal" onClick={() => setIsModalOpened2(!isModalOpened2)}>수정</td>
+                            </tr>
+                            )
+                            })}
                             </tbody>
                         </ProgramTable>
                         {/* 하단 페이지 네이션은 아직 장식임 */}

@@ -5,16 +5,17 @@ import InputAdmin from "../../components/UI/Input";
 import TextArea from "../../components/UI/Textarea";
 import Sidebar from '../../components/UI/Sidebar';
 import axios from 'axios';
-interface CreateTherapist {
-    url: string,
-    name: string,
-    college:string,
-    email: string,
-    password:string,
-    career: string,
-    promote:string,
-    birth: string,
-}
+import { ScreenWrapper } from './EditProgram';
+// interface CreateTherapist {
+//     url: string,
+//     name: string,
+//     college:string,
+//     email: string,
+//     password:string,
+//     career: string,
+//     promote:string,
+//     birth: string,
+// }
 
 
 const ContentWrapper = styled.div`
@@ -138,7 +139,27 @@ const CreateTherapistForm = styled.form`
 
 
 `
-
+export const Button = styled.button`
+    width: 100px;
+    height: 80px;
+    background-color: blue;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-radius: 12px;
+    &:hover {
+    cursor: pointer;
+    }
+    &.closeButton {
+        width: 40px;
+        height: 40px;
+        padding: 5px;
+        font-size: 16px;
+        background-color: #991515;
+        border-radius: 5px;
+        border: none;
+    } 
+`
 const CreateTherapist = () =>{
     const [url,setUrl] = useState<string>('');
     const [signupName,setSignupName] = useState<string>('');
@@ -149,6 +170,7 @@ const CreateTherapist = () =>{
     const [verifyPassword,setverifyPassword] = useState<string>('');
     const [career,setCareer] = useState<string>('');
     const [promote,setPromote] = useState<string>('');
+    const [modal, setModal] = useState<boolean>(true);
 
 
     const handleUrlChange = (e: React.ChangeEvent) =>{
@@ -203,20 +225,20 @@ const CreateTherapist = () =>{
             return console.log('비밀번호가 같지 않습니다.')
             // window.alert('비밀번호가 같지 않습니다.')
         }else{
-              // axios
-            const reqbody:CreateTherapist ={
-                url: url,
-                name:signupName,
-                birth: birth,
-                college: college,
-                email: signupEmail,
-                password : signupPassword,
-                career: career,
-                promote: promote
-            };
-            axios.post('https://jsonplaceholder.typicode.com/posts',JSON.stringify(reqbody))
-            .then((res)=>console.log)
-            .catch((err)=>console.log)
+              // axiose
+            // const reqbody:CreateThrapist ={
+            //     url: url,
+            //     name:signupName,
+            //     birth: birth,
+            //     college: college,
+            //     email: signupEmail,
+            //     password : signupPassword,
+            //     career: career,
+            //     promote: promote
+            // };
+            // axios.post('https://jsonplaceholder.typicode.com/posts',JSON.stringify(reqbody))
+            // .then((res)=>console.log)
+            // .catch((err)=>console.log)
 
 
             }
@@ -224,7 +246,8 @@ const CreateTherapist = () =>{
     }
 
     return (
-        <>
+        <ScreenWrapper modal={modal}>
+            <Button className='closeButton' type='button' onClick={()=>setModal(!modal)}>X</Button>
             <CreateTherapistForm onSubmit={handleAdmissionSubmit}>
                 <ContentWrapper>
                     <Title>상담사 등록</Title>
@@ -266,7 +289,7 @@ const CreateTherapist = () =>{
                 </ContentWrapper>
             </CreateTherapistForm>
 
-        </>
+        </ScreenWrapper>
     )
         
 

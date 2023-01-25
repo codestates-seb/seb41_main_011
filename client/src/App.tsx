@@ -30,6 +30,7 @@ import PaymentManagement from './admin/pages/paymentManagement';
 import CommunityMain from './pages/community_main';
 import CommunityPost from './pages/community_post';
 import AdminIndex from './admin/pages/adminIndex';
+import AdminEditInfo from './admin/pages/adminEditInfo';
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -97,6 +98,7 @@ function App() {
           <Route path='/signup' element={<Signup />} />
 
           <Route path='/admin' element={<AdminIndex />} />
+          <Route path='/admin/editInfo' element={<AdminEditInfo />} />
           <Route path='/userManagement' element={<UserManagement />} />
           <Route path='/programsManagement' element={<ProgramManagement />} />
           <Route path='/paymentManagement' element={<PaymentManagement />} />
