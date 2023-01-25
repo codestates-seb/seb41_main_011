@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Tabbar from '../components/tabbar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { Link } from 'react-router-dom';
 
 const ContentWrapper = styled.div`
   min-height: calc(100vh - 60px);
@@ -53,6 +54,7 @@ const MessageGrid = styled.div`
     font-weight: 500;
     font-size: 0.95rem;
     cursor: pointer;
+    transition: all 0.2s;
     &:hover {
       background-color: #70846c;
       color: #fff;
@@ -71,6 +73,10 @@ const Post = styled.div`
   gap: 2%;
   width: 100%;
   border-bottom: 1px solid #ddd;
+
+  a {
+    color: inherit;
+  }
 
   div {
     display: flex;
@@ -97,6 +103,7 @@ const Post = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    transition: all 0.2s;
     &:hover {
       cursor: pointer;
       color: #009779;
@@ -110,6 +117,7 @@ const Post = styled.div`
     flex: 1 0 8%;
     color: #70846c;
     font-size: 1.5rem;
+    transition: all 0.2s;
     &:hover {
       cursor: pointer;
       color: #009779;
@@ -144,6 +152,7 @@ const MenuBar = styled.div`
     background-color: #d9d9d9;
     color: #777;
     padding: 8px 0;
+    transition: all 0.2s;
     &:hover {
       cursor: pointer;
       background-color: #ccc;
@@ -241,16 +250,34 @@ const CommunityMain = (props: any) => {
                 <div className='wrapper'>
                   <div className='postTitle'>
                     {isActive1 ? <Tag>공지</Tag> : <Tag>후기</Tag>}
-                    {isActive1
-                      ? '안녕하세요 상담사 햄토끼 입니다.'
-                      : '상담사 햄토끼님 덕에 부자가 되었어요!'}
+                    <Link
+                      to={
+                        isActive1
+                          ? `/community/notice/${item}`
+                          : `/community/general/${item}`
+                      }
+                    >
+                      {isActive1
+                        ? '안녕하세요 상담사 햄토끼 입니다.'
+                        : '상담사 햄토끼님 덕에 부자가 되었어요!'}
+                    </Link>
                   </div>
                   <div className='postInfo'>
                     2023.01.05 09:00 · {isActive1 ? '햄토끼' : '햄토끼찬양'}
                   </div>
                 </div>
 
-                <div className='postButton'>+</div>
+                <div className='postButton'>
+                  <Link
+                    to={
+                      isActive1
+                        ? `/community/notice/${item}`
+                        : `/community/general/${item}`
+                    }
+                  >
+                    +
+                  </Link>
+                </div>
               </Post>
             );
           })}

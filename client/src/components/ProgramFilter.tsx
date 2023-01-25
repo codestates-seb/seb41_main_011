@@ -21,6 +21,7 @@ const Contents = styled.div`
     font-size: 1rem;
     color: #777;
     cursor: pointer;
+    transition: all 0.2s;
 
     &.on {
       background: #e2d48a;

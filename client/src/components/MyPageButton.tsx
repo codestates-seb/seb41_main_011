@@ -49,6 +49,7 @@ const SubNav = styled.ul`
     color: #666;
     text-align: left;
     line-height: 1.5;
+    transition: all 0.2s;
     :not(:last-child) {
       border-bottom: 1px solid #e2e2e2;
     }

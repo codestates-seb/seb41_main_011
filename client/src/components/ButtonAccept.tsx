@@ -11,6 +11,7 @@ const AcceptButton = styled.button`
   color: #535353;
   font-size: 1rem;
   cursor: pointer;
+  transition: all 0.2s;
   &:hover {
     background-color: #f2e293;
   }

@@ -1,3 +1,4 @@
+import { ChangeEvent, MouseEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import Footer from '../components/Footer';
@@ -42,27 +43,23 @@ const TagContainer = styled.div`
   }
 `;
 
-const Tag = styled.div`
+const Tag = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
 
-  background-color: #b3d2b0;
+  background-color: #c4dcbf;
   border-radius: 5px;
   font-size: 14px;
   color: #112f1c;
   font-weight: 500;
   text-align: center;
   padding: 20px 0;
+  transition: all 0.2s;
+  cursor: pointer;
 
   &:hover {
-    background-color: #71ab75;
-    color: #ffffff;
-    cursor: pointer;
-  }
-
-  &:focus {
-    background-color: #71ab75;
+    background-color: #b3d2b0;
   }
 
   @media screen and (min-width: 768px) {
@@ -131,14 +128,55 @@ const Logo = styled.img`
   }
 `;
 
+const Form = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+
+  input[type='checkbox'] {
+    display: none;
+  }
+  input[type='checkbox']:checked:checked + label {
+    background: #71ab75;
+    color: #fff;
+  }
+`;
+
 const Test = () => {
+  const [checkedList, setCheckedList] = useState<string[]>([]);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const checkedItemHandler = (value: string, isChecked: boolean) => {
+    if (isChecked) {
+      setCheckedList((prev) => [...prev, value]);
+      return;
+    } else if (!isChecked && checkedList.includes(value)) {
+      setCheckedList(checkedList.filter((item) => item !== value));
+      return;
+    } else {
+      return;
+    }
+  };
+  const checkHandler = (
+    event: ChangeEvent<HTMLInputElement>,
+    value: string,
+  ) => {
+    setIsChecked(!isChecked);
+    checkedItemHandler(value, event.target.checked);
+  };
+
   const navigate = useNavigate();
-  const toTestResult = () => {
+  const toTestResult = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    alert(checkedList);
     navigate('/about/test-result');
   };
   const toHistoryBack = () => {
     navigate(-1);
   };
+
   return (
     <div>
       <Header />
@@ -153,27 +191,61 @@ const Test = () => {
           마오옹 님에게 적합한 테라피 프로그램을 추천해 드릴게요😊 <br /> 여러
           개를 선택해 주셔도 괜찮아요.
         </SubMessage>
-        <TagContainer>
-          <Tag>
-            무력감이 들고 <br /> 우울해요
-          </Tag>
-          <Tag>
-            불안하고 <br />
-            혼란스러워요
-          </Tag>
-          <Tag>
-            스트레스 <br />
-            상태에요
-          </Tag>
-          <Tag>
-            술이나 약물을
-            <br /> 끊기 힘들어요
-          </Tag>
-        </TagContainer>
-        <ButtonWrapper>
-          <Button onClick={toTestResult}>적합한 프로그램 찾기</Button>
-          <Button onClick={toHistoryBack}>건너뛸래요</Button>
-        </ButtonWrapper>
+        <Form>
+          <TagContainer>
+            <input
+              type='checkbox'
+              id='program1'
+              name='test'
+              checked={checkedList.includes('program1')}
+              onChange={(event) => checkHandler(event, 'program1')}
+            />
+            <Tag htmlFor='program1'>
+              무력감이 들고 <br /> 우울해요
+            </Tag>
+            <input
+              type='checkbox'
+              id='program2'
+              name='test'
+              checked={checkedList.includes('program2')}
+              onChange={(event) => checkHandler(event, 'program2')}
+            />
+            <Tag htmlFor='program2'>
+              불안하고 <br />
+              혼란스러워요
+            </Tag>
+            <input
+              type='checkbox'
+              id='program3'
+              name='test'
+              checked={checkedList.includes('program3')}
+              onChange={(event) => checkHandler(event, 'program3')}
+            />
+            <Tag htmlFor='program3'>
+              스트레스 <br />
+              상태에요
+            </Tag>
+            <input
+              type='checkbox'
+              id='program4'
+              name='test'
+              checked={checkedList.includes('program4')}
+              onChange={(event) => checkHandler(event, 'program4')}
+            />
+            <Tag htmlFor='program4'>
+              술이나 약물을
+              <br /> 끊기 힘들어요
+            </Tag>
+          </TagContainer>
+          <ButtonWrapper>
+            <Button type='submit' onClick={toTestResult}>
+              적합한 프로그램 찾기
+            </Button>
+            <Button type='button' onClick={toHistoryBack}>
+              건너뛸래요
+            </Button>
+          </ButtonWrapper>
+        </Form>
       </ContentWrapper>
       <Tabbar />
       <Footer />
