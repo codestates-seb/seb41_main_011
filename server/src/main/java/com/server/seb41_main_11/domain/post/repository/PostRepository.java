@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Modifying
-    @Query("update Post p set p.views = p.views + 1 where p.postId = :postId")
-    void updateViews(@Param("postId") Long postId);
+//    @Modifying
+//    @Query("update Post p set p.views = p.views + 1 where p.postId = :postId")
+//    void updateViews(@Param("postId") Long postId);
 
     @Query(value = "select p FROM Post p WHERE p.postId = :postId")
     Optional<Post> findById(@Param("postId") Long postId);

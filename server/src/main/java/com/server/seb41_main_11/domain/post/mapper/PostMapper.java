@@ -5,6 +5,7 @@ import com.server.seb41_main_11.domain.post.entity.Post;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +17,13 @@ public interface PostMapper {
     Post patchToEntity(PostDto.Patch patch);
 
     // 생성, 단건조회
-    default PostDto.SingleResponse entityToSingleResponse(Post post) {
-        return PostDto.SingleResponse.of(post);
+
+    default PostDto.SingleResponse entityToMemberSingleResponse(Post post) {
+        return PostDto.SingleResponse.ofMember(post);
+    }
+
+    default PostDto.SingleResponse entityToCounselorSingleResponse(Post post) {
+        return PostDto.SingleResponse.ofMember(post);
     }
 
     // 전체 조회
