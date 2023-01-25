@@ -1,9 +1,7 @@
 package com.server.seb41_main_11.domain.post.service;
 
 import com.server.seb41_main_11.domain.counselor.entity.Counselor;
-import com.server.seb41_main_11.domain.counselor.service.CounselorService;
 import com.server.seb41_main_11.domain.member.entity.Member;
-import com.server.seb41_main_11.domain.member.service.MemberService;
 import com.server.seb41_main_11.domain.post.entity.Post;
 import com.server.seb41_main_11.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -83,7 +81,13 @@ public class PostService {
 
     // 조회수 증가 로직
     public void updateViews(Long id) {
-        postRepository.updateViews(id);
+        Post post = findVerifiedPost(id);
+
+        int findViews = post.getViews() + 1;
+
+        post.setViews(findViews);
+
+        postRepository.save(post);
     }
 
     // 글 검증
