@@ -79,8 +79,8 @@ public class PostService {
 
         for (Post a : listPost) {
             if (Objects.equals(a.getMember().getStatus(), DELETE)) {
-                a.setTitle("탈퇴한 회원의 글입니다." + a.getTitle());
-                a.getMember().setMemberName("탈퇴한 회원" + a.getMember().getMemberName());
+//                a.setTitle("탈퇴한 회원의 글입니다." + a.getTitle());
+                a.getMember().setMemberName("탈퇴한 회원");
             }
         }
 
