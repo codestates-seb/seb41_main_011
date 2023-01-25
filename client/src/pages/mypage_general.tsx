@@ -248,6 +248,7 @@ const MyPageGeneral = (props: any) => {
               <>
                 <MyPageProgram category={'진행 예정'} color={'red'} />
                 <MyPageProgram category={'진행 예정'} color={'red'} />
+                <MyPageProgram category={'진행 예정'} color={'red'} />
                 <MyPageProgram category={'진행 중'} color={'#ffffff'} />
                 <MyPageProgram category={'진행 중'} color={'#ffffff'} />
                 <MyPageProgram category={'완료'} color={'#ffffff'} />
@@ -258,6 +259,7 @@ const MyPageGeneral = (props: any) => {
               <>
                 <MyPageProgram category={'진행 예정'} />
                 <MyPageProgram category={'진행 예정'} />
+                <MyPageProgram category={`진행 예정`} />
               </>
             ) : null}
             {programsInProcess ? (
