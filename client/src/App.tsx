@@ -29,8 +29,9 @@ import ProgramManagement from './admin/pages/programManagement';
 import PaymentManagement from './admin/pages/paymentManagement';
 import CommunityMain from './pages/community_main';
 import CommunityPost from './pages/community_post';
-import AdminIndex from './admin/pages/adminIndex';
+import MyPageTherapist from './pages/mypage_therapist';
 import AdminEditInfo from './admin/pages/adminEditInfo';
+import AdminIndex from './admin/pages/adminIndex';
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -84,7 +85,8 @@ function App() {
           <Route path='/community/notice/modify' element={<ModifyNotice />} />
           <Route path='/community/general/modify' element={<ModifyBoard />} />
 
-          <Route path='/mypage' element={<MyPageGeneral />} />
+          <Route path='/mypage/general' element={<MyPageGeneral />} />
+          <Route path='/mypage/therapist' element={<MyPageTherapist />} />
           <Route path='/myprogram/:id' element={<MyProgramDetailG />} />
           <Route path='/myprogramt/:id' element={<MyProgramDetailT />} />
           <Route path='/edit-userinfo' element={<EditUserInfo />} />
