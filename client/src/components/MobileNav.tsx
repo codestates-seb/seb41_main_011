@@ -26,7 +26,8 @@ const Backdrop = styled.nav`
 const Content = styled.div`
   position: relative;
   width: 80vw;
-  height: 100vh;
+  height: calc(100vh - 70px);
+  overflow-y: auto;
   background: #f9f9f5;
   display: flex;
   flex-direction: column;
@@ -49,7 +50,6 @@ const Content = styled.div`
 
 const GNB = styled.ul`
   width: 100%;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -140,11 +140,11 @@ const Button = styled.button`
 `;
 
 const CloseNav = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   background: #c4dcbf;
-  width: 100%;
+  width: 80%;
   height: 70px;
   display: flex;
   align-items: center;
@@ -161,6 +161,20 @@ const CloseNav = styled.div`
 `;
 
 const MobileNav = (props: mobileNavProps) => {
+  useEffect(() => {
+    document.body.style.cssText = `
+      position: fixed; 
+      top: -${window.scrollY}px;
+      overflow-y: hidden;
+      touch-action: none;
+      width: 100%;`;
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = '';
+      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+    };
+  }, []);
+
   const location: string = useLocation().pathname;
   const [isProgram, setIsProgram] = useState(false);
   useEffect(() => {
