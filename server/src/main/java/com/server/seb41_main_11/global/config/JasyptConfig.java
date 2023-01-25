@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @EnableEncryptableProperties
 public class JasyptConfig {
 
-//    @Value("${jasypt.password}")
-    private String password = "sakncksjallkasdkl#$@^#*asdsiajodias2737";
+    @Value("${jasypt.password}")
+    private String password;
     public String getPassword() {
         return password;
     }
