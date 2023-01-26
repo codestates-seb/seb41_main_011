@@ -13,6 +13,7 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   gap: 24px;
   width: 70vw;
+  max-width: 1200px;
   max-height: 75vh;
   overflow-y: auto;
 `;

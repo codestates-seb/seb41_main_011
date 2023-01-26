@@ -6,6 +6,8 @@ import EditPrograms from './componentes/EditProgram';
 
 export const PageWrapper = styled.div`
   width: calc(100% - 240px);
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 50px;
   display: flex;
   flex-direction: column;
