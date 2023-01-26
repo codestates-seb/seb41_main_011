@@ -1,106 +1,122 @@
-import styled from "styled-components";
-import { useState } from "react";
-
-
+import styled from 'styled-components';
+import { useState } from 'react';
 
 const ContentWrapper = styled.div`
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    @media screen and (max-width: 768px) {
-        padding-top: 0vh;
-        padding-bottom: 0vh;
-        height: 100vh;
-        justify-content: space-between;
-  }
-`
+  height: 100vh;
+  width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+`;
 
 const Title = styled.div`
-    width: 70vw;
-	color: #4B6A4D;
-	font-weight: 700;
-	font-size: 2.25rem;
-    text-align: center;
-    left: 0;
-    top: 0;
-`
+  width: 100%;
+  color: #006954;
+  font-weight: 700;
+  font-size: 2.25rem;
+  text-align: center;
+  line-height: 1;
+`;
 const InfoWrapper = styled.div`
-  background-color: #7575752b;
-  border-radius: 15px;
-  width: 50vw;
-  height: 50vh;
-  font-size: 16px;
+  background-color: #eceee2;
+  padding: 1.43rem 1.43rem 1.63rem;
+  border-radius: 12px;
+  box-shadow: rgb(0 0 0 / 20%) 0px 2px 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  color: #333;
+  gap: 16px;
 
-  /* display: grid; */
-  /* grid-template-columns: 10% 60%; */
-  /* column-gap: 20px; */
-  /* row-gap: 10px; */
-  /* padding: 20px; */
+  > div {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  .label {
-    text-align: left;
+    gap: 4px;
+  }
+
+  label {
     font-weight: 500;
-    color: #4B6A4D;
+    color: #4b4b4b;
+    margin-bottom: 4px;
   }
 
   input {
-    width: 15vw;
-    height: 2rem;
-    border-radius: 5px;
-    border: none;
-    padding-left: 5px;
-    padding-right: 5px;
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    resize: none;
+    overflow: auto;
+    ::placeholder {
+      color: #828282;
+      font-size: 0.85rem;
+    }
+    &:focus {
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+        rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+      outline: none;
+    }
   }
-`
+`;
 
 const Button = styled.button`
-  background-color:#4B6A4D;
-  width: 300px;
-  height: 50px;
-  color: white;
-  border: none;
-  border-radius: 10px;
+  width: 100%;
+  height: 3em;
   font-weight: 500;
-  font-size: 20px;
-  &:hover {
-    background-color:#4b6a62;
-    cursor: pointer;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 0;
+  transition: all 0.2s;
+  background: #009779;
+  color: #fff;
+  cursor: pointer;
+  :hover,
+  :active {
+    background: #0d8b72;
   }
-`
-
+`;
 
 const AdminIndex = () => {
-  const [password,setPassword] = useState<string>('');
-  const [id,setId] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [id, setId] = useState<string>('');
 
-  const handleSubmit = () => {
-}
-
+  const handleSubmit = () => {};
 
   return (
     <form onSubmit={handleSubmit}>
-    <ContentWrapper>
-    <Title>관리자 로그인</Title>
-    <InfoWrapper>
-        <div>
-            <div className="label">아이디(이메일)</div>
-            <input type='text' placeholder='관리자 아이디 입력' value={id} onChange={(e)=>setId(e.target.value)}></input>            
-        </div>
-        <div>
-            <div className="label" >비밀번호</div>
-            <input type="password" placeholder='관리자 비밀번호 입력' value={password} onChange={(e) => setPassword(e.target.value)}></input>
-        </div>
-    </InfoWrapper>
-    <Button>로그인</Button>
-    </ContentWrapper>
+      <ContentWrapper>
+        <Title>관리자 로그인</Title>
+        <InfoWrapper>
+          <div>
+            <label htmlFor='id'>아이디(이메일)</label>
+            <input
+              id='id'
+              type='text'
+              placeholder='관리자 아이디 입력'
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor='pw'>비밀번호</label>
+            <input
+              id='pw'
+              type='password'
+              placeholder='관리자 비밀번호 입력'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+        </InfoWrapper>
+        <Button>로그인</Button>
+      </ContentWrapper>
     </form>
-)
-}
+  );
+};
 
 export default AdminIndex;

@@ -1,60 +1,63 @@
-import { SideMenu } from "../../route"
-import { NavLink , Link} from "react-router-dom"
-import styled from "styled-components"
+import { SideMenu } from '../../route';
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 const SideBar = styled.div`
+  a {
+    padding: 15px 20px;
+    display: block;
     display: flex;
-    text-align: center;
-    justify-content: center;
     align-items: center;
+    color: #333;
+    width: 100%;
+    gap: 12px;
 
-
-    a {
-        padding: 1%;
-        display: block;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        color: #333;
-        width: 100%;
-        height: 20%;
-        
-        font-size: 1.5rem;
-        font-weight: bold;
-        &:hover {
-            cursor: pointer;
-            color: #2a8045;
-        }
-
-    }
-    &:hover{
-        opacity: 80%;
+    font-size: 1.45rem;
+    font-weight: 700;
+    &:hover {
+      color: #2a8045;
     }
 
-`
+    &.active {
+      background-color: #f1f2f3;
+      color: #008446;
+    }
+  }
+  &:hover {
+    opacity: 80%;
+  }
+`;
 const SideBarWrapper = styled.div`
-    background-color: #ffffff;
-    height: 100vh;
-    width: 10vw;
-    min-width: 220px;
-    border-right: 2px solid #cfcfcf;
-    position: absolute;
-    left: 0%;
-    display: grid;
-    grid-template-columns: 200px;
-    grid-template-rows: 150px 150px 150px 150px 150px 1fr;
-`
+  background-color: #ffffff;
+  width: 240px;
+  height: 100vh;
+  border-right: 2px solid #cfcfcf;
+  padding: 30px 0;
+  display: flex;
+  flex-direction: column;
+`;
 
-const Sidebar = () =>{
-    
-    return(
-        <SideBarWrapper>
-            {SideMenu.map((item,index)=>{
-                return <SideBar key={index}><Link to={item.path}>{item.icon}{item.name}</Link></SideBar>
-            })}
-        </SideBarWrapper>
+const Logo = styled.img`
+  max-width: 100%;
+  padding: 0 20px 30px;
+  border-bottom: 1px solid #cfcfcf;
+`;
 
-    )
-
-}
-export default Sidebar
+const Sidebar = () => {
+  return (
+    <SideBarWrapper>
+      <Logo src='/teatime.png' alt='티타임' />
+      {SideMenu.map((item, index) => {
+        return (
+          <SideBar key={index}>
+            <NavLink to={item.path}>
+              {item.icon}
+              {item.name}
+            </NavLink>
+          </SideBar>
+        );
+      })}
+    </SideBarWrapper>
+  );
+};
+export default Sidebar;

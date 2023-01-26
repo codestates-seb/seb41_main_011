@@ -1,11 +1,12 @@
-import styled from "styled-components";
-import {FaUserCircle} from "react-icons/fa";
-import React, {useState} from 'react'
-import InputAdmin from "../../components/UI/Input";
-import TextArea from "../../components/UI/Textarea";
-import Sidebar from '../../components/UI/Sidebar';
+import styled from 'styled-components';
+import React, { useState, MouseEvent } from 'react';
+import InputAdmin from '../../components/UI/Input';
+import TextArea from '../../components/UI/Textarea';
 import axios from 'axios';
 import { ScreenWrapper } from './EditProgram';
+import { FaUserCircle, FaTimes } from 'react-icons/fa';
+import { modalCloseProps } from '../../pages/userManagement';
+
 // interface CreateTherapist {
 //     url: string,
 //     name: string,
@@ -17,284 +18,331 @@ import { ScreenWrapper } from './EditProgram';
 //     birth: string,
 // }
 
-
 const ContentWrapper = styled.div`
-    display: grid;
-    grid-template-rows: 5% 85% 10%;
-    grid-template-columns: 50% 50%;
-    border: 1px red solid;
-    height: 1200px;
-
-`
+  background: #fff;
+  position: relative;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  width: 70vw;
+  max-width: 1200px;
+  max-height: 75vh;
+  overflow-y: auto;
+`;
+const CloseButton = styled.button`
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  border: none;
+  background: none;
+  font-size: 2rem;
+  line-height: 1;
+  transition: all 0.2s;
+  cursor: pointer;
+  :hover {
+    opacity: 0.7;
+  }
+`;
 const Title = styled.div`
-    grid-column: 1 / 3;
-    grid-row: 1 / span 1;
-    border: 1px solid green;
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: center;
-    vertical-align: center;
-`
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: 700;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
+
 const InputWrapper = styled.div`
-    grid-row: 2 / 3;
-    grid-column: 1 / 2;
-    border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 30% 0;
-    height: 100%;
-    .top{
+  display: flex;
+  gap: 16px;
+`;
 
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-    
-        .imageWrapper{
-            width: 100px;
-            height: 100px;
-            border-radius: 70%;
-            overflow: hidden;
-            margin-bottom: 1rem;
-            .profileImage {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-        
-        }
-        .urlInputWrapper{
-            display: grid;
-            width:70%;
-            border: 1px solid red;
-            grid-template-columns: 30% 70%;
-        }
-    }
+const InputSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
 
-    .middle{
-        display: grid;
-        width:70%;
-        border: 1px solid red;
-        grid-template-columns: 30% 70%;
+  .mb-16 {
+    margin-bottom: 16px;
+  }
 
+  label {
+    color: #4b4b4b;
+    font-weight: 500;
+  }
+  .inputlabel {
+    width: 20%;
+    display: inline-block;
+    text-align: left;
+    margin-right: 16px;
+  }
 
-    }
-    .bottom{
-        display: grid;
-        width:70%;
-        border: 1px solid red;
-        grid-template-columns: 30% 70%;
-
-    }
-
-`
-const InputWrapper2 =styled.div`
-    grid-row: 2 / 3;
-    grid-column: 2 / 3;
-    border: 1px solid blue;
-    height: 100%;
-    display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: 40% 40% 20%;
-    .career{
-        grid-row: 1 / 2;
-        width:100%;
-        height: 70%;
-        border: 1px solid red;
-    }
-    .promote{
-        grid-row: 2 / 3;
-        height: 70%;
-        width:100%;
-        border: 1px solid red;
-    }
-
-    `
-const InputWrapper3 =styled.div`
-    grid-row: 3 / 3;
-    grid-column: 1 / span 2;
-    border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-
-`
+  input {
+    width: 60%;
+  }
+`;
 
 const SubmitButton = styled.button`
-    
-    width: 300px;
-    height: 80px;
-    text-align: center;
-    background-color: black;
-    color: white;
-    font-size: 2rem;
-    font-weight: bold;
-
-`
+  width: 300px;
+  height: 3em;
+  margin: 0 auto;
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 0;
+  transition: all 0.2s;
+  background: #155dcf;
+  color: #fff;
+  cursor: pointer;
+  :hover,
+  :active {
+    background: #003fa4;
+  }
+`;
 const CreateTherapistForm = styled.form`
-    
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+`;
 
+const CreateTherapist = (props: modalCloseProps) => {
+  const [url, setUrl] = useState<string>('');
+  const [signupName, setSignupName] = useState<string>('');
+  const [birth, setBirth] = useState<any>();
+  const [college, setCollege] = useState<string>('');
+  const [signupEmail, setSignupEmail] = useState<string>('');
+  const [signupPassword, setSignupPassword] = useState<string>('');
+  const [verifyPassword, setverifyPassword] = useState<string>('');
+  const [career, setCareer] = useState<string>('');
+  const [promote, setPromote] = useState<string>('');
+  const [modal, setModal] = useState<boolean>(true);
 
-`
-export const Button = styled.button`
-    width: 100px;
-    height: 80px;
-    background-color: blue;
-    color: white;
-    font-weight: bold;
-    font-size: 1.5rem;
-    border-radius: 12px;
-    &:hover {
-    cursor: pointer;
-    }
-    &.closeButton {
-        width: 40px;
-        height: 40px;
-        padding: 5px;
-        font-size: 16px;
-        background-color: #991515;
-        border-radius: 5px;
-        border: none;
-    } 
-`
-const CreateTherapist = () =>{
-    const [url,setUrl] = useState<string>('');
-    const [signupName,setSignupName] = useState<string>('');
-    const [birth,setBirth] = useState<any>();
-    const [college,setCollege] = useState<string>('');
-    const [signupEmail,setSignupEmail] = useState<string>('');
-    const [signupPassword,setSignupPassword] = useState<string>('');
-    const [verifyPassword,setverifyPassword] = useState<string>('');
-    const [career,setCareer] = useState<string>('');
-    const [promote,setPromote] = useState<string>('');
-    const [modal, setModal] = useState<boolean>(true);
+  const handleCloseButton = (event: MouseEvent<HTMLButtonElement>) => {
+    setModal(!modal);
+    props.close();
+  };
 
+  const handleBackdropClick = (event: MouseEvent<HTMLDivElement>) => {
+    setModal(!modal);
+    props.close();
+  };
 
-    const handleUrlChange = (e: React.ChangeEvent) =>{
-        const target = e.target as HTMLInputElement
-        setUrl(target.value);
-    }
-    const handleSignupEmailChange = (e: React.ChangeEvent) =>{
-        const target = e.target as HTMLInputElement
-        setSignupEmail(target.value);
-    }
-    const handleSignupPasswordChange = (e: React.ChangeEvent) =>{
-    const target = e.target as HTMLInputElement
+  const handleUrlChange = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    setUrl(target.value);
+  };
+  const handleSignupEmailChange = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    setSignupEmail(target.value);
+  };
+  const handleSignupPasswordChange = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
     setSignupPassword(target.value);
-    }
-    const handleVerifyPasswordChange = (e: React.ChangeEvent) =>{
-    const target = e.target as HTMLInputElement
+  };
+  const handleVerifyPasswordChange = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
     setverifyPassword(target.value);
-    }
-    const handleSignupNameChange = (e: React.ChangeEvent) =>{
-    const target = e.target as HTMLInputElement
+  };
+  const handleSignupNameChange = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
     setSignupName(target.value);
+  };
+  const handleBirthChange = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    setBirth(target.value);
+  };
+  const handleCareerChange = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    setCareer(target.value);
+  };
+  const handlePromoteChange = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    setPromote(target.value);
+  };
+  const handleCollegeChange = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    setCollege(target.value);
+  };
+  const handleAdmissionSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(
+      signupEmail,
+      signupPassword,
+      verifyPassword,
+      url,
+      signupName,
+      career,
+      promote,
+      college,
+    );
+    const regexPassword = new RegExp(
+      /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
+      'g',
+    );
+    const regexEmail = new RegExp(
+      /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/,
+      'g',
+    );
+    //체크박스 체크 -> 체크박스 체크안되면
+    if (!regexEmail.test(signupEmail)) {
+      return console.log('올바른 이메일 형식이 아닙니다.');
     }
-    const handleBirthChange = (e: React.ChangeEvent) =>{
-        const target = e.target as HTMLInputElement
-        setBirth(target.value);
+    if (!regexPassword.test(signupPassword)) {
+      return console.log('비밀번호 형식이 일치하지 않습니다.');
+      // return window.alert('비밀번호가 형식이 일치하지 않습니다.')
+    } else if (!(signupPassword === verifyPassword)) {
+      return console.log('비밀번호가 같지 않습니다.');
+      // window.alert('비밀번호가 같지 않습니다.')
+    } else {
+      // axiose
+      // const reqbody:CreateThrapist ={
+      //     url: url,
+      //     name:signupName,
+      //     birth: birth,
+      //     college: college,
+      //     email: signupEmail,
+      //     password : signupPassword,
+      //     career: career,
+      //     promote: promote
+      // };
+      // axios.post('https://jsonplaceholder.typicode.com/posts',JSON.stringify(reqbody))
+      // .then((res)=>console.log)
+      // .catch((err)=>console.log)
     }
-    const handleCareerChange = (e: React.ChangeEvent) =>{
-        const target = e.target as HTMLInputElement
-        setCareer(target.value);
-    }
-    const handlePromoteChange = (e: React.ChangeEvent) =>{
-        const target = e.target as HTMLInputElement
-        setPromote(target.value);
-    }
-    const handleCollegeChange = (e: React.ChangeEvent) =>{
-        const target = e.target as HTMLInputElement
-        setCollege(target.value);
-    }
-    const handleAdmissionSubmit = (e:React.FormEvent) =>{
-        e.preventDefault();
-        console.log(signupEmail,signupPassword,verifyPassword,url,signupName,career,promote,college)
-        const regexPassword = new RegExp(/^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,'g');
-        const regexEmail = new RegExp(/^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/,'g')
-        //체크박스 체크 -> 체크박스 체크안되면 
-        if(!regexEmail.test(signupEmail)){
-            return console.log('올바른 이메일 형식이 아닙니다.')
-        }
-        if(!regexPassword.test(signupPassword)){
-            return console.log('비밀번호 형식이 일치하지 않습니다.');
-            // return window.alert('비밀번호가 형식이 일치하지 않습니다.')
-        }else if(!(signupPassword === verifyPassword)){
-            return console.log('비밀번호가 같지 않습니다.')
-            // window.alert('비밀번호가 같지 않습니다.')
-        }else{
-              // axiose
-            // const reqbody:CreateThrapist ={
-            //     url: url,
-            //     name:signupName,
-            //     birth: birth,
-            //     college: college,
-            //     email: signupEmail,
-            //     password : signupPassword,
-            //     career: career,
-            //     promote: promote
-            // };
-            // axios.post('https://jsonplaceholder.typicode.com/posts',JSON.stringify(reqbody))
-            // .then((res)=>console.log)
-            // .catch((err)=>console.log)
+  };
 
-
-            }
-    
-    }
-
-    return (
-        <ScreenWrapper modal={modal}>
-            <Button className='closeButton' type='button' onClick={()=>setModal(!modal)}>X</Button>
-            <CreateTherapistForm onSubmit={handleAdmissionSubmit}>
-                <ContentWrapper>
-                    <Title>상담사 등록</Title>
-                    <InputWrapper>
-                        <div className='top'>
-                            <div className='imageWrapper'>
-                                <FaUserCircle size={50} color='white' className='profileImage' />
-                            </div>
-                            <div className='urlInputWrapper'>
-                                <label htmlFor='url'>이미지 등록 url</label>
-                                <InputAdmin category='url' id="url" placeholder='이미지url' value={url} onChange={handleUrlChange} name='url'/>               
-                            </div>
-                        </div>
-                        
-                        <div className='middle'>
-                            <label htmlFor='name'>이름</label>
-                            <InputAdmin category="name" id="name" placeholder='상담사 실명' value={signupName} onChange={handleSignupNameChange}/>
-                            <label htmlFor='birth'>생일</label>
-                            <InputAdmin category="birth" id='birth' placeholder='생년월일 8자리' value={birth} onChange={handleBirthChange}/>
-                            <label htmlFor='학력'>학력</label>
-                            <InputAdmin type="text" id="학력" placeholder='대학 기입란' value={college} onChange={handleCollegeChange}/>
-                        </div>
-                        <div className='bottom'>
-                            <label htmlFor='E-mail'>이메일</label>
-                            <InputAdmin type="text" id="E-mail" placeholder='회원가입 이메일' value={signupEmail} onChange={handleSignupEmailChange}/>
-                            <label htmlFor='password'>비밀번호</label>
-                            <InputAdmin category="password" id='password' placeholder='패스워드' value={signupPassword} onChange={handleSignupPasswordChange} />
-                            <label htmlFor='passwordCheck'>비밀번호 확인</label>
-                            <InputAdmin category="passwordCheck" id='passwordCheck' placeholder='패스워드 재입력' value={verifyPassword} onChange={handleVerifyPasswordChange}/>
-                        </div>
-                    </InputWrapper>
-                    <InputWrapper2>
-                        <TextArea cols={30} rows={15} id='carrer' child="경력" placeholder="경력을 입력하세요" value={career} className='career' onChange={handleCareerChange}/>
-                        <TextArea cols={30} rows={15} id='promote' child="소개" placeholder="소개글을 입력하세요" value={promote} className='promote' onChange={handlePromoteChange}/>
-                    </InputWrapper2>
-                    <InputWrapper3>
-                            <SubmitButton>보내기</SubmitButton>
-                    </InputWrapper3>
-                </ContentWrapper>
-            </CreateTherapistForm>
-
-        </ScreenWrapper>
-    )
-        
-
-}
-
-
+  return (
+    <ScreenWrapper modal={modal} onClick={handleBackdropClick}>
+      <ContentWrapper
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        <CloseButton type='button' onClick={handleCloseButton}>
+          <FaTimes />
+        </CloseButton>
+        <Title>
+          <FaUserCircle size={48} color='lightgray' className='profileImage' />
+          상담사 등록
+        </Title>
+        <CreateTherapistForm onSubmit={handleAdmissionSubmit}>
+          <InputWrapper>
+            <InputSection>
+              <div className='mb-16'>
+                <label htmlFor='url' className='inputlabel'>
+                  대표 이미지
+                </label>
+                <InputAdmin
+                  category='url'
+                  id='url'
+                  placeholder='이미지 url 경로 입력'
+                  value={url}
+                  onChange={handleUrlChange}
+                  name='url'
+                />
+              </div>
+              <div>
+                <label htmlFor='name' className='inputlabel'>
+                  이름
+                </label>
+                <InputAdmin
+                  category='name'
+                  id='name'
+                  placeholder='상담사 등록명'
+                  value={signupName}
+                  onChange={handleSignupNameChange}
+                />
+              </div>
+              <div>
+                <label htmlFor='birth' className='inputlabel'>
+                  생년월일
+                </label>
+                <InputAdmin
+                  category='birth'
+                  id='birth'
+                  placeholder='생년월일 8자리'
+                  value={birth}
+                  onChange={handleBirthChange}
+                />
+              </div>
+              <div className='mb-16'>
+                <label htmlFor='학력' className='inputlabel'>
+                  학력
+                </label>
+                <InputAdmin
+                  type='text'
+                  id='학력'
+                  placeholder='최종학력 학위 기재'
+                  value={college}
+                  onChange={handleCollegeChange}
+                />
+              </div>
+              <div>
+                <label htmlFor='E-mail' className='inputlabel'>
+                  이메일
+                </label>
+                <InputAdmin
+                  type='text'
+                  id='E-mail'
+                  placeholder='로그인 아이디로 사용'
+                  value={signupEmail}
+                  onChange={handleSignupEmailChange}
+                />
+              </div>
+              <div>
+                <label htmlFor='password' className='inputlabel'>
+                  비밀번호
+                </label>
+                <InputAdmin
+                  category='password'
+                  id='password'
+                  placeholder='로그인 비밀번호'
+                  value={signupPassword}
+                  onChange={handleSignupPasswordChange}
+                />
+              </div>
+              <div>
+                <label htmlFor='passwordCheck' className='inputlabel'>
+                  비밀번호 확인
+                </label>
+                <InputAdmin
+                  category='passwordCheck'
+                  id='passwordCheck'
+                  placeholder='비밀번호 재입력'
+                  value={verifyPassword}
+                  onChange={handleVerifyPasswordChange}
+                />
+              </div>
+            </InputSection>
+            <InputSection>
+              <TextArea
+                rows={5}
+                id='carrer'
+                child='경력'
+                placeholder='경력을 입력하세요'
+                value={career}
+                className='career'
+                onChange={handleCareerChange}
+              />
+              <TextArea
+                rows={6}
+                id='promote'
+                child='소개'
+                placeholder='소개글을 입력하세요'
+                value={promote}
+                className='promote'
+                onChange={handlePromoteChange}
+              />
+            </InputSection>
+          </InputWrapper>
+          <SubmitButton>등록</SubmitButton>
+        </CreateTherapistForm>
+      </ContentWrapper>
+    </ScreenWrapper>
+  );
+};
 
 export default CreateTherapist;
