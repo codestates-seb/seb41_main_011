@@ -1,6 +1,6 @@
 export interface modalCloseProps {
-  memberId?: number;
-  nickName?: string;
+  id?: number;
+  name?: string;
   close: () => void;
 }
 
@@ -17,4 +17,27 @@ export interface userListProps {
   nickName: string;
   birth: string;
   role: string;
+}
+
+export interface userProgramListProps {
+  payId: number;
+  title: string;
+  dateStart: string;
+  dateEnd: string;
+  counselorName: string;
+  userMax: number;
+}
+
+export interface therapistListProps {
+  counselorId: number;
+  counselorName: string;
+}
+
+export interface therapistProgramListProps {
+  programId: number;
+  title: string;
+  dateStart: string;
+  dateEnd: string;
+  userCount: number;
+  userMax: number;
 }

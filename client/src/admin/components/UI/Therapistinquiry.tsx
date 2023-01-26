@@ -1,9 +1,10 @@
-import { useState, MouseEvent } from 'react';
+import { useEffect, useState } from 'react';
 import { ScreenWrapper } from '../../pages/componentes/CreatePrograms';
 import { ProgramTable } from '../../pages/programManagement';
 import styled from 'styled-components';
 import { FaTimes } from 'react-icons/fa';
-import { modalCloseProps } from '../../types';
+import { modalCloseProps, therapistProgramListProps } from '../../types';
+import axios from 'axios';
 
 const ContentWrapper = styled.div`
   background: #fff;
@@ -41,15 +42,48 @@ const TherapistName = styled.div`
 
 const Therapistinquiry = (props: modalCloseProps) => {
   const [modal, setModal] = useState<boolean>(true);
+  const therapistId = props.id;
+  const therapistName = props.name;
 
-  const handleCloseButton = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleCloseButton = () => {
     setModal(!modal);
     props.close();
   };
 
-  const handleBackdropClick = (event: MouseEvent<HTMLDivElement>) => {
+  const handleBackdropClick = () => {
     setModal(!modal);
     props.close();
+  };
+
+  const [programList, setProgramList] = useState([]);
+
+  const getProgramList = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_DB_HOST +
+          `/api/pays/admin/${therapistId}/lookup/list`,
+      );
+      setProgramList(response.data.data);
+    } catch (error: any) {
+      if (error.response) {
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    }
+  };
+
+  useEffect(() => {
+    getProgramList();
+  }, []);
+
+  const viewProgramDate = (start: string, end: string) => {
+    return `${start} ~ ${end}`;
   };
 
   return (
@@ -62,26 +96,26 @@ const Therapistinquiry = (props: modalCloseProps) => {
         <CloseButton type='button' onClick={handleCloseButton}>
           <FaTimes />
         </CloseButton>
-        <TherapistName>오은영님의 개설프로그램 조회</TherapistName>
+        <TherapistName>{therapistName}님의 개설프로그램 조회</TherapistName>
         <ProgramTable>
           <thead>
             <tr>
               <th className='index'>No.</th>
               <th className='title'>제목</th>
               <th className='when'>상담시간</th>
-              <th className='status'>상담사</th>
               <th className='people'>정원</th>
             </tr>
           </thead>
           <tbody>
-            {[1, 2, 3, 4, 5].map((item) => {
+            {programList.map((item: therapistProgramListProps) => {
               return (
-                <tr>
-                  <td>{item}</td>
-                  <td>걸림돌과 디딤돌</td>
-                  <td>2023-02-11 08:30</td>
-                  <td>예정</td>
-                  <td>28/30</td>
+                <tr key={item.programId}>
+                  <td>{item.programId}</td>
+                  <td>{item.title}</td>
+                  <td>{viewProgramDate(item.dateStart, item.dateEnd)}</td>
+                  <td>
+                    {item.userCount}/{item.userMax}
+                  </td>
                 </tr>
               );
             })}

@@ -1,9 +1,10 @@
-import { useState, MouseEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { ScreenWrapper } from '../../pages/componentes/CreatePrograms';
 import { ProgramTable } from '../../pages/programManagement';
 import styled from 'styled-components';
 import { FaTimes } from 'react-icons/fa';
-import { modalCloseProps } from '../../pages/userManagement';
+import { modalCloseProps, userProgramListProps } from '../../types';
+import axios from 'axios';
 
 const ContentWrapper = styled.div`
   background: #fff;
@@ -41,15 +42,48 @@ const UserName = styled.div`
 
 const Generalinquiry = (props: modalCloseProps) => {
   const [modal, setModal] = useState<boolean>(true);
+  const memberId = props.id;
+  const nickName = props.name;
 
-  const handleCloseButton = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleCloseButton = () => {
     setModal(!modal);
     props.close();
   };
 
-  const handleBackdropClick = (event: MouseEvent<HTMLDivElement>) => {
+  const handleBackdropClick = () => {
     setModal(!modal);
     props.close();
+  };
+
+  const [programList, setProgramList] = useState([]);
+
+  const getProgramList = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_DB_HOST +
+          `/api/pays/admin/${memberId}/lookup/list`,
+      );
+      setProgramList(response.data.data);
+    } catch (error: any) {
+      if (error.response) {
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    }
+  };
+
+  useEffect(() => {
+    getProgramList();
+  }, []);
+
+  const viewProgramDate = (start: string, end: string) => {
+    return `${start} ~ ${end}`;
   };
 
   return (
@@ -62,7 +96,7 @@ const Generalinquiry = (props: modalCloseProps) => {
         <CloseButton type='button' onClick={handleCloseButton}>
           <FaTimes />
         </CloseButton>
-        <UserName>햄토끼님의 상담 이력 조회</UserName>
+        <UserName>{nickName}님의 상담 이력 조회</UserName>
         <ProgramTable>
           <thead>
             <tr>
@@ -74,14 +108,14 @@ const Generalinquiry = (props: modalCloseProps) => {
             </tr>
           </thead>
           <tbody>
-            {[1, 2, 3, 4, 5].map((item) => {
+            {programList.map((item: userProgramListProps) => {
               return (
-                <tr>
-                  <td>{item}</td>
-                  <td>걸림돌과 디딤돌</td>
-                  <td>2023-02-11 08:30</td>
-                  <td>예정</td>
-                  <td>28/30</td>
+                <tr key={item.payId}>
+                  <td>{item.payId}</td>
+                  <td>{item.title}</td>
+                  <td>{viewProgramDate(item.dateStart, item.dateEnd)}</td>
+                  <td>{item.counselorName}</td>
+                  <td>{item.userMax}</td>
                 </tr>
               );
             })}
