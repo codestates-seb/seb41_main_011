@@ -5,7 +5,7 @@ import InputAdmin from '../../components/UI/Input';
 import TextArea from '../../components/UI/Textarea';
 import SelectBox from '../../components/UI/SelectBox';
 import { FaRegCalendarCheck, FaTimes } from 'react-icons/fa';
-import { modalCloseProps } from '../../pages/userManagement';
+import { modalCloseProps } from '../../types';
 
 interface CreateProgram {
   id: string;

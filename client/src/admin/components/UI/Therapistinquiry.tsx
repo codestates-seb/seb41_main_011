@@ -3,7 +3,7 @@ import { ScreenWrapper } from '../../pages/componentes/CreatePrograms';
 import { ProgramTable } from '../../pages/programManagement';
 import styled from 'styled-components';
 import { FaTimes } from 'react-icons/fa';
-import { modalCloseProps } from '../../pages/userManagement';
+import { modalCloseProps } from '../../types';
 
 const ContentWrapper = styled.div`
   background: #fff;
