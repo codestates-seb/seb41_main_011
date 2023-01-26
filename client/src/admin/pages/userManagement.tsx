@@ -1,314 +1,275 @@
-import { useState } from "react";
-import styled from "styled-components";
-import Sidebar from "../components/UI/Sidebar";
+import { useState } from 'react';
+import styled from 'styled-components';
+import Sidebar from '../components/UI/Sidebar';
 import Generalinquiry from '../components/UI/Generalinquiry';
 import Therapistinquiry from '../components/UI/Therapistinquiry';
 import CreateTherapist from './componentes/CreateTherapist';
 
 export const PageWrapper = styled.div`
-    width: 90vw;
-    height: 100vh;
-    right: 0%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 3vh;
-
-`
+  width: calc(100% - 240px);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 36px;
+`;
 
 const ContentWrapper = styled.div`
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-    @media screen and (max-width: 768px) {
-        padding-top: 0vh;
-        padding-bottom: 0vh;
-        height: 100vh;
-        justify-content: space-between;
-    }
-`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+`;
 
 const Title = styled.div`
-    width: 70vw;
-	color: #4B6A4D;
-	font-weight: 700;
-	font-size: 2.25rem;
-    text-align: left;
-    left: 0;
-    top: 0;
-`
+  width: 100%;
+  color: #006954;
+  font-weight: 700;
+  font-size: 2.25rem;
+  line-height: 1;
+`;
 
-const ProgramTable =  styled.table `
-    overflow: hidden;
-    width: 70vw;
-    height: 50vh;
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    thead tr {
-        background-color: #009879;
-        color: #ffffff;
-        text-align: center;
+const ProgramTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  border-bottom: 2px solid #009779;
+  thead tr {
+    background-color: #009779;
+    color: #ffffff;
+    text-align: center;
+  }
+  tbody {
+    background-color: white;
+    tr:nth-of-type(even) {
+      background-color: #f3f3f3;
     }
-    tbody
-    {
-        background-color: white;
-            tr:nth-of-type(even) {
-                background-color: #f3f3f3;
-            }
-            tr:last-of-type {
-                border-bottom: 2px solid #009879;
-            }
-    }
-    .openUserDetail, .openProgramDetail{
-        color: #156cb4;
-        font-weight: bold;
+  }
+  .openUserDetail,
+  .openProgramDetail {
+    color: #06c;
+    font-weight: 500;
+    transition: all 0.2s;
 
-        &:hover{
-            cursor: pointer;
-            text-decoration: underline;
-        }
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
     }
-    th {
-        font-weight: bold;
-    }
-    th, td {
-        padding: 12px 15px;
-        text-align: center;
-        vertical-align: middle;
-    }
-`
+  }
+  th {
+    font-weight: 500;
+  }
+  th,
+  td {
+    padding: 12px 15px;
+    text-align: center;
+  }
+`;
 
 const Pagination = styled.div`
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.11) 0px 3px 8px;
+  width: fit-content;
+  margin: 0 auto;
 
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: rgba(0, 0, 0, 0.11) 0px 3px 8px;
-
-
-    .pagination {
-        display: inline-block;
-        
-
-        
+  .pagination {
+    display: inline-block;
+  }
+  a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    background-color: white;
+    &:active {
+      background-color: #009779;
+      color: white;
     }
-    a {
-        color: black;
-        float: left;
-        padding: 8px 16px;
-        text-decoration: none;
-        background-color: white;
-            &:active {
-                background-color: #009879;
-                color: white;
-            }
-            &:hover {
-                background-color: #009879;
-                color: white;
-            }
-        }
-    
-`
-const CreateWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    width: 70vw;
-    justify-content: right;
-    `
-const Button = styled.button`
-    border: none;
-    background-color: #009879;
-    color: #ffffff;
-    height: 40px;
-    width: 120px;
-    font-size: 16px;
-    border-radius: 10px;
     &:hover {
+      background-color: #009779;
+      color: white;
+    }
+  }
+`;
+const CreateWrapper = styled.div`
+  text-align: right;
+  margin-bottom: 8px;
+`;
+const Button = styled.button`
+  border: none;
+  background-color: #009779;
+  color: #ffffff;
+  height: 40px;
+  width: 120px;
+  font-size: 16px;
+  border-radius: 10px;
+  &:hover {
     cursor: pointer;
     background-color: #006d57;
-    }
-    `
+  }
+`;
 
-    
 const MenuBar = styled.div`
-    display: grid;
-    grid-template-columns: auto auto;
-    width: 80vw;
-    height: 4vh;
-    overflow: hidden;
-    div {
-        display: flex;
-        font-weight: 500;
-        justify-content: center;
-        align-items: center;
-        background-color: #ffffff;
-        color: #333;
-        &:hover {
-        cursor: pointer;
-            background-color: #009879;
-            color: #ffffff;
-        }
-        }
-        .clicked {
-            background-color: #009879;
-            color: white;
-        }
-
-    @media screen and (min-width: 768px) {
-		width: 70vw;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto;
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    background-color: #d9d9d9;
+    color: #525252;
+    padding: 8px 0;
+    transition: all 0.2s;
+    &:hover {
+      cursor: pointer;
+      background-color: #ccc;
+      color: #333;
     }
-    
-`
+    &.clicked {
+      background-color: #009779;
+      color: #fff;
+      &:hover {
+        background-color: #0d8b72;
+      }
+    }
+  }
+`;
+
+export interface modalCloseProps {
+  close: () => void;
+}
 
 const UserManagement = (props: any) => {
-    const [isActive1, setIsActive1] = useState(true);
-    const [isActive2, setIsActive2] = useState(false);
-    const [isModalOpened1, setIsModalOpened1] = useState(false);
-    const [isModalOpened2, setIsModalOpened2] = useState(false);
-    const [isModalOpened3, setIsModalOpened3] = useState(false);
-    
-    return (
-        <div>
-            <ContentWrapper>
-                <PageWrapper>
-                    <Title>
-                        {isActive1 ? '회원 목록 - 일반' : '회원 목록 - 상담사'}
-                    </Title> 
-                    <MenuBar>
-                        <div className={isActive1 ? 'clicked' : ''} onClick={() => {setIsActive1(!isActive1)
-                        setIsActive1(true);
-                        setIsActive2(false);}}>
-                            일반
-                        </div>
-                        <div className={isActive2 ? 'clicked' : ''} onClick={() => {setIsActive2(!isActive2)
-                        setIsActive1(false);
-                        setIsActive2(true);}}>
-                            상담사
-                        </div>
-                    </MenuBar>
-                    <Sidebar/> 
-                        {
-                            isActive1 ? 
-                            <ProgramTable>
-                        
-                            {isModalOpened1? <Generalinquiry/>: null}
-                            <thead>
-                                <tr>
-                                    <th className='index'>No.</th>
-                                    <th className='title'>유저 이름</th>
-                                    <th className='people'>닉네임</th>
-                                    <th className='when'>생년월일</th>
-                                    <th className='detail'>상세보기</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>하헌진</td>
-                                    <td>고양이</td>
-                                    <td>2023.01.18</td>
-                                    <td className="openUserDetail" onClick={() => setIsModalOpened1(!isModalOpened1)}>그룹상담내역</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>하헌진</td>
-                                    <td>고양이</td>
-                                    <td>2023.01.18</td>
-                                    <td className="openUserDetail">그룹상담내역</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>하헌진</td>
-                                    <td>고양이</td>
-                                    <td>2023.01.18</td>
-                                    <td className="openUserDetail">그룹상담내역</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>하헌진</td>
-                                    <td>고양이</td>
-                                    <td>2023.01.18</td>
-                                    <td className="openUserDetail">그룹상담내역</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>하헌진</td>
-                                    <td>고양이</td>
-                                    <td>2023.01.18</td>
-                                    <td className="openUserDetail">그룹상담내역</td>
-                                </tr>
-                            </tbody>
-                        </ProgramTable> 
-                        :
-                        <>
-                        {isModalOpened3? <CreateTherapist/> : null}
-                        <CreateWrapper>
-                            <Button onClick ={() => setIsModalOpened3(!isModalOpened3)}>상담사 생성 </Button>
-                        </CreateWrapper>
-                        <ProgramTable>
-                            {isModalOpened2? <Therapistinquiry/>: null}
-                            <thead>
-                                <tr>
-                                    <th className='index'>No.</th>
-                                    <th className='title'>상담사 이름</th>
-                                    <th className='programDetail'>상세보기</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>하헌진</td>
-                                    <td className="openProgramDetail" onClick={() => setIsModalOpened2(!isModalOpened2)} >그룹상담내역</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>하헌진</td>
-                                    <td className="openProgramDetail">그룹상담내역</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>하헌진</td>
-                                    <td className="openProgramDetail">그룹상담내역</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>하헌진</td>
-                                    <td className="openProgramDetail">그룹상담내역</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>하헌진</td>
-                                    <td className="openProgramDetail">그룹상담내역</td>
-                                </tr>  
-                            </tbody>
-                        </ProgramTable>
-                        </>
+  const [isActive1, setIsActive1] = useState(true);
+  const [isActive2, setIsActive2] = useState(false);
+  const [isModalOpened1, setIsModalOpened1] = useState(false);
+  const [isModalOpened2, setIsModalOpened2] = useState(false);
+  const [isModalOpened3, setIsModalOpened3] = useState(false);
 
-                        }
-                        
-                        {/* 하단 페이지 네이션은 아직 장식임 */}
-                        <Pagination className="pagination"> 
-                            <a href="#">&laquo;</a>
-                            <a href="#">1</a>
-                            <a className="active" href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#">6</a>
-                            <a href="#">&raquo;</a>
-                        </Pagination>  
-                </PageWrapper>
-            </ContentWrapper>
-            
-        </div>
-    )
-}
+  return (
+    <ContentWrapper>
+      <Sidebar />
+      <PageWrapper>
+        <Title>{isActive1 ? '회원 목록 - 일반' : '회원 목록 - 상담사'}</Title>
+        <MenuBar>
+          <div
+            className={isActive1 ? 'clicked' : ''}
+            onClick={() => {
+              setIsActive1(!isActive1);
+              setIsActive1(true);
+              setIsActive2(false);
+            }}
+          >
+            일반
+          </div>
+          <div
+            className={isActive2 ? 'clicked' : ''}
+            onClick={() => {
+              setIsActive2(!isActive2);
+              setIsActive1(false);
+              setIsActive2(true);
+            }}
+          >
+            상담사
+          </div>
+        </MenuBar>
+        {isActive1 ? (
+          <ProgramTable>
+            {isModalOpened1 ? (
+              <Generalinquiry close={() => setIsModalOpened1(false)} />
+            ) : null}
+            <thead>
+              <tr>
+                <th className='index'>No.</th>
+                <th className='title'>유저 이름</th>
+                <th className='people'>닉네임</th>
+                <th className='when'>생년월일</th>
+                <th className='detail'>상세보기</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[1, 2, 3, 4, 5].map((item) => {
+                return (
+                  <tr>
+                    <td>{item}</td>
+                    <td>하헌진</td>
+                    <td>고양이</td>
+                    <td>2023.01.18</td>
+                    <td
+                      className='openUserDetail'
+                      onClick={() => setIsModalOpened1(true)}
+                    >
+                      그룹상담내역
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </ProgramTable>
+        ) : (
+          <>
+            {isModalOpened3 ? (
+              <CreateTherapist close={() => setIsModalOpened3(false)} />
+            ) : null}
+
+            <ProgramTable>
+              <caption>
+                <CreateWrapper>
+                  <Button onClick={() => setIsModalOpened3(true)}>
+                    상담사 생성
+                  </Button>
+                </CreateWrapper>
+              </caption>
+              {isModalOpened2 ? (
+                <Therapistinquiry close={() => setIsModalOpened2(false)} />
+              ) : null}
+              <thead>
+                <tr>
+                  <th className='index'>No.</th>
+                  <th className='title'>상담사 이름</th>
+                  <th className='programDetail'>상세보기</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[1, 2, 3, 4, 5].map((item) => {
+                  return (
+                    <tr>
+                      <td>{item}</td>
+                      <td>하헌진</td>
+                      <td
+                        className='openProgramDetail'
+                        onClick={() => setIsModalOpened2(true)}
+                      >
+                        그룹상담내역
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </ProgramTable>
+          </>
+        )}
+
+        {/* 하단 페이지 네이션은 아직 장식임 */}
+        <Pagination className='pagination'>
+          <a href='#'>&laquo;</a>
+          <a href='#'>1</a>
+          <a className='active' href='#'>
+            2
+          </a>
+          <a href='#'>3</a>
+          <a href='#'>4</a>
+          <a href='#'>5</a>
+          <a href='#'>6</a>
+          <a href='#'>&raquo;</a>
+        </Pagination>
+      </PageWrapper>
+    </ContentWrapper>
+  );
+};
 
 export default UserManagement;
