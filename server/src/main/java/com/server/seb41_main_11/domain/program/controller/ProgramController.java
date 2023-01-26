@@ -99,7 +99,7 @@ public class ProgramController {
 
     // 화면정의서 25p
     // 상담사 - 마이페이지 나의 프로그램 개별 조회
-    @GetMapping("/{counselor-id}/lookup/{program-id}")
+    @GetMapping("/counselors/{counselor-id}/lookup/{program-id}")
     public ResponseEntity getCounselorProgram(@PathVariable("counselor-id") @Positive Long counselorId,
         @PathVariable("program-id") @Positive Long programId) {
         Program program = programService.findVerifiedProgramByCounselorId(counselorId, programId);
@@ -110,7 +110,7 @@ public class ProgramController {
 
     // 화면정의서 24p
     // 상담사 - 상담사 상담 이력 전체 조회
-    @GetMapping("/{counselor-id}/lookup/list")
+    @GetMapping("/counselors/{counselor-id}/lookup/list")
     public ResponseEntity getCounselorPrograms(@PathVariable("counselor-id") @Positive Long counselorId,
         @Positive @RequestParam(defaultValue = "1") int page,
         @Positive @RequestParam(defaultValue = "10") int size) {

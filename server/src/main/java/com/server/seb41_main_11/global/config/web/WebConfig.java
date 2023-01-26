@@ -95,8 +95,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/counselors/look-up/{counselorId}") //상담사 마이페이지
                 .addPathPatterns("/api/counselors/edit/{counselorId}") // 상담사 마이페이지 수정
                 .addPathPatterns("/api/programs/patch/counselor/{program-id}") //마이페이지 나의 프로그램 수정
-//                .addPathPatterns("/api/programs/{counselor-id}/lookup/{program-id}"); // 마이페이지 나의 프로그램 개별 조회
-                .addPathPatterns("/api/programs/{counselor-id}/lookup/list"); //마이페이지 나의 프로그램 전체 조회
+                .addPathPatterns("/api/programs/counselors/{counselor-id}/lookup/{program-id}") // 마이페이지 나의 프로그램 개별 조회
+                .addPathPatterns("/api/programs/counselors/{counselor-id}/lookup/list"); //상담사 상담 이력 전체 조회
     }
 
     @Override
