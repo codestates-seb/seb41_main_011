@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import NavBar from './NavBar';
 import SignButtons from './SignButtons';
 import MyPageButton from './MyPageButton';
-import { useState } from 'react';
 
 const Contents = styled.header`
   position: fixed;
@@ -73,8 +72,8 @@ const Contents = styled.header`
 `;
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const isLoggedIn = localStorage.getItem('accessToken')
   return (
     <Contents>
       <h1>

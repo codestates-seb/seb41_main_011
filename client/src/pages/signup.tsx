@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import InputTemp from '../components/Input';
 import ButtonAccept from '../components/ButtonAccept';
 import axios from 'axios';
-import { displayName } from 'react-quill';
 import Tabbar from '../components/tabbar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -105,34 +104,34 @@ const Logo = styled.img`
 `;
 
 const Signup = () => {
-  const [signupEmail, setSignupEmail] = useState<string>('');
-  const [signupPassword, setSignupPassword] = useState<string>('');
-  const [verifyPassword, setverifyPassword] = useState<string>('');
-  const [signupName, setSignupName] = useState<string>('');
-  const [signupDisplayName, setSignupDisplayName] = useState<string>('');
-  const [birth, setBirth] = useState<any>();
+  const [email, setemail] = useState<string>('');
+  const [password, setpassword] = useState<string>('');
+  const [confirmPassword, setconfirmPassword] = useState<string>('');
+  const [memberName, setmemberName] = useState<string>('');
+  const [nickName, setnickName] = useState<string>('');
+  let [birth, setBirth] = useState<any>('');
   const [ischecked, setIschecked] = useState<boolean>(false);
   const [admission, setAdmission] = useState<boolean>(true);
 
-  const handleSignupEmailChange = (e: React.ChangeEvent) => {
+  const handleemailChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setSignupEmail(target.value);
+    setemail(target.value);
   };
-  const handleSignupPasswordChange = (e: React.ChangeEvent) => {
+  const handlepasswordChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setSignupPassword(target.value);
+    setpassword(target.value);
   };
-  const handleVerifyPasswordChange = (e: React.ChangeEvent) => {
+  const handleconfirmPasswordChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setverifyPassword(target.value);
+    setconfirmPassword(target.value);
   };
-  const handleSignupNameChange = (e: React.ChangeEvent) => {
+  const handlememberNameChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setSignupName(target.value);
+    setmemberName(target.value);
   };
-  const handleSignupDisplayNameChange = (e: React.ChangeEvent) => {
+  const handlenickNameChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setSignupDisplayName(target.value);
+    setnickName(target.value);
   };
   const handleBirthChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
@@ -140,16 +139,14 @@ const Signup = () => {
   };
   const handleCheckboxChange = (e: React.ChangeEvent) => {
     setIschecked(!ischecked);
-    console.log(ischecked);
   };
 
   const handleAdmissionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(signupEmail, signupPassword, verifyPassword, ischecked);
 
     if (ischecked === false) {
       // window.alert('개인정보이용에 동의해 주셔야 합니다.')
-      return console.log('개인정보이용에 동의해 주셔야 합니다.');
+      return ('개인정보이용에 동의해 주셔야 합니다.');
     }
     const regexPassword = new RegExp(
       /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
@@ -160,47 +157,41 @@ const Signup = () => {
       'g',
     );
     //체크박스 체크 -> 체크박스 체크안되면
-    if (!regexEmail.test(signupEmail)) {
-      return console.log('올바른 이메일 형식이 아닙니다.');
+    if (!regexEmail.test(email)) {
+      return ('올바른 이메일 형식이 아닙니다.');
     }
-    if (!regexPassword.test(signupPassword)) {
-      return console.log('비밀번호 형식이 일치하지 않습니다.');
+    if (!regexPassword.test(password)) {
+      return ('비밀번호 형식이 일치하지 않습니다.');
       // return window.alert('비밀번호가 형식이 일치하지 않습니다.')
-    } else if (!(signupPassword === verifyPassword)) {
-      return console.log('비밀번호가 같지 않습니다.');
+    } else if (!(password === confirmPassword)) {
+      return ('비밀번호가 같지 않습니다.');
       // window.alert('비밀번호가 같지 않습니다.')
     } else {
       setAdmission(!admission);
-      return console.log('성공');
-      // axios
+
     }
   };
   const handleSubmit = (e: React.FormEvent) => {
+    
+    birth = `${birth.slice(0,4)}-${birth.slice(4)}`
     e.preventDefault();
-    console.log(
-      signupEmail,
-      signupPassword,
-      verifyPassword,
-      ischecked,
-      signupName,
-      signupDisplayName,
-      birth,
-    );
+
     const reqbody: object = {
-      email: signupEmail,
-      password: signupPassword,
-      name: signupName,
-      nick_name: displayName,
-      birth: birth,
+      email,
+      memberName,
+      password,
+      confirmPassword,
+      nickName,
+      birth,
     };
 
     axios
       .post(
-        'https://jsonplaceholder.typicode.com/posts',
-        JSON.stringify(reqbody),
+        process.env.REACT_APP_DB_HOST+'/api/members/new',
+      reqbody,
       )
-      .then((res) => console.log)
-      .catch((err) => console.log);
+      .then((res) => window.alert('회원가입이 완료되었습니다.'))
+      .catch((err) => window.alert('회원가입에 실패하셨습니다.'));
   };
 
   return admission ? (
@@ -215,23 +206,23 @@ const Signup = () => {
             <InputTemp
               type='text'
               id='E-mail'
-              value={signupEmail}
-              onChange={handleSignupEmailChange}
+              value={email}
+              onChange={handleemailChange}
               placeholder='E-mail형식으로 입력해주세요'
             />
             <label htmlFor='password'>비밀번호</label>
             <InputTemp
               category='password'
               id='password'
-              value={signupPassword}
+              value={password}
               placeholder='영문,숫자 포함 8자리 이상으로 입력해주세요.'
-              onChange={handleSignupPasswordChange}
+              onChange={handlepasswordChange}
             />
             <InputTemp
               category='password'
-              value={verifyPassword}
+              value={confirmPassword}
               placeholder='비밀번호를 한 번 더 입력 해주세요.'
-              onChange={handleVerifyPasswordChange}
+              onChange={handleconfirmPasswordChange}
             />
           </ContextDiv>
 
@@ -275,8 +266,8 @@ const Signup = () => {
             <InputTemp
               type='text'
               id='Name'
-              onChange={handleSignupNameChange}
-              value={signupName}
+              onChange={handlememberNameChange}
+              value={memberName}
               placeholder='실명을 입력해주세요.'
             />
             <label htmlFor='Displayname'>닉네임</label>
@@ -284,8 +275,8 @@ const Signup = () => {
               type='text'
               id='DisplayName'
               placeholder='서비스에서 사용할 닉네임을 입력해주세요'
-              value={signupDisplayName}
-              onChange={handleSignupDisplayNameChange}
+              value={nickName}
+              onChange={handlenickNameChange}
             />
             <label htmlFor='Birth'>생년월일</label>
             <InputTemp
