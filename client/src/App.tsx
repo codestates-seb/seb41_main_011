@@ -1,6 +1,6 @@
 import reset from 'styled-reset';
 import { createGlobalStyle } from 'styled-components';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
 import ScrollToTop from './utils/ScrollToTop';
 import Intro from './pages/intro';
@@ -31,6 +31,9 @@ import CommunityPost from './pages/community_post';
 import MyPageTherapist from './pages/mypage_therapist';
 import AdminEditInfo from './admin/pages/adminEditInfo';
 import AdminIndex from './admin/pages/adminIndex';
+import { useEffect } from 'react';
+import axios from 'axios';
+import moment from 'moment';
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -56,6 +59,32 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  useEffect(()=>{
+    async function setToken (){
+      axios.defaults.headers.common['x-access-token'] =  localStorage.getItem('accessToken')
+      var expiredTime = await moment.utc(localStorage.getItem('expiredTime'))
+      let diffTime:any = await moment.duration(expiredTime.diff(moment()))
+      if (diffTime < 10000){
+          axios.defaults.headers.common['x-refresh-token'] = localStorage.getItem('refreshToken')
+          await axios.get(process.env.REACT_APP_DB_HOST+'/api/access-token/issue').then(
+            (res) => {
+              localStorage.setItem('accessToken', res.data.data.accessToken)
+              localStorage.setItem('expiredTime', res.data.data.cur_time)
+              axios.defaults.headers.common['x-access-token'] =  localStorage.getItem('accessToken');
+              window.location.href = 'http://localhost:3000/all_programs';
+  
+            },
+            (err) => {
+              <Navigate to ='./pages/login_general' />
+            }
+          ) 
+      }
+      return new Promise(function(resolve, reject) {
+        resolve(true)
+    });
+    }
+    setToken()
+  },)
   return (
     <div className='App'>
       <BrowserRouter>
