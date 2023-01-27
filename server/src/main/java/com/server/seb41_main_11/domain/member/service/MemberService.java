@@ -72,7 +72,7 @@ public class MemberService {
         Member findMember = optioanlMember.get();
 
         if(findMember.getStatus() == Status.DELETE){
-            throw new EntityNotFoundException(ErrorCode.MEMBER_NOT_EXISTS);
+            throw new EntityNotFoundException(ErrorCode.MEMBER_WITHDRAWN);
         }
 
         if(findMember.getRole() == Role.ADMIN){
