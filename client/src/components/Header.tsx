@@ -72,8 +72,7 @@ const Contents = styled.header`
 `;
 
 const Header = () => {
-
-  const isLoggedIn = localStorage.getItem('accessToken')
+  const isLoggedIn = localStorage.getItem('accessToken') ? true : false;
   return (
     <Contents>
       <h1>
