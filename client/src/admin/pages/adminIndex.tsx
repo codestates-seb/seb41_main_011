@@ -115,7 +115,7 @@ const AdminIndex = () => {
         ] = `${res.data.data.grantType} ${res.data.data.accessToken}`;
         dispatch(loginAction.login(res.data.data.role));
         window.alert(`${email}이메일로 로그인 하셨습니다.`);
-        navigate('/');
+        navigate('/userManagement');
       })
       .catch((err) => {
         alert(err.response.data.errorMessage);
