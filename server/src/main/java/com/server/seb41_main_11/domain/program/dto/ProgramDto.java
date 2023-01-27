@@ -197,6 +197,7 @@ public class ProgramDto {
         private String dateStart;
         private String dateEnd;
         private Set<String> symptomTypes;
+        private Long counselorId;
         private String counselorName;
         private String profile;
         private String introduce;
@@ -204,7 +205,7 @@ public class ProgramDto {
 
 
         public static ProgramDto.GetResponse of(Program program) {
-            return ProgramDto.GetResponse.builder()
+            return GetResponse.builder()
                 .programId(program.getProgramId())
                 .title(program.getTitle())
                 .content(program.getContent())
@@ -215,6 +216,7 @@ public class ProgramDto {
                 .dateStart(program.getDateStart())
                 .dateEnd(program.getDateEnd())
                 .symptomTypes(program.getSymptomTypes())
+                .counselorId(program.getCounselor().getCounselorId())
                 .counselorName(program.getCounselor().getCounselorName())
                 .profile(program.getCounselor().getProfile())
                 .introduce(program.getCounselor().getIntroduce())
