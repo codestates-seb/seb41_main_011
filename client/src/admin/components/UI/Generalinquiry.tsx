@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { FaTimes } from 'react-icons/fa';
 import { modalCloseProps, userProgramListProps } from '../../types';
 import axios from 'axios';
+import { viewProgramDate } from '../../utils';
 
 const ContentWrapper = styled.div`
   background: #fff;
@@ -82,10 +83,6 @@ const Generalinquiry = (props: modalCloseProps) => {
     getProgramList();
   }, []);
 
-  const viewProgramDate = (start: string, end: string) => {
-    return `${start} ~ ${end}`;
-  };
-
   return (
     <ScreenWrapper modal={modal} onClick={handleBackdropClick}>
       <ContentWrapper
@@ -100,7 +97,7 @@ const Generalinquiry = (props: modalCloseProps) => {
         <ProgramTable>
           <thead>
             <tr>
-              <th className='index'>No.</th>
+              <th className='index'>ID</th>
               <th className='title'>제목</th>
               <th className='when'>상담시간</th>
               <th className='status'>상담사</th>

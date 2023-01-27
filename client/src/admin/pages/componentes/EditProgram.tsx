@@ -1,11 +1,11 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import InputAdmin from '../../components/UI/Input';
 import TextArea from '../../components/UI/Textarea';
 import SelectBox from '../../components/UI/SelectBox';
 import { FaRegCalendarCheck, FaTimes } from 'react-icons/fa';
-import { modalCloseProps } from '../../types';
+import { modalCloseProps, createProgramProps } from '../../types';
 
 interface CreateProgram {
   id: string;
@@ -47,6 +47,9 @@ const ContentWrapper = styled.div`
   max-width: 1200px;
   max-height: 75vh;
   overflow-y: auto;
+  @media screen and (min-width: 1000px) {
+    min-width: 1000px;
+  }
 `;
 const CloseButton = styled.button`
   position: absolute;
@@ -154,14 +157,6 @@ const CreateProgramForm = styled.form`
 `;
 
 const EditPrograms = (props: modalCloseProps) => {
-  const [id, setId] = useState<string>('');
-  const [startingtime, setStartingtime] = useState<string>('');
-  const [endtime, setEndtime] = useState<string>('');
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [tag, setTag] = useState<string>('');
-  const [url, setUrl] = useState<string>('');
-  const [regularnumber, setRegularnumber] = useState<any>();
   const [modal, setModal] = useState<boolean>(true);
 
   const handleCloseButton = (event: MouseEvent<HTMLButtonElement>) => {
@@ -174,72 +169,130 @@ const EditPrograms = (props: modalCloseProps) => {
     props.close();
   };
 
-  const [price, setPrice] = useState<any>(0);
+  const programId = props.id;
+
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
+  const [image, setImage] = useState<string>('');
+  const [userMax, setUserMax] = useState<any>('');
+  const [dateStart, setDateStart] = useState<string>('');
+  const [dateEnd, setDateEnd] = useState<string>('');
+  const [symptomTypes, setSymptomTypes] = useState<string[]>([]);
+  const [counselorId, setCounselorId] = useState<any>('');
+  const [cost, setCost] = useState<any>('');
+
+  const [programInfo, setProgramInfo] = useState<createProgramProps>({
+    title: '',
+    content: '',
+    image: '',
+    userMax: 0,
+    dateStart: '',
+    dateEnd: '',
+    symptomTypes: [],
+    cost: 0,
+    counselorId: 0,
+  });
+  const getProgramInfo = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_DB_HOST + `/api/programs/lookup/${programId}`,
+      );
+      setProgramInfo(response.data.data);
+      setTitle(response.data.data.title);
+      setContent(response.data.data.content);
+      setImage(response.data.data.image);
+      setUserMax(response.data.data.userMax);
+      setDateStart(response.data.data.dateStart);
+      setDateEnd(response.data.data.dateEnd);
+      setSymptomTypes(response.data.data.symptomTypes);
+      setCounselorId(response.data.data.counselorId);
+      setCost(response.data.data.cost);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getProgramInfo();
+  }, []);
+
+  const deleteProgram = async () => {
+    try {
+      await axios.delete(
+        process.env.REACT_APP_DB_HOST + `/api/programs/delete/${programId}`,
+      );
+      alert('프로그램 삭제가 완료 되었습니다.');
+      window.location.reload();
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
   const handleTitleChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
     setTitle(target.value);
   };
   const handleDescriptionChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setDescription(target.value);
-  };
-  const handleTagChange = (e: React.ChangeEvent) => {
-    const target = e.target as HTMLInputElement;
-    setTag(target.value);
+    setContent(target.value);
   };
   const handleUrlChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setUrl(target.value);
-  };
-  const handleTherapistChange = (e: React.ChangeEvent) => {
-    const target = e.target as HTMLInputElement;
-    setId(target.value);
+    setImage(target.value);
   };
   const handleRegularnumberChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setRegularnumber(target.value);
+    setUserMax(target.value);
   };
   const handleStartingtimeChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setStartingtime(target.value);
+    setDateStart(target.value);
   };
   const handleEndtimeChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setEndtime(target.value);
+    setDateEnd(target.value);
+  };
+  const handleTherapistChange = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    setCounselorId(target.value);
   };
   const handlePriceChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setPrice(target.value);
+    setCost(target.value);
   };
+
+  const patchProgramInfo = async () => {
+    try {
+      const reqBody: createProgramProps = {
+        title,
+        content,
+        image,
+        userMax: Number(userMax),
+        dateStart,
+        dateEnd,
+        symptomTypes,
+        cost: Number(cost),
+        counselorId: Number(counselorId),
+      };
+
+      await axios.patch(
+        process.env.REACT_APP_DB_HOST + `/api/programs/patch/${programId}`,
+        reqBody,
+      );
+      alert('프로그램이 수정 되었습니다.');
+      window.location.reload();
+    } catch (error: any) {
+      alert(error.response.data.errorMessage);
+      console.log(error);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const reqbody: CreateProgram = {
-      id,
-      startingtime,
-      endtime,
-      regularnumber,
-      title,
-      description,
-      tag,
-      url,
-    };
-    console.log(
-      id,
-      startingtime,
-      endtime,
-      regularnumber,
-      title,
-      description,
-      tag,
-      url,
-    );
-    axios
-      .post(
-        'https://jsonplaceholder.typicode.com/posts',
-        JSON.stringify(reqbody),
-      )
-      .then((res) => console.log)
-      .catch((err) => console.log);
+    patchProgramInfo();
+  };
+
+  const deleteProgramHandler = () => {
+    deleteProgram();
   };
   return (
     <ScreenWrapper modal={modal} onClick={handleBackdropClick}>
@@ -266,10 +319,14 @@ const EditPrograms = (props: modalCloseProps) => {
                   type='text'
                   id='title'
                   placeholder='프로그램 제목'
+                  value={title}
                   onChange={handleTitleChange}
                 />
               </div>
-              <SelectBox />
+              <SelectBox
+                value={programInfo.symptomTypes}
+                setValue={(value) => setSymptomTypes(value)}
+              />
               <div>
                 <label htmlFor='price' className='inputlabel'>
                   참여 비용
@@ -279,6 +336,7 @@ const EditPrograms = (props: modalCloseProps) => {
                   type='number'
                   id='price'
                   placeholder='숫자만 입력하세요'
+                  value={cost}
                   onChange={handlePriceChange}
                 ></InputAdmin>
               </div>
@@ -290,6 +348,8 @@ const EditPrograms = (props: modalCloseProps) => {
                   type='number'
                   id='regularnumber'
                   placeholder='숫자만 입력하세요'
+                  value={userMax}
+                  onChange={handleRegularnumberChange}
                 />
               </div>
               <div>
@@ -300,6 +360,8 @@ const EditPrograms = (props: modalCloseProps) => {
                   type='text'
                   id='therapist'
                   placeholder='상담사 ID값 입력'
+                  value={counselorId}
+                  onChange={handleTherapistChange}
                 />
               </div>
               <div>
@@ -310,6 +372,7 @@ const EditPrograms = (props: modalCloseProps) => {
                   type='text'
                   id='url'
                   placeholder='이미지 url 경로를 입력해주세요'
+                  value={image}
                   onChange={handleUrlChange}
                 />
               </div>
@@ -325,6 +388,7 @@ const EditPrograms = (props: modalCloseProps) => {
                     category='date'
                     type='datetime-local'
                     id='startingtime'
+                    value={dateStart}
                     onChange={handleStartingtimeChange}
                   />
                 </div>
@@ -335,6 +399,7 @@ const EditPrograms = (props: modalCloseProps) => {
                   <InputAdmin
                     type='datetime-local'
                     id='endtime'
+                    value={dateEnd}
                     onChange={handleEndtimeChange}
                   />
                 </div>
@@ -344,13 +409,16 @@ const EditPrograms = (props: modalCloseProps) => {
                 rows={5}
                 child='프로그램 설명'
                 onChange={handleDescriptionChange}
+                value={content}
                 placeholder='프로그램 설명을 입력해주세요'
               />
             </InputSection>
           </InputWrapper>
           <ButtonWrapper>
-            <DeleteButton>삭제</DeleteButton>
-            <SubmitButton>수정</SubmitButton>
+            <DeleteButton type='button' onClick={deleteProgramHandler}>
+              삭제
+            </DeleteButton>
+            <SubmitButton type='submit'>수정</SubmitButton>
           </ButtonWrapper>
         </CreateProgramForm>
       </ContentWrapper>

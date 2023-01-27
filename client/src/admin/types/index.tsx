@@ -41,3 +41,30 @@ export interface therapistProgramListProps {
   userCount: number;
   userMax: number;
 }
+
+export interface createProgramProps {
+  title: string;
+  content: string;
+  image: string;
+  userMax: number;
+  dateStart: string;
+  dateEnd: string;
+  symptomTypes: string[];
+  cost: number;
+  counselorId: number;
+}
+
+export interface checklistProps {
+  value?: string[];
+  setValue: (value: string[]) => void;
+}
+
+export interface programListProps {
+  programId: number;
+  title: string;
+  dateStart: string;
+  dateEnd: string;
+  userMax: number;
+  userCount: number;
+  counselorName: string;
+}
