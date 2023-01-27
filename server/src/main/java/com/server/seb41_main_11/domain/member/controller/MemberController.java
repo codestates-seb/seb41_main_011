@@ -73,7 +73,7 @@ public class MemberController {
 
     //회원 조회(회원정보 수정 페이지) 수정본
     @GetMapping("/look-up")
-    public ResponseEntity getMember(@PathVariable HttpServletRequest httpServletRequest){
+    public ResponseEntity getMember(HttpServletRequest httpServletRequest){
         Member member = memberService.getLoginMember(httpServletRequest);
         MemberDto.MyPageResponse response = memberMapper.memberToMyPageResoponse(member);
 
