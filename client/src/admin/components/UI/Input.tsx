@@ -144,7 +144,6 @@ const InputAdmin = ({
           min='2023-01-20T15:43'
           required
         ></Input>
-        {console.log(value)}
       </>
     );
   } else {
