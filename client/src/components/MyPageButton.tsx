@@ -1,7 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaUser } from 'react-icons/fa';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../store';
+import axios from 'axios';
 
 const Content = styled.button`
   display: none;
@@ -66,12 +69,34 @@ const SubNav = styled.ul`
 `;
 
 const MyPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [showOptions, setShowOptions] = useState(0);
   const onMouseOver = (index: number) => {
     setShowOptions(index);
   };
   const onMouseOut = () => {
     setShowOptions(0);
+  };
+
+  const postLogout = async () => {
+    try {
+      await axios.post(process.env.REACT_APP_DB_HOST + '/api/logout');
+      localStorage.setItem('accessToken', '');
+      localStorage.setItem('refreshToken', '');
+      localStorage.setItem('accessTokenExpireTime', '');
+      axios.defaults.headers.common['Authorization'] = '';
+      dispatch(loginAction.logout());
+      navigate('/');
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const logoutHandler = () => {
+    postLogout();
   };
 
   return (
@@ -85,6 +110,7 @@ const MyPage = () => {
         <li>
           <Link to='/edit-userinfo'>#회원정보_수정</Link>
         </li>
+        <li onClick={logoutHandler}>#로그아웃</li>
       </SubNav>
     </Content>
   );

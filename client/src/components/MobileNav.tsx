@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom';
 import React, { useEffect, MouseEvent } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { AiOutlineDoubleRight } from 'react-icons/ai';
 import { mobileNavProps } from './tabbar';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../store';
 
 const Backdrop = styled.nav`
   position: fixed;
@@ -161,6 +164,9 @@ const CloseNav = styled.div`
 `;
 
 const MobileNav = (props: mobileNavProps) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.body.style.cssText = `
       position: fixed; 
@@ -189,10 +195,29 @@ const MobileNav = (props: mobileNavProps) => {
     event.preventDefault();
   };
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isLoggedIn = localStorage.getItem('accessToken') ? true : false;
 
   const mobileNavHandler = () => {
     props.close();
+  };
+
+  const postLogout = async () => {
+    try {
+      await axios.post(process.env.REACT_APP_DB_HOST + '/api/logout');
+      localStorage.setItem('accessToken', '');
+      localStorage.setItem('refreshToken', '');
+      localStorage.setItem('accessTokenExpireTime', '');
+      axios.defaults.headers.common['Authorization'] = '';
+      dispatch(loginAction.logout());
+      navigate('/');
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const logoutHandler = () => {
+    postLogout();
   };
 
   return (
@@ -203,8 +228,8 @@ const MobileNav = (props: mobileNavProps) => {
         </h1>
         {isLoggedIn ? (
           <ButtonWrapper>
-            <Button className='style1'>
-              <Link to='/mypage'>나의 프로그램</Link>
+            <Button className='style1' onClick={logoutHandler}>
+              로그아웃
             </Button>
             <Button className='style2'>
               <Link to='/edit-userinfo'>회원정보 수정</Link>
@@ -263,6 +288,16 @@ const MobileNav = (props: mobileNavProps) => {
               </li>
               <li>
                 <Link to='/community/general'>#유저_커뮤니티</Link>
+              </li>
+            </SubNav>
+          </li>
+          <li>
+            <NavLink to='/mypage' onClick={navLinkClickHandler}>
+              마이페이지
+            </NavLink>
+            <SubNav>
+              <li>
+                <Link to='/mypage'>#나의_프로그램</Link>
               </li>
             </SubNav>
           </li>
