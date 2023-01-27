@@ -192,7 +192,10 @@ const Signup = () => {
         navigate('/');
         window.location.reload();
       })
-      .catch((err) => window.alert('회원가입에 실패하셨습니다.'));
+      .catch((err) => {
+        alert(err.response.data.errorMessage);
+        console.log(err);
+      });
   };
 
   return admission ? (
@@ -216,7 +219,7 @@ const Signup = () => {
               category='password'
               id='password'
               value={password}
-              placeholder='영문,숫자 포함 8자리 이상으로 입력해주세요.'
+              placeholder='영문,숫자,특수문자 포함 8자리 이상으로 입력해주세요.'
               onChange={handlepasswordChange}
             />
             <InputTemp
