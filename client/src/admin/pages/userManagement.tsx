@@ -68,6 +68,7 @@ const ProgramTable = styled.table`
   td {
     padding: 12px 15px;
     text-align: center;
+    vertical-align: middle;
   }
 `;
 
