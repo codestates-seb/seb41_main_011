@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useSelector,useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { loginAction } from '../../store';
+import { useNavigate } from 'react-router';
+
 const ContentWrapper = styled.div`
   height: 100vh;
   width: 500px;
@@ -83,40 +86,41 @@ const Button = styled.button`
 `;
 
 const AdminIndex = () => {
-  const login = useSelector((state:any)=>state.login.value)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [password, setPassword] = useState<string>('');
   const [email, setemail] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent) => {
-
     e.preventDefault();
     const reqbody: object = {
       email,
       password,
-      memberType: "DEFAULT"
+      memberType: 'DEFAULT',
     };
     axios
-    .post(
-      process.env.REACT_APP_DB_HOST+'/api/members/login',
-      reqbody,
-    ).then((res) => {
-      window.alert(`${email}이메일로 로그인 하셨습니다.`);
-      localStorage.setItem('accessToken',`${res.data.data.grantType} ${res.data.data.accessToken}`)
-      localStorage.setItem('refreshToken',res.data.data.refreshToken)
-      localStorage.setItem('accessTokenExpireTime',res.data.data.accessTokenExpireTime)
-      axios.defaults.headers.common['Authorization'] = `${res.data.data.grantType} ${res.data.data.accessToken}`
-
-      dispatch(login({
-        role: res.data.data.role,
-        isLoggined: true,
-      }))        
-      window.location.href = 'http://localhost:3000/userManagement';
-    }
-    
-
-    )
-    .catch((err) => console.log);
+      .post(process.env.REACT_APP_DB_HOST + '/api/members/login', reqbody)
+      .then((res) => {
+        localStorage.setItem(
+          'accessToken',
+          `${res.data.data.grantType} ${res.data.data.accessToken}`,
+        );
+        localStorage.setItem('refreshToken', res.data.data.refreshToken);
+        localStorage.setItem(
+          'accessTokenExpireTime',
+          res.data.data.accessTokenExpireTime,
+        );
+        axios.defaults.headers.common[
+          'Authorization'
+        ] = `${res.data.data.grantType} ${res.data.data.accessToken}`;
+        dispatch(loginAction.login(res.data.data.role));
+        window.alert(`${email}이메일로 로그인 하셨습니다.`);
+        navigate('/');
+      })
+      .catch((err) => {
+        alert(err.response.data.errorMessage);
+        console.log(err);
+      });
   };
 
   return (
