@@ -5,7 +5,7 @@ import TextArea from '../../components/UI/Textarea';
 import axios from 'axios';
 import { ScreenWrapper } from './EditProgram';
 import { FaUserCircle, FaTimes } from 'react-icons/fa';
-import { modalCloseProps } from '../../pages/userManagement';
+import { modalCloseProps } from '../../types';
 
 // interface CreateTherapist {
 //     profile: string,

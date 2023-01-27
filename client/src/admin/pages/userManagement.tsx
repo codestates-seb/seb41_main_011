@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from '../components/UI/Sidebar';
 import Generalinquiry from '../components/UI/Generalinquiry';
 import Therapistinquiry from '../components/UI/Therapistinquiry';
 import CreateTherapist from './componentes/CreateTherapist';
+import Pagination from '../components/UI/Pagination';
+import axios from 'axios';
+import { userListProps, therapistListProps } from '../types';
 
 export const PageWrapper = styled.div`
   width: calc(100% - 240px);
@@ -20,6 +23,7 @@ const ContentWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
+  /* height: 100vh; */
 `;
 
 const Title = styled.div`
@@ -67,32 +71,6 @@ const ProgramTable = styled.table`
   }
 `;
 
-const Pagination = styled.div`
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.11) 0px 3px 8px;
-  width: fit-content;
-  margin: 0 auto;
-
-  .pagination {
-    display: inline-block;
-  }
-  a {
-    color: black;
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
-    background-color: white;
-    &:active {
-      background-color: #009779;
-      color: white;
-    }
-    &:hover {
-      background-color: #009779;
-      color: white;
-    }
-  }
-`;
 const CreateWrapper = styled.div`
   text-align: right;
   margin-bottom: 8px;
@@ -139,93 +117,191 @@ const MenuBar = styled.div`
   }
 `;
 
-export interface modalCloseProps {
-  close: () => void;
-}
-
 const UserManagement = (props: any) => {
-  const [isActive1, setIsActive1] = useState(true);
-  const [isActive2, setIsActive2] = useState(false);
-  const [isModalOpened1, setIsModalOpened1] = useState(false);
-  const [isModalOpened2, setIsModalOpened2] = useState(false);
-  const [isModalOpened3, setIsModalOpened3] = useState(false);
+  const [isGeneral, setIsGeneral] = useState(true);
+  const [isTherapist, setIsTherapist] = useState(false);
+  const [isUserDetailModalOpened, setIsUserDetailModalOpened] = useState(false);
+  const [isTherapistDetailModalOpened, setIsTherapistDetailModalOpened] =
+    useState(false);
+  const [isCreateTherapistModalOpened, setIsCreateTherapistModalOpened] =
+    useState(false);
+
+  const [userList, setUserList] = useState([]);
+  const [userPage, setUserPage] = useState(1);
+  const [userTotalPage, setUserTotalPage] = useState(1);
+
+  const getUsers = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_DB_HOST +
+          `/api/members/total-look-up?size=10&page=${userPage}`,
+      );
+      setUserList(response.data.data);
+      setUserTotalPage(response.data.pageInfo.totalPages);
+    } catch (error: any) {
+      if (error.response) {
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    }
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, [isGeneral, userPage]);
+
+  const [memberId, setMemberId] = useState(0);
+  const [nickName, setNickName] = useState('');
+  const userDetailClickHandler = (id: number, name: string) => {
+    setIsUserDetailModalOpened(true);
+    setMemberId(id);
+    setNickName(name);
+  };
+
+  const [therapistList, setTherapistList] = useState([]);
+  const [therapistPage, setTherapistPage] = useState(1);
+  const [therapistTotalPage, setTherapistTotalPage] = useState(1);
+
+  const getTherapists = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_DB_HOST +
+          `/api/counselors/total-look-up?size=10&page=${therapistPage}`,
+      );
+      setTherapistList(response.data.data);
+      setTherapistTotalPage(response.data.pageInfo.totalPages);
+    } catch (error: any) {
+      if (error.response) {
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    }
+  };
+
+  useEffect(() => {
+    getTherapists();
+  }, [isTherapist, therapistPage]);
+
+  const [counselorId, setCounselorId] = useState(0);
+  const [counselorName, setCounselorName] = useState('');
+  const therapistDetailClickHandler = (id: number, name: string) => {
+    setIsTherapistDetailModalOpened(true);
+    setCounselorId(id);
+    setCounselorName(name);
+  };
 
   return (
     <ContentWrapper>
       <Sidebar />
       <PageWrapper>
-        <Title>{isActive1 ? '회원 목록 - 일반' : '회원 목록 - 상담사'}</Title>
+        <Title>{isGeneral ? '회원 목록 - 일반' : '회원 목록 - 상담사'}</Title>
         <MenuBar>
           <div
-            className={isActive1 ? 'clicked' : ''}
+            className={isGeneral ? 'clicked' : ''}
             onClick={() => {
-              setIsActive1(!isActive1);
-              setIsActive1(true);
-              setIsActive2(false);
+              setIsGeneral(!isGeneral);
+              setIsGeneral(true);
+              setIsTherapist(false);
             }}
           >
             일반
           </div>
           <div
-            className={isActive2 ? 'clicked' : ''}
+            className={isTherapist ? 'clicked' : ''}
             onClick={() => {
-              setIsActive2(!isActive2);
-              setIsActive1(false);
-              setIsActive2(true);
+              setIsTherapist(!isTherapist);
+              setIsGeneral(false);
+              setIsTherapist(true);
             }}
           >
             상담사
           </div>
         </MenuBar>
-        {isActive1 ? (
-          <ProgramTable>
-            {isModalOpened1 ? (
-              <Generalinquiry close={() => setIsModalOpened1(false)} />
-            ) : null}
-            <thead>
-              <tr>
-                <th className='index'>No.</th>
-                <th className='title'>유저 이름</th>
-                <th className='people'>닉네임</th>
-                <th className='when'>생년월일</th>
-                <th className='detail'>상세보기</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[1, 2, 3, 4, 5].map((item) => {
-                return (
-                  <tr>
-                    <td>{item}</td>
-                    <td>하헌진</td>
-                    <td>고양이</td>
-                    <td>2023.01.18</td>
-                    <td
-                      className='openUserDetail'
-                      onClick={() => setIsModalOpened1(true)}
-                    >
-                      그룹상담내역
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </ProgramTable>
+        {isGeneral ? (
+          <>
+            <ProgramTable>
+              {isUserDetailModalOpened ? (
+                <Generalinquiry
+                  id={memberId}
+                  name={nickName}
+                  close={() => setIsUserDetailModalOpened(false)}
+                />
+              ) : null}
+              <thead>
+                <tr>
+                  <th className='index'>No.</th>
+                  <th className='title'>유저 이름</th>
+                  <th className='people'>닉네임</th>
+                  <th className='when'>생년월일</th>
+                  <th className='detail'>상세보기</th>
+                </tr>
+              </thead>
+              <tbody>
+                {userList.map((item: userListProps) => {
+                  return (
+                    <tr key={item.memberId}>
+                      <td>{item.memberId}</td>
+                      <td>{item.memberName}</td>
+                      <td>{item.nickName}</td>
+                      <td>{item.birth}</td>
+                      {item.role === 'USER' ? (
+                        <td
+                          className='openUserDetail'
+                          onClick={() =>
+                            userDetailClickHandler(item.memberId, item.nickName)
+                          }
+                        >
+                          그룹상담내역
+                        </td>
+                      ) : (
+                        <td></td>
+                      )}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </ProgramTable>
+            <Pagination
+              totalPage={userTotalPage}
+              limit={5}
+              page={userPage}
+              setPage={(value) => setUserPage(value)}
+            />
+          </>
         ) : (
           <>
-            {isModalOpened3 ? (
-              <CreateTherapist close={() => setIsModalOpened3(false)} />
+            {isCreateTherapistModalOpened ? (
+              <CreateTherapist
+                close={() => setIsCreateTherapistModalOpened(false)}
+              />
             ) : null}
 
             <ProgramTable>
               <caption>
                 <CreateWrapper>
-                  <Button onClick={() => setIsModalOpened3(true)}>
+                  <Button onClick={() => setIsCreateTherapistModalOpened(true)}>
                     상담사 생성
                   </Button>
                 </CreateWrapper>
               </caption>
-              {isModalOpened2 ? (
-                <Therapistinquiry close={() => setIsModalOpened2(false)} />
+              {isTherapistDetailModalOpened ? (
+                <Therapistinquiry
+                  id={counselorId}
+                  name={counselorName}
+                  close={() => setIsTherapistDetailModalOpened(false)}
+                />
               ) : null}
               <thead>
                 <tr>
@@ -235,14 +311,19 @@ const UserManagement = (props: any) => {
                 </tr>
               </thead>
               <tbody>
-                {[1, 2, 3, 4, 5].map((item) => {
+                {therapistList.map((item: therapistListProps) => {
                   return (
-                    <tr>
-                      <td>{item}</td>
-                      <td>하헌진</td>
+                    <tr key={item.counselorId}>
+                      <td>{item.counselorId}</td>
+                      <td>{item.counselorName}</td>
                       <td
                         className='openProgramDetail'
-                        onClick={() => setIsModalOpened2(true)}
+                        onClick={() =>
+                          therapistDetailClickHandler(
+                            item.counselorId,
+                            item.counselorName,
+                          )
+                        }
                       >
                         그룹상담내역
                       </td>
@@ -251,22 +332,14 @@ const UserManagement = (props: any) => {
                 })}
               </tbody>
             </ProgramTable>
+            <Pagination
+              totalPage={therapistTotalPage}
+              limit={5}
+              page={therapistPage}
+              setPage={(value) => setTherapistPage(value)}
+            />
           </>
         )}
-
-        {/* 하단 페이지 네이션은 아직 장식임 */}
-        <Pagination className='pagination'>
-          <a href='#'>&laquo;</a>
-          <a href='#'>1</a>
-          <a className='active' href='#'>
-            2
-          </a>
-          <a href='#'>3</a>
-          <a href='#'>4</a>
-          <a href='#'>5</a>
-          <a href='#'>6</a>
-          <a href='#'>&raquo;</a>
-        </Pagination>
       </PageWrapper>
     </ContentWrapper>
   );
