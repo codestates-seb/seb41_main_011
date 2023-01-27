@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from '../components/UI/Sidebar';
 import CreatePrograms from './componentes/CreatePrograms';
 import EditPrograms from './componentes/EditProgram';
+import { programListProps } from '../types';
+import Pagination from '../components/UI/Pagination';
+import { viewProgramDate } from '../utils';
 
 export const PageWrapper = styled.div`
   width: calc(100% - 240px);
@@ -72,33 +76,7 @@ export const ProgramTable = styled.table`
   td {
     padding: 12px 15px;
     text-align: center;
-  }
-`;
-
-const Pagination = styled.div`
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.11) 0px 3px 8px;
-  width: fit-content;
-  margin: 0 auto;
-
-  .pagination {
-    display: inline-block;
-  }
-  a {
-    color: black;
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
-    background-color: white;
-    &:active {
-      background-color: #009779;
-      color: white;
-    }
-    &:hover {
-      background-color: #009779;
-      color: white;
-    }
+    vertical-align: middle;
   }
 `;
 
@@ -125,16 +103,48 @@ export interface modalCloseProps {
 }
 
 const ProgramManagement = (props: any) => {
-  const [isModalOpened, setIsModalOpened] = useState(false);
-  const [isModalOpened2, setIsModalOpened2] = useState(false);
+  const [isCreateProgramModalOpened, setIsCreateProgramModalOpened] =
+    useState(false);
+  const [isModifyProgramModalOpened, setIsModifyProgramModalOpened] =
+    useState(false);
+
+  const [programList, setProgramList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+
+  const getPrograms = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_DB_HOST +
+          `api/programs/admin/lookup/list?size=10&page=${page}`,
+      );
+      setProgramList(response.data.data);
+      setTotalPage(response.data.pageInfo.totalPages);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getPrograms();
+  }, [page]);
+
+  const [programId, setProgramId] = useState(0);
+  const modifyProgramInfoHandler = (id: number) => {
+    setIsModifyProgramModalOpened(true);
+    setProgramId(id);
+  };
 
   return (
     <ContentWrapper>
-      {isModalOpened ? (
-        <CreatePrograms close={() => setIsModalOpened(false)} />
+      {isCreateProgramModalOpened ? (
+        <CreatePrograms close={() => setIsCreateProgramModalOpened(false)} />
       ) : null}
-      {isModalOpened2 ? (
-        <EditPrograms close={() => setIsModalOpened2(false)} />
+      {isModifyProgramModalOpened ? (
+        <EditPrograms
+          id={programId}
+          close={() => setIsModifyProgramModalOpened(false)}
+        />
       ) : null}
       <Sidebar />
       <PageWrapper>
@@ -142,14 +152,14 @@ const ProgramManagement = (props: any) => {
         <ProgramTable>
           <caption>
             <CreateWrapper>
-              <Button onClick={() => setIsModalOpened(true)}>
+              <Button onClick={() => setIsCreateProgramModalOpened(true)}>
                 프로그램 생성
               </Button>
             </CreateWrapper>
           </caption>
           <thead>
             <tr>
-              <th className='index'>No.</th>
+              <th className='index'>ID</th>
               <th className='title'>제목</th>
               <th className='people'>정원</th>
               <th className='when'>일시</th>
@@ -158,17 +168,19 @@ const ProgramManagement = (props: any) => {
             </tr>
           </thead>
           <tbody>
-            {[1, 2, 3, 4, 5].map((item) => {
+            {programList.map((item: programListProps) => {
               return (
-                <tr>
-                  <td>{item}</td>
-                  <td>프로그램명</td>
-                  <td>2/10</td>
-                  <td>2023-02-11 08:30</td>
-                  <td>예정</td>
+                <tr key={item.programId}>
+                  <td>{item.programId}</td>
+                  <td>{item.title}</td>
+                  <td>
+                    {item.userCount}/{item.userMax}
+                  </td>
+                  <td>{viewProgramDate(item.dateStart, item.dateEnd)}</td>
+                  <td>{item.counselorName}</td>
                   <td
                     className='openEditModal'
-                    onClick={() => setIsModalOpened2(true)}
+                    onClick={() => modifyProgramInfoHandler(item.programId)}
                   >
                     수정
                   </td>
@@ -177,19 +189,13 @@ const ProgramManagement = (props: any) => {
             })}
           </tbody>
         </ProgramTable>
-        {/* 하단 페이지 네이션은 아직 장식임 */}
-        <Pagination className='pagination'>
-          <a href='#'>&laquo;</a>
-          <a href='#'>1</a>
-          <a className='active' href='#'>
-            2
-          </a>
-          <a href='#'>3</a>
-          <a href='#'>4</a>
-          <a href='#'>5</a>
-          <a href='#'>6</a>
-          <a href='#'>&raquo;</a>
-        </Pagination>
+
+        <Pagination
+          totalPage={totalPage}
+          limit={5}
+          page={page}
+          setPage={(value) => setPage(value)}
+        />
       </PageWrapper>
     </ContentWrapper>
   );
