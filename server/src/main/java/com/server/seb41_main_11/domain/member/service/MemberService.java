@@ -71,6 +71,10 @@ public class MemberService {
 
         Member findMember = optioanlMember.get();
 
+        if(findMember.getStatus() == Status.DELETE){
+            throw new EntityNotFoundException(ErrorCode.MEMBER_NOT_EXISTS);
+        }
+
         if(findMember.getRole() == Role.ADMIN){
             if(!findMember.getPassword().equals(member.getPassword())){
                 throw new AuthenticationException(ErrorCode.WRONG_PASSWROD);

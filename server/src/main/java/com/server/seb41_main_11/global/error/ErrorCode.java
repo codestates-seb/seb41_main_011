@@ -26,6 +26,8 @@ public enum ErrorCode {
     ALREADY_REGISTERED_MEMBER(HttpStatus.BAD_REQUEST, "M-002", "이미 가입된 회원 입니다."),
     MEMBER_NOT_EXISTS(HttpStatus.BAD_REQUEST, "M-003", "해당 회원은 존재하지 않습니다."),
 
+    MEMBER_WITHDRAWN(HttpStatus.BAD_REQUEST, "M-004", "해당 회원은 탈퇴한 회원입니다"),
+
     //상담사
     ALREADY_REGISTERED_COUNSELOR(HttpStatus.BAD_REQUEST, "C-001", "이미 가입된 상담사 입니다."),
     COUNSELOR_NOT_EXISTS(HttpStatus.BAD_REQUEST, "C-002", "해당 상담사는 존재하지 않습니다."),
