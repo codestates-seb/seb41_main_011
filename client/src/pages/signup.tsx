@@ -6,6 +6,7 @@ import axios from 'axios';
 import Tabbar from '../components/tabbar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useNavigate } from 'react-router';
 
 export const SignupFormWrapper = styled.div`
   min-height: calc(100vh - 60px);
@@ -104,6 +105,7 @@ const Logo = styled.img`
 `;
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [email, setemail] = useState<string>('');
   const [password, setpassword] = useState<string>('');
   const [confirmPassword, setconfirmPassword] = useState<string>('');
@@ -146,7 +148,7 @@ const Signup = () => {
 
     if (ischecked === false) {
       // window.alert('개인정보이용에 동의해 주셔야 합니다.')
-      return ('개인정보이용에 동의해 주셔야 합니다.');
+      return '개인정보이용에 동의해 주셔야 합니다.';
     }
     const regexPassword = new RegExp(
       /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
@@ -158,22 +160,20 @@ const Signup = () => {
     );
     //체크박스 체크 -> 체크박스 체크안되면
     if (!regexEmail.test(email)) {
-      return ('올바른 이메일 형식이 아닙니다.');
+      return '올바른 이메일 형식이 아닙니다.';
     }
     if (!regexPassword.test(password)) {
-      return ('비밀번호 형식이 일치하지 않습니다.');
+      return '비밀번호 형식이 일치하지 않습니다.';
       // return window.alert('비밀번호가 형식이 일치하지 않습니다.')
     } else if (!(password === confirmPassword)) {
-      return ('비밀번호가 같지 않습니다.');
+      return '비밀번호가 같지 않습니다.';
       // window.alert('비밀번호가 같지 않습니다.')
     } else {
       setAdmission(!admission);
-
     }
   };
   const handleSubmit = (e: React.FormEvent) => {
-    
-    birth = `${birth.slice(0,4)}-${birth.slice(4)}`
+    birth = `${birth.slice(0, 4)}-${birth.slice(4, 6)}-${birth.slice(6)}`;
     e.preventDefault();
 
     const reqbody: object = {
@@ -186,11 +186,12 @@ const Signup = () => {
     };
 
     axios
-      .post(
-        process.env.REACT_APP_DB_HOST+'/api/members/new',
-      reqbody,
-      )
-      .then((res) => window.alert('회원가입이 완료되었습니다.'))
+      .post(process.env.REACT_APP_DB_HOST + '/api/members/new', reqbody)
+      .then((res) => {
+        window.alert('회원가입이 완료되었습니다.');
+        navigate('/');
+        window.location.reload();
+      })
       .catch((err) => window.alert('회원가입에 실패하셨습니다.'));
   };
 
