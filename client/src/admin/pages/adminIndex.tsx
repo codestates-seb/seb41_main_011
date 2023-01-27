@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-
+import { useSelector,useDispatch } from 'react-redux';
+import axios from 'axios';
 const ContentWrapper = styled.div`
   height: 100vh;
   width: 500px;
@@ -82,10 +83,41 @@ const Button = styled.button`
 `;
 
 const AdminIndex = () => {
+  const login = useSelector((state:any)=>state.login.value)
+  const dispatch = useDispatch()
   const [password, setPassword] = useState<string>('');
-  const [id, setId] = useState<string>('');
+  const [email, setemail] = useState<string>('');
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e: React.FormEvent) => {
+
+    e.preventDefault();
+    const reqbody: object = {
+      email,
+      password,
+      memberType: "DEFAULT"
+    };
+    axios
+    .post(
+      process.env.REACT_APP_DB_HOST+'/api/members/login',
+      reqbody,
+    ).then((res) => {
+      window.alert(`${email}이메일로 로그인 하셨습니다.`);
+      localStorage.setItem('accessToken',`${res.data.data.grantType} ${res.data.data.accessToken}`)
+      localStorage.setItem('refreshToken',res.data.data.refreshToken)
+      localStorage.setItem('accessTokenExpireTime',res.data.data.accessTokenExpireTime)
+      axios.defaults.headers.common['Authorization'] = `${res.data.data.grantType} ${res.data.data.accessToken}`
+
+      dispatch(login({
+        role: res.data.data.role,
+        isLoggined: true,
+      }))        
+      window.location.href = 'http://localhost:3000/userManagement';
+    }
+    
+
+    )
+    .catch((err) => console.log);
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -98,8 +130,8 @@ const AdminIndex = () => {
               id='id'
               type='text'
               placeholder='관리자 아이디 입력'
-              value={id}
-              onChange={(e) => setId(e.target.value)}
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
             />
           </div>
           <div>

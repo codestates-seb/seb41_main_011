@@ -8,13 +8,13 @@ import { FaUserCircle, FaTimes } from 'react-icons/fa';
 import { modalCloseProps } from '../../pages/userManagement';
 
 // interface CreateTherapist {
-//     url: string,
+//     profile: string,
 //     name: string,
-//     college:string,
+//     graduated:string,
 //     email: string,
 //     password:string,
 //     career: string,
-//     promote:string,
+//     introduce:string,
 //     birth: string,
 // }
 
@@ -109,15 +109,15 @@ const CreateTherapistForm = styled.form`
 `;
 
 const CreateTherapist = (props: modalCloseProps) => {
-  const [url, setUrl] = useState<string>('');
-  const [signupName, setSignupName] = useState<string>('');
-  const [birth, setBirth] = useState<any>();
-  const [college, setCollege] = useState<string>('');
-  const [signupEmail, setSignupEmail] = useState<string>('');
-  const [signupPassword, setSignupPassword] = useState<string>('');
-  const [verifyPassword, setverifyPassword] = useState<string>('');
+  const [profile, setprofile] = useState<string>('');
+  const [counselorName, setcounselorName] = useState<string>('');
+  let [birth, setBirth] = useState<any>();
+  const [graduated, setgraduated] = useState<string>('');
+  const [email, setemail] = useState<string>('');
+  const [password, setpassword] = useState<string>('');
+  const [confirmPassword, setconfirmPassword] = useState<string>('');
   const [career, setCareer] = useState<string>('');
-  const [promote, setPromote] = useState<string>('');
+  const [introduce, setintroduce] = useState<string>('');
   const [modal, setModal] = useState<boolean>(true);
 
   const handleCloseButton = (event: MouseEvent<HTMLButtonElement>) => {
@@ -130,25 +130,25 @@ const CreateTherapist = (props: modalCloseProps) => {
     props.close();
   };
 
-  const handleUrlChange = (e: React.ChangeEvent) => {
+  const handleprofileChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setUrl(target.value);
+    setprofile(target.value);
   };
-  const handleSignupEmailChange = (e: React.ChangeEvent) => {
+  const handleemailChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setSignupEmail(target.value);
+    setemail(target.value);
   };
-  const handleSignupPasswordChange = (e: React.ChangeEvent) => {
+  const handlepasswordChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setSignupPassword(target.value);
+    setpassword(target.value);
   };
-  const handleVerifyPasswordChange = (e: React.ChangeEvent) => {
+  const handleconfirmPasswordChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setverifyPassword(target.value);
+    setconfirmPassword(target.value);
   };
-  const handleSignupNameChange = (e: React.ChangeEvent) => {
+  const handlecounselorNameChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setSignupName(target.value);
+    setcounselorName(target.value);
   };
   const handleBirthChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
@@ -158,26 +158,17 @@ const CreateTherapist = (props: modalCloseProps) => {
     const target = e.target as HTMLInputElement;
     setCareer(target.value);
   };
-  const handlePromoteChange = (e: React.ChangeEvent) => {
+  const handleintroduceChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setPromote(target.value);
+    setintroduce(target.value);
   };
-  const handleCollegeChange = (e: React.ChangeEvent) => {
+  const handlegraduatedChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setCollege(target.value);
+    setgraduated(target.value);
   };
   const handleAdmissionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(
-      signupEmail,
-      signupPassword,
-      verifyPassword,
-      url,
-      signupName,
-      career,
-      promote,
-      college,
-    );
+
     const regexPassword = new RegExp(
       /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
       'g',
@@ -187,30 +178,44 @@ const CreateTherapist = (props: modalCloseProps) => {
       'g',
     );
     //체크박스 체크 -> 체크박스 체크안되면
-    if (!regexEmail.test(signupEmail)) {
+    if (!regexEmail.test(email)) {
       return console.log('올바른 이메일 형식이 아닙니다.');
     }
-    if (!regexPassword.test(signupPassword)) {
+    if (!regexPassword.test(password)) {
       return console.log('비밀번호 형식이 일치하지 않습니다.');
       // return window.alert('비밀번호가 형식이 일치하지 않습니다.')
-    } else if (!(signupPassword === verifyPassword)) {
+    } else if (!(password === confirmPassword)) {
       return console.log('비밀번호가 같지 않습니다.');
       // window.alert('비밀번호가 같지 않습니다.')
     } else {
-      // axiose
-      // const reqbody:CreateThrapist ={
-      //     url: url,
-      //     name:signupName,
-      //     birth: birth,
-      //     college: college,
-      //     email: signupEmail,
-      //     password : signupPassword,
-      //     career: career,
-      //     promote: promote
-      // };
-      // axios.post('https://jsonplaceholder.typicode.com/posts',JSON.stringify(reqbody))
-      // .then((res)=>console.log)
-      // .catch((err)=>console.log)
+
+      birth = `${birth.slice(0,4)}-${birth.slice(4,6)}-${birth.slice(6)}`
+  
+      const reqbody: object = {
+        profile,
+        counselorName,
+        birth,
+        graduated,
+        email,
+        password,
+        confirmPassword,
+        career,
+        introduce,
+        expertiseField: '중독'
+      };
+
+      axios.post(
+          process.env.REACT_APP_DB_HOST+'/api/counselors/new',
+          reqbody,
+          {
+            headers:{
+              'Authorization': localStorage.getItem("accessToken")
+            }
+          },
+        )
+        .then((res) => window.alert('회원가입이 완료되었습니다.'))
+        .catch((err) => console.log());
+
     }
   };
 
@@ -232,16 +237,16 @@ const CreateTherapist = (props: modalCloseProps) => {
           <InputWrapper>
             <InputSection>
               <div className='mb-16'>
-                <label htmlFor='url' className='inputlabel'>
+                <label htmlFor='profile' className='inputlabel'>
                   대표 이미지
                 </label>
                 <InputAdmin
-                  category='url'
-                  id='url'
-                  placeholder='이미지 url 경로 입력'
-                  value={url}
-                  onChange={handleUrlChange}
-                  name='url'
+                  category='profile'
+                  id='profile'
+                  placeholder='이미지 profile 경로 입력'
+                  value={profile}
+                  onChange={handleprofileChange}
+                  name='profile'
                 />
               </div>
               <div>
@@ -252,8 +257,8 @@ const CreateTherapist = (props: modalCloseProps) => {
                   category='name'
                   id='name'
                   placeholder='상담사 등록명'
-                  value={signupName}
-                  onChange={handleSignupNameChange}
+                  value={counselorName}
+                  onChange={handlecounselorNameChange}
                 />
               </div>
               <div>
@@ -276,8 +281,8 @@ const CreateTherapist = (props: modalCloseProps) => {
                   type='text'
                   id='학력'
                   placeholder='최종학력 학위 기재'
-                  value={college}
-                  onChange={handleCollegeChange}
+                  value={graduated}
+                  onChange={handlegraduatedChange}
                 />
               </div>
               <div>
@@ -288,8 +293,8 @@ const CreateTherapist = (props: modalCloseProps) => {
                   type='text'
                   id='E-mail'
                   placeholder='로그인 아이디로 사용'
-                  value={signupEmail}
-                  onChange={handleSignupEmailChange}
+                  value={email}
+                  onChange={handleemailChange}
                 />
               </div>
               <div>
@@ -300,8 +305,8 @@ const CreateTherapist = (props: modalCloseProps) => {
                   category='password'
                   id='password'
                   placeholder='로그인 비밀번호'
-                  value={signupPassword}
-                  onChange={handleSignupPasswordChange}
+                  value={password}
+                  onChange={handlepasswordChange}
                 />
               </div>
               <div>
@@ -312,8 +317,8 @@ const CreateTherapist = (props: modalCloseProps) => {
                   category='passwordCheck'
                   id='passwordCheck'
                   placeholder='비밀번호 재입력'
-                  value={verifyPassword}
-                  onChange={handleVerifyPasswordChange}
+                  value={confirmPassword}
+                  onChange={handleconfirmPasswordChange}
                 />
               </div>
             </InputSection>
@@ -329,12 +334,12 @@ const CreateTherapist = (props: modalCloseProps) => {
               />
               <TextArea
                 rows={6}
-                id='promote'
+                id='introduce'
                 child='소개'
                 placeholder='소개글을 입력하세요'
-                value={promote}
-                className='promote'
-                onChange={handlePromoteChange}
+                value={introduce}
+                className='introduce'
+                onChange={handleintroduceChange}
               />
             </InputSection>
           </InputWrapper>
