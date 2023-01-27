@@ -113,19 +113,22 @@ public class MemberController {
 
         Member preMember = memberService.findVerifiedMemberByMemberId(memberId); //멤버 조회
 
-        if(!memberPatchDto.getNewPassword().equals(memberPatchDto.getConfirmNewPassword())){
-            throw new EntityNotFoundException(ErrorCode.PASSWORD_MISMATCH); //새 비밀번호와 비밀번호 확인이 같지 않을 경우 예외 처리
-        }
-
-        if(preMember.getRole()!= Role.ADMIN) { //일반 회원 수정
-            String password = memberService.decryptPassword(preMember.getPassword()); //기존 비밀번호 복호화
-
-            if (!password.equals(memberPatchDto.getPassword())) {
-                throw new AuthenticationException(ErrorCode.WRONG_PASSWROD); //기존 비밀번호와 현재 비밀번호가 일치 하지 않으면 예외처리
+        if(memberPatchDto.getPassword() != null) {
+            if (!memberPatchDto.getNewPassword().equals(memberPatchDto.getConfirmNewPassword())) {
+                throw new EntityNotFoundException(ErrorCode.PASSWORD_MISMATCH); //새 비밀번호와 비밀번호 확인이 같지 않을 경우 예외 처리
             }
-        }else{ //관리자 회원 수정
-            if(!preMember.getPassword().equals(memberPatchDto.getPassword())){
-                throw new AuthenticationException(ErrorCode.WRONG_PASSWROD);
+
+
+            if (preMember.getRole() != Role.ADMIN) { //일반 회원 수정
+                String password = memberService.decryptPassword(preMember.getPassword()); //기존 비밀번호 복호화
+
+                if (!password.equals(memberPatchDto.getPassword())) {
+                    throw new AuthenticationException(ErrorCode.WRONG_PASSWROD); //기존 비밀번호와 현재 비밀번호가 일치 하지 않으면 예외처리
+                }
+            } else { //관리자 회원 수정
+                if (!preMember.getPassword().equals(memberPatchDto.getPassword())) {
+                    throw new AuthenticationException(ErrorCode.WRONG_PASSWROD);
+                }
             }
         }
 
