@@ -340,6 +340,7 @@ public class ProgramDto {
         private String dateEnd;
         private int userMax;
         private int userCount;
+        private String counselorName;
 
         public static ProgramDto.GetAdminProgramResponse of(Program program) {
             return GetAdminProgramResponse.builder()
@@ -349,6 +350,7 @@ public class ProgramDto {
                 .dateEnd(program.getDateEnd())
                 .userMax(program.getUserMax())
                 .userCount(program.getUserCount())
+                .counselorName(program.getCounselor().getCounselorName())
                 .build();
         }
     }
