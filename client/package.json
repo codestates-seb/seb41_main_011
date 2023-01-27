@@ -56,5 +56,5 @@
     "@types/styled-components": "^5.1.26",
     "html-react-parser": "^3.0.8"
   },
-  "proxy" : "http://ec2-3-35-53-202.ap-northeast-2.compute.amazonaws.com:8080"
+  "proxy" : "http://43.200.39.48"
 }
