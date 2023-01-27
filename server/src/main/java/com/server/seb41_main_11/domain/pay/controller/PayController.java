@@ -2,6 +2,7 @@ package com.server.seb41_main_11.domain.pay.controller;
 
 import com.server.seb41_main_11.domain.common.MultiResponseDto;
 import com.server.seb41_main_11.domain.common.SingleResponseDto;
+import com.server.seb41_main_11.domain.member.entity.Member;
 import com.server.seb41_main_11.domain.member.service.MemberService;
 import com.server.seb41_main_11.domain.pay.dto.PayDto;
 import com.server.seb41_main_11.domain.pay.entity.Pay;
@@ -49,20 +50,38 @@ public class PayController {
             new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
+//    // 화면정의서 22p
+//    // 유저 - 마이페이지 나의 프로그램 예약 내역 전체 조회
+//    @GetMapping("/{member-id}/lookup/list")
+//    public ResponseEntity getUserReservePrograms(@PathVariable("member-id") @Positive Long memberId,
+//        @Positive @RequestParam(defaultValue = "1") int page,
+//        @Positive @RequestParam(defaultValue = "10") int size) {
+//        Page<Pay> myReserveProgramPage = payService.searchUserReserveProgram(memberId, page-1, size);
+//        List<Pay> payList = myReserveProgramPage.getContent();
+//        List<PayDto.UserReservePageResponse> response = payMapper.ReserveProgramToUserPageProgramResponse(payList);
+//
+//
+//        return new ResponseEntity(
+//            new MultiResponseDto<>(
+//                response, myReserveProgramPage), HttpStatus.OK);
+//    }
+
     // 화면정의서 22p
     // 유저 - 마이페이지 나의 프로그램 예약 내역 전체 조회
-    @GetMapping("/{member-id}/lookup/list")
-    public ResponseEntity getUserReservePrograms(@PathVariable("member-id") @Positive Long memberId,
-        @Positive @RequestParam(defaultValue = "1") int page,
-        @Positive @RequestParam(defaultValue = "10") int size) {
+    @GetMapping("/lookup/list")
+    public ResponseEntity getUserReservePrograms(HttpServletRequest httpServletRequest,
+                                                 @Positive @RequestParam(defaultValue = "1") int page,
+                                                 @Positive @RequestParam(defaultValue = "10") int size) {
+        Member member = memberService.getLoginMember(httpServletRequest);
+        Long memberId = member.getMemberId();
         Page<Pay> myReserveProgramPage = payService.searchUserReserveProgram(memberId, page-1, size);
         List<Pay> payList = myReserveProgramPage.getContent();
         List<PayDto.UserReservePageResponse> response = payMapper.ReserveProgramToUserPageProgramResponse(payList);
 
 
         return new ResponseEntity(
-            new MultiResponseDto<>(
-                response, myReserveProgramPage), HttpStatus.OK);
+                new MultiResponseDto<>(
+                        response, myReserveProgramPage), HttpStatus.OK);
     }
 
     // 화면정의서 23p

@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -64,9 +65,22 @@ public class CounselorController {
     /**
      * 상담사 조회(상담사 정보 수정 페이지)
      */
-    @GetMapping("/look-up/{counselorId}")
-    public ResponseEntity getCounselor(@PathVariable("counselorId")@Positive Long counselorId){
-        Counselor counselor = counselorService.findVerifiedCounselorByCounselorId(counselorId);
+//    @GetMapping("/look-up/{counselorId}")
+//    public ResponseEntity getCounselor(@PathVariable("counselorId")@Positive Long counselorId){
+//        Counselor counselor = counselorService.findVerifiedCounselorByCounselorId(counselorId);
+//        CounselorDto.MyPageResponse response = counselorMapper.counselorToMyPageResponse(counselor);
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(response), HttpStatus.OK
+//        );
+//    }
+
+    /**
+     * 상담사 조회 수정
+     */
+    @GetMapping("/look-up")
+    public ResponseEntity getCounselor(HttpServletRequest httpServletRequest){
+        Counselor counselor = counselorService.getLoginCounselor(httpServletRequest);
         CounselorDto.MyPageResponse response = counselorMapper.counselorToMyPageResponse(counselor);
 
         return new ResponseEntity<>(

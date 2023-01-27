@@ -2,6 +2,7 @@ package com.server.seb41_main_11.domain.program.controller;
 
 import com.server.seb41_main_11.domain.common.MultiResponseDto;
 import com.server.seb41_main_11.domain.common.SingleResponseDto;
+import com.server.seb41_main_11.domain.counselor.dto.CounselorDto;
 import com.server.seb41_main_11.domain.counselor.dto.CounselorDto.Response;
 import com.server.seb41_main_11.domain.counselor.entity.Counselor;
 import com.server.seb41_main_11.domain.counselor.service.CounselorService;
@@ -10,6 +11,7 @@ import com.server.seb41_main_11.domain.program.entity.Program;
 import com.server.seb41_main_11.domain.program.mapper.ProgramMapper;
 import com.server.seb41_main_11.domain.program.service.ProgramService;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -108,12 +110,32 @@ public class ProgramController {
             new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
+//    // 화면정의서 24p
+//    // 상담사 - 상담사 상담 이력 전체 조회
+//    @GetMapping("/counselors/{counselor-id}/lookup/list")
+//    public ResponseEntity getCounselorPrograms(@PathVariable("counselor-id") @Positive Long counselorId,
+//        @Positive @RequestParam(defaultValue = "1") int page,
+//        @Positive @RequestParam(defaultValue = "10") int size) {
+//
+//        Page<Program> CounselorProgramPage = programService.searchCounselorProgram(counselorId, page-1, size);
+//        List<Program> programList = CounselorProgramPage.getContent();
+//        List<ProgramDto.GetCounselorProgramsResponse> response = programMapper.ProgramsToGetCounselorProgramsResponseDtos(programList);
+//
+//
+//        return new ResponseEntity(
+//            new MultiResponseDto<>(
+//                response, CounselorProgramPage), HttpStatus.OK);
+//    }
+
+
     // 화면정의서 24p
     // 상담사 - 상담사 상담 이력 전체 조회
-    @GetMapping("/counselors/{counselor-id}/lookup/list")
-    public ResponseEntity getCounselorPrograms(@PathVariable("counselor-id") @Positive Long counselorId,
-        @Positive @RequestParam(defaultValue = "1") int page,
-        @Positive @RequestParam(defaultValue = "10") int size) {
+    @GetMapping("/counselors/lookup/list")
+    public ResponseEntity getCounselorPrograms(HttpServletRequest httpServletRequest,
+                                               @Positive @RequestParam(defaultValue = "1") int page,
+                                               @Positive @RequestParam(defaultValue = "10") int size) {
+        Counselor counselor = counselorService.getLoginCounselor(httpServletRequest);
+        Long counselorId = counselor.getCounselorId();
 
         Page<Program> CounselorProgramPage = programService.searchCounselorProgram(counselorId, page-1, size);
         List<Program> programList = CounselorProgramPage.getContent();
@@ -121,8 +143,8 @@ public class ProgramController {
 
 
         return new ResponseEntity(
-            new MultiResponseDto<>(
-                response, CounselorProgramPage), HttpStatus.OK);
+                new MultiResponseDto<>(
+                        response, CounselorProgramPage), HttpStatus.OK);
     }
 
     // 화면정의서 29p
