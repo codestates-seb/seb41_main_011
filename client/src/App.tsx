@@ -61,31 +61,35 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-  useEffect(()=>{
-    async function setToken (){
-      axios.defaults.headers.common['x-access-token'] =  localStorage.getItem('accessToken')
-      var expiredTime = await moment.utc(localStorage.getItem('expiredTime'))
-      let diffTime:any = await moment.duration(expiredTime.diff(moment()))
-      if (diffTime < 10000){
-          axios.defaults.headers.common['x-refresh-token'] = localStorage.getItem('refreshToken')
-          await axios.get(process.env.REACT_APP_DB_HOST+'/api/access-token/issue').then(
+  useEffect(() => {
+    async function setToken() {
+      axios.defaults.headers.common['Authorization'] =
+        localStorage.getItem('accessToken');
+      var expiredTime = await moment.utc(localStorage.getItem('expiredTime'));
+      let diffTime: any = await moment.duration(expiredTime.diff(moment()));
+      if (diffTime < 10000) {
+        axios.defaults.headers.common['Authorization'] =
+          localStorage.getItem('refreshToken');
+        await axios
+          .get(process.env.REACT_APP_DB_HOST + '/api/access-token/issue')
+          .then(
             (res) => {
-              localStorage.setItem('accessToken', res.data.data.accessToken)
-              localStorage.setItem('expiredTime', res.data.data.cur_time)
-              axios.defaults.headers.common['x-access-token'] =  localStorage.getItem('accessToken');
-  
+              localStorage.setItem('accessToken', res.data.data.accessToken);
+              localStorage.setItem('expiredTime', res.data.data.cur_time);
+              axios.defaults.headers.common['Authorization'] =
+                localStorage.getItem('accessToken');
             },
             (err) => {
-              <Navigate to ='./pages/login_general' />
-            }
-          ) 
+              <Navigate to='./pages/login_general' />;
+            },
+          );
       }
-      return new Promise(function(resolve, reject) {
-        resolve(true)
-    });
+      return new Promise(function (resolve, reject) {
+        resolve(true);
+      });
     }
-    setToken()
-  },)
+    setToken();
+  });
   return (
     <div className='App'>
       <BrowserRouter>

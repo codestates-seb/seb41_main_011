@@ -47,8 +47,8 @@ const Logo = styled.img`
 `;
 
 const LoginGeneral = () => {
-  const login = useSelector((state:any)=>state.login.value)
-  const dispatch = useDispatch()
+  const login = useSelector((state: any) => state.login.value);
+  const dispatch = useDispatch();
   const [loginEmail, setLoginEmail] = useState<string>('');
   const [loginPassword, setLoginPassword] = useState<string>('');
   const handleLoginEmailChange = (e: React.ChangeEvent) => {
@@ -85,29 +85,30 @@ const LoginGeneral = () => {
       const reqbody: object = {
         email: loginEmail,
         password: loginPassword,
-        memberType: "DEFAULT"
+        memberType: 'DEFAULT',
       };
 
       axios
-        .post(
-          process.env.REACT_APP_DB_HOST+'/api/members/login',
-          reqbody,
-        )
+        .post(process.env.REACT_APP_DB_HOST + '/api/members/login', reqbody)
         .then((res) => {
           window.alert(`${loginEmail}이메일로 로그인 하셨습니다.`);
-          localStorage.setItem('accessToken',res.data.data.accessToken)
-          localStorage.setItem('refreshToken',res.data.data.refreshToken)
-          localStorage.setItem('accessTokenExpireTime',res.data.data.accessTokenExpireTime)
-          axios.defaults.headers.common['x-access-token'] = res.data.data.accessToken
-          dispatch(login({
-            role: res.data.data.role,
-            isLoggined: true,
-          }))        
+          localStorage.setItem('accessToken', res.data.data.accessToken);
+          localStorage.setItem('refreshToken', res.data.data.refreshToken);
+          localStorage.setItem(
+            'accessTokenExpireTime',
+            res.data.data.accessTokenExpireTime,
+          );
+          axios.defaults.headers.common[
+            'Authorization'
+          ] = `${res.data.data.grantType} ${res.data.data.accessToken}`;
+          dispatch(
+            login({
+              role: res.data.data.role,
+              isLoggined: true,
+            }),
+          );
           window.location.href = 'http://localhost:3000/';
-        }
-        
-
-        )
+        })
         .catch((err) => console.log);
     }
   };
