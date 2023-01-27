@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -60,9 +61,20 @@ public class MemberController {
     }
 
     //회원 조회(회원정보 수정 페이지)
-    @GetMapping("/look-up/{memberId}")
-    public ResponseEntity getMember(@PathVariable("memberId") @Positive Long memberId){
-        Member member = memberService.findVerifiedMemberByMemberId(memberId);
+//    @GetMapping("/look-up/{memberId}")
+//    public ResponseEntity getMember(@PathVariable("memberId") @Positive Long memberId){
+//        Member member = memberService.findVerifiedMemberByMemberId(memberId);
+//        MemberDto.MyPageResponse response = memberMapper.memberToMyPageResoponse(member);
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(response), HttpStatus.OK
+//        );
+//    }
+
+    //회원 조회(회원정보 수정 페이지) 수정본
+    @GetMapping("/look-up")
+    public ResponseEntity getMember(@PathVariable HttpServletRequest httpServletRequest){
+        Member member = memberService.getLoginMember(httpServletRequest);
         MemberDto.MyPageResponse response = memberMapper.memberToMyPageResoponse(member);
 
         return new ResponseEntity<>(
