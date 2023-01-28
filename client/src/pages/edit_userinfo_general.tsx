@@ -314,7 +314,7 @@ const EditUserInfo = () => {
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setPassword(event.target.value)
               }
-            ></Input>
+            />
             <Label>새 비밀번호</Label>
             <Input
               type='password'
@@ -322,7 +322,7 @@ const EditUserInfo = () => {
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setNewPassword(event.target.value)
               }
-            ></Input>
+            />
             <Label>비밀번호 확인</Label>
             <Input
               type='password'
@@ -330,7 +330,7 @@ const EditUserInfo = () => {
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setConfirmNewPassword(event.target.value)
               }
-            ></Input>
+            />
           </Grid>
         </InnerWrapper>
         <Button
