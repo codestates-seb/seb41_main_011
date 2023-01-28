@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAppDispatch } from '../store/hooks';
 import { programIdProps } from '../types';
@@ -33,9 +33,15 @@ const Contents = styled.div`
 const BtnBooking = (props: programIdProps) => {
   const programId = props.id;
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const buttonClickHandler = () => {
-    dispatch(paymentActions.programId(programId));
+    if (localStorage.getItem('accessToken')) {
+      dispatch(paymentActions.programId(programId));
+    } else {
+      alert('로그인 후 이용해주세요.');
+      navigate('/login-general');
+    }
   };
 
   return (
