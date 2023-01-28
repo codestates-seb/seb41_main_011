@@ -14,7 +14,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../store/hooks';
 import { loginActions } from '../store/login';
 
 const LoginButtonWrapper = styled.div`
@@ -49,7 +49,7 @@ const Logo = styled.img`
 `;
 
 const LoginGeneral = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [loginEmail, setLoginEmail] = useState<string>('');
   const [loginPassword, setLoginPassword] = useState<string>('');

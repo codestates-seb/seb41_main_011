@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaUser } from 'react-icons/fa';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../store/hooks';
 import { loginActions } from '../store/login';
 import axios from 'axios';
 
@@ -69,7 +69,7 @@ const SubNav = styled.ul`
 `;
 
 const MyPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [showOptions, setShowOptions] = useState(0);

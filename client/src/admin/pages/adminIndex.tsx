@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/hooks';
 import axios from 'axios';
 import { loginActions } from '../../store/login';
 import { useNavigate } from 'react-router';
@@ -86,7 +86,7 @@ const Button = styled.button`
 `;
 
 const AdminIndex = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [password, setPassword] = useState<string>('');
   const [email, setemail] = useState<string>('');

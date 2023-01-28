@@ -7,7 +7,7 @@ import Button from '../components/UI/Button';
 import { useEffect, useState, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../store/hooks';
 import { loginActions } from '../store/login';
 
 const ContentWrapper = styled.div`
@@ -154,7 +154,7 @@ type updateInfoType = {
 
 const EditUserInfo = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [userInfo, setUserInfo] = useState<userInfoType>({
     memberId: null,
     memberName: '',
