@@ -9,12 +9,14 @@ import {
   SignupTitle,
   ContextDiv,
 } from './signup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../store';
+
 const LoginButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -47,8 +49,8 @@ const Logo = styled.img`
 `;
 
 const LoginGeneral = () => {
-  const login = useSelector((state: any) => state.login.value);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [loginEmail, setLoginEmail] = useState<string>('');
   const [loginPassword, setLoginPassword] = useState<string>('');
   const handleLoginEmailChange = (e: React.ChangeEvent) => {
@@ -59,6 +61,7 @@ const LoginGeneral = () => {
     const target = e.target as HTMLInputElement;
     setLoginPassword(target.value);
   };
+
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log(loginEmail, loginPassword);
@@ -91,9 +94,8 @@ const LoginGeneral = () => {
       axios
         .post(process.env.REACT_APP_DB_HOST + '/api/members/login', reqbody)
         .then((res) => {
-          window.alert(`${loginEmail}이메일로 로그인 하셨습니다.`);
-          localStorage.setItem('accessToken', res.data.data.accessToken);
-          localStorage.setItem('refreshToken', res.data.data.refreshToken);
+          localStorage.setItem('accessToken', `${res.data.data.accessToken}`);
+          localStorage.setItem('refreshToken', `${res.data.data.refreshToken}`);
           localStorage.setItem(
             'accessTokenExpireTime',
             res.data.data.accessTokenExpireTime,
@@ -101,15 +103,14 @@ const LoginGeneral = () => {
           axios.defaults.headers.common[
             'Authorization'
           ] = `${res.data.data.grantType} ${res.data.data.accessToken}`;
-          dispatch(
-            login({
-              role: res.data.data.role,
-              isLoggined: true,
-            }),
-          );
-          window.location.href = 'http://localhost:3000/';
+          dispatch(loginAction.login(res.data.data.role));
+          window.alert(`${loginEmail}이메일로 로그인 하셨습니다.`);
+          navigate('/');
         })
-        .catch((err) => console.log);
+        .catch((err) => {
+          alert(err.response.data.errorMessage);
+          console.log(err);
+        });
     }
   };
 
