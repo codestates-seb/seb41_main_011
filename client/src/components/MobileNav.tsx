@@ -7,8 +7,8 @@ import { useLocation, useNavigate } from 'react-router';
 import { AiOutlineDoubleRight } from 'react-icons/ai';
 import { mobileNavProps } from './tabbar';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { loginAction } from '../store';
+import { useAppDispatch } from '../store/hooks';
+import { loginActions } from '../store/login';
 
 const Backdrop = styled.nav`
   position: fixed;
@@ -165,7 +165,7 @@ const CloseNav = styled.div`
 `;
 
 const MobileNav = (props: mobileNavProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -209,7 +209,7 @@ const MobileNav = (props: mobileNavProps) => {
       localStorage.setItem('refreshToken', '');
       localStorage.setItem('accessTokenExpireTime', '');
       axios.defaults.headers.common['Authorization'] = '';
-      dispatch(loginAction.logout());
+      dispatch(loginActions.logout());
       navigate('/');
       window.location.reload();
     } catch (error) {
