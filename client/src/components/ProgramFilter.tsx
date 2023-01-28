@@ -1,10 +1,17 @@
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Contents = styled.div`
   width: 100%;
   padding: 16px 0;
   overflow-x: auto;
+
+  a {
+    color: inherit;
+    display: block;
+    padding: 2px 12px;
+  }
 
   ul {
     width: max-content;
@@ -13,17 +20,17 @@ const Contents = styled.div`
   }
   ul li {
     background: #d9d9d9;
+    overflow: hidden;
     border-radius: 8px;
     font-weight: 500;
     text-align: center;
     width: fit-content;
-    padding: 2px 12px;
     font-size: 1rem;
     color: #777;
     cursor: pointer;
     transition: all 0.2s;
 
-    &.on {
+    .active {
       background: #e2d48a;
       color: #5b3e00;
       font-weight: 700;
@@ -43,12 +50,6 @@ const Contents = styled.div`
 `;
 
 const ProgramFilter = () => {
-  const [currentTag, setCurrentTag] = useState(0);
-
-  const tagClickHandler = (index: number) => {
-    setCurrentTag(index);
-  };
-
   const programTags = ['전체', '스트레스', '불안', '우울', '중독'];
 
   return (
@@ -56,12 +57,10 @@ const ProgramFilter = () => {
       <ul>
         {programTags.map((program, index) => {
           return (
-            <li
-              className={index === currentTag ? 'on' : ''}
-              key={index}
-              onClick={() => tagClickHandler(index)}
-            >
-              {program}
+            <li key={index}>
+              <NavLink to={index === 0 ? '/' : `/programs/${index}`}>
+                {program}
+              </NavLink>
             </li>
           );
         })}

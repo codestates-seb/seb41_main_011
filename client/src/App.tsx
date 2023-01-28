@@ -33,6 +33,7 @@ import CommunityPost from './pages/community_post';
 import MyPageTherapist from './pages/mypage_therapist';
 import AdminEditInfo from './admin/pages/adminEditInfo';
 import AdminIndex from './admin/pages/adminIndex';
+import SymptomPrograms from './pages/SymptomPrograms';
 import { useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
@@ -99,6 +100,7 @@ function App() {
           <Route path='/intro' element={<Intro />} />
 
           <Route path='/' element={<AllPrograms />} />
+          <Route path='/programs/:id' element={<SymptomPrograms />} />
           <Route path='/program/:id' element={<ProgramDetail />} />
           <Route path='/program/book' element={<Book />} />
           <Route

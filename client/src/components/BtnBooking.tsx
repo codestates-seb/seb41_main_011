@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { programIdProps } from '../types';
 import Button from './UI/Button';
 
 const Contents = styled.div`
@@ -27,7 +28,8 @@ const Contents = styled.div`
   }
 `;
 
-const BtnBooking = () => {
+const BtnBooking = (props: programIdProps) => {
+  const programId = props.id;
   return (
     <Contents>
       <p>자리가 얼마 남지 않았어요. 정원 마감 전 예약하세요!</p>
