@@ -1,8 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaUser } from 'react-icons/fa';
-import { useState } from 'react';
-import { useAppDispatch } from '../store/hooks';
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loginActions } from '../store/login';
 import axios from 'axios';
 
@@ -71,6 +71,7 @@ const SubNav = styled.ul`
 const MyPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const userRole = useAppSelector((state) => state.login.role);
 
   const [showOptions, setShowOptions] = useState(0);
   const onMouseOver = (index: number) => {
@@ -108,12 +109,22 @@ const MyPage = () => {
       <FaUser className='icon' />
       <span>{showOptions ? '▲' : '▼'}</span>
       <SubNav isShow={showOptions ? true : false}>
-        <li>
-          <Link to='/mypage'>#나의_프로그램</Link>
-        </li>
-        <li>
-          <Link to='/edit-userinfo'>#회원정보_수정</Link>
-        </li>
+        {userRole === 'ADMIN' ? (
+          <>
+            <li>
+              <Link to='/userManagement'>#관리자_페이지</Link>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link to='/mypage'>#나의_프로그램</Link>
+            </li>
+            <li>
+              <Link to='/edit-userinfo'>#회원정보_수정</Link>
+            </li>
+          </>
+        )}
         <li onClick={logoutHandler}>#로그아웃</li>
       </SubNav>
     </Content>

@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAppDispatch } from '../store/hooks';
 import { programIdProps } from '../types';
+import { paymentActions } from '../store/payment';
 import Button from './UI/Button';
 
 const Contents = styled.div`
@@ -30,10 +32,21 @@ const Contents = styled.div`
 
 const BtnBooking = (props: programIdProps) => {
   const programId = props.id;
+  const dispatch = useAppDispatch();
+
+  const buttonClickHandler = () => {
+    dispatch(paymentActions.programId(programId));
+  };
+
   return (
     <Contents>
       <p>자리가 얼마 남지 않았어요. 정원 마감 전 예약하세요!</p>
-      <Button width='100%' height='40px' fontsize='1.1rem'>
+      <Button
+        width='100%'
+        height='40px'
+        fontsize='1.1rem'
+        onClick={buttonClickHandler}
+      >
         <Link to='/program/book'>예약하기</Link>
       </Button>
     </Contents>

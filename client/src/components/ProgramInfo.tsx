@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Label from './UI/Label';
 import { BsFillPersonLinesFill } from 'react-icons/bs';
-import { viewProgramDate } from '../utils';
+import { viewProgramDate, viewCost } from '../utils';
 import { useEffect, useState } from 'react';
 import { programIdProps } from '../types';
 import axios from 'axios';
@@ -187,7 +187,7 @@ const ProgramInfo = (props: programIdProps) => {
             </li>
             <li>
               <strong>비용</strong>
-              {programInfo.cost} 원
+              {viewCost(programInfo.cost)} 원
             </li>
           </ul>
         </div>

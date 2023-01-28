@@ -7,7 +7,8 @@ import Footer from '../components/Footer';
 import { programListItemProps } from '../types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { testActions } from '../store/test';
 
 const ContentWrapper = styled.div`
   min-height: (100vh - 60px);
@@ -96,6 +97,7 @@ const ProgramWrapper = styled.ul`
 
 const TestResult = () => {
   const searchKeyword = useAppSelector((state) => state.test.searchKeyword);
+  const dispatch = useAppDispatch();
 
   const [programList, setProgramList] = useState([]);
 
@@ -106,6 +108,7 @@ const TestResult = () => {
           `/api/programs/lookup/search?search=${searchKeyword}&page=1&size=10`,
       );
       setProgramList(response.data.data);
+      dispatch(testActions.result(''));
     } catch (error: any) {
       console.log(error);
     }
@@ -113,7 +116,7 @@ const TestResult = () => {
 
   useEffect(() => {
     getPrograms();
-  }, [searchKeyword]);
+  }, []);
 
   return (
     <div>
