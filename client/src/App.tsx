@@ -37,6 +37,7 @@ import SymptomPrograms from './pages/SymptomPrograms';
 import { useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import { momentTest } from './moment';
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -63,33 +64,8 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   useEffect(() => {
-    async function setToken() {
-      axios.defaults.headers.common['Authorization'] =
-        localStorage.getItem('accessToken');
-      var expiredTime = await moment.utc(localStorage.getItem('expiredTime'));
-      let diffTime: any = await moment.duration(expiredTime.diff(moment()));
-      if (diffTime < 10000) {
-        axios.defaults.headers.common['Authorization'] =
-          localStorage.getItem('refreshToken');
-        await axios
-          .get(process.env.REACT_APP_DB_HOST + '/api/access-token/issue')
-          .then(
-            (res) => {
-              localStorage.setItem('accessToken', res.data.data.accessToken);
-              localStorage.setItem('expiredTime', res.data.data.cur_time);
-              axios.defaults.headers.common['Authorization'] =
-                localStorage.getItem('accessToken');
-            },
-            (err) => {
-              <Navigate to='./pages/login_general' />;
-            },
-          );
-      }
-      return new Promise(function (resolve, reject) {
-        resolve(true);
-      });
-    }
-    setToken();
+    momentTest()
+    
   });
   return (
     <div className='App'>

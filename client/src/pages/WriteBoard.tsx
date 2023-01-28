@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState, MouseEvent, ChangeEvent } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -6,7 +7,6 @@ import styled from 'styled-components';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Tabbar from '../components/tabbar';
-
 import TextEditor from '../components/UI/TextEditor';
 
 const Content = styled.main`
@@ -144,11 +144,37 @@ const WriteBoard = () => {
     navigate(-1);
   };
 
-  const onSubmitHandler = (event: MouseEvent<HTMLFormElement>) => {
+  // const onSubmitHandler = (event: MouseEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+
+  //   if (category && title && contents) {
+  //     alert('submit!');
+  //   } else {
+  //     alert('게시글 분류와 제목과 내용을 모두 입력해주세요.');
+  //   }
+  // };
+  const onSubmitHandler = async (event: MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const reqBody = {
+      'title': title,
+      'content': contents,
+    }
+
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_DB_HOST}/api/notices/post`,
+      reqBody,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+      }
+    );
+
     if (category && title && contents) {
-      alert('submit!');
+      alert('게시글이 등록되었습니다.');
     } else {
       alert('게시글 분류와 제목과 내용을 모두 입력해주세요.');
     }

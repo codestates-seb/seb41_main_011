@@ -56,5 +56,5 @@
     "@types/styled-components": "^5.1.26",
     "html-react-parser": "^3.0.8"
   },
-  "proxy": "http://43.200.39.48"
+  "proxy" : "http://43.200.39.48"
 }
