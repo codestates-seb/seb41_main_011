@@ -64,9 +64,9 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   useEffect(() => {
+    momentTest()
     
   });
-  momentTest()
   return (
     <div className='App'>
       <BrowserRouter>
