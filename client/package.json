@@ -21,6 +21,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.6.2",
     "react-scripts": "5.0.1",
+    "redux-persist": "^6.0.0",
     "styled-components": "^5.3.6",
     "styled-reset": "^4.4.5",
     "typescript": "^4.9.4",
@@ -56,5 +57,5 @@
     "@types/styled-components": "^5.1.26",
     "html-react-parser": "^3.0.8"
   },
-  "proxy" : "http://43.200.39.48"
+  "proxy": "http://43.200.39.48"
 }
