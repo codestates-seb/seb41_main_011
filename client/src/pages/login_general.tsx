@@ -94,8 +94,8 @@ const LoginGeneral = () => {
       axios
         .post(process.env.REACT_APP_DB_HOST + '/api/members/login', reqbody)
         .then((res) => {
-          localStorage.setItem('accessToken', res.data.data.accessToken);
-          localStorage.setItem('refreshToken', res.data.data.refreshToken);
+          localStorage.setItem('accessToken', `${res.data.data.accessToken}`);
+          localStorage.setItem('refreshToken', `${res.data.data.refreshToken}`);
           localStorage.setItem(
             'accessTokenExpireTime',
             res.data.data.accessTokenExpireTime,
