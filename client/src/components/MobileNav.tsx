@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { AiOutlineDoubleRight } from 'react-icons/ai';
 import { mobileNavProps } from './tabbar';
 import axios from 'axios';
-import { useAppDispatch } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loginActions } from '../store/login';
 
 const Backdrop = styled.nav`
@@ -118,6 +118,7 @@ const Button = styled.button`
   font-size: 0.9rem;
   transition: all 0.2s;
   width: 100%;
+  min-height: 30px;
   cursor: pointer;
 
   a {
@@ -167,6 +168,7 @@ const CloseNav = styled.div`
 const MobileNav = (props: mobileNavProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const userRole = useAppSelector((state) => state.login.role);
 
   useEffect(() => {
     document.body.style.cssText = `
@@ -232,9 +234,11 @@ const MobileNav = (props: mobileNavProps) => {
             <Button className='style1' onClick={logoutHandler}>
               로그아웃
             </Button>
-            <Button className='style2' onClick={mobileNavHandler}>
-              <Link to='/edit-userinfo'>회원정보 수정</Link>
-            </Button>
+            {userRole !== 'ADMIN' && (
+              <Button className='style2' onClick={mobileNavHandler}>
+                <Link to='/edit-userinfo'>회원정보 수정</Link>
+              </Button>
+            )}
           </ButtonWrapper>
         ) : (
           <ButtonWrapper>
@@ -292,16 +296,18 @@ const MobileNav = (props: mobileNavProps) => {
               </li>
             </SubNav>
           </li>
-          <li>
-            <NavLink to='/mypage' onClick={navLinkClickHandler}>
-              마이페이지
-            </NavLink>
-            <SubNav>
-              <li onClick={mobileNavHandler}>
-                <Link to='/mypage'>#나의_프로그램</Link>
-              </li>
-            </SubNav>
-          </li>
+          {userRole !== 'ADMIN' && (
+            <li>
+              <NavLink to='/mypage' onClick={navLinkClickHandler}>
+                마이페이지
+              </NavLink>
+              <SubNav>
+                <li onClick={mobileNavHandler}>
+                  <Link to='/mypage'>#나의_프로그램</Link>
+                </li>
+              </SubNav>
+            </li>
+          )}
         </GNB>
         <CloseNav onClick={mobileNavHandler}>
           <AiOutlineDoubleRight />
