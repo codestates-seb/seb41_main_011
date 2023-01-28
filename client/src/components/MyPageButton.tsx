@@ -90,8 +90,8 @@ const MyPage = () => {
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('accessTokenExpireTime');
       axios.defaults.headers.common['Authorization'] = '';
-      alert('성공적으로 로그아웃 되었습니다.')
-      dispatch(loginAction.logout());
+      alert('성공적으로 로그아웃 되었습니다.');
+      dispatch(loginActions.logout());
       navigate('/');
       window.location.reload();
     } catch (error) {
