@@ -59,6 +59,17 @@ export interface myProgramInfoItemProps {
   announce: string;
   counselorName: string;
 }
+export interface therapistProgramListItemProps {
+  programId: number;
+  title: string;
+  dateStart: string;
+  dateEnd: string;
+  userMax: number;
+  userCount: number;
+}
+export interface therapistProgramListProps {
+  item: therapistProgramListItemProps;
+}
 export interface paginationProps {
   totalPage: number;
   limit: number;

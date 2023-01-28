@@ -12,6 +12,9 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { useAppDispatch } from '../store/hooks';
+import { useNavigate } from 'react-router';
+import { loginActions } from '../store/login';
 
 const Logo = styled.img`
   width: 20vw;
@@ -24,6 +27,8 @@ const Logo = styled.img`
 `;
 
 const LoginTherapist = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [loginEmail, setLoginEmail] = useState<string>('');
   const [loginPassword, setLoginPassword] = useState<string>('');
   const handleLoginEmailChange = (e: React.ChangeEvent) => {
@@ -36,7 +41,6 @@ const LoginTherapist = () => {
   };
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(loginEmail, loginPassword);
 
     const regexPassword = new RegExp(
       /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
@@ -63,13 +67,25 @@ const LoginTherapist = () => {
       };
 
       axios
-        .post(
-          'https://jsonplaceholder.typicode.com/posts',
-          JSON.stringify(reqbody),
-        )
-        .then((res) => console.log)
-        .catch((err) => console.log);
-      return console.log('성공');
+        .post(process.env.REACT_APP_DB_HOST + '/api/counselors/login', reqbody)
+        .then((res) => {
+          localStorage.setItem('accessToken', `${res.data.data.accessToken}`);
+          localStorage.setItem('refreshToken', `${res.data.data.refreshToken}`);
+          localStorage.setItem(
+            'accessTokenExpireTime',
+            res.data.data.accessTokenExpireTime,
+          );
+          axios.defaults.headers.common[
+            'Authorization'
+          ] = `${res.data.data.grantType} ${res.data.data.accessToken}`;
+          dispatch(loginActions.login(res.data.data.role));
+          window.alert(`${loginEmail}이메일로 로그인 하셨습니다.`);
+          navigate('/');
+        })
+        .catch((err) => {
+          alert(err.response.data.errorMessage);
+          console.log(err);
+        });
     }
   };
 
