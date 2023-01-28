@@ -31,3 +31,37 @@ export interface programInfoItemProps {
 export interface programIdProps {
   id?: string;
 }
+export interface myProgramListItemProps {
+  payId: number;
+  memberId: number;
+  title: string;
+  dateStart: string;
+  dateEnd: string;
+  userMax: number;
+  createdAt: string;
+  counselorName: string;
+  status: string;
+}
+export interface myProgramListProps {
+  item: myProgramListItemProps;
+}
+export interface myProgramInfoItemProps {
+  payId: number;
+  createdAt: string;
+  status: string;
+  programId: number;
+  title: string;
+  dateStart: string;
+  dateEnd: string;
+  userMax: number;
+  cost: number;
+  zoomLink: string;
+  announce: string;
+  counselorName: string;
+}
+export interface paginationProps {
+  totalPage: number;
+  limit: number;
+  page: number;
+  setPage: (value: number) => void;
+}
