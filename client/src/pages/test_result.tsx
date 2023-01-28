@@ -4,6 +4,10 @@ import Tabbar from '../components/tabbar';
 import Program from '../components/Program';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
+import { programListItemProps } from '../types';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useAppSelector } from '../store/hooks';
 
 const ContentWrapper = styled.div`
   min-height: (100vh - 60px);
@@ -73,17 +77,44 @@ const ToAllPrograms = styled.div`
   }
 `;
 
-const ProgramWrapper = styled.div`
+const ProgramWrapper = styled.ul`
   width: 100%;
-  display: grid;
-  grid-template-columns: auto;
-  gap: 15px;
+  padding-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
   @media screen and (min-width: 500px) {
     width: 500px;
+    margin: 0 auto;
+  }
+
+  @media screen and (min-width: 768px) {
+    padding-bottom: 24px;
   }
 `;
 
 const TestResult = () => {
+  const searchKeyword = useAppSelector((state) => state.test.searchKeyword);
+
+  const [programList, setProgramList] = useState([]);
+
+  const getPrograms = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_DB_HOST +
+          `/api/programs/lookup/search?search=${searchKeyword}&page=1&size=10`,
+      );
+      setProgramList(response.data.data);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getPrograms();
+  }, [searchKeyword]);
+
   return (
     <div>
       <Header />
@@ -91,7 +122,7 @@ const TestResult = () => {
         <Logo src='/teacup.png' />
         <Top>
           <MainMessage>
-            마오옹 님에게 추천하는 <br />
+            당신에게 추천하는 <br />
             프로그램 이에요
           </MainMessage>
           <ToAllPrograms>
@@ -99,9 +130,15 @@ const TestResult = () => {
           </ToAllPrograms>
         </Top>
         <ProgramWrapper>
-          <Program />
-          <Program />
-          <Program />
+          {programList.map((item: programListItemProps) => {
+            return (
+              <li key={item.programId}>
+                <Link to={`/program/${item.programId}`}>
+                  <Program item={item} />
+                </Link>
+              </li>
+            );
+          })}
         </ProgramWrapper>
       </ContentWrapper>
       <Tabbar />
