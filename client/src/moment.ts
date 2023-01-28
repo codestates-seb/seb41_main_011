@@ -20,10 +20,12 @@ export const momentTest = async() =>{
       .post(process.env.REACT_APP_DB_HOST + '/api/access-token/issue',token)
       .then(
         (res) => {
-          localStorage.setItem('accessToken', `${res.data.data.accessToken}`);
-          localStorage.setItem('refreshToken', `${res.data.data.refreshToken}`);
-          localStorage.setItem('accessTokenExpireTime', res.data.data.accessTokenExpireTime);
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('accessTokenExpireTime');
+          localStorage.setItem('accessToken', `${res.data.accessToken}`);
+          localStorage.setItem('accessTokenExpireTime',`${res.data.accessTokenExpireTime}`);
           axios.defaults.headers.common['Authorization'] ='Bearer'+localStorage.getItem('accessToken');
+          
         })
         // (err) => {
 
