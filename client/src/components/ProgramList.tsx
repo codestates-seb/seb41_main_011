@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Program from './Program';
+import { programListProps, programListItemProps } from '../types';
 
 const Contents = styled.ul`
   width: 100%;
@@ -15,29 +16,20 @@ const Contents = styled.ul`
   }
 `;
 
-const ProgramList = () => {
+const ProgramList = (props: programListProps) => {
+  const programList = props.data;
+
   return (
     <Contents>
-      <li>
-        <Link to='/program/1'>
-          <Program />
-        </Link>
-      </li>
-      <li>
-        <Link to='#'>
-          <Program />
-        </Link>
-      </li>
-      <li>
-        <Link to='#'>
-          <Program />
-        </Link>
-      </li>
-      <li>
-        <Link to='#'>
-          <Program />
-        </Link>
-      </li>
+      {programList.map((item: programListItemProps) => {
+        return (
+          <li key={item.programId}>
+            <Link to={`/program/${item.programId}`}>
+              <Program item={item} />
+            </Link>
+          </li>
+        );
+      })}
     </Contents>
   );
 };

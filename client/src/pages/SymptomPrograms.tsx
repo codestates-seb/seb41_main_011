@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import styled from 'styled-components';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
@@ -59,6 +60,7 @@ const Contents = styled.main`
         flex-direction: column;
         flex-basis: 160px;
         margin: 60px 0;
+        gap: 16px;
 
         h2 {
           font-weight: 700;
@@ -66,6 +68,13 @@ const Contents = styled.main`
           line-height: 1.35;
           text-align: left;
           color: #8e6610;
+        }
+        h4 {
+          font-weight: 700;
+          font-size: 1.3rem;
+          line-height: 1.35;
+          text-align: left;
+          color: #4b6a4d;
         }
       }
 
@@ -76,17 +85,38 @@ const Contents = styled.main`
   }
 `;
 
-const AllPrograms = () => {
-  const [allPrograms, setAllPrograms] = useState([]);
+const SymptomPrograms = () => {
+  const { id } = useParams();
+
+  const [searchKeyword, setSearchKeyword] = useState('');
+  useEffect(() => {
+    switch (id) {
+      case '1':
+        setSearchKeyword('스트레스');
+        break;
+      case '2':
+        setSearchKeyword('불안');
+        break;
+      case '3':
+        setSearchKeyword('우울');
+        break;
+      case '4':
+        setSearchKeyword('중독');
+        break;
+    }
+  }, [id]);
+
+  const [symptomPrograms, setSymptomPrograms] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
 
-  const getAllPrograms = async () => {
+  const getsymptomPrograms = async () => {
     try {
       const response = await axios.get(
-        process.env.REACT_APP_DB_HOST + `/api/programs/lookup/list`,
+        process.env.REACT_APP_DB_HOST +
+          `/api/programs/lookup/search?search=${searchKeyword}&page=${page}&size=10`,
       );
-      setAllPrograms(response.data.data);
+      setSymptomPrograms(response.data.data);
       setTotalPage(response.data.pageInfo.totalPages);
     } catch (error: any) {
       console.log(error);
@@ -94,8 +124,10 @@ const AllPrograms = () => {
   };
 
   useEffect(() => {
-    getAllPrograms();
-  }, [page]);
+    if (searchKeyword) {
+      getsymptomPrograms();
+    }
+  }, [searchKeyword, page]);
 
   return (
     <div>
@@ -104,14 +136,15 @@ const AllPrograms = () => {
         <div className='listwrap'>
           <div className='pagetitle'>
             <h2>
-              그룹 테라피
+              고민별
               <br />
               프로그램
             </h2>
+            <h4>#{searchKeyword}</h4>
           </div>
           <div className='pagecontent'>
             <ProgramFilter />
-            <ProgramList data={allPrograms} />
+            <ProgramList data={symptomPrograms} />
           </div>
         </div>
       </Contents>
@@ -121,4 +154,4 @@ const AllPrograms = () => {
   );
 };
 
-export default AllPrograms;
+export default SymptomPrograms;

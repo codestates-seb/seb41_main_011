@@ -5,6 +5,9 @@ import BtnBooking from '../components/BtnBooking';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Tabbar from '../components/tabbar';
+import { useParams } from 'react-router';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const Contents = styled.main`
   width: 100%;
@@ -28,12 +31,14 @@ const Contents = styled.main`
 `;
 
 const ProgramDetail = () => {
+  const programId = useParams().id;
+
   return (
     <div>
       <Header />
       <Contents>
-        <ProgramInfo />
-        <BtnBooking />
+        <ProgramInfo id={programId} />
+        <BtnBooking id={programId} />
       </Contents>
       <Tabbar />
       <Footer />

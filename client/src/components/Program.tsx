@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { GrFormNext } from 'react-icons/gr';
 
 import Label from './UI/Label';
+import { programInfoProps } from '../types';
+import { viewProgramDate } from '../utils';
 
 const Contents = styled.div`
   width: 100%;
@@ -66,30 +68,33 @@ const Contents = styled.div`
   }
 `;
 
-const Program = () => {
+const Program = (props: programInfoProps) => {
+  const programInfo = props.item;
+
   return (
     <Contents>
       <GrFormNext className='icon' />
       <div className='flex-row'>
-        <Label>우울</Label>
-        <Label>불안</Label>
+        {programInfo.symptomTypes.map((type: string, idx: number) => {
+          return <Label key={idx}>{type}</Label>;
+        })}
       </div>
-      <h3 className='title'>프로그램 제목 어쩌구 저쩌구</h3>
+      <h3 className='title'>{programInfo.title}</h3>
       <div className='flex-row'>
         <div className='info'>
           <strong>상담사</strong>
-          햄토끼
+          {programInfo.counselorName}
         </div>
       </div>
       <div className='flex-row'>
         <div className='info'>
           <strong>일시</strong>
-          2023.01.09
+          {viewProgramDate(programInfo.dateStart, programInfo.dateEnd)}
         </div>
-        <div className='info'>
+        {/* <div className='info'>
           <strong>정원</strong>
           17/30
-        </div>
+        </div> */}
       </div>
     </Contents>
   );
