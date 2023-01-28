@@ -15,7 +15,7 @@ import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useDispatch } from 'react-redux';
-import { loginAction } from '../store';
+import { loginActions } from '../store/login';
 
 const LoginButtonWrapper = styled.div`
   display: flex;
@@ -103,7 +103,7 @@ const LoginGeneral = () => {
           axios.defaults.headers.common[
             'Authorization'
           ] = `${res.data.data.grantType} ${res.data.data.accessToken}`;
-          dispatch(loginAction.login(res.data.data.role));
+          dispatch(loginActions.login(res.data.data.role));
           window.alert(`${loginEmail}이메일로 로그인 하셨습니다.`);
           navigate('/');
         })

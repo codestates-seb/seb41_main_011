@@ -8,7 +8,7 @@ import { useEffect, useState, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { loginAction } from '../store';
+import { loginActions } from '../store/login';
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -189,7 +189,7 @@ const EditUserInfo = () => {
       localStorage.setItem('refreshToken', '');
       localStorage.setItem('accessTokenExpireTime', '');
       axios.defaults.headers.common['Authorization'] = '';
-      dispatch(loginAction.logout());
+      dispatch(loginActions.logout());
       navigate('/');
       window.location.reload();
     } catch (error: any) {

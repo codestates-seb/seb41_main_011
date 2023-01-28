@@ -2,13 +2,13 @@ import { createSlice, configureStore } from '@reduxjs/toolkit';
 
 const loginSlice = createSlice({
   name: 'login',
-  initialState: { role: '' },
+  initialState: { role: '', isLoggined: false },
   reducers: {
     login: (state: any, action: any) => {
-      state.role = action.payload;
+      state.value = action.payload;
     },
     logout: (state: any) => {
-      state.value = { role: '' };
+      state.value = { role: '', isLoggined: false };
     },
   },
 });

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { loginAction } from '../../store';
+import { loginActions } from '../../store/login';
 import { useNavigate } from 'react-router';
 
 const ContentWrapper = styled.div`
@@ -113,7 +113,7 @@ const AdminIndex = () => {
         axios.defaults.headers.common[
           'Authorization'
         ] = `${res.data.data.grantType} ${res.data.data.accessToken}`;
-        dispatch(loginAction.login(res.data.data.role));
+        dispatch(loginActions.login(res.data.data.role));
         window.alert(`${email}이메일로 로그인 하셨습니다.`);
         navigate('/userManagement');
       })

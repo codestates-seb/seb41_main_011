@@ -8,7 +8,7 @@ import { AiOutlineDoubleRight } from 'react-icons/ai';
 import { mobileNavProps } from './tabbar';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { loginAction } from '../store';
+import { loginActions } from '../store/login';
 
 const Backdrop = styled.nav`
   position: fixed;
@@ -209,7 +209,7 @@ const MobileNav = (props: mobileNavProps) => {
       localStorage.setItem('refreshToken', '');
       localStorage.setItem('accessTokenExpireTime', '');
       axios.defaults.headers.common['Authorization'] = '';
-      dispatch(loginAction.logout());
+      dispatch(loginActions.logout());
       navigate('/');
       window.location.reload();
     } catch (error) {

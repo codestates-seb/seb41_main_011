@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FaUser } from 'react-icons/fa';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginAction } from '../store';
+import { loginActions } from '../store/login';
 import axios from 'axios';
 
 const Content = styled.button`
@@ -87,7 +87,7 @@ const MyPage = () => {
       localStorage.setItem('refreshToken', '');
       localStorage.setItem('accessTokenExpireTime', '');
       axios.defaults.headers.common['Authorization'] = '';
-      dispatch(loginAction.logout());
+      dispatch(loginActions.logout());
       navigate('/');
       window.location.reload();
     } catch (error) {
