@@ -6,8 +6,6 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Tabbar from '../components/tabbar';
 import { useParams } from 'react-router';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 
 const Contents = styled.main`
   width: 100%;
