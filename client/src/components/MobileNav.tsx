@@ -207,10 +207,11 @@ const MobileNav = (props: mobileNavProps) => {
   const postLogout = async () => {
     try {
       await axios.post(process.env.REACT_APP_DB_HOST + '/api/logout');
-      localStorage.setItem('accessToken', '');
-      localStorage.setItem('refreshToken', '');
-      localStorage.setItem('accessTokenExpireTime', '');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('accessTokenExpireTime');
       axios.defaults.headers.common['Authorization'] = '';
+      alert('성공적으로 로그아웃 되었습니다.');
       dispatch(loginActions.logout());
       navigate('/');
       window.location.reload();
