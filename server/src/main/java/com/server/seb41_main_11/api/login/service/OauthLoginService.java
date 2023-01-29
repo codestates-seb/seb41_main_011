@@ -42,6 +42,7 @@ public class OauthLoginService {
         Optional<Member> optionalMember = memberService.findMemberByEmail(userInfo.getEmail());
         if(optionalMember.isEmpty()) { //기존 회원이 아닌경우
             Member oauthMember = userInfo.toMemberEntity(memberType, Role.USER); // Role 설정하여 멤버 생성
+            oauthMember.setNickName(userInfo.getName()); // 닉네임도 이름으로 설정
             oauthMember = memberService.registerMember(oauthMember); //회원가입
 
             // 토큰 생성
