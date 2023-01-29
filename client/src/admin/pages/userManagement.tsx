@@ -23,7 +23,6 @@ const ContentWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  /* height: 100vh; */
 `;
 
 const Title = styled.div`
@@ -242,7 +241,7 @@ const UserManagement = (props: any) => {
               ) : null}
               <thead>
                 <tr>
-                  <th className='index'>No.</th>
+                  <th className='index'>ID</th>
                   <th className='title'>유저 이름</th>
                   <th className='people'>닉네임</th>
                   <th className='when'>생년월일</th>
@@ -306,7 +305,7 @@ const UserManagement = (props: any) => {
               ) : null}
               <thead>
                 <tr>
-                  <th className='index'>No.</th>
+                  <th className='index'>ID</th>
                   <th className='title'>상담사 이름</th>
                   <th className='programDetail'>상세보기</th>
                 </tr>
