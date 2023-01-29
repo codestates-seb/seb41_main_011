@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Tabbar from '../components/tabbar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
+import api from '../RefreshToken';
 
 const ContentWrapper = styled.div`
   min-height: calc(100vh - 60px);
@@ -181,24 +182,51 @@ const Tag = styled.span`
 
 const CommunityMain = (props: any) => {
   const navigate = useNavigate();
+  const [postList, setPostList] = useState<any>([]);
+  const [postPage, setPostPage] = useState(1);
+  const [postTotalPage, setPostTotalPage] = useState(1);
+  const [url,setUrl] = useState(window.location.pathname)
   const [isActive1, setIsActive1] = useState(
     window.location.pathname === '/community/notice' ? true : false,
   );
-  const [isActive2, setIsActive2] = useState(
-    window.location.pathname === '/community/general' ? true : false,
-  );
-
+  const [totalPost,setTotalPost] = useState(1);
+  const [isActive2, setIsActive2] = useState(url === '/community/general'? true : false);
+  useEffect(()=>{
+    const toCommunityNotice = async() => {
+      const response = await api.get(`/api/notices/lookup/list?page=${postPage}&size=10`)
+      setPostList(response.data.data)
+      
+    }
+    const toCommunityGeneral = async() => {
+      const response = await api.get(`/api/posts/lookup/list?page=${postPage}&size=10`)
+      setPostList(response.data.data)
+    }
+    if(url === '/community/general'){
+      toCommunityGeneral()
+    }
+    if(url === '/community/notice'){
+      toCommunityNotice()
+    }
+  },[url])
   const toWriteBoard = () => {
     navigate('/community/general/write');
   };
   const toWriteNotice = () => {
     navigate('/community/notice/write');
   };
-  const toCommunityNotice = () => {
+  const toCommunityNotice = async() => {
+    const response = await api.get(`/api/notices/lookup/list?page=${postPage}&size=10`)
+    setPostList(response.data.data)
     navigate('/community/notice');
+    console.log(postList)
+    
   };
-  const toCommunityGeneral = () => {
+  const toCommunityGeneral = async() => {
+    const response = await api.get(`/api/posts/lookup/list?page=${postPage}&size=10`)
+    setPostList(response.data.data)
     navigate('/community/general');
+
+    // console.log(postList)
   };
 
   return (
@@ -233,7 +261,7 @@ const CommunityMain = (props: any) => {
 
         <MessageGrid>
           <div className='totalPostCount'>
-            총 10개의 {isActive1 ? '공지사항' : '게시글'}이 있습니다.
+            {/* 총 {isActive1&&isActive1?postList[0].noticeId:postList[0].postId}개의 {isActive1&&isActive1 ? '공지사항' : '게시글'}이 있습니다. */ }
           </div>
           <button
             className='writeButton'
@@ -243,27 +271,27 @@ const CommunityMain = (props: any) => {
           </button>
         </MessageGrid>
         <PostWRapper>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((item) => {
+          {postList.map((post: any) => {
             return (
               <Post>
-                <div className='postIndex'>{item}</div>
+                <div className='postIndex'>{isActive1? post.noticeId:post.postId}</div>
                 <div className='wrapper'>
                   <div className='postTitle'>
                     {isActive1 ? <Tag>공지</Tag> : <Tag>후기</Tag>}
                     <Link
                       to={
                         isActive1
-                          ? `/community/notice/${item}`
-                          : `/community/general/${item}`
+                          ? `/community/notice/${post.noticeId}`
+                          : `/community/general/${post.postId}`
                       }
                     >
                       {isActive1
-                        ? '안녕하세요 상담사 햄토끼 입니다.'
-                        : '상담사 햄토끼님 덕에 부자가 되었어요!'}
+                        ? post.title
+                        : post.title}
                     </Link>
                   </div>
                   <div className='postInfo'>
-                    2023.01.05 09:00 · {isActive1 ? '햄토끼' : '햄토끼찬양'}
+                    {post.createdTime} · {isActive1 ? post.writer : post.writer}
                   </div>
                 </div>
 
@@ -271,8 +299,8 @@ const CommunityMain = (props: any) => {
                   <Link
                     to={
                       isActive1
-                        ? `/community/notice/${item}`
-                        : `/community/general/${item}`
+                        ? `/community/notice/${post.noticeId}`
+                        : `/community/general/${post.postId}`
                     }
                   >
                     +

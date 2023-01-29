@@ -8,7 +8,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Tabbar from '../components/tabbar';
 import TextEditor from '../components/UI/TextEditor';
-
+import api from '../RefreshToken';
 const Content = styled.main`
   min-height: calc(100vh - 60px);
   width: 100%;
@@ -144,11 +144,32 @@ const WriteBoard = () => {
     navigate(-1);
   };
 
-  const onSubmitHandler = (event: MouseEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (event: MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // momentTest()
+
+
 
     if (category && title && contents) {
-      alert('submit!');
+      alert('게시글이 등록되었습니다.');
+      const reqBody = {
+        'title': title,
+        'content': contents,
+        'kinds' : 'GENERAL'
+      }
+  
+      const { data } = await api.post('/api/posts/post',
+        reqBody,
+        // {
+          // headers: {
+          //   'Content-Type': 'application/json',
+          //   Accept: 'application/json',
+          //   Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+          // },
+        // }
+      );
+      await navigate(-1);
+
     } else {
       alert('게시글 분류와 제목과 내용을 모두 입력해주세요.');
     }
