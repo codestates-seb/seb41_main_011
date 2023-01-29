@@ -103,18 +103,24 @@ const Therapistinquiry = (props: modalCloseProps) => {
             </tr>
           </thead>
           <tbody>
-            {programList.map((item: therapistProgramListProps) => {
-              return (
-                <tr key={item.programId}>
-                  <td>{item.programId}</td>
-                  <td>{item.title}</td>
-                  <td>{viewProgramDate(item.dateStart, item.dateEnd)}</td>
-                  <td>
-                    {item.userCount}/{item.userMax}
-                  </td>
-                </tr>
-              );
-            })}
+            {programList.length !== 0 ? (
+              programList.map((item: therapistProgramListProps) => {
+                return (
+                  <tr key={item.programId}>
+                    <td>{item.programId}</td>
+                    <td>{item.title}</td>
+                    <td>{viewProgramDate(item.dateStart, item.dateEnd)}</td>
+                    <td>
+                      {item.userCount}/{item.userMax}
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan={4}>개설 프로그램이 없습니다.</td>
+              </tr>
+            )}
           </tbody>
         </ProgramTable>
       </ContentWrapper>

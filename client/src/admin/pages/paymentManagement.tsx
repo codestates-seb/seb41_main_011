@@ -201,18 +201,24 @@ const PaymentManagement = (props: any) => {
                 </tr>
               </thead>
               <tbody>
-                {paymentList.map((item: paymentListItemProps, idx: number) => {
-                  return (
-                    <tr key={item.payId}>
-                      <td>{paymentList.length - idx}</td>
-                      <td>{item.memberName}</td>
-                      <td>{item.payId}</td>
-                      <td>{viewCost(item.cost)}원</td>
-                      <td>신용카드</td>
-                      <td className='paymentCompleted'>{item.status}</td>
-                    </tr>
-                  );
-                })}
+                {paymentList.length !== 0 ? (
+                  paymentList.map((item: paymentListItemProps, idx: number) => {
+                    return (
+                      <tr key={item.payId}>
+                        <td>{paymentList.length - idx}</td>
+                        <td>{item.memberName}</td>
+                        <td>{item.payId}</td>
+                        <td>{viewCost(item.cost)}원</td>
+                        <td>신용카드</td>
+                        <td className='paymentCompleted'>{item.status}</td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={6}>취소 신청 내역이 없습니다.</td>
+                  </tr>
+                )}
               </tbody>
             </ProgramTable>
             <Pagination
@@ -238,23 +244,29 @@ const PaymentManagement = (props: any) => {
                 </tr>
               </thead>
               <tbody>
-                {paymentList.map((item: paymentListItemProps, idx: number) => {
-                  return (
-                    <tr key={item.payId}>
-                      <td>{paymentList.length - idx}</td>
-                      <td>{item.memberName}</td>
-                      <td>{item.payId}</td>
-                      <td>{viewCost(item.cost)}원</td>
-                      <td>신용카드</td>
-                      <td
-                        className='paymentCancel'
-                        onClick={() => confirmCancelHandler(item.payId)}
-                      >
-                        취소 승인
-                      </td>
-                    </tr>
-                  );
-                })}
+                {paymentList.length !== 0 ? (
+                  paymentList.map((item: paymentListItemProps, idx: number) => {
+                    return (
+                      <tr key={item.payId}>
+                        <td>{paymentList.length - idx}</td>
+                        <td>{item.memberName}</td>
+                        <td>{item.payId}</td>
+                        <td>{viewCost(item.cost)}원</td>
+                        <td>신용카드</td>
+                        <td
+                          className='paymentCancel'
+                          onClick={() => confirmCancelHandler(item.payId)}
+                        >
+                          취소 승인
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={6}>결제 취소 내역이 없습니다.</td>
+                  </tr>
+                )}
               </tbody>
             </ProgramTable>
             <Pagination
@@ -280,18 +292,26 @@ const PaymentManagement = (props: any) => {
                 </tr>
               </thead>
               <tbody>
-                {paymentList.map((item: paymentListItemProps, idx: number) => {
-                  return (
-                    <tr key={item.payId}>
-                      <td>{paymentList.length - idx}</td>
-                      <td>{item.memberName}</td>
-                      <td>{item.payId}</td>
-                      <td>{viewCost(item.cost)}원</td>
-                      <td>신용카드</td>
-                      <td className='paymentCancelCompleted'>{item.status}</td>
-                    </tr>
-                  );
-                })}
+                {paymentList.length !== 0 ? (
+                  paymentList.map((item: paymentListItemProps, idx: number) => {
+                    return (
+                      <tr key={item.payId}>
+                        <td>{paymentList.length - idx}</td>
+                        <td>{item.memberName}</td>
+                        <td>{item.payId}</td>
+                        <td>{viewCost(item.cost)}원</td>
+                        <td>신용카드</td>
+                        <td className='paymentCancelCompleted'>
+                          {item.status}
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={6}>결제 내역이 없습니다.</td>
+                  </tr>
+                )}
               </tbody>
             </ProgramTable>
             <Pagination

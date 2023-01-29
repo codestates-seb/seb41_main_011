@@ -85,6 +85,31 @@ const ProgramWrapper = styled.ul`
   flex-direction: column;
   gap: 12px;
 
+  .empty {
+    text-align: center;
+    line-height: 1.8;
+    color: #333;
+    padding: 3em 0;
+
+    a {
+      display: block;
+      color: inherit;
+      margin: 24px auto;
+      background: #c4dcbf;
+      width: 80%;
+      padding: 1em 0;
+      border-radius: 12px;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+      transition: all 0.2s;
+
+      &:hover,
+      &:active {
+        background: #70846c;
+        color: #fff;
+      }
+    }
+  }
+
   @media screen and (min-width: 500px) {
     width: 500px;
     margin: 0 auto;
@@ -132,15 +157,27 @@ const TestResult = () => {
           </ToAllPrograms>
         </Top>
         <ProgramWrapper>
-          {programList.map((item: programListItemProps) => {
-            return (
-              <li key={item.programId}>
-                <Link to={`/program/${item.programId}`}>
-                  <Program item={item} />
-                </Link>
-              </li>
-            );
-          })}
+          {programList.length !== 0 ? (
+            programList.map((item: programListItemProps) => {
+              return (
+                <li key={item.programId}>
+                  <Link to={`/program/${item.programId}`}>
+                    <Program item={item} />
+                  </Link>
+                </li>
+              );
+            })
+          ) : (
+            <li>
+              <div className='empty'>
+                당신에게 꼭 맞는 <br />
+                그룹 테라피 프로그램을 열심히 준비중입니다.
+                <br />
+                다른 프로그램도 둘러보세요.
+                <Link to='/'>전체 프로그램 보기</Link>
+              </div>
+            </li>
+          )}
         </ProgramWrapper>
       </ContentWrapper>
       <Tabbar />

@@ -7,6 +7,7 @@ import Tabbar from '../components/tabbar';
 import { myProgramListItemProps } from '../types';
 import Pagination from '../components/Pagination';
 import api from '../RefreshToken';
+import { Link } from 'react-router-dom';
 
 const ContentWrapper = styled.div`
   min-height: calc(100vh - 60px);
@@ -67,6 +68,35 @@ const ProgramWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  .empty {
+    text-align: center;
+    line-height: 1.8;
+    color: #333;
+    padding: 3em 0;
+
+    a {
+      display: block;
+      color: inherit;
+      margin: 24px auto;
+      background: #c4dcbf;
+      width: 80%;
+      padding: 1em 0;
+      border-radius: 12px;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+      transition: all 0.2s;
+
+      @media screen and (min-width: 768px) {
+        width: 400px;
+      }
+
+      &:hover,
+      &:active {
+        background: #70846c;
+        color: #fff;
+      }
+    }
+  }
 `;
 
 const MyPageGeneral = () => {
@@ -97,9 +127,16 @@ const MyPageGeneral = () => {
         <Title>나의 테라피 프로그램</Title>
         <ListWrapper>
           <ProgramWrapper>
-            {programList.map((item: myProgramListItemProps) => {
-              return <MyPageProgram key={item.payId} item={item} />;
-            })}
+            {programList.length !== 0 ? (
+              programList.map((item: myProgramListItemProps) => {
+                return <MyPageProgram key={item.payId} item={item} />;
+              })
+            ) : (
+              <div className='empty'>
+                예약한 프로그램이 없습니다.
+                <Link to='/'>그룹 테라피 프로그램 보기</Link>
+              </div>
+            )}
           </ProgramWrapper>
           <Pagination
             totalPage={totalPage}
