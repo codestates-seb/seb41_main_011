@@ -58,6 +58,13 @@ public interface ProgramMapper {
         }
         return list;
     }
-    List<ProgramDto.GetAdminProgramResponse> ProgramsToGetAdminProgramResponseDtos(List<Program> programs);
+    default List<ProgramDto.GetAdminProgramResponse> ProgramsToGetAdminProgramResponseDtos(List<Program> programs) {
+        List<ProgramDto.GetAdminProgramResponse> list = new ArrayList<>(programs.size());
+
+        for (Program program : programs) {
+            list.add(ProgramDto.GetAdminProgramResponse.of(program));
+        }
+        return list;
+    }
 
 }
