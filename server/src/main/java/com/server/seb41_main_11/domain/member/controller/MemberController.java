@@ -92,7 +92,6 @@ public class MemberController {
 
     /**
      * 회원 전체 조회
-     * todo: 상담 횟수 필드 추가
      */
     @GetMapping("/total-look-up")
     public ResponseEntity getMembers(@Positive @RequestParam("page") int page,
