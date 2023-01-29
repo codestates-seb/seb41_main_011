@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Sidebar from '../components/UI/Sidebar';
-import { useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import axios from 'axios';
 
 export const PageWrapper = styled.div`
   width: calc(100% - 240px);
@@ -103,33 +104,68 @@ const Button = styled.button`
   }
 `;
 
+interface updateInfoType {
+  password: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
 const AdminEditInfo = () => {
-  const [newPassword, setNewPassword] = useState<string>('');
-  const [verifyNewPassword, setVerifyNewPassword] = useState<string>('');
+  const [email, setEmail] = useState('');
+  const [memberId, setMemberId] = useState(0);
+  const getUserInfo = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_DB_HOST + '/api/members/look-up',
+      );
+      setEmail(response.data.data.email);
+      setMemberId(response.data.data.memberId);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const regexPassword = new RegExp(
     /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
     'g',
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const patchEditInfo = async () => {
+    try {
+      const reqBody: updateInfoType = {
+        password,
+        newPassword,
+        confirmNewPassword,
+      };
+      await axios.patch(
+        process.env.REACT_APP_DB_HOST + `/api/members/edit/${memberId}`,
+        reqBody,
+      );
+      alert('회원정보 수정이 완료되었습니다.');
+    } catch (error: any) {
+      alert(error.response.data.errorMessage);
+      console.log(error);
+    }
+  };
 
-    const regexPassword = new RegExp(
-      /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
-      'g',
-    );
-    console.log(newPassword, regexPassword.test(newPassword));
-    const regexPassword2 = new RegExp(
-      /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
-      'g',
-    );
-    console.log(verifyNewPassword, regexPassword2.test(verifyNewPassword));
-    console.log(newPassword === verifyNewPassword);
-    // regexPassword.test(newPassword) ? alert('비밀번호 수정이 완료되었습니다.') : alert('새 비밀번호를 다시 확인해주세요.')
+  const updateInfoHandler = () => {
+    if (!(password && newPassword && confirmNewPassword)) {
+      alert(
+        '현재 비밀번호, 변경할 비밀번호, 비밀번호 확인을 모두 입력해주세요.',
+      );
+    } else {
+      patchEditInfo();
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <ContentWrapper>
         <Sidebar />
         <PageWrapper>
@@ -137,24 +173,34 @@ const AdminEditInfo = () => {
           <InfoWrapper>
             <div>
               <label htmlFor='id'>아이디(이메일)</label>
-              <div id='id'>ahnseo.yoo@gmail.com</div>
+              <div id='id'>{email}</div>
             </div>
             <div>
               <label htmlFor='pw'>비밀번호</label>
-              <input type='password' id='pw' defaultValue='asdf!1234'></input>
+              <input
+                type='password'
+                id='pw'
+                placeholder='기존 비밀번호를 입력해주세요'
+                value={password}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setPassword(e.target.value)
+                }
+              ></input>
             </div>
             <div>
               <label htmlFor='newpw'>새 비밀번호</label>
               <input
                 type='password'
                 id='newpw'
+                placeholder='영문,숫자,특수문자 포함 8자리 이상'
                 value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setNewPassword(e.target.value)
+                }
               ></input>
               {newPassword === '' ? null : !regexPassword.test(newPassword) ? (
                 <div className='newPasswordError'>
-                  특수문자와 알파벳이 하나 이상 포함된 8~16자리의 숫자여야
-                  합니다.
+                  영문,숫자,특수문자 포함 8자리 이상으로 입력해주세요.
                 </div>
               ) : (
                 <div className='newPasswordValidated'>
@@ -167,16 +213,25 @@ const AdminEditInfo = () => {
               <input
                 type='password'
                 id='confirmpw'
-                value={verifyNewPassword}
-                onChange={(e) => setVerifyNewPassword(e.target.value)}
+                placeholder='새 비밀번호를 한 번 더 입력해주세요'
+                value={confirmNewPassword}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setConfirmNewPassword(e.target.value)
+                }
               ></input>
-              {newPassword === verifyNewPassword ? (
-                <div className='match'>비밀번호가 일치합니다.</div>
-              ) : (
-                <div className='matchError'>비밀번호가 일치하지 않습니다.</div>
-              )}
+              {confirmNewPassword ? (
+                newPassword === confirmNewPassword ? (
+                  <div className='match'>비밀번호가 일치합니다.</div>
+                ) : (
+                  <div className='matchError'>
+                    비밀번호가 일치하지 않습니다.
+                  </div>
+                )
+              ) : null}
             </div>
-            <Button>비밀번호 수정</Button>
+            <Button type='button' onClick={updateInfoHandler}>
+              비밀번호 수정
+            </Button>
           </InfoWrapper>
         </PageWrapper>
       </ContentWrapper>
