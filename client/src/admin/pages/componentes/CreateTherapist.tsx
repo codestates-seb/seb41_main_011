@@ -7,17 +7,6 @@ import { ScreenWrapper } from './EditProgram';
 import { FaUserCircle, FaTimes } from 'react-icons/fa';
 import { modalCloseProps } from '../../types';
 
-// interface CreateTherapist {
-//     profile: string,
-//     name: string,
-//     graduated:string,
-//     email: string,
-//     password:string,
-//     career: string,
-//     introduce:string,
-//     birth: string,
-// }
-
 const ContentWrapper = styled.div`
   background: #fff;
   position: relative;
@@ -29,6 +18,9 @@ const ContentWrapper = styled.div`
   max-width: 1200px;
   max-height: 75vh;
   overflow-y: auto;
+  @media screen and (min-width: 1000px) {
+    min-width: 1000px;
+  }
 `;
 const CloseButton = styled.button`
   position: absolute;
@@ -118,6 +110,7 @@ const CreateTherapist = (props: modalCloseProps) => {
   const [confirmPassword, setconfirmPassword] = useState<string>('');
   const [career, setCareer] = useState<string>('');
   const [introduce, setintroduce] = useState<string>('');
+  const [expertiseField, setexpertiseField] = useState<string>('');
   const [modal, setModal] = useState<boolean>(true);
 
   const handleCloseButton = (event: MouseEvent<HTMLButtonElement>) => {
@@ -166,6 +159,10 @@ const CreateTherapist = (props: modalCloseProps) => {
     const target = e.target as HTMLInputElement;
     setgraduated(target.value);
   };
+  const handleexpertiseFieldChange = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    setexpertiseField(target.value);
+  };
   const handleAdmissionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -188,9 +185,8 @@ const CreateTherapist = (props: modalCloseProps) => {
       return console.log('비밀번호가 같지 않습니다.');
       // window.alert('비밀번호가 같지 않습니다.')
     } else {
+      birth = `${birth.slice(0, 4)}-${birth.slice(4, 6)}-${birth.slice(6)}`;
 
-      birth = `${birth.slice(0,4)}-${birth.slice(4,6)}-${birth.slice(6)}`
-  
       const reqbody: object = {
         profile,
         counselorName,
@@ -201,21 +197,20 @@ const CreateTherapist = (props: modalCloseProps) => {
         confirmPassword,
         career,
         introduce,
-        expertiseField: '중독'
+        expertiseField,
       };
 
-      axios.post(
-          process.env.REACT_APP_DB_HOST+'/api/counselors/new',
-          reqbody,
-          {
-            headers:{
-              'Authorization': localStorage.getItem("accessToken")
-            }
+      axios
+        .post(process.env.REACT_APP_DB_HOST + '/api/counselors/new', reqbody, {
+          headers: {
+            Authorization: localStorage.getItem('accessToken'),
           },
-        )
-        .then((res) => window.alert('회원가입이 완료되었습니다.'))
+        })
+        .then((res) => {
+          window.alert('회원가입이 완료되었습니다.');
+          window.location.reload();
+        })
         .catch((err) => console.log());
-
     }
   };
 
@@ -273,7 +268,7 @@ const CreateTherapist = (props: modalCloseProps) => {
                   onChange={handleBirthChange}
                 />
               </div>
-              <div className='mb-16'>
+              <div>
                 <label htmlFor='학력' className='inputlabel'>
                   학력
                 </label>
@@ -283,6 +278,18 @@ const CreateTherapist = (props: modalCloseProps) => {
                   placeholder='최종학력 학위 기재'
                   value={graduated}
                   onChange={handlegraduatedChange}
+                />
+              </div>
+              <div className='mb-16'>
+                <label htmlFor='expertiseField' className='inputlabel'>
+                  전문분야
+                </label>
+                <InputAdmin
+                  type='text'
+                  id='expertiseField'
+                  placeholder='전문분야 기재'
+                  value={expertiseField}
+                  onChange={handleexpertiseFieldChange}
                 />
               </div>
               <div>
@@ -324,7 +331,7 @@ const CreateTherapist = (props: modalCloseProps) => {
             </InputSection>
             <InputSection>
               <TextArea
-                rows={5}
+                rows={6}
                 id='carrer'
                 child='경력'
                 placeholder='경력을 입력하세요'
@@ -333,7 +340,7 @@ const CreateTherapist = (props: modalCloseProps) => {
                 onChange={handleCareerChange}
               />
               <TextArea
-                rows={6}
+                rows={7}
                 id='introduce'
                 child='소개'
                 placeholder='소개글을 입력하세요'
