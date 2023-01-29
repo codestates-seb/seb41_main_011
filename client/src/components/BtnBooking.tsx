@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useAppDispatch } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { programIdProps } from '../types';
 import { paymentActions } from '../store/payment';
 import Button from './UI/Button';
@@ -34,13 +34,17 @@ const BtnBooking = (props: programIdProps) => {
   const programId = props.id;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const userRole = useAppSelector((state) => state.login.role);
 
   const buttonClickHandler = () => {
-    if (localStorage.getItem('accessToken')) {
-      dispatch(paymentActions.programId(programId));
-    } else {
+    if (!localStorage.getItem('accessToken')) {
       alert('로그인 후 이용해주세요.');
       navigate('/login-general');
+    } else if (userRole !== 'USER') {
+      alert('일반 회원만 예약할 수 있습니다.');
+    } else {
+      dispatch(paymentActions.programId(programId));
+      navigate('/program/book');
     }
   };
 
@@ -53,7 +57,7 @@ const BtnBooking = (props: programIdProps) => {
         fontsize='1.1rem'
         onClick={buttonClickHandler}
       >
-        <Link to='/program/book'>예약하기</Link>
+        예약하기
       </Button>
     </Contents>
   );
