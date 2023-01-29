@@ -113,6 +113,10 @@ const LoginGeneral = () => {
         });
     }
   };
+  const KakaoOauth = () =>{
+    // kauth.kakao.com
+
+  }
 
   return (
     <div>

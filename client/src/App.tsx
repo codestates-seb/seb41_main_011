@@ -33,10 +33,7 @@ import CommunityPost from './pages/community_post';
 import MyPageTherapist from './pages/mypage_therapist';
 import AdminEditInfo from './admin/pages/adminEditInfo';
 import AdminIndex from './admin/pages/adminIndex';
-import { useEffect } from 'react';
-import axios from 'axios';
-import moment from 'moment';
-import { momentTest } from './moment';
+
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -62,10 +59,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-  useEffect(() => {
-    momentTest()
-    
-  });
+
   return (
     <div className='App'>
       <BrowserRouter>
