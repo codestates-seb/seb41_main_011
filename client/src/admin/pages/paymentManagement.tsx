@@ -206,7 +206,7 @@ const PaymentManagement = (props: any) => {
               <tbody>
                 {paymentList.map((item: paymentListItemProps, idx: number) => {
                   return (
-                    <tr>
+                    <tr key={item.payId}>
                       <td>{paymentList.length - idx}</td>
                       <td>{item.memberName}</td>
                       <td>{item.payId}</td>
@@ -243,7 +243,7 @@ const PaymentManagement = (props: any) => {
               <tbody>
                 {paymentList.map((item: paymentListItemProps, idx: number) => {
                   return (
-                    <tr>
+                    <tr key={item.payId}>
                       <td>{paymentList.length - idx}</td>
                       <td>{item.memberName}</td>
                       <td>{item.payId}</td>
@@ -285,7 +285,7 @@ const PaymentManagement = (props: any) => {
               <tbody>
                 {paymentList.map((item: paymentListItemProps, idx: number) => {
                   return (
-                    <tr>
+                    <tr key={item.payId}>
                       <td>{paymentList.length - idx}</td>
                       <td>{item.memberName}</td>
                       <td>{item.payId}</td>
