@@ -10,7 +10,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { useParams } from 'react-router';
 import axios from 'axios';
-import { viewProgramDate } from '../utils';
+import { calculateStatus, viewProgramDate } from '../utils';
 
 const Contents = styled.main`
   width: 100%;
@@ -137,6 +137,7 @@ const ButtonWrapper = styled.div`
 
   a {
     color: inherit;
+    display: block;
   }
 `;
 
@@ -261,7 +262,9 @@ const MyProgramDetailT = () => {
     <div>
       <Header />
       <Contents>
-        <Status>진행예정</Status>
+        <Status>
+          {calculateStatus('', programInfo.dateStart, programInfo.dateEnd)}
+        </Status>
         <Title>{programInfo.title}</Title>
         <Detail>
           <ul>
