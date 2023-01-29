@@ -105,17 +105,23 @@ const Generalinquiry = (props: modalCloseProps) => {
             </tr>
           </thead>
           <tbody>
-            {programList.map((item: userProgramListProps) => {
-              return (
-                <tr key={item.payId}>
-                  <td>{item.payId}</td>
-                  <td>{item.title}</td>
-                  <td>{viewProgramDate(item.dateStart, item.dateEnd)}</td>
-                  <td>{item.counselorName}</td>
-                  <td>{item.userMax}</td>
-                </tr>
-              );
-            })}
+            {programList.length !== 0 ? (
+              programList.map((item: userProgramListProps) => {
+                return (
+                  <tr key={item.payId}>
+                    <td>{item.payId}</td>
+                    <td>{item.title}</td>
+                    <td>{viewProgramDate(item.dateStart, item.dateEnd)}</td>
+                    <td>{item.counselorName}</td>
+                    <td>{item.userMax}</td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan={5}>그룹 상담 내역이 없습니다.</td>
+              </tr>
+            )}
           </tbody>
         </ProgramTable>
       </ContentWrapper>

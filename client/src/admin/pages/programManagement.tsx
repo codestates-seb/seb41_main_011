@@ -168,25 +168,31 @@ const ProgramManagement = (props: any) => {
             </tr>
           </thead>
           <tbody>
-            {programList.map((item: programListProps) => {
-              return (
-                <tr key={item.programId}>
-                  <td>{item.programId}</td>
-                  <td>{item.title}</td>
-                  <td>
-                    {item.userCount}/{item.userMax}
-                  </td>
-                  <td>{viewProgramDate(item.dateStart, item.dateEnd)}</td>
-                  <td>{item.counselorName}</td>
-                  <td
-                    className='openEditModal'
-                    onClick={() => modifyProgramInfoHandler(item.programId)}
-                  >
-                    수정
-                  </td>
-                </tr>
-              );
-            })}
+            {programList.length !== 0 ? (
+              programList.map((item: programListProps) => {
+                return (
+                  <tr key={item.programId}>
+                    <td>{item.programId}</td>
+                    <td>{item.title}</td>
+                    <td>
+                      {item.userCount}/{item.userMax}
+                    </td>
+                    <td>{viewProgramDate(item.dateStart, item.dateEnd)}</td>
+                    <td>{item.counselorName}</td>
+                    <td
+                      className='openEditModal'
+                      onClick={() => modifyProgramInfoHandler(item.programId)}
+                    >
+                      수정
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan={6}>개설 프로그램이 없습니다.</td>
+              </tr>
+            )}
           </tbody>
         </ProgramTable>
 

@@ -49,15 +49,21 @@ const AppointmentTable = (props: memberInPayListProps) => {
         </tr>
       </thead>
       <tbody>
-        {memberList.map((userinfo: memberInPayListItemProps, index) => {
-          return (
-            <tr key={userinfo.nickName + userinfo.birth}>
-              <td>{index}</td>
-              <td>{userinfo.nickName}</td>
-              <td>{getAge(userinfo.birth)}</td>
-            </tr>
-          );
-        })}
+        {memberList[0].nickName !== '' ? (
+          memberList.map((userinfo: memberInPayListItemProps, index) => {
+            return (
+              <tr key={userinfo.nickName + userinfo.birth}>
+                <td>{index + 1}</td>
+                <td>{userinfo.nickName}</td>
+                <td>{getAge(userinfo.birth)}</td>
+              </tr>
+            );
+          })
+        ) : (
+          <tr>
+            <td colSpan={3}>예약한 회원이 없습니다.</td>
+          </tr>
+        )}
       </tbody>
     </Content>
   );
