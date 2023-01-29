@@ -70,6 +70,13 @@ export interface therapistProgramListItemProps {
 export interface therapistProgramListProps {
   item: therapistProgramListItemProps;
 }
+export interface memberInPayListItemProps {
+  nickName: string;
+  birth: string;
+}
+export interface memberInPayListProps {
+  data: memberInPayListItemProps[];
+}
 export interface paginationProps {
   totalPage: number;
   limit: number;

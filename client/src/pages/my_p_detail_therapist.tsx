@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaExclamationTriangle } from 'react-icons/fa';
@@ -8,6 +8,9 @@ import AppointmentTable from '../components/AppointmentTable';
 import Tabbar from '../components/tabbar';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { useParams } from 'react-router';
+import axios from 'axios';
+import { viewProgramDate } from '../utils';
 
 const Contents = styled.main`
   width: 100%;
@@ -166,6 +169,59 @@ const MyProgramDetailT = () => {
   const [textareaValue, setTextareaValue] = useState('');
   const [isShow, setIsShow] = useState(false);
 
+  const programId = useParams().id;
+  const [programInfo, setProgramInfo] = useState({
+    programId: 0,
+    title: '',
+    dateStart: '',
+    dateEnd: '',
+    userMax: 0,
+    userCount: 0,
+    zoomLink: '',
+    announce: '',
+    memberInPayList: [
+      {
+        nickName: '',
+        birth: '',
+      },
+    ],
+  });
+
+  const getProgramInfo = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_DB_HOST +
+          `/api/programs/counselors/lookup/${programId}`,
+      );
+      setProgramInfo(response.data.data);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getProgramInfo();
+  }, [programId]);
+
+  const patchProgramInfo = async () => {
+    try {
+      const reqBody = {
+        zoomLink: inputValue,
+        announce: textareaValue,
+      };
+      await axios.patch(
+        process.env.REACT_APP_DB_HOST +
+          `/api/programs/patch/counselor/${programId}`,
+        reqBody,
+      );
+      alert('작성하신 내용이 등록되었습니다.');
+      window.location.reload();
+    } catch (error: any) {
+      alert(error.response.data.errorMessage);
+      console.log(error);
+    }
+  };
+
   const linkRegex =
     /^((https)\:\/\/)([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}(\:[0-9]+)?(\/\S*)?$/; //eslint-disable-line
 
@@ -194,11 +250,11 @@ const MyProgramDetailT = () => {
         }`,
       );
       if (!isConfirm) return;
+      patchProgramInfo();
+      setIsEditable(false);
+    } else {
+      setIsEditable(true);
     }
-    setIsEditable(!isEditable);
-    setInputValue('');
-    setTextareaValue('');
-    setIsShow(false);
   };
 
   return (
@@ -206,17 +262,16 @@ const MyProgramDetailT = () => {
       <Header />
       <Contents>
         <Status>진행예정</Status>
-        <Title>
-          프로그램 제목 어쩌구 저쩌구 프로그램 제목 어쩌구 저쩌구 프로그램 제목
-          어쩌구
-        </Title>
+        <Title>{programInfo.title}</Title>
         <Detail>
           <ul>
             <li>
-              <strong>일정</strong>2023년 0월 00일 3:30PM ~ 4:30PM
+              <strong>일정</strong>
+              {viewProgramDate(programInfo.dateStart, programInfo.dateEnd)}
             </li>
             <li>
-              <strong>신청인원</strong> 4인 / 최대 10인
+              <strong>신청인원</strong> {programInfo.userCount}인 / 최대{' '}
+              {programInfo.userMax}인
             </li>
           </ul>
         </Detail>
@@ -227,15 +282,23 @@ const MyProgramDetailT = () => {
             <ul>
               <li>
                 <strong>그룹 상담 접속 링크</strong>
-                <p>
-                  <a href='https://google.com' target='blank'>
-                    https://google.com
-                  </a>
-                </p>
+                {programInfo.zoomLink ? (
+                  <p>
+                    <a href={programInfo.zoomLink} target='blank'>
+                      {programInfo.zoomLink}
+                    </a>
+                  </p>
+                ) : (
+                  <p>접속 링크는 상담 시작 20분 전까지 전달됩니다.</p>
+                )}
               </li>
               <li>
                 <strong>참여자 전달 사항</strong>
-                <p>프로그램 시작 5분 전까지 상담실로 입장해주세요.</p>
+                {programInfo.announce ? (
+                  <p>{programInfo.announce}</p>
+                ) : (
+                  <p>전달사항이 없습니다.</p>
+                )}
               </li>
             </ul>
           ) : (
@@ -282,7 +345,7 @@ const MyProgramDetailT = () => {
 
         <Detail>
           <h4>예약 정보</h4>
-          <AppointmentTable />
+          <AppointmentTable data={programInfo.memberInPayList} />
         </Detail>
         <ButtonWrapper mgt='4px'>
           <Button width='100%' height='3em' fontsize='1rem'>
