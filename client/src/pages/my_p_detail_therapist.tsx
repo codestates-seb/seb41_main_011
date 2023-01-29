@@ -49,16 +49,16 @@ const Detail = styled.div`
 
   ul li {
     font-weight: 300;
-    margin-top: 4px;
+    margin-top: 8px;
 
     strong {
       font-weight: 500;
       color: #72ab76;
-      margin-right: 8px;
+      margin-right: 16px;
     }
 
     p {
-      margin-top: 2px;
+      margin-top: 6px;
     }
 
     a {
