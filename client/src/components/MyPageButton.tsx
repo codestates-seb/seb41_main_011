@@ -12,7 +12,7 @@ const Content = styled.button`
   background: none;
   border: 0;
   position: relative;
-  height: 100%;
+  height: 110%;
 
   .icon {
     background: #ddd;
