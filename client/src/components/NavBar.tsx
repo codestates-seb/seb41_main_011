@@ -114,16 +114,16 @@ const NavBar = () => {
           </NavLink>
           <SubNav isShow={showOptions === 1 ? true : false}>
             <li>
-              <Link to='#'>#무력감이_들고_우울해요</Link>
+              <Link to='/programs/3'>#무력감이_들고_우울해요</Link>
             </li>
             <li>
-              <Link to='#'>#불안하고_혼란스러워요</Link>
+              <Link to='/programs/2'>#불안하고_혼란스러워요</Link>
             </li>
             <li>
-              <Link to='#'>#스트레스_상태예요</Link>
+              <Link to='/programs/1'>#스트레스_상태예요</Link>
             </li>
             <li>
-              <Link to='#'>#술이나_약물을_끊기_힘들어요</Link>
+              <Link to='/programs/4'>#술이나_약물을_끊기_힘들어요</Link>
             </li>
           </SubNav>
         </li>

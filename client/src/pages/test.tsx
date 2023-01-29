@@ -1,9 +1,11 @@
 import { ChangeEvent, MouseEvent, useState } from 'react';
+import { useAppDispatch } from '../store/hooks';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Tabbar from '../components/tabbar';
+import { testActions } from '../store/test';
 
 export const ContentWrapper = styled.div`
   min-height: calc(100vh - 60px);
@@ -54,9 +56,10 @@ const Tag = styled.label`
   color: #112f1c;
   font-weight: 500;
   text-align: center;
-  padding: 20px 0;
+  padding: 20px 10px;
   transition: all 0.2s;
   cursor: pointer;
+  word-break: keep-all;
 
   &:hover {
     background-color: #b3d2b0;
@@ -145,6 +148,8 @@ const Form = styled.form`
 `;
 
 const Test = () => {
+  const dispatch = useAppDispatch();
+
   const [checkedList, setCheckedList] = useState<string[]>([]);
   const [isChecked, setIsChecked] = useState(false);
 
@@ -167,15 +172,76 @@ const Test = () => {
     checkedItemHandler(value, event.target.checked);
   };
 
+  const readTest = () => {
+    const symptom = [0, 0, 0, 0];
+
+    for (const i of checkedList) {
+      if (i === '0' || i === '1') {
+        symptom[0]++;
+        if (symptom[0] === 2) {
+          return '스트레스';
+        }
+      } else if (i === '2' || i === '3') {
+        symptom[1]++;
+        if (symptom[1] === 2) {
+          return '불안';
+        }
+      } else if (i === '4' || i === '5') {
+        symptom[2]++;
+        if (symptom[2] === 2) {
+          return '우울';
+        }
+      } else if (i === '6' || i === '7') {
+        symptom[3]++;
+        if (symptom[3] === 2) {
+          return '중독';
+        }
+      }
+    }
+
+    switch (checkedList[0]) {
+      case '0':
+      case '1':
+        return '스트레스';
+      case '2':
+      case '3':
+        return '불안';
+      case '4':
+      case '5':
+        return '우울';
+      case '6':
+      case '7':
+        return '중독';
+    }
+    return '';
+  };
   const navigate = useNavigate();
   const toTestResult = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    alert(checkedList);
-    navigate('/about/test-result');
+
+    if (checkedList.length) {
+      const searchKeyword = readTest();
+      dispatch(testActions.result(searchKeyword));
+      navigate('/about/test-result');
+    } else {
+      alert('선택한 항목이 없습니다.');
+      return;
+    }
   };
   const toHistoryBack = () => {
     navigate(-1);
   };
+
+  const questions = [
+    '자주 깨거나 푹 잘 수 없어요',
+    '정서적으로 탈진한 느낌이예요',
+    '안 좋은 일이 생길 것 같아요',
+    '신경이 예민하고 안절부절해요',
+    '일상생활에 만족하지 못해요',
+    '모든 일에 의욕이 없어요',
+    '○○으로 일상에 문제가 생겨요',
+    '○○을 줄이고 싶지만 잘 안돼요',
+  ];
 
   return (
     <div>
@@ -183,59 +249,29 @@ const Test = () => {
       <ContentWrapper>
         <Logo src='/teacup.png' />
         <MainMessage>
-          오늘, 마오옹 님의 기분은
-          <br />
-          어떠신가요?
+          오늘, <br />
+          당신의 기분은 어떠신가요?
         </MainMessage>
         <SubMessage>
-          마오옹 님에게 적합한 테라피 프로그램을 추천해 드릴게요😊 <br /> 여러
-          개를 선택해 주셔도 괜찮아요.
+          기분에 적합한 테라피 프로그램을 추천해 드릴게요😊 <br /> 여러 개를
+          선택해 주셔도 괜찮아요.
         </SubMessage>
         <Form>
           <TagContainer>
-            <input
-              type='checkbox'
-              id='program1'
-              name='test'
-              checked={checkedList.includes('program1')}
-              onChange={(event) => checkHandler(event, 'program1')}
-            />
-            <Tag htmlFor='program1'>
-              무력감이 들고 <br /> 우울해요
-            </Tag>
-            <input
-              type='checkbox'
-              id='program2'
-              name='test'
-              checked={checkedList.includes('program2')}
-              onChange={(event) => checkHandler(event, 'program2')}
-            />
-            <Tag htmlFor='program2'>
-              불안하고 <br />
-              혼란스러워요
-            </Tag>
-            <input
-              type='checkbox'
-              id='program3'
-              name='test'
-              checked={checkedList.includes('program3')}
-              onChange={(event) => checkHandler(event, 'program3')}
-            />
-            <Tag htmlFor='program3'>
-              스트레스 <br />
-              상태에요
-            </Tag>
-            <input
-              type='checkbox'
-              id='program4'
-              name='test'
-              checked={checkedList.includes('program4')}
-              onChange={(event) => checkHandler(event, 'program4')}
-            />
-            <Tag htmlFor='program4'>
-              술이나 약물을
-              <br /> 끊기 힘들어요
-            </Tag>
+            {questions.map((item, idx) => {
+              return (
+                <div key={idx}>
+                  <input
+                    type='checkbox'
+                    id={`${idx}`}
+                    name='test'
+                    checked={checkedList.includes(`${idx}`)}
+                    onChange={(event) => checkHandler(event, `${idx}`)}
+                  />
+                  <Tag htmlFor={`${idx}`}>{item}</Tag>
+                </div>
+              );
+            })}
           </TagContainer>
           <ButtonWrapper>
             <Button type='submit' onClick={toTestResult}>

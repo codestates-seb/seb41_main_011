@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Tabbar from '../components/tabbar';
+import { useAppSelector } from '../store/hooks';
+import { ChangeEvent, useEffect, useState } from 'react';
+import axios from 'axios';
+import { viewProgramDate, viewCost } from '../utils';
 
 const OuterWrapper = styled.div`
   min-height: 100vh;
@@ -79,22 +83,23 @@ const InputGrid = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 12px;
+
+  .div {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2px;
+    input {
+      max-width: calc((100% - 16px) / 3);
+    }
+  }
   @media screen and (min-width: 768px) {
     width: 500px;
-  }
-  .div {
-    display: grid;
-    grid-template-columns: 58% 40%;
-    gap: 2%;
-  }
-  .select {
-    color: gray;
-    border-radius: 12px;
-    border: 1px solid #ddd;
-    padding-left: 3%;
-    padding-right: 3%;
-    .placeholder {
-      display: none;
+    .div {
+      gap: 8px;
+      input {
+        max-width: calc((500px - 16px) / 3);
+      }
     }
   }
 `;
@@ -154,9 +159,88 @@ const MobileLogo = styled.img`
 `;
 
 const Book = () => {
+  const programId = useAppSelector((state) => state.payment.programId);
   const navigate = useNavigate();
+
+  const [programInfo, setProgramInfo] = useState({
+    programId: 0,
+    title: '',
+    content: '',
+    userMax: 0,
+    userCount: 0,
+    cost: 0,
+    image: '',
+    dateStart: '',
+    dateEnd: '',
+    symptomTypes: [],
+    counselorName: '',
+    profile: '',
+    introduce: '',
+    expertiseField: '',
+  });
+
+  const getProgramInfo = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_DB_HOST + `/api/programs/lookup/${programId}`,
+      );
+      setProgramInfo(response.data.data);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getProgramInfo();
+  }, [programId]);
+
+  const [cardOwner, setCardOwner] = useState('');
+  const [cardNum, setCardNum] = useState('');
+  const [cvvNum, setCvvNum] = useState('');
+  const [expirationMonth, setExpirationMonth] = useState('');
+  const [expirationYear, setExpirationYear] = useState('');
+
+  const nameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setCardOwner(event.target.value);
+  };
+  const cardNumberChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setCardNum(event.target.value.replace(/[^0-9]/g, ''));
+  };
+  const cvvNumberChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setCvvNum(event.target.value.replace(/[^0-9]/g, ''));
+  };
+  const expirationMonthChangeHandler = (
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
+    setExpirationMonth(event.target.value.replace(/[^0-9]/g, ''));
+  };
+  const expirationYearChangeHandler = (
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
+    setExpirationYear(event.target.value.replace(/[^0-9]/g, ''));
+  };
+
+  const postPayment = async () => {
+    try {
+      const reqBody = {
+        cardOwner,
+        cardNum,
+        cvvNum,
+        expirationTime: `${expirationMonth}/${expirationYear}`,
+      };
+      await axios.post(
+        process.env.REACT_APP_DB_HOST + `/api/pays/${programId}/post`,
+        reqBody,
+      );
+      navigate('/program/booking-completed');
+    } catch (error: any) {
+      alert(error.response.data.errorMessage);
+      console.log(error);
+    }
+  };
+
   const ToBookingConfirmed = () => {
-    navigate('/program/booking-completed');
+    postPayment();
   };
   return (
     <div>
@@ -168,35 +252,62 @@ const Book = () => {
           <MainMessage>예약 결제하기</MainMessage>
           <SubMessage>
             <div className='contentName'>프로그램명</div>
-            <div>프로그램 1</div>
+            <div>{programInfo.title}</div>
             <div className='contentName'>상담사</div>
-            <div>오은영</div>
+            <div>{programInfo.counselorName}</div>
             <div className='contentName'>일시</div>
-            <div>2023년 0월 0일 3:30PM~ 4:30PM</div>
+            <div>
+              {viewProgramDate(programInfo.dateStart, programInfo.dateEnd)}
+            </div>
             <div className='contentName'>비용</div>
-            <div>20,000원</div>
+            <div>{viewCost(programInfo.cost)}원</div>
           </SubMessage>
 
           <InputGrid>
-            <Input placeholder='Name on card'></Input>
-            <Input placeholder='Credit card number'></Input>
+            <Input
+              placeholder='카드 소유자 이름'
+              type='text'
+              value={cardOwner}
+              onChange={nameChangeHandler}
+              required
+            />
+            <Input
+              placeholder='카드번호 (숫자만 입력하세요)'
+              type='text'
+              value={cardNum}
+              maxLength={16}
+              onChange={cardNumberChangeHandler}
+              required
+            />
             <div className='div'>
-              <select className='select'>
-                <option className='placeholder' disabled selected>
-                  Expires
-                </option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-              </select>
-              <Input placeholder='cvv'></Input>
+              <Input
+                placeholder='유효기간(MM)'
+                type='text'
+                maxLength={2}
+                value={expirationMonth}
+                onChange={expirationMonthChangeHandler}
+                required
+              />
+              <Input
+                placeholder='유효기간(YY)'
+                type='text'
+                maxLength={2}
+                value={expirationYear}
+                onChange={expirationYearChangeHandler}
+                required
+              />
+              <Input
+                placeholder='CVV/CVC'
+                type='text'
+                maxLength={3}
+                value={cvvNum}
+                onChange={cvvNumberChangeHandler}
+                required
+              />
             </div>
           </InputGrid>
           <Button onClick={() => ToBookingConfirmed()}>결제하기</Button>
         </ContentWrapper>
-        {/* 결제 버튼 클릭 시 requst body(POST): 일반회원 고유ID, 이름(실명), 결제 고유ID, 결제 방법, 결제상태 */}
-
         <Logo src='/green-tea.png'></Logo>
       </OuterWrapper>
       <Footer />

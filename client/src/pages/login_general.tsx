@@ -14,8 +14,8 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { useDispatch } from 'react-redux';
-import { loginAction } from '../store';
+import { useAppDispatch } from '../store/hooks';
+import { loginActions } from '../store/login';
 
 const LoginButtonWrapper = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ const Logo = styled.img`
 `;
 
 const LoginGeneral = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [loginEmail, setLoginEmail] = useState<string>('');
   const [loginPassword, setLoginPassword] = useState<string>('');
@@ -64,13 +64,12 @@ const LoginGeneral = () => {
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(loginEmail, loginPassword);
 
-    const regexPassword = new RegExp( //eslint-disable-next-line
+    const regexPassword = new RegExp(
       /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
       'g',
     );
-    const regexEmail = new RegExp( //eslint-disable-next-line
+    const regexEmail = new RegExp(
       /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/,
       'g',
     );
@@ -103,7 +102,7 @@ const LoginGeneral = () => {
           axios.defaults.headers.common[
             'Authorization'
           ] = `${res.data.data.grantType} ${res.data.data.accessToken}`;
-          dispatch(loginAction.login(res.data.data.role));
+          dispatch(loginActions.login(res.data.data.role));
           window.alert(`${loginEmail}이메일로 로그인 하셨습니다.`);
           navigate('/');
         })

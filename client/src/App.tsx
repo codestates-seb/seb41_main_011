@@ -33,7 +33,12 @@ import CommunityPost from './pages/community_post';
 import MyPageTherapist from './pages/mypage_therapist';
 import AdminEditInfo from './admin/pages/adminEditInfo';
 import AdminIndex from './admin/pages/adminIndex';
-
+import SymptomPrograms from './pages/SymptomPrograms';
+import { useEffect } from 'react';
+import axios from 'axios';
+import moment from 'moment';
+import { momentTest } from './moment';
+import { useAppSelector } from './store/hooks';
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -59,6 +64,12 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  useEffect(() => {
+    momentTest();
+  });
+
+  const userRole = useAppSelector((state) => state.login.role);
+  const isFirst = useAppSelector((state) => state.intro.firstVisit);
 
   return (
     <div className='App'>
@@ -68,7 +79,8 @@ function App() {
         <Routes>
           <Route path='/intro' element={<Intro />} />
 
-          <Route path='/' element={<AllPrograms />} />
+          <Route path='/' element={isFirst ? <Intro /> : <AllPrograms />} />
+          <Route path='/programs/:id' element={<SymptomPrograms />} />
           <Route path='/program/:id' element={<ProgramDetail />} />
           <Route path='/program/book' element={<Book />} />
           <Route
@@ -89,14 +101,31 @@ function App() {
           <Route path='/community/notice/modify' element={<ModifyNotice />} />
           <Route path='/community/general/modify' element={<ModifyBoard />} />
 
-          <Route path='/mypage' element={<MyPageGeneral />} />
-          <Route path='/mypaget' element={<MyPageTherapist />} />
-          <Route path='/myprogram/:id' element={<MyProgramDetailG />} />
-          <Route path='/myprogramt/:id' element={<MyProgramDetailT />} />
-          <Route path='/edit-userinfo' element={<EditUserInfo />} />
           <Route
-            path='/edit-userinfo-therapist'
-            element={<EditUserInfoTherapist />}
+            path='/mypage'
+            element={
+              userRole === 'COUNSELOR' ? <MyPageTherapist /> : <MyPageGeneral />
+            }
+          />
+          <Route
+            path='/myprogram/:id'
+            element={
+              userRole === 'COUNSELOR' ? (
+                <MyProgramDetailT />
+              ) : (
+                <MyProgramDetailG />
+              )
+            }
+          />
+          <Route
+            path='/edit-userinfo'
+            element={
+              userRole === 'COUNSELOR' ? (
+                <EditUserInfoTherapist />
+              ) : (
+                <EditUserInfo />
+              )
+            }
           />
 
           <Route path='/login-general' element={<LoginGeneral />} />

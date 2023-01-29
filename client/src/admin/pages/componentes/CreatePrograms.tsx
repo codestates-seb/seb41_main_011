@@ -1,23 +1,11 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import InputAdmin from '../../components/UI/Input';
 import TextArea from '../../components/UI/Textarea';
 import SelectBox from '../../components/UI/SelectBox';
 import { FaRegCalendarCheck, FaTimes } from 'react-icons/fa';
-import { modalCloseProps } from '../../types';
-
-interface CreateProgram {
-  id: string;
-  startingtime: string;
-  endtime: string;
-  regularnumber: string;
-  title: string;
-  description: string;
-  price: string;
-  tag?: string;
-  url: string;
-}
+import { modalCloseProps, createProgramProps } from '../../types';
 
 export const ScreenWrapper = styled.div<{ modal: boolean }>`
   width: 100vw;
@@ -48,6 +36,9 @@ const ContentWrapper = styled.div`
   max-width: 1200px;
   max-height: 75vh;
   overflow-y: auto;
+  @media screen and (min-width: 1000px) {
+    min-width: 1000px;
+  }
 `;
 const CloseButton = styled.button`
   position: absolute;
@@ -139,14 +130,6 @@ const CreateProgramForm = styled.form`
 `;
 
 const CreatePrograms = (props: modalCloseProps) => {
-  const [id, setId] = useState<string>('');
-  const [startingtime, setStartingtime] = useState<string>('');
-  const [endtime, setEndtime] = useState<string>('');
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [tag, setTag] = useState<string>('');
-  const [url, setUrl] = useState<string>('');
-  const [regularnumber, setRegularnumber] = useState<any>();
   const [modal, setModal] = useState<boolean>(true);
 
   const handleCloseButton = (event: MouseEvent<HTMLButtonElement>) => {
@@ -159,74 +142,80 @@ const CreatePrograms = (props: modalCloseProps) => {
     props.close();
   };
 
-  const [price, setPrice] = useState<any>(0);
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
+  const [image, setImage] = useState<string>('');
+  const [userMax, setUserMax] = useState<any>();
+  const [dateStart, setDateStart] = useState<string>('');
+  const [dateEnd, setDateEnd] = useState<string>('');
+  const [symptomTypes, setSymptomTypes] = useState<string[]>([]);
+  const [counselorId, setCounselorId] = useState<any>();
+  const [cost, setCost] = useState<any>();
+
   const handleTitleChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
     setTitle(target.value);
   };
   const handleDescriptionChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setDescription(target.value);
-  };
-  const handleTagChange = (e: React.ChangeEvent) => {
-    const target = e.target as HTMLInputElement;
-    setTag(target.value);
+    setContent(target.value);
   };
   const handleUrlChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setUrl(target.value);
-  };
-  const handleTherapistChange = (e: React.ChangeEvent) => {
-    const target = e.target as HTMLInputElement;
-    setId(target.value);
+    setImage(target.value);
   };
   const handleRegularnumberChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setRegularnumber(target.value);
+    setUserMax(target.value);
   };
   const handleStartingtimeChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setStartingtime(target.value);
+    setDateStart(target.value);
   };
   const handleEndtimeChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setEndtime(target.value);
+    setDateEnd(target.value);
+  };
+  const handleTherapistChange = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    setCounselorId(target.value);
   };
   const handlePriceChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setPrice(target.value);
+    setCost(target.value);
   };
+
+  const postNewProgram = async () => {
+    try {
+      const reqBody: createProgramProps = {
+        title,
+        content,
+        image,
+        userMax: Number(userMax),
+        dateStart,
+        dateEnd,
+        symptomTypes,
+        cost: Number(cost),
+        counselorId: Number(counselorId),
+      };
+
+      await axios.post(
+        process.env.REACT_APP_DB_HOST + '/api/programs/post',
+        reqBody,
+      );
+      alert('프로그램이 등록되었습니다.');
+      window.location.reload();
+    } catch (error: any) {
+      alert(error.response.data.errorMessage);
+      console.log(error);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const reqbody: CreateProgram = {
-      id,
-      startingtime,
-      endtime,
-      regularnumber,
-      title,
-      price,
-      description,
-      tag,
-      url,
-    };
-    console.log(
-      id,
-      startingtime,
-      endtime,
-      regularnumber,
-      title,
-      description,
-      tag,
-      url,
-    );
-    axios
-      .post(
-        'https://jsonplaceholder.typicode.com/posts',
-        JSON.stringify(reqbody),
-      )
-      .then((res) => console.log)
-      .catch((err) => console.log);
+    postNewProgram();
   };
+
   return (
     <ScreenWrapper modal={modal} onClick={handleBackdropClick}>
       <ContentWrapper
@@ -255,7 +244,7 @@ const CreatePrograms = (props: modalCloseProps) => {
                   onChange={handleTitleChange}
                 />
               </div>
-              <SelectBox />
+              <SelectBox setValue={(value) => setSymptomTypes(value)} />
               <div>
                 <label htmlFor='price' className='inputlabel'>
                   참여 비용
@@ -276,6 +265,7 @@ const CreatePrograms = (props: modalCloseProps) => {
                   type='number'
                   id='regularnumber'
                   placeholder='숫자만 입력하세요'
+                  onChange={handleRegularnumberChange}
                 />
               </div>
               <div>
@@ -286,6 +276,7 @@ const CreatePrograms = (props: modalCloseProps) => {
                   type='text'
                   id='therapist'
                   placeholder='상담사 ID값 입력'
+                  onChange={handleTherapistChange}
                 />
               </div>
               <div>

@@ -3,6 +3,8 @@ import Tabbar from '../components/tabbar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Button from '../components/UI/Button';
+import { ChangeEvent, useEffect, useState } from 'react';
+import axios from 'axios';
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -111,7 +113,81 @@ const Input = styled.input`
   }
 `;
 
+type updateInfoType = {
+  password: string;
+  newPassword: string;
+  confirmNewPassword: string;
+};
+
 const EditUserInfoTherapist = () => {
+  const [userInfo, setUserInfo] = useState({
+    counselorId: 0,
+    role: 'COUNSELOR',
+    email: '',
+    counselorName: '',
+    password: '',
+  });
+  const [memberId, setMemberId] = useState(0);
+
+  const getUserInfo = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_DB_HOST + '/api/counselors/look-up',
+      );
+      setUserInfo(response.data.data);
+      setMemberId(response.data.data.counselorId);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const regexPassword = new RegExp(
+    /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
+    'g',
+  );
+
+  const patchEditInfo = async () => {
+    try {
+      const reqBody: updateInfoType = {
+        password,
+        newPassword,
+        confirmNewPassword,
+      };
+      await axios.patch(
+        process.env.REACT_APP_DB_HOST + `/api/counselors/edit/${memberId}`,
+        reqBody,
+      );
+      alert('회원정보 수정이 완료되었습니다.');
+      window.location.reload();
+    } catch (error: any) {
+      alert(error.response.data.errorMessage);
+      console.log(error);
+    }
+  };
+
+  const updateInfoHandler = () => {
+    if (!(password && newPassword && confirmNewPassword)) {
+      alert(
+        '현재 비밀번호, 변경할 비밀번호, 비밀번호 확인을 모두 입력해주세요.',
+      );
+    } else if (newPassword !== confirmNewPassword) {
+      alert('새 비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+    } else if (!regexPassword.test(newPassword)) {
+      alert(
+        `비밀번호 형식이 올바르지 않습니다.\n영문,숫자,특수문자 포함 8자리 이상 입력해주세요.`,
+      );
+    } else {
+      patchEditInfo();
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -123,21 +199,44 @@ const EditUserInfoTherapist = () => {
             <Label>회원 유형</Label>
             <Text>상담사</Text>
             <Label>이름</Label>
-            <Text>하헌진</Text>
+            <Text>{userInfo.counselorName}</Text>
             <Label>아이디(이메일)</Label>
-            <Text>gkgjswls@gmail.com</Text>
+            <Text>{userInfo.email}</Text>
           </Grid>
           <Title>비밀번호 변경</Title>
           <Grid>
             <Label>현재 비밀번호</Label>
-            <Input placeholder='기존 비밀번호를 입력해주세요'></Input>
+            <Input
+              type='password'
+              placeholder='기존 비밀번호를 입력해주세요'
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setPassword(event.target.value)
+              }
+            />
             <Label>새 비밀번호</Label>
-            <Input placeholder='새 비밀번호를 입력해주세요'></Input>
+            <Input
+              type='password'
+              placeholder='영문,숫자,특수문자 포함 8자리 이상'
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setNewPassword(event.target.value)
+              }
+            />
             <Label>비밀번호 확인</Label>
-            <Input placeholder='새 비밀번호를 재입력해주세요'></Input>
+            <Input
+              type='password'
+              placeholder='새 비밀번호를 한 번 더 입력해주세요'
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setConfirmNewPassword(event.target.value)
+              }
+            />
           </Grid>
         </InnerWrapper>
-        <Button width='100%' height='3em' fontsize='1rem'>
+        <Button
+          width='100%'
+          height='3em'
+          fontsize='1rem'
+          onClick={updateInfoHandler}
+        >
           수정하기
         </Button>
         <Tabbar />

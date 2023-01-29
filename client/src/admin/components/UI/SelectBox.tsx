@@ -1,18 +1,7 @@
 import { Category } from '../../SelectOptions';
 import styled from 'styled-components';
-
-const CheckboxWrapper = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: whitesmoke;
-  label {
-  }
-`;
-type SelectBoxProps = {
-  onChange?: any;
-};
+import { useState, ChangeEvent, useEffect } from 'react';
+import { checklistProps } from '../../types';
 
 const SelectWrapper = styled.div`
   display: flex;
@@ -28,19 +17,51 @@ const SelectWrapper = styled.div`
   }
 `;
 
-const SelectBox = ({ onChange }: SelectBoxProps) => {
+const SelectBox = (props: checklistProps) => {
+  const { value } = props;
+  const [checkedList, setCheckedList] = useState<string[]>([]);
+  const [isChecked, setIsChecked] = useState(false);
+
+  useEffect(() => {
+    if (value) {
+      setCheckedList(value);
+    }
+  }, [value]);
+  useEffect(() => {
+    props.setValue(checkedList);
+  }, [checkedList]);
+
+  const checkedItemHandler = (value: string, isChecked: boolean) => {
+    if (isChecked) {
+      setCheckedList((prev) => [...prev, value]);
+      return;
+    } else if (!isChecked && checkedList.includes(value)) {
+      setCheckedList(checkedList.filter((item) => item !== value));
+      return;
+    } else {
+      return;
+    }
+  };
+  const checkHandler = (
+    event: ChangeEvent<HTMLInputElement>,
+    value: string,
+  ) => {
+    setIsChecked(!isChecked);
+    checkedItemHandler(value, event.target.checked);
+  };
+
   return (
     <SelectWrapper>
       <strong className='inputlabel'>카테고리</strong>
       <SelectWrapper>
-        {Category.map((item, idx) => (
-          <div>
+        {Category.map((item) => (
+          <div key={item.id}>
             <input
               type='checkbox'
-              key={idx}
               value={item.name}
               id={item.id}
-              onChange={onChange}
+              checked={checkedList.includes(item.name)}
+              onChange={(event) => checkHandler(event, item.name)}
             ></input>
             <label htmlFor={item.id}>{item.name}</label>
           </div>

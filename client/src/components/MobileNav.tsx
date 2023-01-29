@@ -7,8 +7,8 @@ import { useLocation, useNavigate } from 'react-router';
 import { AiOutlineDoubleRight } from 'react-icons/ai';
 import { mobileNavProps } from './tabbar';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { loginAction } from '../store';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { loginActions } from '../store/login';
 
 const Backdrop = styled.nav`
   position: fixed;
@@ -118,6 +118,8 @@ const Button = styled.button`
   font-size: 0.9rem;
   transition: all 0.2s;
   width: 100%;
+  min-height: 30px;
+  cursor: pointer;
 
   a {
     padding: 6px 0;
@@ -164,8 +166,9 @@ const CloseNav = styled.div`
 `;
 
 const MobileNav = (props: mobileNavProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const userRole = useAppSelector((state) => state.login.role);
 
   useEffect(() => {
     document.body.style.cssText = `
@@ -204,11 +207,12 @@ const MobileNav = (props: mobileNavProps) => {
   const postLogout = async () => {
     try {
       await axios.post(process.env.REACT_APP_DB_HOST + '/api/logout');
-      localStorage.setItem('accessToken', '');
-      localStorage.setItem('refreshToken', '');
-      localStorage.setItem('accessTokenExpireTime', '');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('accessTokenExpireTime');
       axios.defaults.headers.common['Authorization'] = '';
-      dispatch(loginAction.logout());
+      alert('성공적으로 로그아웃 되었습니다.');
+      dispatch(loginActions.logout());
       navigate('/');
       window.location.reload();
     } catch (error) {
@@ -231,16 +235,18 @@ const MobileNav = (props: mobileNavProps) => {
             <Button className='style1' onClick={logoutHandler}>
               로그아웃
             </Button>
-            <Button className='style2'>
-              <Link to='/edit-userinfo'>회원정보 수정</Link>
-            </Button>
+            {userRole !== 'ADMIN' && (
+              <Button className='style2' onClick={mobileNavHandler}>
+                <Link to='/edit-userinfo'>회원정보 수정</Link>
+              </Button>
+            )}
           </ButtonWrapper>
         ) : (
           <ButtonWrapper>
-            <Button className='style1'>
+            <Button className='style1' onClick={mobileNavHandler}>
               <Link to='/login-general'>로그인</Link>
             </Button>
-            <Button className='style2'>
+            <Button className='style2' onClick={mobileNavHandler}>
               <Link to='/signup'>회원가입</Link>
             </Button>
           </ButtonWrapper>
@@ -251,17 +257,17 @@ const MobileNav = (props: mobileNavProps) => {
               그룹 테라피 프로그램
             </NavLink>
             <SubNav>
-              <li>
-                <Link to='#'>#무력감이_들고_우울해요</Link>
+              <li onClick={mobileNavHandler}>
+                <Link to='/programs/3'>#무력감이_들고_우울해요</Link>
               </li>
-              <li>
-                <Link to='#'>#불안하고_혼란스러워요</Link>
+              <li onClick={mobileNavHandler}>
+                <Link to='/programs/2'>#불안하고_혼란스러워요</Link>
               </li>
-              <li>
-                <Link to='#'>#스트레스_상태예요</Link>
+              <li onClick={mobileNavHandler}>
+                <Link to='/programs/1'>#스트레스_상태예요</Link>
               </li>
-              <li>
-                <Link to='#'>#술이나_약물을_끊기_힘들어요</Link>
+              <li onClick={mobileNavHandler}>
+                <Link to='/programs/4'>#술이나_약물을_끊기_힘들어요</Link>
               </li>
             </SubNav>
           </li>
@@ -270,10 +276,10 @@ const MobileNav = (props: mobileNavProps) => {
               소개 페이지
             </NavLink>
             <SubNav>
-              <li>
+              <li onClick={mobileNavHandler}>
                 <Link to='/about'>#서비스_소개</Link>
               </li>
-              <li>
+              <li onClick={mobileNavHandler}>
                 <Link to='/about/test'>#나에게_맞는_프로그램_찾기</Link>
               </li>
             </SubNav>
@@ -283,24 +289,26 @@ const MobileNav = (props: mobileNavProps) => {
               커뮤니티
             </NavLink>
             <SubNav>
-              <li>
+              <li onClick={mobileNavHandler}>
                 <Link to='/community/notice'>#공지사항</Link>
               </li>
-              <li>
+              <li onClick={mobileNavHandler}>
                 <Link to='/community/general'>#유저_커뮤니티</Link>
               </li>
             </SubNav>
           </li>
-          <li>
-            <NavLink to='/mypage' onClick={navLinkClickHandler}>
-              마이페이지
-            </NavLink>
-            <SubNav>
-              <li>
-                <Link to='/mypage'>#나의_프로그램</Link>
-              </li>
-            </SubNav>
-          </li>
+          {userRole !== 'ADMIN' && (
+            <li>
+              <NavLink to='/mypage' onClick={navLinkClickHandler}>
+                마이페이지
+              </NavLink>
+              <SubNav>
+                <li onClick={mobileNavHandler}>
+                  <Link to='/mypage'>#나의_프로그램</Link>
+                </li>
+              </SubNav>
+            </li>
+          )}
         </GNB>
         <CloseNav onClick={mobileNavHandler}>
           <AiOutlineDoubleRight />

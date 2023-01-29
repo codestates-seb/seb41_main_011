@@ -1,8 +1,13 @@
-import { useNavigate } from 'react-router';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Tabbar from '../components/tabbar';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { paymentActions } from '../store/payment';
+import { viewCost, viewProgramDate } from '../utils';
 
 const ContentWrapper = styled.div`
   min-height: calc(100vh - 60px);
@@ -12,6 +17,11 @@ const ContentWrapper = styled.div`
   align-items: center;
   padding: 60px 20px 110px;
   gap: 24px;
+
+  a {
+    color: inherit;
+    display: block;
+  }
 
   @media screen and (min-width: 768px) {
     padding: 84px 20px 0;
@@ -89,10 +99,40 @@ const Logo = styled.img`
 `;
 
 const BookingCompleted = () => {
-  const navigate = useNavigate();
-  const toMain = () => {
-    navigate('/');
+  const programId = useAppSelector((state) => state.payment.programId);
+  const dispatch = useAppDispatch();
+
+  const [programInfo, setProgramInfo] = useState({
+    programId: 0,
+    title: '',
+    content: '',
+    userMax: 0,
+    userCount: 0,
+    cost: 0,
+    image: '',
+    dateStart: '',
+    dateEnd: '',
+    symptomTypes: [],
+    counselorName: '',
+    profile: '',
+    introduce: '',
+    expertiseField: '',
+  });
+  const getProgramInfo = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_DB_HOST + `/api/programs/lookup/${programId}`,
+      );
+      setProgramInfo(response.data.data);
+      dispatch(paymentActions.programId(''));
+    } catch (error: any) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    getProgramInfo();
+  }, []);
 
   return (
     <div>
@@ -102,15 +142,19 @@ const BookingCompleted = () => {
         <MainMessage>예약이 완료되었습니다!</MainMessage>
         <SubMessage>
           <div className='contentName'>프로그램명</div>
-          <div>프로그램 1</div>
+          <div>{programInfo.title}</div>
           <div className='contentName'>상담사</div>
-          <div>오은영</div>
+          <div>{programInfo.counselorName}</div>
           <div className='contentName'>일시</div>
-          <div>2023년 0월 0일 3:30PM~ 4:30PM</div>
+          <div>
+            {viewProgramDate(programInfo.dateStart, programInfo.dateEnd)}
+          </div>
           <div className='contentName'>비용</div>
-          <div>20,000원</div>
+          <div>{viewCost(programInfo.cost)}원</div>
         </SubMessage>
-        <Button onClick={toMain}>메인 페이지로</Button>
+        <Button>
+          <Link to='/'>메인 페이지로</Link>
+        </Button>
 
         <Tabbar />
       </ContentWrapper>
