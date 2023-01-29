@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useAppDispatch } from '../../store/hooks';
+import api from '../../RefreshToken';
 import axios from 'axios';
 import { loginActions } from '../../store/login';
 import { useNavigate } from 'react-router';
@@ -98,8 +99,8 @@ const AdminIndex = () => {
       password,
       memberType: 'DEFAULT',
     };
-    axios
-      .post(process.env.REACT_APP_DB_HOST + '/api/members/login', reqbody)
+    api
+      .post('/api/members/login', reqbody)
       .then((res) => {
         localStorage.setItem(
           'accessToken',

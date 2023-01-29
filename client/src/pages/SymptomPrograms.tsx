@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
@@ -8,6 +7,7 @@ import Header from '../components/Header';
 import ProgramFilter from '../components/ProgramFilter';
 import ProgramList from '../components/ProgramList';
 import Tabbar from '../components/tabbar';
+import api from '../RefreshToken';
 
 const Contents = styled.main`
   width: 100%;
@@ -112,9 +112,8 @@ const SymptomPrograms = () => {
 
   const getsymptomPrograms = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST +
-          `/api/programs/lookup/search?search=${searchKeyword}&page=${page}&size=10`,
+      const response = await api.get(
+        `/api/programs/lookup/search?search=${searchKeyword}&page=${page}&size=10`,
       );
       setSymptomPrograms(response.data.data);
       setTotalPage(response.data.pageInfo.totalPages);

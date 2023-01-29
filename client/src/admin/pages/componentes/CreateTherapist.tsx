@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import React, { useState, MouseEvent } from 'react';
 import InputAdmin from '../../components/UI/Input';
 import TextArea from '../../components/UI/Textarea';
-import axios from 'axios';
 import { ScreenWrapper } from './EditProgram';
 import { FaUserCircle, FaTimes } from 'react-icons/fa';
 import { modalCloseProps } from '../../types';
+import api from '../../../RefreshToken';
 
 const ContentWrapper = styled.div`
   background: #fff;
@@ -200,14 +200,10 @@ const CreateTherapist = (props: modalCloseProps) => {
         expertiseField,
       };
 
-      axios
-        .post(process.env.REACT_APP_DB_HOST + '/api/counselors/new', reqbody, {
-          headers: {
-            Authorization: localStorage.getItem('accessToken'),
-          },
-        })
+      api
+        .post('/api/counselors/new', reqbody)
         .then((res) => {
-          window.alert('회원가입이 완료되었습니다.');
+          window.alert('상담사 등록이 완료되었습니다.');
           window.location.reload();
         })
         .catch((err) => console.log());

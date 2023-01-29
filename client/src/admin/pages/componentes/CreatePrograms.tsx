@@ -1,11 +1,11 @@
 import React, { useState, MouseEvent, useEffect } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import InputAdmin from '../../components/UI/Input';
 import TextArea from '../../components/UI/Textarea';
 import SelectBox from '../../components/UI/SelectBox';
 import { FaRegCalendarCheck, FaTimes } from 'react-icons/fa';
 import { modalCloseProps, createProgramProps } from '../../types';
+import api from '../../../RefreshToken';
 
 export const ScreenWrapper = styled.div<{ modal: boolean }>`
   width: 100vw;
@@ -199,10 +199,7 @@ const CreatePrograms = (props: modalCloseProps) => {
         counselorId: Number(counselorId),
       };
 
-      await axios.post(
-        process.env.REACT_APP_DB_HOST + '/api/programs/post',
-        reqBody,
-      );
+      await api.post('/api/programs/post', reqBody);
       alert('프로그램이 등록되었습니다.');
       window.location.reload();
     } catch (error: any) {

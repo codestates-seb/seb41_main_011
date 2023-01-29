@@ -4,7 +4,7 @@ import { BsFillPersonLinesFill } from 'react-icons/bs';
 import { viewProgramDate, viewCost } from '../utils';
 import { useEffect, useState } from 'react';
 import { programIdProps } from '../types';
-import axios from 'axios';
+import api from '../RefreshToken';
 
 const Contents = styled.div`
   width: 100%;
@@ -139,9 +139,7 @@ const ProgramInfo = (props: programIdProps) => {
 
   const getEachProgram = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST + `/api/programs/lookup/${programId}`,
-      );
+      const response = await api.get(`/api/programs/lookup/${programId}`);
       setProgramInfo(response.data.data);
     } catch (error: any) {
       console.log(error);

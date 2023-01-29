@@ -4,8 +4,8 @@ import { ProgramTable } from '../../pages/programManagement';
 import styled from 'styled-components';
 import { FaTimes } from 'react-icons/fa';
 import { modalCloseProps, userProgramListProps } from '../../types';
-import axios from 'axios';
 import { viewProgramDate } from '../../utils';
+import api from '../../../RefreshToken';
 
 const ContentWrapper = styled.div`
   background: #fff;
@@ -60,10 +60,7 @@ const Generalinquiry = (props: modalCloseProps) => {
 
   const getProgramList = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST +
-          `/api/pays/admin/${memberId}/lookup/list`,
-      );
+      const response = await api.get(`/api/pays/admin/${memberId}/lookup/list`);
       setProgramList(response.data.data);
     } catch (error: any) {
       if (error.response) {

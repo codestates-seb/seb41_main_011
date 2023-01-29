@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from '../components/UI/Sidebar';
 import Pagination from '../components/UI/Pagination';
-import axios from 'axios';
+import api from '../../RefreshToken';
 import { paymentListItemProps } from '../types';
 import { viewCost } from '../utils';
 
@@ -112,9 +112,8 @@ const PaymentManagement = (props: any) => {
 
   const getPaymentList = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST +
-          `/api/pays/admin/payment/list?page=${page}&size=10&status=${paymentStatus}`,
+      const response = await api.get(
+        `/api/pays/admin/payment/list?page=${page}&size=10&status=${paymentStatus}`,
       );
       setPaymentList(response.data.data);
       setTotalPage(response.data.pageInfo.totalPages);
@@ -129,9 +128,7 @@ const PaymentManagement = (props: any) => {
 
   const patchCancelPayment = async (payId: number) => {
     try {
-      await axios.patch(
-        process.env.REACT_APP_DB_HOST + `/api/pays/admin/${payId}/edit`,
-      );
+      await api.patch(`/api/pays/admin/${payId}/edit`);
       window.alert(' 결제 취소가 완료되었습니다.');
       window.location.reload();
     } catch (error: any) {

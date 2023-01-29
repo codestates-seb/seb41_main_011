@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loginActions } from '../store/login';
 import axios from 'axios';
+import api from '../RefreshToken';
 
 const Content = styled.button`
   display: none;
@@ -83,7 +84,7 @@ const MyPage = () => {
 
   const postLogout = async () => {
     try {
-      await axios.post(process.env.REACT_APP_DB_HOST + '/api/logout');
+      await api.post('/api/logout');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('accessTokenExpireTime');

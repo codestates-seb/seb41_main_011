@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -8,6 +7,7 @@ import Tabbar from '../components/tabbar';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { paymentActions } from '../store/payment';
 import { viewCost, viewProgramDate } from '../utils';
+import api from '../RefreshToken';
 
 const ContentWrapper = styled.div`
   min-height: calc(100vh - 60px);
@@ -120,9 +120,7 @@ const BookingCompleted = () => {
   });
   const getProgramInfo = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST + `/api/programs/lookup/${programId}`,
-      );
+      const response = await api.get(`/api/programs/lookup/${programId}`);
       setProgramInfo(response.data.data);
       dispatch(paymentActions.programId(''));
     } catch (error: any) {

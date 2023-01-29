@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useState, MouseEvent, ChangeEvent } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -149,27 +148,25 @@ const WriteNotice = () => {
     event.preventDefault();
     // momentTest()
 
-
-
     if (category && title && contents) {
       alert('게시글이 등록되었습니다.');
       const reqBody = {
-        'title': title,
-        'content': contents,
-      }
-  
-      const { data } = await api.post('/api/notices/post',
+        title: title,
+        content: contents,
+      };
+
+      const { data } = await api.post(
+        '/api/notices/post',
         reqBody,
         // {
-          // headers: {
-          //   'Content-Type': 'application/json',
-          //   Accept: 'application/json',
-          //   Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-          // },
+        // headers: {
+        //   'Content-Type': 'application/json',
+        //   Accept: 'application/json',
+        //   Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        // },
         // }
       );
       await navigate(-1);
-
     } else {
       alert('게시글 분류와 제목과 내용을 모두 입력해주세요.');
     }

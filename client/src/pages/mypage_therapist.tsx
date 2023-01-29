@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Footer from '../components/Footer';
@@ -7,6 +6,7 @@ import Pagination from '../components/Pagination';
 import MyPageProgram from '../components/TherapistProgram';
 import Tabbar from '../components/tabbar';
 import { therapistProgramListItemProps } from '../types';
+import api from '../RefreshToken';
 
 const ContentWrapper = styled.div`
   min-height: calc(100vh - 60px);
@@ -83,9 +83,8 @@ const MyPageTherapist = (props: any) => {
 
   const getMyPrograms = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST +
-          `/api/programs/counselors/lookup/list?page=${page}&size=10`,
+      const response = await api.get(
+        `/api/programs/counselors/lookup/list?page=${page}&size=10`,
       );
       setProgramList(response.data.data);
       setTotalPage(response.data.pageInfo.totalPages);

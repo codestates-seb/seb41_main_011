@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from '../components/UI/Sidebar';
@@ -7,6 +6,7 @@ import EditPrograms from './componentes/EditProgram';
 import { programListProps } from '../types';
 import Pagination from '../components/UI/Pagination';
 import { viewProgramDate } from '../utils';
+import api from '../../RefreshToken';
 
 export const PageWrapper = styled.div`
   width: calc(100% - 240px);
@@ -114,9 +114,8 @@ const ProgramManagement = (props: any) => {
 
   const getPrograms = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST +
-          `api/programs/admin/lookup/list?size=10&page=${page}`,
+      const response = await api.get(
+        `api/programs/admin/lookup/list?size=10&page=${page}`,
       );
       setProgramList(response.data.data);
       setTotalPage(response.data.pageInfo.totalPages);

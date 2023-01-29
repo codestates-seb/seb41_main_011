@@ -1,11 +1,11 @@
 import React, { useState, MouseEvent, useEffect } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import InputAdmin from '../../components/UI/Input';
 import TextArea from '../../components/UI/Textarea';
 import SelectBox from '../../components/UI/SelectBox';
 import { FaRegCalendarCheck, FaTimes } from 'react-icons/fa';
 import { modalCloseProps, createProgramProps } from '../../types';
+import api from '../../../RefreshToken';
 
 interface CreateProgram {
   id: string;
@@ -194,9 +194,7 @@ const EditPrograms = (props: modalCloseProps) => {
   });
   const getProgramInfo = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST + `/api/programs/lookup/${programId}`,
-      );
+      const response = await api.get(`/api/programs/lookup/${programId}`);
       setProgramInfo(response.data.data);
       setTitle(response.data.data.title);
       setContent(response.data.data.content);
@@ -217,9 +215,7 @@ const EditPrograms = (props: modalCloseProps) => {
 
   const deleteProgram = async () => {
     try {
-      await axios.delete(
-        process.env.REACT_APP_DB_HOST + `/api/programs/delete/${programId}`,
-      );
+      await api.delete(`/api/programs/delete/${programId}`);
       alert('프로그램 삭제가 완료 되었습니다.');
       window.location.reload();
     } catch (error: any) {
@@ -274,10 +270,7 @@ const EditPrograms = (props: modalCloseProps) => {
         counselorId: Number(counselorId),
       };
 
-      await axios.patch(
-        process.env.REACT_APP_DB_HOST + `/api/programs/patch/${programId}`,
-        reqBody,
-      );
+      await api.patch(`/api/programs/patch/${programId}`, reqBody);
       alert('프로그램이 수정 되었습니다.');
       window.location.reload();
     } catch (error: any) {

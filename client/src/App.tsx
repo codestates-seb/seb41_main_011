@@ -64,9 +64,9 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-  useEffect(() => {
-    momentTest();
-  });
+  // useEffect(() => {
+  //   momentTest();
+  // });
 
   const userRole = useAppSelector((state) => state.login.role);
   const isFirst = useAppSelector((state) => state.intro.firstVisit);

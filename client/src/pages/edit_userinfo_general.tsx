@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Button from '../components/UI/Button';
 import { useEffect, useState, ChangeEvent } from 'react';
+import api from '../RefreshToken';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { useAppDispatch } from '../store/hooks';
@@ -166,9 +167,7 @@ const EditUserInfo = () => {
 
   const getUserInfo = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST + '/api/members/look-up',
-      );
+      const response = await api.get('/api/members/look-up');
       setUserInfo(response.data.data);
       setMemberId(response.data.data.memberId);
     } catch (error: any) {
@@ -181,9 +180,7 @@ const EditUserInfo = () => {
 
   const deleteUserInfo = async () => {
     try {
-      await axios.patch(
-        process.env.REACT_APP_DB_HOST + `/api/members/delete/${memberId}`,
-      );
+      await api.patch(`/api/members/delete/${memberId}`);
       alert('탈퇴 요청이 처리 되었습니다.');
       localStorage.setItem('accessToken', '');
       localStorage.setItem('refreshToken', '');
@@ -232,10 +229,7 @@ const EditUserInfo = () => {
         reqBody.confirmNewPassword = confirmNewPassword;
       }
 
-      await axios.patch(
-        process.env.REACT_APP_DB_HOST + `/api/members/edit/${memberId}`,
-        reqBody,
-      );
+      await api.patch(`/api/members/edit/${memberId}`, reqBody);
       alert('회원정보 수정이 완료되었습니다.');
       window.location.reload();
     } catch (error: any) {
