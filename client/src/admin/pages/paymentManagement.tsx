@@ -1,6 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from '../components/UI/Sidebar';
+import Pagination from '../components/UI/Pagination';
+import axios from 'axios';
+import { paymentListItemProps } from '../types';
+import { viewCost } from '../utils';
 
 export const PageWrapper = styled.div`
   width: calc(100% - 240px);
@@ -68,33 +72,6 @@ const ProgramTable = styled.table`
   }
 `;
 
-const Pagination = styled.div`
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.11) 0px 3px 8px;
-  width: fit-content;
-  margin: 0 auto;
-
-  .pagination {
-    display: inline-block;
-  }
-  a {
-    color: black;
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
-    background-color: white;
-    &:active {
-      background-color: #009779;
-      color: white;
-    }
-    &:hover {
-      background-color: #009779;
-      color: white;
-    }
-  }
-`;
-
 const MenuBar = styled.div`
   width: 100%;
   display: grid;
@@ -124,127 +101,210 @@ const MenuBar = styled.div`
 `;
 
 const PaymentManagement = (props: any) => {
-  const [isActive1, setIsActive1] = useState(true);
-  const [isActive2, setIsActive2] = useState(false);
-  const [isActive3, setIsActive3] = useState(false);
-  const [isCancellationConfirmed, setIsCancellationConfirmed] = useState(false);
+  const [isComplete, setIsComplete] = useState(true);
+  const [isWaiting, setIsWaiting] = useState(false);
+  const [isCancel, setIsCancel] = useState(false);
+
+  const [paymentStatus, setPaymentStatus] = useState('COMPLETE_PAYMENT');
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const [paymentList, setPaymentList] = useState([]);
+
+  const getPaymentList = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_DB_HOST +
+          `/api/pays/admin/payment/list?page=${page}&size=10&status=${paymentStatus}`,
+      );
+      setPaymentList(response.data.data);
+      setTotalPage(response.data.pageInfo.totalPages);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getPaymentList();
+  }, [page, paymentStatus]);
+
+  const patchCancelPayment = async (payId: number) => {
+    try {
+      await axios.patch(
+        process.env.REACT_APP_DB_HOST + `/api/pays/admin/${payId}/edit`,
+      );
+      window.alert(' 결제 취소가 완료되었습니다.');
+      window.location.reload();
+    } catch (error: any) {
+      alert(error.response.data.errorMessage);
+      console.log(error);
+    }
+  };
+
+  const confirmCancelHandler = (payId: number) => {
+    const isCancel = window.confirm('결제를 취소 하시겠습니까?');
+    if (isCancel) {
+      patchCancelPayment(payId);
+    }
+  };
 
   return (
     <ContentWrapper>
       <Sidebar />
       <PageWrapper>
-        <Title>{isActive1 ? '결제 목록 - 일반' : '결제 목록 - 취소'}</Title>
+        <Title>{isComplete ? '결제 목록 - 일반' : '결제 목록 - 취소'}</Title>
         <MenuBar>
           <div
-            className={isActive1 ? 'clicked' : ''}
+            className={isComplete ? 'clicked' : ''}
             onClick={() => {
-              setIsActive1(!isActive1);
-              setIsActive1(true);
-              setIsActive2(false);
-              setIsActive3(false);
+              setIsComplete(!isComplete);
+              setIsComplete(true);
+              setIsWaiting(false);
+              setIsCancel(false);
+              setPaymentStatus('COMPLETE_PAYMENT');
             }}
           >
             일반 결제
           </div>
           <div
-            className={isActive2 ? 'clicked' : ''}
+            className={isWaiting ? 'clicked' : ''}
             onClick={() => {
-              setIsActive2(!isActive2);
-              setIsActive1(false);
-              setIsActive2(true);
-              setIsActive3(false);
+              setIsWaiting(!isWaiting);
+              setIsComplete(false);
+              setIsWaiting(true);
+              setIsCancel(false);
+              setPaymentStatus('WAITING_CANCEL_PAYMENT');
             }}
           >
             취소 신청
           </div>
           <div
-            className={isActive3 ? 'clicked' : ''}
+            className={isCancel ? 'clicked' : ''}
             onClick={() => {
-              setIsActive3(!isActive3);
-              setIsActive1(false);
-              setIsActive2(false);
-              setIsActive3(true);
+              setIsCancel(!isCancel);
+              setIsComplete(false);
+              setIsWaiting(false);
+              setIsCancel(true);
+              setPaymentStatus('CANCEL_PAYMENT');
             }}
           >
             취소 완료
           </div>
         </MenuBar>
-        <ProgramTable>
-          <thead>
-            <tr>
-              <th className='index'>No.</th>
-              <th className='name'>이름</th>
-              <th className='paymentId'>결제 ID</th>
-              <th className='amountPaid'>결제 금액</th>
-              <th className='paymentType'>결제 종류</th>
-              <th className='paymentStatus'>결제 상태</th>
-            </tr>
-          </thead>
-          <tbody>
-            {isActive1
-              ? [1, 2, 3, 4, 5].map((item) => {
+        {isComplete && (
+          <>
+            <ProgramTable>
+              <thead>
+                <tr>
+                  <th className='index'>No.</th>
+                  <th className='name'>이름</th>
+                  <th className='paymentId'>결제 ID</th>
+                  <th className='amountPaid'>결제 금액</th>
+                  <th className='paymentType'>결제 종류</th>
+                  <th className='paymentStatus'>결제 상태</th>
+                </tr>
+              </thead>
+              <tbody>
+                {paymentList.map((item: paymentListItemProps, idx: number) => {
                   return (
                     <tr>
-                      <td>1</td>
-                      <td>김초이</td>
-                      <td>4a116464-969c-11ed-a1eb-0242ac120002</td>
-                      <td>25,000원</td>
+                      <td>{paymentList.length - idx}</td>
+                      <td>{item.memberName}</td>
+                      <td>{item.payId}</td>
+                      <td>{viewCost(item.cost)}원</td>
                       <td>신용카드</td>
-                      <td className='paymentCompleted'>완료</td>
-                    </tr>
-                  );
-                })
-              : isActive2
-              ? [1, 2, 3, 4, 5].map((item) => {
-                  return (
-                    <tr>
-                      <td>1</td>
-                      <td>하헌진</td>
-                      <td>4a116464-969c-11ed-a1eb-0242ac120002</td>
-                      <td>25,000원</td>
-                      <td>신용카드</td>
-                      <td
-                        className='paymentCancel'
-                        onClick={() => {
-                          if (window.confirm('결제를 취소 하시겠습니까?')) {
-                            //결제 취소하는 함수 실행시키기
-                            window.alert(' 결제 취소가 완료되었습니다.');
-                          }
-                        }}
-                      >
-                        결제 취소
-                      </td>
-                    </tr>
-                  );
-                })
-              : [1, 2, 3, 4, 5].map((item) => {
-                  return (
-                    <tr>
-                      <td>1</td>
-                      <td>하헌진</td>
-                      <td>4a116464-969c-11ed-a1eb-0242ac120002</td>
-                      <td>25,000원</td>
-                      <td>신용카드</td>
-                      <td className='paymentCancelCompleted'>취소 완료</td>
+                      <td className='paymentCompleted'>{item.status}</td>
                     </tr>
                   );
                 })}
-          </tbody>
-        </ProgramTable>
+              </tbody>
+            </ProgramTable>
+            <Pagination
+              page={page}
+              limit={5}
+              totalPage={totalPage}
+              setPage={setPage}
+            />
+          </>
+        )}
 
-        {/* 하단 페이지 네이션은 아직 장식임 */}
-        <Pagination className='pagination'>
-          <a href='#'>&laquo;</a>
-          <a href='#'>1</a>
-          <a className='active' href='#'>
-            2
-          </a>
-          <a href='#'>3</a>
-          <a href='#'>4</a>
-          <a href='#'>5</a>
-          <a href='#'>6</a>
-          <a href='#'>&raquo;</a>
-        </Pagination>
+        {isWaiting && (
+          <>
+            <ProgramTable>
+              <thead>
+                <tr>
+                  <th className='index'>No.</th>
+                  <th className='name'>이름</th>
+                  <th className='paymentId'>결제 ID</th>
+                  <th className='amountPaid'>결제 금액</th>
+                  <th className='paymentType'>결제 종류</th>
+                  <th className='paymentStatus'>결제 상태</th>
+                </tr>
+              </thead>
+              <tbody>
+                {paymentList.map((item: paymentListItemProps, idx: number) => {
+                  return (
+                    <tr>
+                      <td>{paymentList.length - idx}</td>
+                      <td>{item.memberName}</td>
+                      <td>{item.payId}</td>
+                      <td>{viewCost(item.cost)}원</td>
+                      <td>신용카드</td>
+                      <td
+                        className='paymentCancel'
+                        onClick={() => confirmCancelHandler(item.payId)}
+                      >
+                        취소 승인
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </ProgramTable>
+            <Pagination
+              page={page}
+              limit={5}
+              totalPage={totalPage}
+              setPage={setPage}
+            />
+          </>
+        )}
+
+        {isCancel && (
+          <>
+            <ProgramTable>
+              <thead>
+                <tr>
+                  <th className='index'>No.</th>
+                  <th className='name'>이름</th>
+                  <th className='paymentId'>결제 ID</th>
+                  <th className='amountPaid'>결제 금액</th>
+                  <th className='paymentType'>결제 종류</th>
+                  <th className='paymentStatus'>결제 상태</th>
+                </tr>
+              </thead>
+              <tbody>
+                {paymentList.map((item: paymentListItemProps, idx: number) => {
+                  return (
+                    <tr>
+                      <td>{paymentList.length - idx}</td>
+                      <td>{item.memberName}</td>
+                      <td>{item.payId}</td>
+                      <td>{viewCost(item.cost)}원</td>
+                      <td>신용카드</td>
+                      <td className='paymentCancelCompleted'>{item.status}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </ProgramTable>
+            <Pagination
+              page={page}
+              limit={5}
+              totalPage={totalPage}
+              setPage={setPage}
+            />
+          </>
+        )}
       </PageWrapper>
     </ContentWrapper>
   );
