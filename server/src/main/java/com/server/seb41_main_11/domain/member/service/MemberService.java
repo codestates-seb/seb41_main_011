@@ -84,8 +84,6 @@ public class MemberService {
             throw new AuthenticationException(ErrorCode.WRONG_PASSWROD); //비밀번호 일치 하지 않으면 예외처리
         }
 
-        decryptPassword(findMember.getPassword());
-
         jwtTokenDto = tokenManager.createJwtTokenDto(findMember.getMemberId(), findMember.getRole()); //토큰 생성
 
         findMember.updateRefreshToken(jwtTokenDto); //토큰값 설정
