@@ -14,17 +14,19 @@ import {
 import loginReducer from './login';
 import testReducer from './test';
 import paymentReducer from './payment';
+import introReducer from './intro';
 
 const reducers = combineReducers({
   login: loginReducer,
   test: testReducer,
   payment: paymentReducer,
+  intro: introReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['login'],
+  whitelist: ['login', 'intro'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

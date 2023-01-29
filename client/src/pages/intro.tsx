@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAppDispatch } from '../store/hooks';
+import { introActions } from '../store/intro';
 
 const OuterWrapper = styled.div`
   min-height: calc(100vh - 120px);
@@ -115,6 +118,8 @@ const MobileLogo = styled.img`
 `;
 
 const Intro = () => {
+  const dispatch = useAppDispatch();
+
   return (
     <div>
       <OuterWrapper>
@@ -127,10 +132,18 @@ const Intro = () => {
           </SubMessage>
           <MobileLogo src='green-tea.png' />
           <ButtonWrapper>
-            <Button>
+            <Button
+              onClick={() => {
+                dispatch(introActions.intro(false));
+              }}
+            >
               <Link to='/about'>잘 몰라요. 조금 더 알려주실래요?</Link>
             </Button>
-            <Button>
+            <Button
+              onClick={() => {
+                dispatch(introActions.intro(false));
+              }}
+            >
               <Link to='/'>이미 알고있어요</Link>
             </Button>
           </ButtonWrapper>
