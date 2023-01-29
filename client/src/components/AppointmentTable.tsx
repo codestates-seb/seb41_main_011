@@ -36,7 +36,11 @@ const AppointmentTable = (props: memberInPayListProps) => {
     const thisYear = new Date().getFullYear();
     const birthYear = new Date(birthday).getFullYear();
 
-    return +thisYear - +birthYear;
+    if (Number.isNaN(+thisYear - +birthYear)) {
+      return '정보없음';
+    } else {
+      return +thisYear - +birthYear;
+    }
   };
 
   return (
@@ -49,13 +53,13 @@ const AppointmentTable = (props: memberInPayListProps) => {
         </tr>
       </thead>
       <tbody>
-        {memberList[0].nickName !== '' ? (
+        {memberList && memberList[0].nickName !== '' ? (
           memberList.map((userinfo: memberInPayListItemProps, index) => {
             return (
-              <tr key={userinfo.nickName + userinfo.birth}>
+              <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{userinfo.nickName}</td>
-                <td>{getAge(userinfo.birth)}</td>
+                <td>{userinfo.birth ? getAge(userinfo.birth) : '정보없음'}</td>
               </tr>
             );
           })
