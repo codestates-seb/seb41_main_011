@@ -241,7 +241,7 @@ const UserManagement = (props: any) => {
               ) : null}
               <thead>
                 <tr>
-                  <th className='index'>ID</th>
+                  <th className='index'>No.</th>
                   <th className='title'>유저 이름</th>
                   <th className='people'>닉네임</th>
                   <th className='when'>생년월일</th>
@@ -249,28 +249,37 @@ const UserManagement = (props: any) => {
                 </tr>
               </thead>
               <tbody>
-                {userList.map((item: userListProps) => {
-                  return (
-                    <tr key={item.memberId}>
-                      <td>{item.memberId}</td>
-                      <td>{item.memberName}</td>
-                      <td>{item.nickName}</td>
-                      <td>{item.birth}</td>
-                      {item.role === 'USER' ? (
-                        <td
-                          className='openUserDetail'
-                          onClick={() =>
-                            userDetailClickHandler(item.memberId, item.nickName)
-                          }
-                        >
-                          그룹상담내역
-                        </td>
-                      ) : (
-                        <td></td>
-                      )}
-                    </tr>
-                  );
-                })}
+                {userList.length !== 0 ? (
+                  userList.map((item: userListProps) => {
+                    return (
+                      <tr key={item.memberId}>
+                        <td>{item.memberId}</td>
+                        <td>{item.memberName}</td>
+                        <td>{item.nickName}</td>
+                        <td>{item.birth}</td>
+                        {item.role === 'USER' ? (
+                          <td
+                            className='openUserDetail'
+                            onClick={() =>
+                              userDetailClickHandler(
+                                item.memberId,
+                                item.nickName,
+                              )
+                            }
+                          >
+                            그룹상담내역
+                          </td>
+                        ) : (
+                          <td></td>
+                        )}
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={5}>회원이 없습니다.</td>
+                  </tr>
+                )}
               </tbody>
             </ProgramTable>
             <Pagination
@@ -305,31 +314,37 @@ const UserManagement = (props: any) => {
               ) : null}
               <thead>
                 <tr>
-                  <th className='index'>ID</th>
+                  <th className='index'>상담사ID</th>
                   <th className='title'>상담사 이름</th>
                   <th className='programDetail'>상세보기</th>
                 </tr>
               </thead>
               <tbody>
-                {therapistList.map((item: therapistListProps) => {
-                  return (
-                    <tr key={item.counselorId}>
-                      <td>{item.counselorId}</td>
-                      <td>{item.counselorName}</td>
-                      <td
-                        className='openProgramDetail'
-                        onClick={() =>
-                          therapistDetailClickHandler(
-                            item.counselorId,
-                            item.counselorName,
-                          )
-                        }
-                      >
-                        그룹상담내역
-                      </td>
-                    </tr>
-                  );
-                })}
+                {therapistList.length !== 0 ? (
+                  therapistList.map((item: therapistListProps) => {
+                    return (
+                      <tr key={item.counselorId}>
+                        <td>{item.counselorId}</td>
+                        <td>{item.counselorName}</td>
+                        <td
+                          className='openProgramDetail'
+                          onClick={() =>
+                            therapistDetailClickHandler(
+                              item.counselorId,
+                              item.counselorName,
+                            )
+                          }
+                        >
+                          그룹상담내역
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={3}>상담사가 없습니다.</td>
+                  </tr>
+                )}
               </tbody>
             </ProgramTable>
             <Pagination

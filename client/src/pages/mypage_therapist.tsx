@@ -67,6 +67,13 @@ const ProgramWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  .empty {
+    text-align: center;
+    line-height: 1.8;
+    color: #333;
+    padding: 3em 0;
+  }
 `;
 
 const MyPageTherapist = (props: any) => {
@@ -98,9 +105,13 @@ const MyPageTherapist = (props: any) => {
         <Title>나의 개설 프로그램</Title>
         <ListWrapper>
           <ProgramWrapper>
-            {programList.map((item: therapistProgramListItemProps) => {
-              return <MyPageProgram key={item.programId} item={item} />;
-            })}
+            {programList.length !== 0 ? (
+              programList.map((item: therapistProgramListItemProps) => {
+                return <MyPageProgram key={item.programId} item={item} />;
+              })
+            ) : (
+              <div className='empty'>개설한 프로그램이 없습니다.</div>
+            )}
           </ProgramWrapper>
           <Pagination
             totalPage={totalPage}
