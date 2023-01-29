@@ -30,7 +30,7 @@ const SideBar = styled.div`
 const SideBarWrapper = styled.div`
   background-color: #ffffff;
   width: 240px;
-  height: 100vh;
+  min-height: 100vh;
   border-right: 2px solid #cfcfcf;
   padding: 30px 0;
   display: flex;
