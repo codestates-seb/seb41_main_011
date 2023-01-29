@@ -68,3 +68,12 @@ export interface programListProps {
   userCount: number;
   counselorName: string;
 }
+
+export interface paymentListItemProps {
+  memberId: number;
+  memberName: string;
+  payId: number;
+  status: string;
+  title: string;
+  cost: number;
+}

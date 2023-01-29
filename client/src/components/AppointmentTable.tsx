@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
 import styled from 'styled-components';
+import { memberInPayListItemProps, memberInPayListProps } from '../types';
 
 const Content = styled.table`
   width: 100%;
@@ -29,20 +29,8 @@ const Content = styled.table`
   }
 `;
 
-const AppointmentTable = () => {
-  interface IData {
-    username: string;
-    birthday: string;
-  }
-
-  const ArrData: IData[] = useMemo(() => {
-    return [
-      { username: '스칼라장', birthday: '1988-09-23' },
-      { username: '하하', birthday: '2000-12-25' },
-      { username: '피카소', birthday: '1992-03-01' },
-      { username: '다정다감', birthday: '1976-01-11' },
-    ];
-  }, []);
+const AppointmentTable = (props: memberInPayListProps) => {
+  const memberList = props.data;
 
   const getAge = (birthday: string) => {
     const thisYear = new Date().getFullYear();
@@ -61,12 +49,12 @@ const AppointmentTable = () => {
         </tr>
       </thead>
       <tbody>
-        {ArrData.map((userinfo, index) => {
+        {memberList.map((userinfo: memberInPayListItemProps, index) => {
           return (
-            <tr key={userinfo.username + userinfo.birthday}>
+            <tr key={userinfo.nickName + userinfo.birth}>
               <td>{index}</td>
-              <td>{userinfo.username}</td>
-              <td>{getAge(userinfo.birthday)}</td>
+              <td>{userinfo.nickName}</td>
+              <td>{getAge(userinfo.birth)}</td>
             </tr>
           );
         })}

@@ -38,6 +38,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { momentTest } from './moment';
+import { useAppSelector } from './store/hooks';
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -64,9 +65,11 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   useEffect(() => {
-    momentTest()
-    
+    momentTest();
   });
+
+  const userRole = useAppSelector((state) => state.login.role);
+
   return (
     <div className='App'>
       <BrowserRouter>
@@ -97,14 +100,31 @@ function App() {
           <Route path='/community/notice/modify' element={<ModifyNotice />} />
           <Route path='/community/general/modify' element={<ModifyBoard />} />
 
-          <Route path='/mypage' element={<MyPageGeneral />} />
-          <Route path='/mypaget' element={<MyPageTherapist />} />
-          <Route path='/myprogram/:id' element={<MyProgramDetailG />} />
-          <Route path='/myprogramt/:id' element={<MyProgramDetailT />} />
-          <Route path='/edit-userinfo' element={<EditUserInfo />} />
           <Route
-            path='/edit-userinfo-therapist'
-            element={<EditUserInfoTherapist />}
+            path='/mypage'
+            element={
+              userRole === 'COUNSELOR' ? <MyPageTherapist /> : <MyPageGeneral />
+            }
+          />
+          <Route
+            path='/myprogram/:id'
+            element={
+              userRole === 'COUNSELOR' ? (
+                <MyProgramDetailT />
+              ) : (
+                <MyProgramDetailG />
+              )
+            }
+          />
+          <Route
+            path='/edit-userinfo'
+            element={
+              userRole === 'COUNSELOR' ? (
+                <EditUserInfoTherapist />
+              ) : (
+                <EditUserInfo />
+              )
+            }
           />
 
           <Route path='/login-general' element={<LoginGeneral />} />

@@ -19,3 +19,7 @@ export const viewProgramDate = (start: string, end: string) => {
 
   return `${year}.${month}.${date} ${shour}:${smin} ~ ${ehour}:${emin}`;
 };
+
+export const viewCost = (cost: number) => {
+  return cost.toLocaleString('ko-KR');
+};

@@ -64,13 +64,12 @@ const LoginGeneral = () => {
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(loginEmail, loginPassword);
 
-    const regexPassword = new RegExp( //eslint-disable-next-line
+    const regexPassword = new RegExp(
       /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
       'g',
     );
-    const regexEmail = new RegExp( //eslint-disable-next-line
+    const regexEmail = new RegExp(
       /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/,
       'g',
     );

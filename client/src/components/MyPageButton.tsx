@@ -12,7 +12,7 @@ const Content = styled.button`
   background: none;
   border: 0;
   position: relative;
-  height: 100%;
+  height: 110%;
 
   .icon {
     background: #ddd;
@@ -84,9 +84,6 @@ const MyPage = () => {
   const postLogout = async () => {
     try {
       await axios.post(process.env.REACT_APP_DB_HOST + '/api/logout');
-      // localStorage.setItem('accessToken', '');
-      // localStorage.setItem('refreshToken', '');
-      // localStorage.setItem('accessTokenExpireTime', '');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('accessTokenExpireTime');
