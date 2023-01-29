@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Sidebar from '../components/UI/Sidebar';
 import { ChangeEvent, useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../RefreshToken';
 
 export const PageWrapper = styled.div`
   width: calc(100% - 240px);
@@ -115,9 +115,7 @@ const AdminEditInfo = () => {
   const [memberId, setMemberId] = useState(0);
   const getUserInfo = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST + '/api/members/look-up',
-      );
+      const response = await api.get('/api/members/look-up');
       setEmail(response.data.data.email);
       setMemberId(response.data.data.memberId);
     } catch (error: any) {
@@ -143,10 +141,7 @@ const AdminEditInfo = () => {
         newPassword,
         confirmNewPassword,
       };
-      await axios.patch(
-        process.env.REACT_APP_DB_HOST + `/api/members/edit/${memberId}`,
-        reqBody,
-      );
+      await api.patch(`/api/members/edit/${memberId}`, reqBody);
       alert('회원정보 수정이 완료되었습니다.');
     } catch (error: any) {
       alert(error.response.data.errorMessage);

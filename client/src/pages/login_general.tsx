@@ -11,6 +11,7 @@ import {
 } from './signup';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import api from '../RefreshToken';
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -82,16 +83,14 @@ const LoginGeneral = () => {
       // return window.alert('비밀번호가 형식이 일치하지 않습니다.')
       // window.alert('비밀번호가 같지 않습니다.')
     } else {
-      // axios
-
       const reqbody: object = {
         email: loginEmail,
         password: loginPassword,
         memberType: 'DEFAULT',
       };
 
-      axios
-        .post(process.env.REACT_APP_DB_HOST + '/api/members/login', reqbody)
+      api
+        .post('/api/members/login', reqbody)
         .then((res) => {
           localStorage.setItem('accessToken', `${res.data.data.accessToken}`);
           localStorage.setItem('refreshToken', `${res.data.data.refreshToken}`);
@@ -112,10 +111,9 @@ const LoginGeneral = () => {
         });
     }
   };
-  const KakaoOauth = () =>{
+  const KakaoOauth = () => {
     // kauth.kakao.com
-
-  }
+  };
 
   return (
     <div>

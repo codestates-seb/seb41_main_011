@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import api from '../RefreshToken';
 
 import ProgramFilter from '../components/ProgramFilter';
 import ProgramList from '../components/ProgramList';
@@ -83,9 +83,7 @@ const AllPrograms = () => {
 
   const getAllPrograms = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST + `/api/programs/lookup/list`,
-      );
+      const response = await api.get(`/api/programs/lookup/list`);
       setAllPrograms(response.data.data);
       setTotalPage(response.data.pageInfo.totalPages);
     } catch (error: any) {

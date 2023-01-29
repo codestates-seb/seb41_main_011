@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import InputTemp from '../components/Input';
 import ButtonAccept from '../components/ButtonAccept';
-import axios from 'axios';
 import Tabbar from '../components/tabbar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router';
+import api from '../RefreshToken';
 
 export const SignupFormWrapper = styled.div`
   min-height: calc(100vh - 60px);
@@ -185,8 +185,8 @@ const Signup = () => {
       birth,
     };
 
-    axios
-      .post(process.env.REACT_APP_DB_HOST + '/api/members/new', reqbody)
+    api
+      .post('/api/members/new', reqbody)
       .then((res) => {
         window.alert('회원가입이 완료되었습니다.');
         navigate('/');

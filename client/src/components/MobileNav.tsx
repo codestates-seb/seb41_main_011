@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { AiOutlineDoubleRight } from 'react-icons/ai';
 import { mobileNavProps } from './tabbar';
 import axios from 'axios';
+import api from '../RefreshToken';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loginActions } from '../store/login';
 
@@ -206,7 +207,7 @@ const MobileNav = (props: mobileNavProps) => {
 
   const postLogout = async () => {
     try {
-      await axios.post(process.env.REACT_APP_DB_HOST + '/api/logout');
+      await api.post('/api/logout');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('accessTokenExpireTime');

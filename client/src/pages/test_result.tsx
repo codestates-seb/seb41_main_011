@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import { programListItemProps } from '../types';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { testActions } from '../store/test';
+import api from '../RefreshToken';
 
 const ContentWrapper = styled.div`
   min-height: (100vh - 60px);
@@ -103,9 +103,8 @@ const TestResult = () => {
 
   const getPrograms = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST +
-          `/api/programs/lookup/search?search=${searchKeyword}&page=1&size=10`,
+      const response = await api.get(
+        `/api/programs/lookup/search?search=${searchKeyword}&page=1&size=10`,
       );
       setProgramList(response.data.data);
       dispatch(testActions.result(''));

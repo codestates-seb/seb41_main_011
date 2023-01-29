@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Button from '../components/UI/Button';
 import { ChangeEvent, useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../RefreshToken';
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -131,9 +131,7 @@ const EditUserInfoTherapist = () => {
 
   const getUserInfo = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST + '/api/counselors/look-up',
-      );
+      const response = await api.get('/api/counselors/look-up');
       setUserInfo(response.data.data);
       setMemberId(response.data.data.counselorId);
     } catch (error: any) {
@@ -160,10 +158,7 @@ const EditUserInfoTherapist = () => {
         newPassword,
         confirmNewPassword,
       };
-      await axios.patch(
-        process.env.REACT_APP_DB_HOST + `/api/counselors/edit/${memberId}`,
-        reqBody,
-      );
+      await api.patch(`/api/counselors/edit/${memberId}`, reqBody);
       alert('회원정보 수정이 완료되었습니다.');
       window.location.reload();
     } catch (error: any) {

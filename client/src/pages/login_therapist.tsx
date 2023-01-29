@@ -15,6 +15,7 @@ import Header from '../components/Header';
 import { useAppDispatch } from '../store/hooks';
 import { useNavigate } from 'react-router';
 import { loginActions } from '../store/login';
+import api from '../RefreshToken';
 
 const Logo = styled.img`
   width: 20vw;
@@ -59,15 +60,13 @@ const LoginTherapist = () => {
       // return window.alert('비밀번호가 형식이 일치하지 않습니다.')
       // window.alert('비밀번호가 같지 않습니다.')
     } else {
-      // axios
-
       const reqbody: object = {
         email: loginEmail,
         password: loginPassword,
       };
 
-      axios
-        .post(process.env.REACT_APP_DB_HOST + '/api/counselors/login', reqbody)
+      api
+        .post('/api/counselors/login', reqbody)
         .then((res) => {
           localStorage.setItem('accessToken', `${res.data.data.accessToken}`);
           localStorage.setItem('refreshToken', `${res.data.data.refreshToken}`);

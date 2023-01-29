@@ -6,13 +6,13 @@ import Header from '../components/Header';
 import Tabbar from '../components/tabbar';
 import Footer from '../components/Footer';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import {
   calculateStatus,
   viewBookDate,
   viewCost,
   viewProgramDate,
 } from '../utils';
+import api from '../RefreshToken';
 
 const Contents = styled.main`
   width: 100%;
@@ -144,9 +144,7 @@ const MyProgramDetailG = () => {
 
   const getProgramInfo = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST + `/api/pays/lookup/${payId}`,
-      );
+      const response = await api.get(`/api/pays/lookup/${payId}`);
       setProgramInfo(response.data.data);
     } catch (error: any) {
       console.log(error);
@@ -159,9 +157,7 @@ const MyProgramDetailG = () => {
 
   const patchPayment = async () => {
     try {
-      await axios.patch(
-        process.env.REACT_APP_DB_HOST + `/api/pays/lookup/${payId}/edit`,
-      );
+      await api.patch(`/api/pays/lookup/${payId}/edit`);
       alert('취소 신청이 완료 되었습니다.');
       window.location.reload();
     } catch (error: any) {

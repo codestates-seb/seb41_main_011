@@ -4,7 +4,7 @@ import { ProgramTable } from '../../pages/programManagement';
 import styled from 'styled-components';
 import { FaTimes } from 'react-icons/fa';
 import { modalCloseProps, therapistProgramListProps } from '../../types';
-import axios from 'axios';
+import api from '../../../RefreshToken';
 import { viewProgramDate } from '../../utils';
 
 const ContentWrapper = styled.div`
@@ -60,9 +60,8 @@ const Therapistinquiry = (props: modalCloseProps) => {
 
   const getProgramList = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST +
-          `/api/programs/admin/lookup/${therapistId}/list`,
+      const response = await api.get(
+        `/api/programs/admin/lookup/${therapistId}/list`,
       );
       setProgramList(response.data.data);
     } catch (error: any) {

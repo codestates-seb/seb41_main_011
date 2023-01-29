@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useState, MouseEvent, ChangeEvent } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -153,7 +152,7 @@ const WriteBoard = () => {
       alert('게시글 분류와 제목과 내용을 모두 입력해주세요.');
     }
   };
-  
+
   return (
     <div>
       <Header />

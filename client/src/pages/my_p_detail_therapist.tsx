@@ -9,8 +9,8 @@ import Tabbar from '../components/tabbar';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { useParams } from 'react-router';
-import axios from 'axios';
 import { calculateStatus, viewProgramDate } from '../utils';
+import api from '../RefreshToken';
 
 const Contents = styled.main`
   width: 100%;
@@ -190,9 +190,8 @@ const MyProgramDetailT = () => {
 
   const getProgramInfo = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST +
-          `/api/programs/counselors/lookup/${programId}`,
+      const response = await api.get(
+        `/api/programs/counselors/lookup/${programId}`,
       );
       setProgramInfo(response.data.data);
     } catch (error: any) {
@@ -210,11 +209,7 @@ const MyProgramDetailT = () => {
         zoomLink: inputValue,
         announce: textareaValue,
       };
-      await axios.patch(
-        process.env.REACT_APP_DB_HOST +
-          `/api/programs/patch/counselor/${programId}`,
-        reqBody,
-      );
+      await api.patch(`/api/programs/patch/counselor/${programId}`, reqBody);
       alert('작성하신 내용이 등록되었습니다.');
       window.location.reload();
     } catch (error: any) {

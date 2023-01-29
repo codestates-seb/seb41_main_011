@@ -5,7 +5,7 @@ import Generalinquiry from '../components/UI/Generalinquiry';
 import Therapistinquiry from '../components/UI/Therapistinquiry';
 import CreateTherapist from './componentes/CreateTherapist';
 import Pagination from '../components/UI/Pagination';
-import axios from 'axios';
+import api from '../../RefreshToken';
 import { userListProps, therapistListProps } from '../types';
 
 export const PageWrapper = styled.div`
@@ -132,9 +132,8 @@ const UserManagement = (props: any) => {
 
   const getUsers = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST +
-          `/api/members/total-look-up?size=10&page=${userPage}`,
+      const response = await api.get(
+        `/api/members/total-look-up?size=10&page=${userPage}`,
       );
       setUserList(response.data.data);
       setUserTotalPage(response.data.pageInfo.totalPages);
@@ -170,9 +169,8 @@ const UserManagement = (props: any) => {
 
   const getTherapists = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_DB_HOST +
-          `/api/counselors/total-look-up?size=10&page=${therapistPage}`,
+      const response = await api.get(
+        `/api/counselors/total-look-up?size=10&page=${therapistPage}`,
       );
       setTherapistList(response.data.data);
       setTherapistTotalPage(response.data.pageInfo.totalPages);
