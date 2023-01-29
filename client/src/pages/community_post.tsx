@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import styled from 'styled-components';
 import Tabbar from '../components/tabbar';
 import Header from '../components/Header';
@@ -9,7 +9,7 @@ import parse, {
   Element,
   HTMLReactParserOptions,
 } from 'html-react-parser';
-
+import api from '../RefreshToken';
 const ContentWrapper = styled.div`
   min-height: calc(100vh - 60px);
   width: 100%;
@@ -203,7 +203,22 @@ const CommunityPost = (props: any) => {
   const navigate = useNavigate();
   const [isNotice, setIsNotice] = useState(
     window.location.pathname.includes('notice') ? true : false,
-  );
+    );
+    const [post, setPost] = useState<any>([]);
+
+    useEffect(()=>{
+    const url = window.location.pathname.split('/')
+    const id = url[3];
+    const getPost = async() => {
+      try{
+        const response = await api.get(`api/posts/lookup/${id}`)
+        setPost(response.data.data)
+      } catch {
+        console.log('fail')
+      }
+    }
+    getPost()
+  },[])
   const toCommunityNotice = () => {
     navigate('/community/notice');
   };
