@@ -52,7 +52,7 @@ const AppointmentTable = (props: memberInPayListProps) => {
         {memberList.map((userinfo: memberInPayListItemProps, index) => {
           return (
             <tr key={userinfo.nickName + userinfo.birth}>
-              <td>{index}</td>
+              <td>{index + 1}</td>
               <td>{userinfo.nickName}</td>
               <td>{getAge(userinfo.birth)}</td>
             </tr>
