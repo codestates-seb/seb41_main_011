@@ -69,6 +69,7 @@ function App() {
   });
 
   const userRole = useAppSelector((state) => state.login.role);
+  const isFirst = useAppSelector((state) => state.intro.firstVisit);
 
   return (
     <div className='App'>
@@ -78,7 +79,7 @@ function App() {
         <Routes>
           <Route path='/intro' element={<Intro />} />
 
-          <Route path='/' element={<AllPrograms />} />
+          <Route path='/' element={isFirst ? <Intro /> : <AllPrograms />} />
           <Route path='/programs/:id' element={<SymptomPrograms />} />
           <Route path='/program/:id' element={<ProgramDetail />} />
           <Route path='/program/book' element={<Book />} />
