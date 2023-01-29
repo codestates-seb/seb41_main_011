@@ -72,7 +72,7 @@ export interface therapistProgramListProps {
 }
 export interface memberInPayListItemProps {
   nickName: string;
-  birth: string;
+  birth: string | null;
 }
 export interface memberInPayListProps {
   data: memberInPayListItemProps[];
