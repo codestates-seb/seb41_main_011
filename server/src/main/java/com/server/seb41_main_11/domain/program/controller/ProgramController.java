@@ -101,7 +101,7 @@ public class ProgramController {
 
     // 화면정의서 25p
     // 상담사 - 마이페이지 나의 프로그램 개별 조회
-    @GetMapping("/lookup/{program-id}")
+    @GetMapping("/counselors/lookup/{program-id}")
     public ResponseEntity getCounselorProgram(HttpServletRequest httpServletRequest,
         @PathVariable("program-id") @Positive Long programId) {
         Counselor counselor = counselorService.getLoginCounselor(httpServletRequest);
