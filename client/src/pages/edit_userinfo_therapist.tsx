@@ -173,18 +173,13 @@ const EditUserInfoTherapist = () => {
   };
 
   const updateInfoHandler = () => {
-    if (
-      !(
-        (password && newPassword && confirmNewPassword) ||
-        (!password && !newPassword && !confirmNewPassword)
-      )
-    ) {
+    if (!(password && newPassword && confirmNewPassword)) {
       alert(
         '현재 비밀번호, 변경할 비밀번호, 비밀번호 확인을 모두 입력해주세요.',
       );
     } else if (newPassword !== confirmNewPassword) {
       alert('새 비밀번호와 비밀번호 확인이 일치하지 않습니다.');
-    } else if (password && !regexPassword.test(newPassword)) {
+    } else if (!regexPassword.test(newPassword)) {
       alert(
         `비밀번호 형식이 올바르지 않습니다.\n영문,숫자,특수문자 포함 8자리 이상 입력해주세요.`,
       );
