@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ScreenWrapper } from '../../pages/componentes/CreatePrograms';
-import { ProgramTable } from '../../pages/programManagement';
+import { ProgramTable } from '../../pages/ProgramManagement';
 import styled from 'styled-components';
 import { FaTimes } from 'react-icons/fa';
 import { modalCloseProps, userProgramListProps } from '../../types';

@@ -5,7 +5,7 @@ import { FaExclamationTriangle } from 'react-icons/fa';
 
 import Button from '../components/UI/Button';
 import AppointmentTable from '../components/AppointmentTable';
-import Tabbar from '../components/tabbar';
+import Tabbar from '../components/Tabbar';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { useParams } from 'react-router';
@@ -164,7 +164,7 @@ const Status = styled.div`
   font-weight: 700;
 `;
 
-const MyProgramDetailT = () => {
+const MypageTherapistDetail = () => {
   const [isEditable, setIsEditable] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [textareaValue, setTextareaValue] = useState('');
@@ -357,4 +357,4 @@ const MyProgramDetailT = () => {
   );
 };
 
-export default MyProgramDetailT;
+export default MypageTherapistDetail;

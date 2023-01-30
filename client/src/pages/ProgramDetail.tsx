@@ -4,7 +4,7 @@ import ProgramInfo from '../components/ProgramInfo';
 import BtnBooking from '../components/BtnBooking';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Tabbar from '../components/tabbar';
+import Tabbar from '../components/Tabbar';
 import { useParams } from 'react-router';
 
 const Contents = styled.main`

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import InputTemp from '../components/Input';
+import InputTemp from '../components/InputTemp';
 import ButtonAccept from '../components/ButtonAccept';
-import Tabbar from '../components/tabbar';
+import Tabbar from '../components/Tabbar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router';

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router';
 import { AiOutlineDoubleRight } from 'react-icons/ai';
-import { mobileNavProps } from './tabbar';
+import { mobileNavProps } from './Tabbar';
 import axios from 'axios';
 import api from '../RefreshToken';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -245,7 +245,7 @@ const MobileNav = (props: mobileNavProps) => {
         ) : (
           <ButtonWrapper>
             <Button className='style1' onClick={mobileNavHandler}>
-              <Link to='/login-general'>로그인</Link>
+              <Link to='/login'>로그인</Link>
             </Button>
             <Button className='style2' onClick={mobileNavHandler}>
               <Link to='/signup'>회원가입</Link>

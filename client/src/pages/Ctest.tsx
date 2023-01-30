@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import Tabbar from '../components/tabbar';
+import Tabbar from '../components/Tabbar';
 import { testActions } from '../store/test';
 
 export const ContentWrapper = styled.div`

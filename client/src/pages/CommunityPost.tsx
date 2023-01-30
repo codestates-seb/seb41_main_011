@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Tabbar from '../components/tabbar';
+import Tabbar from '../components/Tabbar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import parse, {
