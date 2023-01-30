@@ -18,6 +18,11 @@ jobs:
         run: npm install
         working-directory: ${{ env.working-directory }}
 
+      - name: Setting .env
+        run: |
+          echo "REACT_APP_DB_HOST=${{ secrets.REACT_APP_DB_HOST }}" >> .env.production
+          cat .env.production
+
       - name: Build app
         run: npm run build
         working-directory: ${{ env.working-directory }}
