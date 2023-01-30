@@ -244,6 +244,7 @@ const CommunityPost = (props: any) => {
       await api.delete(`/api/${isNotice ? 'notices' : 'posts'}/delete/${id}`);
       navigate(isNotice ? '/community/notice' : '/community/general');
     } catch (error: any) {
+      alert(error.response.data.errorMessage);
       console.log(error);
     }
   };
