@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import ButtonAccept from '../components/ButtonAccept';
-import InputTemp from '../components/Input';
+import InputTemp from '../components/InputTemp';
 import Tabbar from '../components/Tabbar';
 import LoginButton from '../components/LoginButton';
 import {
@@ -8,7 +8,7 @@ import {
   SignupForm,
   SignupTitle,
   ContextDiv,
-} from './signup';
+} from './Signup';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import api from '../RefreshToken';
