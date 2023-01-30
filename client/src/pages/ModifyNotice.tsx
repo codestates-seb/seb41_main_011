@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, ChangeEvent } from 'react';
+import React, { useState, MouseEvent, ChangeEvent, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router';
@@ -8,6 +8,8 @@ import Header from '../components/Header';
 import Tabbar from '../components/tabbar';
 
 import TextEditor from '../components/UI/TextEditor';
+import api from '../RefreshToken';
+import { useAppSelector } from '../store/hooks';
 
 const Content = styled.main`
   min-height: calc(100vh - 60px);
@@ -127,11 +129,24 @@ const MainMessage = styled.div`
 
 const ModifyNotice = () => {
   const navigate = useNavigate();
-  // --게시글 분류, 제목, 내용의 초기값은 기존 데이터에 저장된 내용으로 설정해야 한다.
-  const [category, setCategory] = useState('');
+  const id = useAppSelector((state) => state.post.postId);
+
+  const [category, setCategory] = useState('공지');
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
-  // --게시글 분류, 제목, 내용의 초기값은 기존 데이터에 저장된 내용으로 설정해야 한다. //
+
+  const getPost = async () => {
+    try {
+      const response = await api.get(`/api/notices/lookup/${id}`);
+      setTitle(response.data.data.title);
+      setContents(response.data.data.content);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getPost();
+  }, []);
 
   const onChangeCategory = (event: ChangeEvent<HTMLSelectElement>) => {
     setCategory(event.target.value);
@@ -147,11 +162,26 @@ const ModifyNotice = () => {
     window.location.reload();
   };
 
+  const updatePost = async () => {
+    try {
+      const reqBody = {
+        title: title,
+        content: contents,
+      };
+      await api.patch(`/api/notices/patch/${id}`, reqBody);
+      alert('게시글이 수정되었습니다.');
+      navigate(`/community/notice/${id}`);
+    } catch (error: any) {
+      alert(error.response.data.errorMessage);
+      console.log(error);
+    }
+  };
+
   const onSubmitHandler = (event: MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (category && title && contents) {
-      alert('submit!');
+      updatePost();
     } else {
       alert('게시글 분류와 제목과 내용을 모두 입력해주세요.');
     }
@@ -165,7 +195,9 @@ const ModifyNotice = () => {
           <Title>
             <select onChange={onChangeCategory} value={category}>
               <option value=''>게시글 분류</option>
-              <option value='공지'>공지</option>
+              <option value='공지' selected>
+                공지
+              </option>
             </select>
             <input
               type='text'
