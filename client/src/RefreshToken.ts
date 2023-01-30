@@ -72,7 +72,6 @@ api.interceptors.response.use(
         // 401로 요청 실패했던 요청 새로운 accessToken으로 재요청
         return axios(originalRequest);
       } catch (error: any) {
-        alert(error.response.data.errorMessage);
         localStorage.removeItem('accessToken');
         localStorage.removeItem('accessTokenExpireTime');
         localStorage.removeItem('refreshToken');
