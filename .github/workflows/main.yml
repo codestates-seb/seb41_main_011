@@ -18,9 +18,6 @@ jobs:
         env:
           REACT_APP_DB_HOST: ${{ secrets.REACT_APP_DB_HOST }}
 
-      - name: npm install for eslint
-        run: npm install
-
       - name: Install Dependence
         run: npm install
         working-directory: ./client
