@@ -1,8 +1,10 @@
 package com.server.seb41_main_11.domain.post.service;
 
 import com.server.seb41_main_11.domain.counselor.entity.Counselor;
+import com.server.seb41_main_11.domain.counselor.service.CounselorService;
 import com.server.seb41_main_11.domain.member.constant.Status;
 import com.server.seb41_main_11.domain.member.entity.Member;
+import com.server.seb41_main_11.domain.member.service.MemberService;
 import com.server.seb41_main_11.domain.post.entity.Post;
 import com.server.seb41_main_11.domain.post.repository.PostRepository;
 import com.server.seb41_main_11.global.error.ErrorCode;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,6 +32,10 @@ import static com.server.seb41_main_11.domain.member.constant.Status.DELETE;
 public class PostService {
     // ----------------- DI ---------------------
     private final PostRepository postRepository;
+
+    private final MemberService memberService;
+
+    private final CounselorService counselorService;
     // ----------------- DI ---------------------
 
     // 멤버 글 등록
@@ -45,10 +52,35 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    // 글 수정
-    public Post update(Post post) {
+    // 멤버 글 수정
+    public Post updateByMember(Post post, HttpServletRequest httpServletRequest) {
         Post findPost = findVerifiedPost(post.getPostId());
-        String memberName = findPost.getMember().getMemberName();
+
+        if(findPost.getMember().getMemberId() != memberService.getLoginMember(httpServletRequest).getMemberId()){
+            throw new BusinessException(ErrorCode.NO_RIGHT_EDIT);
+        }
+
+        findPost.update(post.getTitle(),post.getContent(),post.getKinds());
+
+        return postRepository.save(findPost);
+    }
+
+    // 상담사 글 수정
+    public Post updateByCounselor(Post post, HttpServletRequest httpServletRequest) {
+        Post findPost = findVerifiedPost(post.getPostId());
+
+        if (findPost.getCounselor().getCounselorId() != counselorService.getLoginCounselor(httpServletRequest).getCounselorId()) {
+            throw new BusinessException(ErrorCode.NO_RIGHT_EDIT);
+        }
+
+        findPost.update(post.getTitle(),post.getContent(),post.getKinds());
+
+        return postRepository.save(findPost);
+    }
+
+    //관리자 글 수정
+    public Post updateByAdmin(Post post) {
+        Post findPost = findVerifiedPost(post.getPostId());
 
         findPost.update(post.getTitle(),post.getContent(),post.getKinds());
 

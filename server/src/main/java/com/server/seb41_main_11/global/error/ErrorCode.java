@@ -43,7 +43,13 @@ public enum ErrorCode {
     STATUS_NOT_FOUND(HttpStatus.BAD_REQUEST, "R-003", "존재하지 않는 결제상태입니다."),
     CANCEL_RESERVATION(HttpStatus.BAD_REQUEST, "R-004", "이미 취소 완료된 결제입니다."),
     NO_CANCELLATION_REQUEST(HttpStatus.BAD_REQUEST, "R-005", "결제 취소 요청이 존재하지 않습니다."),
-    ALREADY_CANCELLATION_REQUESTED(HttpStatus.BAD_REQUEST, "R-006", "이미 결제 취소를 요청했습니다.")
+    ALREADY_CANCELLATION_REQUESTED(HttpStatus.BAD_REQUEST, "R-006", "이미 결제 취소를 요청했습니다."),
+
+
+    // 게시글
+    NO_RIGHT_EDIT(HttpStatus.BAD_REQUEST, "P-001", "수정 권한이 없습니다."),
+
+    NO_RIGHT_DELETE(HttpStatus.BAD_REQUEST, "P-002", "삭제 권한이 없습니다.")
     ;
 
 

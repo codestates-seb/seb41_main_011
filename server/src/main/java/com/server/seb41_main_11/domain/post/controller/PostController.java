@@ -54,12 +54,23 @@ public class PostController {
 
     @PatchMapping("/patch/{post-id}")
     public ResponseEntity updatePost(@PathVariable("post-id") @Positive long postId,
-                                     @Valid @RequestBody PostDto.Patch patch) {
+                                     @Valid @RequestBody PostDto.Patch patch,
+                                     HttpServletRequest httpServletRequest) {
         patch.setPostId(postId);
 
-        Post update = postService.update(mapper.patchToEntity(patch));
+        Role role = memberService.getLoginRole(httpServletRequest);
 
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToMemberSingleResponse(update)), HttpStatus.OK);
+        if(role.equals(Role.USER)) {
+            Post update = postService.updateByMember(mapper.patchToEntity(patch), httpServletRequest);
+            return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToMemberSingleResponse(update)), HttpStatus.OK);
+        }else if(role.equals(Role.COUNSELOR)){
+            Post update = postService.updateByCounselor(mapper.patchToEntity(patch), httpServletRequest);
+            return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToMemberSingleResponse(update)), HttpStatus.OK);
+        }else{
+            Post update = postService.updateByAdmin(mapper.patchToEntity(patch));
+            return new ResponseEntity<>(new SingleResponseDto<>(mapper.entityToMemberSingleResponse(update)), HttpStatus.OK);
+        }
+
     }
 
     @GetMapping("/lookup/{post-id}")
