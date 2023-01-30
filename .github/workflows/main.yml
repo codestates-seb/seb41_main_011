@@ -14,9 +14,8 @@ jobs:
 
       - name: Setting .env
         run: |
-          echo "REACT_APP_DB_HOST=$REACT_APP_DB_HOST" >> .env.production
-        env:
-          REACT_APP_DB_HOST: ${{ secrets.REACT_APP_DB_HOST }}
+          echo "REACT_APP_DB_HOST=${{ secrets.REACT_APP_DB_HOST }}" >> .env.production
+        working-directory: ./client
 
       - name: Install Dependence
         run: npm install
