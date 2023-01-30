@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import MyPageProgram from '../components/MyPageProgram';
-import Tabbar from '../components/tabbar';
+import Tabbar from '../components/Tabbar';
 import { myProgramListItemProps } from '../types';
 import Pagination from '../components/Pagination';
 import api from '../RefreshToken';
@@ -99,7 +99,7 @@ const ProgramWrapper = styled.div`
   }
 `;
 
-const MyPageGeneral = () => {
+const MypageGeneral = () => {
   const [programList, setProgramList] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -153,4 +153,4 @@ const MyPageGeneral = () => {
   );
 };
 
-export default MyPageGeneral;
+export default MypageGeneral;

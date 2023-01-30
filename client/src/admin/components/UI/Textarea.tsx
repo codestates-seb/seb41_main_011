@@ -36,7 +36,7 @@ type TaProps = {
   child?: string;
   className?: string;
 };
-const TextArea = ({
+const Textarea = ({
   placeholder,
   value,
   onChange,
@@ -63,4 +63,4 @@ const TextArea = ({
   );
 };
 
-export default TextArea;
+export default Textarea;

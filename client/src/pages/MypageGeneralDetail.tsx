@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import Button from '../components/UI/Button';
 import Header from '../components/Header';
-import Tabbar from '../components/tabbar';
+import Tabbar from '../components/Tabbar';
 import Footer from '../components/Footer';
 import { useEffect, useState } from 'react';
 import {
@@ -125,7 +125,7 @@ const Status = styled.div`
   font-weight: 700;
 `;
 
-const MyProgramDetailG = () => {
+const MypageGeneralDetail = () => {
   const payId = useParams().id;
   const [programInfo, setProgramInfo] = useState({
     payId: 0,
@@ -273,4 +273,4 @@ const MyProgramDetailG = () => {
   );
 };
 
-export default MyProgramDetailG;
+export default MypageGeneralDetail;

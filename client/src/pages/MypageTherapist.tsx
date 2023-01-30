@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Pagination from '../components/Pagination';
 import MyPageProgram from '../components/TherapistProgram';
-import Tabbar from '../components/tabbar';
+import Tabbar from '../components/Tabbar';
 import { therapistProgramListItemProps } from '../types';
 import api from '../RefreshToken';
 
@@ -76,7 +76,7 @@ const ProgramWrapper = styled.div`
   }
 `;
 
-const MyPageTherapist = (props: any) => {
+const MypageTherapist = (props: any) => {
   const [programList, setProgramList] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -127,4 +127,4 @@ const MyPageTherapist = (props: any) => {
   );
 };
 
-export default MyPageTherapist;
+export default MypageTherapist;

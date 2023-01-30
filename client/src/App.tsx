@@ -1,41 +1,38 @@
 import reset from 'styled-reset';
 import { createGlobalStyle } from 'styled-components';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
 import ScrollToTop from './utils/ScrollToTop';
-import Intro from './pages/intro';
-import About from './pages/about';
-import Test from './pages/test';
-import TestResult from './pages/test_result';
-import AllPrograms from './pages/all_programs';
-import ProgramDetail from './pages/program_detail';
-import Signup from './pages/signup';
-import EditUserInfo from './pages/edit_userinfo_general';
-import MyPageGeneral from './pages/mypage_general';
-import Book from './pages/book';
-import BookingCompleted from './pages/bookingCompleted';
-import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
-import MyProgramDetailG from './pages/my_p_detail_general';
-import MyProgramDetailT from './pages/my_p_detail_therapist';
-import EditUserInfoTherapist from './pages/edit_userinfo_therapist';
+import Intro from './pages/Intro';
+import About from './pages/About';
+import Test from './pages/Test';
+import TestResult from './pages/TestResult';
+import AllPrograms from './pages/AllPrograms';
+import ProgramDetail from './pages/ProgramDetail';
+import Signup from './pages/Signup';
+import EditUserInfo from './pages/EditUserInfo';
+import MypageGeneral from './pages/MypageGeneral';
+import Book from './pages/Book';
+import BookingCompleted from './pages/BookingCompleted';
+import MypageGeneralDetail from './pages/MypageGeneralDetail';
+import MypageTherapistDetail from './pages/MypageTherapistDetail';
+import EditUserInfoTherapist from './pages/EditUserInfoTherapist';
 import WriteNotice from './pages/WriteNotice';
 import WriteBoard from './pages/WriteBoard';
 import ModifyNotice from './pages/ModifyNotice';
 import ModifyBoard from './pages/ModifyBoard';
-import '../node_modules/@ibm/plex/css/ibm-plex-sans-kr.min.css';
-import LoginGeneral from './pages/login_general';
-import LoginTherapist from './pages/login_therapist';
-import UserManagement from './admin/pages/userManagement';
-import ProgramManagement from './admin/pages/programManagement';
-import PaymentManagement from './admin/pages/paymentManagement';
-import CommunityMain from './pages/community_main';
-import CommunityPost from './pages/community_post';
-import MyPageTherapist from './pages/mypage_therapist';
-import AdminEditInfo from './admin/pages/adminEditInfo';
-import AdminIndex from './admin/pages/adminIndex';
+import LoginGeneral from './pages/LoginGeneral';
+import LoginTherapist from './pages/LoginTherapist';
+import UserManagement from './admin/pages/UserManagement';
+import ProgramManagement from './admin/pages/ProgramManagement';
+import PaymentManagement from './admin/pages/PaymentManagement';
+import CommunityMain from './pages/CommunityMain';
+import CommunityPost from './pages/CommunityPost';
+import MypageTherapist from './pages/MypageTherapist';
+import AdminEditInfo from './admin/pages/AdminEditInfo';
+import AdminIndex from './admin/pages/AdminIndex';
 import SymptomPrograms from './pages/SymptomPrograms';
 import { useEffect } from 'react';
-import axios from 'axios';
 import moment from 'moment';
 import { momentTest } from './moment';
 import { useAppSelector } from './store/hooks';
@@ -104,16 +101,16 @@ function App() {
           <Route
             path='/mypage'
             element={
-              userRole === 'COUNSELOR' ? <MyPageTherapist /> : <MyPageGeneral />
+              userRole === 'COUNSELOR' ? <MypageTherapist /> : <MypageGeneral />
             }
           />
           <Route
             path='/myprogram/:id'
             element={
               userRole === 'COUNSELOR' ? (
-                <MyProgramDetailT />
+                <MypageTherapistDetail />
               ) : (
-                <MyProgramDetailG />
+                <MypageGeneralDetail />
               )
             }
           />
@@ -128,7 +125,7 @@ function App() {
             }
           />
 
-          <Route path='/login-general' element={<LoginGeneral />} />
+          <Route path='/login' element={<LoginGeneral />} />
           <Route path='/login-therapist' element={<LoginTherapist />} />
           <Route path='/signup' element={<Signup />} />
 

@@ -6,7 +6,7 @@ import Header from '../components/Header';
 
 import ProgramFilter from '../components/ProgramFilter';
 import ProgramList from '../components/ProgramList';
-import Tabbar from '../components/tabbar';
+import Tabbar from '../components/Tabbar';
 import api from '../RefreshToken';
 
 const Contents = styled.main`

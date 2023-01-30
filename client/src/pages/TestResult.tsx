@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Header from '../components/Header';
-import Tabbar from '../components/tabbar';
+import Tabbar from '../components/Tabbar';
 import Program from '../components/Program';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';

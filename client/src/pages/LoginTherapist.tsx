@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import ButtonAccept from '../components/ButtonAccept';
-import InputTemp from '../components/Input';
-import Tabbar from '../components/tabbar';
+import InputTemp from '../components/InputTemp';
+import Tabbar from '../components/Tabbar';
 import {
   SignupFormWrapper,
   SignupForm,
   SignupTitle,
   ContextDiv,
-} from './signup';
+} from './Signup';
 import axios from 'axios';
 import React, { useState } from 'react';
 import Footer from '../components/Footer';

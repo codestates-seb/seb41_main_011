@@ -1,15 +1,10 @@
 import styled from 'styled-components';
-import Tabbar from '../components/tabbar';
-import { RiKakaoTalkFill } from 'react-icons/ri';
+import Tabbar from '../components/Tabbar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Button from '../components/UI/Button';
-import { useEffect, useState, ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import api from '../RefreshToken';
-import axios from 'axios';
-import { useNavigate } from 'react-router';
-import { useAppDispatch } from '../store/hooks';
-import { loginActions } from '../store/login';
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -98,19 +93,6 @@ const Text = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-
-  button {
-    background: none;
-    border: none;
-    font-size: 1rem;
-    color: #8e6610;
-    line-height: 2;
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 `;
 const Input = styled.input`
   width: 100%;
@@ -129,83 +111,38 @@ const Input = styled.input`
       rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
     outline: none;
   }
-
-  &[type='date'] {
-    background: #fff;
-    height: 2.5rem;
-    width: 160px;
-  }
 `;
 
-type userInfoType = {
-  memberId: number | null;
-  memberName: string;
-  memberType: string | null;
-  nickName: string;
-  birth: string;
-};
-
 type updateInfoType = {
-  nickName?: string;
-  password?: string;
-  newPassword?: string;
-  confirmNewPassword?: string;
-  birth?: string;
+  password: string;
+  newPassword: string;
+  confirmNewPassword: string;
 };
 
-const EditUserInfo = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const [userInfo, setUserInfo] = useState<userInfoType>({
-    memberId: null,
-    memberName: '',
-    memberType: null,
-    nickName: '',
-    birth: '',
+const EditUserInfoTherapist = () => {
+  const [userInfo, setUserInfo] = useState({
+    counselorId: 0,
+    role: 'COUNSELOR',
+    email: '',
+    counselorName: '',
+    password: '',
   });
   const [memberId, setMemberId] = useState(0);
 
   const getUserInfo = async () => {
     try {
-      const response = await api.get('/api/members/look-up');
+      const response = await api.get('/api/counselors/look-up');
       setUserInfo(response.data.data);
-      setMemberId(response.data.data.memberId);
+      setMemberId(response.data.data.counselorId);
     } catch (error: any) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     getUserInfo();
   }, []);
 
-  const deleteUserInfo = async () => {
-    try {
-      await api.patch(`/api/members/delete/${memberId}`);
-      alert('탈퇴 요청이 처리 되었습니다.');
-      localStorage.setItem('accessToken', '');
-      localStorage.setItem('refreshToken', '');
-      localStorage.setItem('accessTokenExpireTime', '');
-      axios.defaults.headers.common['Authorization'] = '';
-      dispatch(loginActions.logout());
-      navigate('/');
-      window.location.reload();
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
-
-  const resignHandler = () => {
-    const confirmResign = window.confirm(
-      `결제 내역을 포함한 회원 정보가 삭제되고, 로그인 할 수 없습니다.\n탈퇴 하시겠습니까?`,
-    );
-    if (confirmResign) {
-      deleteUserInfo();
-    }
-    return;
-  };
-
-  const [nickname, setNickname] = useState('');
-  const [birth, setBirth] = useState('');
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -216,20 +153,12 @@ const EditUserInfo = () => {
 
   const patchEditInfo = async () => {
     try {
-      const reqBody: updateInfoType = {};
-      if (nickname) {
-        reqBody.nickName = nickname;
-      }
-      if (birth) {
-        reqBody.birth = birth;
-      }
-      if (password) {
-        reqBody.password = password;
-        reqBody.newPassword = newPassword;
-        reqBody.confirmNewPassword = confirmNewPassword;
-      }
-
-      await api.patch(`/api/members/edit/${memberId}`, reqBody);
+      const reqBody: updateInfoType = {
+        password,
+        newPassword,
+        confirmNewPassword,
+      };
+      await api.patch(`/api/counselors/edit/${memberId}`, reqBody);
       alert('회원정보 수정이 완료되었습니다.');
       window.location.reload();
     } catch (error: any) {
@@ -239,18 +168,13 @@ const EditUserInfo = () => {
   };
 
   const updateInfoHandler = () => {
-    if (
-      !(
-        (password && newPassword && confirmNewPassword) ||
-        (!password && !newPassword && !confirmNewPassword)
-      )
-    ) {
+    if (!(password && newPassword && confirmNewPassword)) {
       alert(
         '현재 비밀번호, 변경할 비밀번호, 비밀번호 확인을 모두 입력해주세요.',
       );
     } else if (newPassword !== confirmNewPassword) {
       alert('새 비밀번호와 비밀번호 확인이 일치하지 않습니다.');
-    } else if (password && !regexPassword.test(newPassword)) {
+    } else if (!regexPassword.test(newPassword)) {
       alert(
         `비밀번호 형식이 올바르지 않습니다.\n영문,숫자,특수문자 포함 8자리 이상 입력해주세요.`,
       );
@@ -265,39 +189,14 @@ const EditUserInfo = () => {
       <ContentWrapper>
         <Logo src='/teacup.png' />
         <InnerWrapper>
-          <Title>회원정보 수정</Title>
+          <Title>회원정보</Title>
           <Grid>
             <Label>회원 유형</Label>
-            <Text>일반 회원</Text>
+            <Text>상담사</Text>
             <Label>이름</Label>
-            <Text>{userInfo.memberName}</Text>
-            <Label>소셜 로그인</Label>
-            {userInfo.memberType === 'KAKAO' ? (
-              <RiKakaoTalkFill size={30} color={'#362419'} />
-            ) : (
-              '비해당'
-            )}
-            <Label>생년월일</Label>
-            <Input
-              type='date'
-              defaultValue={userInfo.birth}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                setBirth(event.target.value)
-              }
-            />
-            <Label>닉네임</Label>
-            <Input
-              defaultValue={userInfo.nickName}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                setNickname(event.target.value)
-              }
-            />
-            <Label>회원 탈퇴</Label>
-            <Text>
-              <button type='button' onClick={resignHandler}>
-                회원정보 삭제
-              </button>
-            </Text>
+            <Text>{userInfo.counselorName}</Text>
+            <Label>아이디(이메일)</Label>
+            <Text>{userInfo.email}</Text>
           </Grid>
           <Title>비밀번호 변경</Title>
           <Grid>
@@ -343,4 +242,4 @@ const EditUserInfo = () => {
   );
 };
 
-export default EditUserInfo;
+export default EditUserInfoTherapist;
