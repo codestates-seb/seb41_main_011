@@ -27,9 +27,9 @@ export const ScreenWrapper = styled.div<{ modal: boolean }>`
 
 const ContentWrapper = styled.div`
   background: #fff;
-  position: absolute;
-  top: 50vh;
-  left: 50vw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   padding: 32px;
   display: flex;
