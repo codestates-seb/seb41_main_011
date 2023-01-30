@@ -19,13 +19,13 @@ interface CreateProgram {
 }
 
 export const ScreenWrapper = styled.div<{ modal: boolean }>`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  background-color: #00000042;
+  background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   left: 0;
   top: 0;
@@ -38,7 +38,10 @@ export const ScreenWrapper = styled.div<{ modal: boolean }>`
 
 const ContentWrapper = styled.div`
   background: #fff;
-  position: relative;
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
   padding: 32px;
   display: flex;
   flex-direction: column;
@@ -209,8 +212,20 @@ const EditProgram = (props: modalCloseProps) => {
       console.log(error);
     }
   };
+
   useEffect(() => {
     getProgramInfo();
+    document.body.style.cssText = `
+      position: fixed; 
+      top: -${window.scrollY}px;
+      overflow-y: hidden;
+      touch-action: none;
+      width: 100%;`;
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = '';
+      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+    };
   }, []);
 
   const deleteProgram = async () => {
@@ -287,6 +302,7 @@ const EditProgram = (props: modalCloseProps) => {
   const deleteProgramHandler = () => {
     deleteProgram();
   };
+
   return (
     <ScreenWrapper modal={modal} onClick={handleBackdropClick}>
       <ContentWrapper
