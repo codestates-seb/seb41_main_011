@@ -6,6 +6,7 @@ import com.server.seb41_main_11.domain.member.entity.Member;
 import com.server.seb41_main_11.domain.member.service.MemberService;
 import com.server.seb41_main_11.domain.notice.entity.Notice;
 import com.server.seb41_main_11.domain.notice.repository.NoticeRepository;
+import com.server.seb41_main_11.domain.post.entity.Post;
 import com.server.seb41_main_11.global.error.ErrorCode;
 import com.server.seb41_main_11.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
@@ -89,7 +90,13 @@ public class NoticeService {
 
     // 조회수 증가 로직
     public void updateViews(Long id) {
-        noticeRepository.updateViews(id);
+        Notice notice = findVerifiedNotice(id);
+
+        int findViews = notice.getViews() + 1;
+
+        notice.setViews(findViews);
+
+        noticeRepository.save(notice);
     }
 
     // 공지 검증

@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("/api/counselors")
 @Validated
 @RequiredArgsConstructor
-public class CounselorContoller {
+public class CounselorController {
 
     private final CounselorService counselorService;
 

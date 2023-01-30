@@ -61,6 +61,7 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column
     private Status status;
+
     @Column(length = 250)
     private String refreshToken;
     // 리프레쉬 토큰
