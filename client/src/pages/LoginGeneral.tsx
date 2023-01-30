@@ -77,11 +77,11 @@ const LoginGeneral = () => {
     //체크박스 체크 -> 체크박스 체크안되면
     if (!regexEmail.test(loginEmail)) {
       return console.log('올바른 이메일 형식이 아닙니다.');
-    }
-    if (!regexPassword.test(loginPassword)) {
-      return console.log('비밀번호 형식이 일치하지 않습니다.');
-      // return window.alert('비밀번호가 형식이 일치하지 않습니다.')
-      // window.alert('비밀번호가 같지 않습니다.')
+      // }
+      // if (!regexPassword.test(loginPassword)) {
+      //   return console.log('비밀번호 형식이 일치하지 않습니다.');
+      //   // return window.alert('비밀번호가 형식이 일치하지 않습니다.')
+      //   // window.alert('비밀번호가 같지 않습니다.')
     } else {
       const reqbody: object = {
         email: loginEmail,
