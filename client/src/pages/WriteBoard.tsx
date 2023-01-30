@@ -143,32 +143,27 @@ const WriteBoard = () => {
     navigate(-1);
   };
 
-  const onSubmitHandler = async (event: MouseEvent<HTMLFormElement>) => {
+  const createPost = async () => {
+    try {
+      const reqBody = {
+        title: title,
+        content: contents,
+        kinds: category,
+      };
+      await api.post('/api/posts/post', reqBody);
+      alert('게시글이 등록되었습니다.');
+      navigate('/community/general');
+    } catch (error: any) {
+      alert(error.response.data.errorMessage);
+      console.log(error);
+    }
+  };
+
+  const onSubmitHandler = (event: MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // momentTest()
-
-
 
     if (category && title && contents) {
-      alert('게시글이 등록되었습니다.');
-      const reqBody = {
-        'title': title,
-        'content': contents,
-        'kinds' : 'GENERAL'
-      }
-  
-      const { data } = await api.post('/api/posts/post',
-        reqBody,
-        // {
-          // headers: {
-          //   'Content-Type': 'application/json',
-          //   Accept: 'application/json',
-          //   Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-          // },
-        // }
-      );
-      await navigate(-1);
-
+      createPost();
     } else {
       alert('게시글 분류와 제목과 내용을 모두 입력해주세요.');
     }
@@ -183,8 +178,8 @@ const WriteBoard = () => {
           <Title>
             <select onChange={onChangeCategory} value={category}>
               <option value=''>게시글 분류</option>
-              <option value='일반'>일반</option>
-              <option value='후기'>후기</option>
+              <option value='GENERAL'>일반</option>
+              <option value='REVIEW'>후기</option>
             </select>
             <input
               type='text'

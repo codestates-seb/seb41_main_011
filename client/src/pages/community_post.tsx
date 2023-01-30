@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router';
-import { useState,useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Tabbar from '../components/tabbar';
 import Header from '../components/Header';
@@ -10,6 +10,11 @@ import parse, {
   HTMLReactParserOptions,
 } from 'html-react-parser';
 import api from '../RefreshToken';
+import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
+import { viewBoardCategory, viewBookDate } from '../utils';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { postActions } from '../store/post';
 const ContentWrapper = styled.div`
   min-height: calc(100vh - 60px);
   width: 100%;
@@ -36,8 +41,11 @@ const PostWrapper = styled.div`
   background-color: #fffefd;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
+  border: 1px solid #ededed;
+  border-top: 0;
   width: 100%;
-  height: 65vh;
+  max-height: 65vh;
+  min-height: 14vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -196,34 +204,48 @@ const ButtonWrapper = styled.div`
         background: #0d8b72;
       }
     }
+    a {
+      display: block;
+      color: inherit;
+    }
   }
 `;
 
 const CommunityPost = (props: any) => {
-  const navigate = useNavigate();
-  const [isNotice, setIsNotice] = useState(
-    window.location.pathname.includes('notice') ? true : false,
-    );
-    const [post, setPost] = useState<any>([]);
+  const userRole = useAppSelector((state) => state.login.role);
+  const isAdmin = userRole === 'ADMIN' ? true : false;
+  const isLoggedIn = localStorage.getItem('accessToken') ? true : false;
 
-    useEffect(()=>{
-    const url = window.location.pathname.split('/')
-    const id = url[3];
-    const getPost = async() => {
-      try{
-        const response = await api.get(`api/posts/lookup/${id}`)
-        setPost(response.data.data)
-      } catch {
-        console.log('fail')
-      }
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation().pathname;
+  const { id } = useParams();
+  const isNotice = location.includes('notice') ? true : false;
+
+  const [post, setPost] = useState<any>([]);
+
+  const getPost = async () => {
+    try {
+      const response = await api.get(
+        `/api/${isNotice ? 'notices' : 'posts'}/lookup/${id}`,
+      );
+      setPost(response.data.data);
+    } catch (error: any) {
+      console.log(error);
     }
-    getPost()
-  },[])
-  const toCommunityNotice = () => {
-    navigate('/community/notice');
   };
-  const toCommunityGeneral = () => {
-    navigate('/community/general');
+
+  useEffect(() => {
+    getPost();
+  }, []);
+
+  const deletePost = async () => {
+    try {
+      await api.delete(`/api/${isNotice ? 'notices' : 'posts'}/delete/${id}`);
+      navigate(isNotice ? '/community/notice' : '/community/general');
+    } catch (error: any) {
+      console.log(error);
+    }
   };
 
   const ParseOptions: HTMLReactParserOptions = {
@@ -245,52 +267,71 @@ const CommunityPost = (props: any) => {
         <PostWrapper>
           <PostInfoWrapper>
             <SubWrapper1>
-              <Tag>{isNotice ? '공지' : '후기'}</Tag>
-              {isNotice
-                ? '안녕하세요 상담사 햄토끼 입니다.'
-                : '상담사 햄토끼님 덕에 부자가 되었어요!'}
+              <Tag>{isNotice ? '공지' : viewBoardCategory(post.kinds)}</Tag>
+              {post.title}
             </SubWrapper1>
             <SubWrapper2>
               <span>
                 작성자
-                <span className='username'>
-                  {isNotice ? '햄토끼🐹' : '햄토끼찬양'}
-                </span>
+                <span className='username'>{post.writer}</span>
               </span>
-              <span>2023.01.05 09:00</span>
-              <span>조회 11회</span>
+              <span>{viewBookDate(post.createdTime)}</span>
+              <span>조회 {post.views}회</span>
             </SubWrapper2>
           </PostInfoWrapper>
           <PostContentWrapper>
-            {parse(
-              `<h1>Heading1</h1><h2>Heading2</h2><h3>Heading3</h3><p>Normal</p><p><strong>Bold</strong></p><p><em>Italic</em></p><p><u>Underline</u></p><p><a href="Link" rel="noopener noreferrer" target="_blank">Link</a></p><ol><li>Ordered List Item</li><li>Ordered List Item</li><li>Ordered List Item</li></ol><ul><li>Unordered List Item</li><li>Unordered List Item</li><li>Unordered List Item</li></ul><p><br></p><ol><li>Ordered List Item</li><li>Ordered List Item</li><li>Ordered List Item</li></ol><p>계엄을 선포한 때에는 대통령은 지체없이 국회에 통고하여야 한다. 민주평화통일자문회의의 조직·직무범위 기타 필요한 사항은 법률로 정한다. 국방상 또는 국민경제상 긴절한 필요로 인하여 법률이 정하는 경우를 제외하고는, 사영기업을 국유 또는 공유로 이전하거나 그 경영을 통제 또는 관리할 수 없다. 대통령은 내란 또는 외환의 죄를 범한 경우를 제외하고는 재직중 형사상의 소추를 받지 아니한다. 헌법재판소 재판관은 정당에 가입하거나 정치에 관여할 수 없다. 대통령은 국가의 원수이며, 외국에 대하여 국가를 대표한다. 모든 국민은 건강하고 쾌적한 환경에서 생활할 권리를 가지며, 국가와 국민은 환경보전을 위하여 노력하여야 한다.</p>
-            `,
-              ParseOptions,
-            )}
+            {parse(`${post.content}`, ParseOptions)}
           </PostContentWrapper>
         </PostWrapper>
         <ButtonWrapper>
-          <button
-            className='toAllPost'
-            onClick={() => {
-              isNotice ? toCommunityNotice() : toCommunityGeneral();
-            }}
-          >
-            목록보기
+          <button className='toAllPost'>
+            <Link to={isNotice ? '/community/notice' : '/community/general'}>
+              목록보기
+            </Link>
           </button>
-          <div className='subButtonWrapper'>
-            <button
-              className='edit'
-              onClick={() =>
-                isNotice
-                  ? navigate('/community/notice/modify')
-                  : navigate('/community/board/modify')
-              }
-            >
-              수정
-            </button>
-            <button className='delete'>삭제</button>
-          </div>
+          {isNotice
+            ? isAdmin && (
+                <div className='subButtonWrapper'>
+                  <button
+                    className='edit'
+                    onClick={() => {
+                      dispatch(postActions.id(id));
+                      navigate('/community/notice/modify');
+                    }}
+                  >
+                    수정
+                  </button>
+                  <button
+                    className='delete'
+                    onClick={() => {
+                      deletePost();
+                    }}
+                  >
+                    삭제
+                  </button>
+                </div>
+              )
+            : isLoggedIn && (
+                <div className='subButtonWrapper'>
+                  <button
+                    className='edit'
+                    onClick={() => {
+                      dispatch(postActions.id(id));
+                      navigate('/community/general/modify');
+                    }}
+                  >
+                    수정
+                  </button>
+                  <button
+                    className='delete'
+                    onClick={() => {
+                      deletePost();
+                    }}
+                  >
+                    삭제
+                  </button>
+                </div>
+              )}
         </ButtonWrapper>
       </ContentWrapper>
       <Tabbar />

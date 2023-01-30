@@ -15,12 +15,14 @@ import loginReducer from './login';
 import testReducer from './test';
 import paymentReducer from './payment';
 import introReducer from './intro';
+import postReducer from './post';
 
 const reducers = combineReducers({
   login: loginReducer,
   test: testReducer,
   payment: paymentReducer,
   intro: introReducer,
+  post: postReducer,
 });
 
 const persistConfig = {

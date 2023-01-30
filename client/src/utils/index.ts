@@ -73,3 +73,6 @@ export const calculateStatus = (
     return '진행 중';
   }
 };
+export const viewBoardCategory = (kind: string) => {
+  return kind === 'REVIEW' ? '후기' : '일반';
+};

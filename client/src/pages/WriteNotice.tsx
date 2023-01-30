@@ -7,7 +7,6 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Tabbar from '../components/tabbar';
 import TextEditor from '../components/UI/TextEditor';
-import { momentTest } from '../moment';
 import api from '../RefreshToken';
 const Content = styled.main`
   min-height: calc(100vh - 60px);
@@ -144,29 +143,26 @@ const WriteNotice = () => {
     navigate(-1);
   };
 
-  const onSubmitHandler = async (event: MouseEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // momentTest()
-
-    if (category && title && contents) {
-      alert('게시글이 등록되었습니다.');
+  const createPost = async () => {
+    try {
       const reqBody = {
         title: title,
         content: contents,
       };
+      await api.post('/api/notices/post', reqBody);
+      alert('게시글이 등록되었습니다.');
+      navigate('/community/notice');
+    } catch (error: any) {
+      alert(error.response.data.errorMessage);
+      console.log(error);
+    }
+  };
 
-      const { data } = await api.post(
-        '/api/notices/post',
-        reqBody,
-        // {
-        // headers: {
-        //   'Content-Type': 'application/json',
-        //   Accept: 'application/json',
-        //   Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        // },
-        // }
-      );
-      await navigate(-1);
+  const onSubmitHandler = async (event: MouseEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (category && title && contents) {
+      createPost();
     } else {
       alert('게시글 분류와 제목과 내용을 모두 입력해주세요.');
     }

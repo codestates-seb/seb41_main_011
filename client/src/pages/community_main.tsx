@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Tabbar from '../components/tabbar';
@@ -6,6 +6,9 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
 import api from '../RefreshToken';
+import Pagination from '../components/Pagination';
+import { viewBoardCategory, viewBookDate } from '../utils';
+import { useAppSelector } from '../store/hooks';
 
 const ContentWrapper = styled.div`
   min-height: calc(100vh - 60px);
@@ -59,6 +62,11 @@ const MessageGrid = styled.div`
     &:hover {
       background-color: #70846c;
       color: #fff;
+    }
+
+    a {
+      display: block;
+      color: inherit;
     }
   }
 
@@ -180,79 +188,100 @@ const Tag = styled.span`
   margin-right: 8px;
 `;
 
+const PaginationWrapper = styled.div`
+  padding-top: 24px;
+  @media screen and (min-width: 1200px) {
+    padding-top: 36px;
+  }
+`;
+
 const CommunityMain = (props: any) => {
+  const userRole = useAppSelector((state) => state.login.role);
+  const isAdmin = userRole === 'ADMIN' ? true : false;
+  const isLoggedIn = localStorage.getItem('accessToken') ? true : false;
+
   const navigate = useNavigate();
+  const location = useLocation().pathname;
+
   const [postList, setPostList] = useState<any>([]);
   const [postPage, setPostPage] = useState(1);
   const [postTotalPage, setPostTotalPage] = useState(1);
-  const [url,setUrl] = useState(window.location.pathname)
-  const [isActive1, setIsActive1] = useState(
-    window.location.pathname === '/community/notice' ? true : false,
-  );
-  const [totalPost,setTotalPost] = useState(1);
-  const [isActive2, setIsActive2] = useState(url === '/community/general'? true : false);
-  useEffect(()=>{
-    const toCommunityNotice = async() => {
-      const response = await api.get(`/api/notices/lookup/list?page=${postPage}&size=10`)
-      setPostList(response.data.data)
-      
-    }
-    const toCommunityGeneral = async() => {
-      const response = await api.get(`/api/posts/lookup/list?page=${postPage}&size=10`)
-      setPostList(response.data.data)
-    }
-    if(url === '/community/general'){
-      toCommunityGeneral()
-    }
-    if(url === '/community/notice'){
-      toCommunityNotice()
-    }
-  },[url])
-  const toWriteBoard = () => {
-    navigate('/community/general/write');
-  };
-  const toWriteNotice = () => {
-    navigate('/community/notice/write');
-  };
-  const toCommunityNotice = async() => {
-    const response = await api.get(`/api/notices/lookup/list?page=${postPage}&size=10`)
-    setPostList(response.data.data)
-    navigate('/community/notice');
-    console.log(postList)
-    
-  };
-  const toCommunityGeneral = async() => {
-    const response = await api.get(`/api/posts/lookup/list?page=${postPage}&size=10`)
-    setPostList(response.data.data)
-    navigate('/community/general');
+  const [totalPost, setTotalPost] = useState(0);
 
-    // console.log(postList)
+  const [isNotice, setIsNotice] = useState(
+    location === '/community/notice' ? true : false,
+  );
+  const [isBoard, setIsBoard] = useState(
+    location === '/community/general' ? true : false,
+  );
+  useEffect(() => {
+    if (location === '/community/notice') {
+      setIsNotice(true);
+      setIsBoard(false);
+    } else {
+      setIsNotice(false);
+      setIsBoard(true);
+    }
+  }, [location]);
+
+  const toCommunityNotice = async () => {
+    try {
+      const response = await api.get(
+        `/api/notices/lookup/list?page=${postPage}&size=10`,
+      );
+      setPostList(response.data.data);
+      setTotalPost(response.data.pageInfo.totalElements);
+      setPostTotalPage(response.data.pageInfo.totalPages);
+    } catch (error: any) {
+      console.log(error);
+    }
   };
+  const toCommunityGeneral = async () => {
+    try {
+      const response = await api.get(
+        `/api/posts/lookup/list?page=${postPage}&size=10`,
+      );
+      setPostList(response.data.data);
+      setTotalPost(response.data.pageInfo.totalElements);
+      setPostTotalPage(response.data.pageInfo.totalPages);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (location === '/community/general') {
+      toCommunityGeneral();
+    }
+    if (location === '/community/notice') {
+      toCommunityNotice();
+    }
+  }, [location, postPage]);
 
   return (
     <div>
       <Header />
       <ContentWrapper>
-        <MainMessage>{isActive1 ? '공지사항' : '유저 커뮤니티'}</MainMessage>
+        <MainMessage>{isNotice ? '공지사항' : '유저 커뮤니티'}</MainMessage>
         <MenuBar>
           <div
-            className={isActive1 ? 'clicked' : ''}
+            className={isNotice ? 'clicked' : ''}
             onClick={() => {
-              setIsActive1(!isActive1);
-              setIsActive1(true);
-              setIsActive2(false);
-              toCommunityNotice();
+              setIsNotice(!isNotice);
+              setIsNotice(true);
+              setIsBoard(false);
+              navigate('/community/notice');
             }}
           >
             공지사항
           </div>
           <div
-            className={isActive2 ? 'clicked' : ''}
+            className={isBoard ? 'clicked' : ''}
             onClick={() => {
-              setIsActive2(!isActive2);
-              setIsActive1(false);
-              setIsActive2(true);
-              toCommunityGeneral();
+              setIsBoard(!isBoard);
+              setIsNotice(false);
+              setIsBoard(true);
+              navigate('/community/general');
             }}
           >
             유저 커뮤니티
@@ -261,44 +290,53 @@ const CommunityMain = (props: any) => {
 
         <MessageGrid>
           <div className='totalPostCount'>
-            {/* 총 {isActive1&&isActive1?postList[0].noticeId:postList[0].postId}개의 {isActive1&&isActive1 ? '공지사항' : '게시글'}이 있습니다. */ }
+            총 {totalPost}개의 {isNotice ? '공지사항' : '게시글'}이 있습니다.
           </div>
-          <button
-            className='writeButton'
-            onClick={() => (isActive1 ? toWriteNotice() : toWriteBoard())}
-          >
-            글쓰기
-          </button>
+          {isNotice
+            ? isAdmin && (
+                <button className='writeButton'>
+                  <Link to='/community/notice/write'>글쓰기</Link>
+                </button>
+              )
+            : isLoggedIn && (
+                <button className='writeButton'>
+                  <Link to='/community/general/write'>글쓰기</Link>
+                </button>
+              )}
         </MessageGrid>
         <PostWRapper>
           {postList.map((post: any) => {
             return (
               <Post>
-                <div className='postIndex'>{isActive1? post.noticeId:post.postId}</div>
+                <div className='postIndex'>
+                  {isNotice ? post.noticeId : post.postId}
+                </div>
                 <div className='wrapper'>
                   <div className='postTitle'>
-                    {isActive1 ? <Tag>공지</Tag> : <Tag>후기</Tag>}
+                    {isNotice ? (
+                      <Tag>공지</Tag>
+                    ) : (
+                      <Tag>{viewBoardCategory(post.kinds)}</Tag>
+                    )}
                     <Link
                       to={
-                        isActive1
+                        isNotice
                           ? `/community/notice/${post.noticeId}`
                           : `/community/general/${post.postId}`
                       }
                     >
-                      {isActive1
-                        ? post.title
-                        : post.title}
+                      {isNotice ? post.title : post.title}
                     </Link>
                   </div>
                   <div className='postInfo'>
-                    {post.createdTime} · {isActive1 ? post.writer : post.writer}
+                    {viewBookDate(post.createdTime)} · {post.writer}
                   </div>
                 </div>
 
                 <div className='postButton'>
                   <Link
                     to={
-                      isActive1
+                      isNotice
                         ? `/community/notice/${post.noticeId}`
                         : `/community/general/${post.postId}`
                     }
@@ -310,6 +348,14 @@ const CommunityMain = (props: any) => {
             );
           })}
         </PostWRapper>
+        <PaginationWrapper>
+          <Pagination
+            page={postPage}
+            limit={5}
+            totalPage={postTotalPage}
+            setPage={setPostPage}
+          />
+        </PaginationWrapper>
       </ContentWrapper>
       <Tabbar />
       <Footer />
