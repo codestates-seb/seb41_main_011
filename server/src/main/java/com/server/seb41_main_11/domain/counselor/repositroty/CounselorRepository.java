@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface CounselorRepository extends JpaRepository<Counselor, Long> {
     Optional<Counselor> findByEmail(String email);
+
+    Optional<Counselor> findByRefreshToken(String refreshToken);
 }

@@ -38,7 +38,7 @@ public class TokenManager {
         Date refreshTokenExpireTime = createRefreshTokenExpireTime();
 
         String accessToken = createAccessToken(memberId, role, accessTokenExpireTime);
-        String refreshToken = createRefreshToken(memberId, refreshTokenExpireTime);
+        String refreshToken = createRefreshToken(memberId, role, refreshTokenExpireTime);
         return JwtTokenDto.builder()
                 .grantType(GrantType.BEARER.getType())
                 .accessToken(accessToken)
@@ -74,12 +74,13 @@ public class TokenManager {
         return accessToken;
     }
 
-    public String createRefreshToken(Long memberId, Date expirationTime) {
+    public String createRefreshToken(Long memberId,Role role, Date expirationTime) {
         String refreshToken = Jwts.builder()
                 .setSubject(TokenType.REFRESH.name())   // 토큰 제목
                 .setIssuedAt(new Date())                // 토큰 발급 시간
                 .setExpiration(expirationTime)          // 토큰 만료 시간
                 .claim("memberId", memberId)      // 회원, 상담사 아이디
+                .claim("role", role)
                 .signWith(SignatureAlgorithm.HS512, tokenSecret.getBytes(StandardCharsets.UTF_8))
                 .setHeaderParam("typ", "JWT")
                 .compact();

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -164,4 +165,13 @@ public class CounselorService {
     }
 
 
+    public Counselor findCounselorByRefreshToken(String refreshToken) {
+        Counselor counselor = counselorRepository.findByRefreshToken(refreshToken)
+                .orElseThrow(() -> new AuthenticationException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
+        LocalDateTime tokenExpirationTime = counselor.getTokenExpirationTime();
+        if(tokenExpirationTime.isBefore(LocalDateTime.now())) {
+            throw new AuthenticationException(ErrorCode.REFRESH_TOKEN_EXPIRED); //refresh 토큰이 만료됐을 경우
+        }
+        return counselor;
+    }
 }
