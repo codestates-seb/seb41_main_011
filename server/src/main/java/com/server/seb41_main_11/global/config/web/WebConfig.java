@@ -42,8 +42,8 @@ public class WebConfig implements WebMvcConfigurer {
 //                        HttpMethod.OPTIONS.name()
                         "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"
                 )
-                .allowedHeaders("Authorization")
-                .exposedHeaders("Authorization", "Refresh")
+                .allowedHeaders("*")
+//                .exposedHeaders("Authorization", "Refresh")
                 .allowCredentials(true)
                 .maxAge(3600);
         //preplight는 교차출처 HTTP 요청 전 요청의 헤더와 메서드에 대해 인식하고 있는지 확인
