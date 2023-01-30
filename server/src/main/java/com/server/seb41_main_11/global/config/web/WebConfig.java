@@ -31,7 +31,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") //어떤 url로 요청이 왔을 때 허용할 것인지
-                .allowedOrigins("*")
+                .allowedOriginPatterns("*")
                 .allowedMethods(
                         //별표(*) 사용 시 모든 오리진 허용 및 콤마로 여러 origin을 설정할 수도 있음
                         //즉, locathost:8082로 시작하는 엔드포인트에서 /api/**으로 아래 요청을 보내는 것을 허용함
