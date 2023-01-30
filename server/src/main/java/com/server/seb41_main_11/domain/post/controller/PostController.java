@@ -10,6 +10,8 @@ import com.server.seb41_main_11.domain.post.dto.PostDto;
 import com.server.seb41_main_11.domain.post.mapper.PostMapper;
 import com.server.seb41_main_11.domain.post.service.PostService;
 import com.server.seb41_main_11.domain.post.entity.Post;
+import com.server.seb41_main_11.global.error.ErrorCode;
+import com.server.seb41_main_11.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -58,7 +60,18 @@ public class PostController {
                                      HttpServletRequest httpServletRequest) {
         patch.setPostId(postId);
 
+        Post post = postService.findVerifiedPost(postId);
         Role role = memberService.getLoginRole(httpServletRequest);
+
+        if(post.getMember() != null){ //회원 작성 시
+            if(role.equals(Role.COUNSELOR)){
+                throw new BusinessException(ErrorCode.NO_RIGHT_EDIT); //상담사가 접근 시 에러 처리
+            }
+        }else{ //상담사 작성 시
+            if(role.equals(Role.USER)){
+                throw new BusinessException(ErrorCode.NO_RIGHT_EDIT); //회원이 접근 시 에러 처리
+            }
+        }
 
         if(role.equals(Role.USER)) {
             Post update = postService.updateByMember(mapper.patchToEntity(patch), httpServletRequest);
@@ -94,6 +107,17 @@ public class PostController {
                                      HttpServletRequest httpServletRequest) {
 
         Role role = memberService.getLoginRole(httpServletRequest);
+        Post post = postService.findVerifiedPost(postId);
+
+        if(post.getMember() != null){ //회원 작성 시
+            if(role.equals(Role.COUNSELOR)){
+                throw new BusinessException(ErrorCode.NO_RIGHT_DELETE); //상담사가 접근 시 에러 처리
+            }
+        }else{ //상담사 작성 시
+            if(role.equals(Role.USER)){
+                throw new BusinessException(ErrorCode.NO_RIGHT_DELETE); //회원이 접근 시 에러 처리
+            }
+        }
 
         if(role.equals(Role.USER)) {
             postService.deleteByMember(postId, httpServletRequest);

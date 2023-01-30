@@ -157,7 +157,7 @@ public class PostService {
     }
 
     // 글 검증
-    private Post findVerifiedPost(long postId) {
+    public Post findVerifiedPost(long postId) {
         Optional<Post> optPost = Optional.of(postRepository.getReferenceById(postId));
         Post findPost = optPost.orElseThrow(() -> new EntityNotFoundException("글이 없습니다"));
 
