@@ -86,6 +86,32 @@ const Contents = styled.main`
   }
 `;
 
+const ScrollWrapper = styled.div`
+  height: 53vh;
+  overflow-y: scroll;
+  padding-right: 1rem;
+  margin-bottom: 8px;
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #e4eee2;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #c4dcbf;
+    border-radius: 10px;
+  }
+
+  @media screen and (min-width: 768px) {
+    height: 70vh;
+    margin-bottom: 24px;
+  }
+  @media screen and (min-width: 1200px) {
+    height: 63vh;
+  }
+`;
+
 const SymptomPrograms = () => {
   const { id } = useParams();
 
@@ -144,7 +170,9 @@ const SymptomPrograms = () => {
           </div>
           <div className='pagecontent'>
             <ProgramFilter />
-            <ProgramList data={symptomPrograms} />
+            <ScrollWrapper>
+              <ProgramList data={symptomPrograms} />
+            </ScrollWrapper>
             <Pagination
               page={page}
               limit={5}

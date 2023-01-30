@@ -31,7 +31,7 @@ const Contents = styled.main`
 
     .pagecontent {
       width: 100%;
-      padding: 0 20px;
+      padding: 0 10px 0 20px;
     }
   }
 
@@ -77,6 +77,32 @@ const Contents = styled.main`
   }
 `;
 
+const ScrollWrapper = styled.div`
+  height: 53vh;
+  overflow-y: scroll;
+  padding-right: 1rem;
+  margin-bottom: 8px;
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #e4eee2;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #c4dcbf;
+    border-radius: 10px;
+  }
+
+  @media screen and (min-width: 768px) {
+    height: 70vh;
+    margin-bottom: 24px;
+  }
+  @media screen and (min-width: 1200px) {
+    height: 63vh;
+  }
+`;
+
 const AllPrograms = () => {
   const [allPrograms, setAllPrograms] = useState([]);
   const [page, setPage] = useState(1);
@@ -112,7 +138,9 @@ const AllPrograms = () => {
           </div>
           <div className='pagecontent'>
             <ProgramFilter />
-            <ProgramList data={allPrograms} />
+            <ScrollWrapper>
+              <ProgramList data={allPrograms} />
+            </ScrollWrapper>
             <Pagination
               page={page}
               limit={5}
