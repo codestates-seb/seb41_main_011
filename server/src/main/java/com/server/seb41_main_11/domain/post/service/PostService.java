@@ -119,8 +119,29 @@ public class PostService {
         return pagePost;
     }
 
-    // 글 삭제
-    public void delete(long postId) {
+    //회원 글 삭제
+    public void deleteByMember(long postId, HttpServletRequest httpServletRequest) {
+        Post findPost = findVerifiedPost(postId);
+        Member member = memberService.getLoginMember(httpServletRequest);
+
+        if(findPost.getMember().getMemberId() != member.getMemberId()){
+            throw new BusinessException(ErrorCode.NO_RIGHT_DELETE);
+        }
+        postRepository.deleteById(postId);
+    }
+
+    //상담사 글 삭제
+    public void deleteByCounselor(long postId, HttpServletRequest httpServletRequest) {
+        Post findPost = findVerifiedPost(postId);
+        Counselor counselor = counselorService.getLoginCounselor(httpServletRequest);
+        if(findPost.getCounselor().getCounselorId() != counselor.getCounselorId()){
+            throw new BusinessException(ErrorCode.NO_RIGHT_DELETE);
+        }
+        postRepository.deleteById(postId);
+    }
+
+    //관리자 글 삭제
+    public void deleteByAdmin(long postId) {
         postRepository.deleteById(postId);
     }
 

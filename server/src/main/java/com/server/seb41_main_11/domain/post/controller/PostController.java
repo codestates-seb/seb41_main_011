@@ -90,8 +90,19 @@ public class PostController {
     }
 
     @DeleteMapping("/delete/{post-id}")
-    public ResponseEntity deletePost(@PathVariable("post-id") @Positive long postId) {
-        postService.delete(postId);
+    public ResponseEntity deletePost(@PathVariable("post-id") @Positive long postId,
+                                     HttpServletRequest httpServletRequest) {
+
+        Role role = memberService.getLoginRole(httpServletRequest);
+
+        if(role.equals(Role.USER)) {
+            postService.deleteByMember(postId, httpServletRequest);
+        }else if(role.equals(Role.COUNSELOR)){
+            postService.deleteByCounselor(postId, httpServletRequest);
+        }else{
+            postService.deleteByAdmin(postId);
+        }
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
