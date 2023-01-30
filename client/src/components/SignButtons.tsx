@@ -56,7 +56,7 @@ const SignButtons = () => {
   return (
     <ButtonWrapper>
       <Button className='style1'>
-        <Link to='/login-general'>로그인</Link>
+        <Link to='/login'>로그인</Link>
       </Button>
       <Button className='style2'>
         <Link to='/signup'>회원가입</Link>
