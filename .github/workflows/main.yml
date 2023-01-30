@@ -7,6 +7,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./client
 
     steps:
       - name: checkout v2
@@ -14,9 +16,11 @@ jobs:
 
       - name: Install Dependence
         run: npm install
+        working-directory: ${{ env.working-directory }}
 
       - name: Build app
         run: npm run build
+        working-directory: ${{ env.working-directory }}
 
       - name: Deploy To s3
         env:
