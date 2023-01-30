@@ -88,7 +88,6 @@ public class PostService {
     }
 
     // 글 1건 조회
-    @Transactional(readOnly = true)
     public Post find(long postId) {
 
         Post post = findVerifiedPost(postId);
