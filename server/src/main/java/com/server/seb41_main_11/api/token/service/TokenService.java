@@ -29,16 +29,13 @@ public class TokenService {
 
     public AccessTokenResponseDto createAccessTokenByRefreshToken(String refreshToken) {
 
-        Member member = memberService.findMemberByRefreshToken(refreshToken);
-
-        Counselor counselor = counselorService.findCounselorByRefreshToken(refreshToken);
-
         Claims tokenClaims = tokenManager.getTokenClaims(refreshToken);
         String role = (String) tokenClaims.get("role");
 
         Date accessTokenExpireTime = tokenManager.createAccessTokenExpireTime();
 
         if(role.equals("COUNSELOR")) {
+            Counselor counselor = counselorService.findCounselorByRefreshToken(refreshToken);
             String accessToken = tokenManager.createAccessToken(counselor.getCounselorId(), counselor.getRole(), accessTokenExpireTime);
 
             return AccessTokenResponseDto.builder()
@@ -47,6 +44,7 @@ public class TokenService {
                     .accessTokenExpireTime(accessTokenExpireTime)
                     .build();
         }else{
+            Member member = memberService.findMemberByRefreshToken(refreshToken);
             String accessToken = tokenManager.createAccessToken(member.getMemberId(), member.getRole(), accessTokenExpireTime);
 
             return AccessTokenResponseDto.builder()
