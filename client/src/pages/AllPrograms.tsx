@@ -7,6 +7,7 @@ import api from '../RefreshToken';
 import ProgramFilter from '../components/ProgramFilter';
 import ProgramList from '../components/ProgramList';
 import Tabbar from '../components/Tabbar';
+import Pagination from '../components/Pagination';
 
 const Contents = styled.main`
   width: 100%;
@@ -83,7 +84,9 @@ const AllPrograms = () => {
 
   const getAllPrograms = async () => {
     try {
-      const response = await api.get(`/api/programs/lookup/list`);
+      const response = await api.get(
+        `/api/programs/lookup/list?size=10&page=${page}`,
+      );
       setAllPrograms(response.data.data);
       setTotalPage(response.data.pageInfo.totalPages);
     } catch (error: any) {
@@ -110,6 +113,12 @@ const AllPrograms = () => {
           <div className='pagecontent'>
             <ProgramFilter />
             <ProgramList data={allPrograms} />
+            <Pagination
+              page={page}
+              limit={5}
+              totalPage={totalPage}
+              setPage={setPage}
+            />
           </div>
         </div>
       </Contents>

@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import styled from 'styled-components';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import Pagination from '../components/Pagination';
 
 import ProgramFilter from '../components/ProgramFilter';
 import ProgramList from '../components/ProgramList';
@@ -144,6 +145,12 @@ const SymptomPrograms = () => {
           <div className='pagecontent'>
             <ProgramFilter />
             <ProgramList data={symptomPrograms} />
+            <Pagination
+              page={page}
+              limit={5}
+              totalPage={totalPage}
+              setPage={setPage}
+            />
           </div>
         </div>
       </Contents>
