@@ -1,6 +1,6 @@
 import React, { useState, MouseEvent, useEffect } from 'react';
 import styled from 'styled-components';
-import InputAdmin from '../../components/UI/Input';
+import InputAdmin from '../../components/UI/InputAdmin';
 import TextArea from '../../components/UI/Textarea';
 import SelectBox from '../../components/UI/SelectBox';
 import { FaRegCalendarCheck, FaTimes } from 'react-icons/fa';
@@ -156,7 +156,7 @@ const CreateProgramForm = styled.form`
   gap: 36px;
 `;
 
-const EditPrograms = (props: modalCloseProps) => {
+const EditProgram = (props: modalCloseProps) => {
   const [modal, setModal] = useState<boolean>(true);
 
   const handleCloseButton = (event: MouseEvent<HTMLButtonElement>) => {
@@ -419,4 +419,4 @@ const EditPrograms = (props: modalCloseProps) => {
   );
 };
 
-export default EditPrograms;
+export default EditProgram;

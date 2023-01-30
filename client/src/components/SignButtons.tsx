@@ -52,7 +52,7 @@ const Button = styled.button`
   }
 `;
 
-const HeaderButtons = () => {
+const SignButtons = () => {
   return (
     <ButtonWrapper>
       <Button className='style1'>
@@ -65,4 +65,4 @@ const HeaderButtons = () => {
   );
 };
 
-export default HeaderButtons;
+export default SignButtons;

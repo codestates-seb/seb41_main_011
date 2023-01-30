@@ -1,22 +1,44 @@
 import styled from 'styled-components';
 import ButtonAccept from '../components/ButtonAccept';
 import InputTemp from '../components/Input';
-import Tabbar from '../components/tabbar';
+import Tabbar from '../components/Tabbar';
+import LoginButton from '../components/LoginButton';
 import {
   SignupFormWrapper,
   SignupForm,
   SignupTitle,
   ContextDiv,
 } from './signup';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import React, { useState } from 'react';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
-import { useAppDispatch } from '../store/hooks';
-import { useNavigate } from 'react-router';
-import { loginActions } from '../store/login';
 import api from '../RefreshToken';
+import React, { useState } from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import { useAppDispatch } from '../store/hooks';
+import { loginActions } from '../store/login';
 
+const LoginButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+`;
+const RedirectionSignup = styled.p`
+  text-align: center;
+  font-size: 0.9rem;
+  color: #535353;
+  margin-top: 0.5rem;
+
+  a {
+    display: inline-block;
+    margin-left: 8px;
+    font-weight: 500;
+    color: inherit;
+  }
+`;
 const Logo = styled.img`
   width: 20vw;
   @media screen and (min-width: 768px) {
@@ -27,7 +49,7 @@ const Logo = styled.img`
   }
 `;
 
-const LoginTherapist = () => {
+const LoginGeneral = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [loginEmail, setLoginEmail] = useState<string>('');
@@ -40,6 +62,7 @@ const LoginTherapist = () => {
     const target = e.target as HTMLInputElement;
     setLoginPassword(target.value);
   };
+
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -63,10 +86,11 @@ const LoginTherapist = () => {
       const reqbody: object = {
         email: loginEmail,
         password: loginPassword,
+        memberType: 'DEFAULT',
       };
 
       api
-        .post('/api/counselors/login', reqbody)
+        .post('/api/members/login', reqbody)
         .then((res) => {
           localStorage.setItem('accessToken', `${res.data.data.accessToken}`);
           localStorage.setItem('refreshToken', `${res.data.data.refreshToken}`);
@@ -87,13 +111,22 @@ const LoginTherapist = () => {
         });
     }
   };
+  const KakaoOauth = () => {
+    // kauth.kakao.com
+  };
 
   return (
     <div>
       <Header />
       <SignupFormWrapper>
         <Logo src='/teacup.png' />
-        <SignupTitle>상담사 로그인</SignupTitle>
+        <SignupTitle>로그인</SignupTitle>
+        <LoginButtonWrapper>
+          {/* <LoginButton children='구글 로그인' />
+            <LoginButton children='네이버 로그인' /> */}
+          <LoginButton children='카카오 로그인' />
+        </LoginButtonWrapper>
+
         <SignupForm onSubmit={handleLoginSubmit}>
           <ContextDiv>
             <label htmlFor='E-mail'>아이디</label>
@@ -115,6 +148,14 @@ const LoginTherapist = () => {
 
           <ButtonAccept children='로그인' />
         </SignupForm>
+        <div>
+          <RedirectionSignup>
+            아이디가 없으세요? <Link to='/signup'>회원가입하기</Link>
+          </RedirectionSignup>
+          <RedirectionSignup>
+            상담사이신가요? <Link to='/login-therapist'>로그인하기</Link>
+          </RedirectionSignup>
+        </div>
       </SignupFormWrapper>
       <Tabbar />
       <Footer />
@@ -122,4 +163,4 @@ const LoginTherapist = () => {
   );
 };
 
-export default LoginTherapist;
+export default LoginGeneral;

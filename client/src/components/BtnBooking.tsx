@@ -39,7 +39,7 @@ const BtnBooking = (props: programIdProps) => {
   const buttonClickHandler = () => {
     if (!localStorage.getItem('accessToken')) {
       alert('로그인 후 이용해주세요.');
-      navigate('/login-general');
+      navigate('/login');
     } else if (userRole !== 'USER') {
       alert('일반 회원만 예약할 수 있습니다.');
     } else {

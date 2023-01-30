@@ -1,6 +1,6 @@
 import React, { useState, MouseEvent, useEffect } from 'react';
 import styled from 'styled-components';
-import InputAdmin from '../../components/UI/Input';
+import InputAdmin from '../../components/UI/InputAdmin';
 import TextArea from '../../components/UI/Textarea';
 import SelectBox from '../../components/UI/SelectBox';
 import { FaRegCalendarCheck, FaTimes } from 'react-icons/fa';

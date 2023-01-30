@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Tabbar from '../components/tabbar';
+import Tabbar from '../components/Tabbar';
 import { useAppSelector } from '../store/hooks';
 import { ChangeEvent, useEffect, useState } from 'react';
 import api from '../RefreshToken';

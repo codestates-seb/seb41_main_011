@@ -6,7 +6,7 @@ import api from '../RefreshToken';
 
 import ProgramFilter from '../components/ProgramFilter';
 import ProgramList from '../components/ProgramList';
-import Tabbar from '../components/tabbar';
+import Tabbar from '../components/Tabbar';
 
 const Contents = styled.main`
   width: 100%;

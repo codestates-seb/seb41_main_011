@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import Tabbar from '../components/tabbar';
+import Tabbar from '../components/Tabbar';
 import TextEditor from '../components/UI/TextEditor';
 import api from '../RefreshToken';
 const Content = styled.main`

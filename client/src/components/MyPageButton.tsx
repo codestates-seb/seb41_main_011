@@ -69,7 +69,7 @@ const SubNav = styled.ul`
   }
 `;
 
-const MyPage = () => {
+const MyPageButton = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const userRole = useAppSelector((state) => state.login.role);
@@ -129,4 +129,4 @@ const MyPage = () => {
   );
 };
 
-export default MyPage;
+export default MyPageButton;

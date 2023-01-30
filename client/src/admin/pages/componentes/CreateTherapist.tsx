@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useState, MouseEvent } from 'react';
-import InputAdmin from '../../components/UI/Input';
+import InputAdmin from '../../components/UI/InputAdmin';
 import TextArea from '../../components/UI/Textarea';
 import { ScreenWrapper } from './EditProgram';
 import { FaUserCircle, FaTimes } from 'react-icons/fa';
