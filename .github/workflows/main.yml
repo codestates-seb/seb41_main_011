@@ -7,8 +7,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./client
 
     steps:
       - name: checkout v2
@@ -20,16 +18,16 @@ jobs:
         env:
           REACT_APP_DB_HOST: ${{ secrets.REACT_APP_DB_HOST }}
 
+      - name: npm install for eslint
+        run: npm install
+
       - name: Install Dependence
         run: npm install
-        working-directory: ${{ env.working-directory }}
+        working-directory: ./client
 
       - name: Build app
         run: CI='' npm run build
-        working-directory: ${{ env.working-directory }}
-        artifacts:
-          paths:
-            - build/
+        working-directory: ./client
 
       - name: Deploy To s3
         env:
