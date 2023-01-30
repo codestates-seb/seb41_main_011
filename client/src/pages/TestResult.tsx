@@ -129,7 +129,7 @@ const TestResult = () => {
   const getPrograms = async () => {
     try {
       const response = await api.get(
-        `/api/programs/lookup/search?search=${searchKeyword}&page=1&size=10`,
+        `/api/programs/lookup/search?search=${searchKeyword}&page=1&size=5`,
       );
       setProgramList(response.data.data);
       dispatch(testActions.result(''));
