@@ -25,7 +25,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - name: Build app
-        run: npm run build
+        run: CI='' npm run build
         working-directory: ${{ env.working-directory }}
 
       - name: Deploy To s3
