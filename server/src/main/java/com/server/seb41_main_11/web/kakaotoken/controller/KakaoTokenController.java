@@ -49,7 +49,8 @@ public class KakaoTokenController {
 //                .redirect_uri("http://localhost:8080/oauth/kakao/callback")
 //                .redirect_uri("http://3.35.53.202/oauth/kakao/callback")
 //                .redirect_uri("http://43.200.39.48/oauth/kakao/callback")
-                .redirect_uri("http://localhost:3000/kakaoOauth")
+//                .redirect_uri("http://localhost:3000/kakaoOauth")
+                .redirect_uri("http://project-teatime-dev.s3-website.ap-northeast-2.amazonaws.com/kakaoOauth")
                 .build();
         KakaoTokenDto.Response kakaoToken = kakaoTokenClient.requestKakaoToken(contentType, kakaoTokenRequestDto);
 //        return "kakao token : " + kakaoToken;
