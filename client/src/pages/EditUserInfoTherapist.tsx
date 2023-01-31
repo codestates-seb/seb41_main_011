@@ -5,6 +5,8 @@ import Footer from '../components/Footer';
 import Button from '../components/UI/Button';
 import { ChangeEvent, useEffect, useState } from 'react';
 import api from '../RefreshToken';
+import { useAppSelector } from '../store/hooks';
+import { useNavigate } from 'react-router';
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -120,6 +122,8 @@ type updateInfoType = {
 };
 
 const EditUserInfoTherapist = () => {
+  const userRole = useAppSelector((state) => state.login.role);
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
     counselorId: 0,
     role: 'COUNSELOR',
@@ -140,7 +144,14 @@ const EditUserInfoTherapist = () => {
   };
 
   useEffect(() => {
-    getUserInfo();
+    if (userRole === '') {
+      navigate('/login');
+    } else if (userRole === 'COUNSELOR') {
+      getUserInfo();
+    } else {
+      alert('로그인 한 계정이 상담사가 아닙니다.');
+      navigate('/');
+    }
   }, []);
 
   const [password, setPassword] = useState('');

@@ -8,9 +8,10 @@ import AppointmentTable from '../components/AppointmentTable';
 import Tabbar from '../components/Tabbar';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { calculateStatus, viewProgramDate } from '../utils';
 import api from '../RefreshToken';
+import { useAppSelector } from '../store/hooks';
 
 const Contents = styled.main`
   width: 100%;
@@ -165,6 +166,9 @@ const Status = styled.div`
 `;
 
 const MypageTherapistDetail = () => {
+  const userRole = useAppSelector((state) => state.login.role);
+  const navigate = useNavigate();
+
   const [isEditable, setIsEditable] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [textareaValue, setTextareaValue] = useState('');
@@ -200,7 +204,14 @@ const MypageTherapistDetail = () => {
   };
 
   useEffect(() => {
-    getProgramInfo();
+    if (userRole === '') {
+      navigate('/login');
+    } else if (userRole === 'COUNSELOR') {
+      getProgramInfo();
+    } else {
+      alert('로그인 한 계정이 상담사가 아닙니다.');
+      navigate('/');
+    }
   }, [programId]);
 
   const patchProgramInfo = async () => {

@@ -8,7 +8,7 @@ import { useEffect, useState, ChangeEvent } from 'react';
 import api from '../RefreshToken';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-import { useAppDispatch } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loginActions } from '../store/login';
 
 const ContentWrapper = styled.div`
@@ -154,6 +154,8 @@ type updateInfoType = {
 };
 
 const EditUserInfo = () => {
+  const userRole = useAppSelector((state) => state.login.role);
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [userInfo, setUserInfo] = useState<userInfoType>({
@@ -175,7 +177,14 @@ const EditUserInfo = () => {
     }
   };
   useEffect(() => {
-    getUserInfo();
+    if (userRole === '') {
+      navigate('/login');
+    } else if (userRole === 'USER') {
+      getUserInfo();
+    } else {
+      alert('로그인 한 계정이 일반회원이 아닙니다.');
+      navigate('/');
+    }
   }, []);
 
   const deleteUserInfo = async () => {
