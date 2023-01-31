@@ -1,0 +1,39 @@
+name: Deploy To S3
+
+on:
+  push:
+    branches: [dev-fe]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: checkout v2
+        uses: actions/checkout@v2
+
+      - name: Setting .env
+        run: |
+          echo "REACT_APP_DB_HOST=${{ secrets.REACT_APP_DB_HOST }}" >> .env.production
+        working-directory: ./client
+
+      - name: Install Dependence
+        run: npm install
+        working-directory: ./client
+
+      - name: Build app
+        run: CI='' npm run build
+        working-directory: ./client
+
+      - name: Deploy To s3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_EC2_METADATA_DISABLED: true
+
+        run: |
+          aws s3 cp \
+            --recursive \
+            --region ap-northeast-2 \
+            build s3://project-teatime-dev
+        working-directory: ./client

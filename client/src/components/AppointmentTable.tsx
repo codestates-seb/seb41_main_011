@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { memberInPayListItemProps, memberInPayListProps } from '../types';
 
@@ -53,7 +54,7 @@ const AppointmentTable = (props: memberInPayListProps) => {
         </tr>
       </thead>
       <tbody>
-        {memberList && memberList[0].nickName !== '' ? (
+        {memberList.length && memberList[0].nickName !== '' ? (
           memberList.map((userinfo: memberInPayListItemProps, index) => {
             return (
               <tr key={index}>

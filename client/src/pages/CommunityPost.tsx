@@ -249,6 +249,13 @@ const CommunityPost = (props: any) => {
     }
   };
 
+  const deleteHandler = () => {
+    const isDelete = window.confirm('게시물을 정말 삭제할까요?');
+    if (isDelete) {
+      deletePost();
+    }
+  };
+
   const ParseOptions: HTMLReactParserOptions = {
     replace: (domNode: DOMNode) => {
       if (
@@ -302,12 +309,7 @@ const CommunityPost = (props: any) => {
                   >
                     수정
                   </button>
-                  <button
-                    className='delete'
-                    onClick={() => {
-                      deletePost();
-                    }}
-                  >
+                  <button className='delete' onClick={deleteHandler}>
                     삭제
                   </button>
                 </div>
@@ -323,12 +325,7 @@ const CommunityPost = (props: any) => {
                   >
                     수정
                   </button>
-                  <button
-                    className='delete'
-                    onClick={() => {
-                      deletePost();
-                    }}
-                  >
+                  <button className='delete' onClick={deleteHandler}>
                     삭제
                   </button>
                 </div>

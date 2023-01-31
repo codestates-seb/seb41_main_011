@@ -9,7 +9,10 @@ import { viewProgramDate } from '../../utils';
 
 const ContentWrapper = styled.div`
   background: #fff;
-  position: relative;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 32px;
   display: flex;
   flex-direction: column;
@@ -80,6 +83,17 @@ const Therapistinquiry = (props: modalCloseProps) => {
 
   useEffect(() => {
     getProgramList();
+    document.body.style.cssText = `
+      position: fixed; 
+      top: -${window.scrollY}px;
+      overflow-y: hidden;
+      touch-action: none;
+      width: 100%;`;
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = '';
+      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+    };
   }, []);
 
   return (

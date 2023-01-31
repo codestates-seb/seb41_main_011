@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, useEffect } from 'react';
 import InputAdmin from '../../components/UI/InputAdmin';
 import TextArea from '../../components/UI/Textarea';
 import { ScreenWrapper } from './EditProgram';
@@ -9,7 +9,10 @@ import api from '../../../RefreshToken';
 
 const ContentWrapper = styled.div`
   background: #fff;
-  position: relative;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 32px;
   display: flex;
   flex-direction: column;
@@ -209,6 +212,20 @@ const CreateTherapist = (props: modalCloseProps) => {
         .catch((err) => console.log());
     }
   };
+
+  useEffect(() => {
+    document.body.style.cssText = `
+      position: fixed; 
+      top: -${window.scrollY}px;
+      overflow-y: hidden;
+      touch-action: none;
+      width: 100%;`;
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = '';
+      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+    };
+  }, []);
 
   return (
     <ScreenWrapper modal={modal} onClick={handleBackdropClick}>

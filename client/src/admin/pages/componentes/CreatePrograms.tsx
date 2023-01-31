@@ -8,8 +8,8 @@ import { modalCloseProps, createProgramProps } from '../../types';
 import api from '../../../RefreshToken';
 
 export const ScreenWrapper = styled.div<{ modal: boolean }>`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -27,7 +27,10 @@ export const ScreenWrapper = styled.div<{ modal: boolean }>`
 
 const ContentWrapper = styled.div`
   background: #fff;
-  position: relative;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 32px;
   display: flex;
   flex-direction: column;
@@ -212,6 +215,20 @@ const CreatePrograms = (props: modalCloseProps) => {
     e.preventDefault();
     postNewProgram();
   };
+
+  useEffect(() => {
+    document.body.style.cssText = `
+      position: fixed; 
+      top: -${window.scrollY}px;
+      overflow-y: hidden;
+      touch-action: none;
+      width: 100%;`;
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = '';
+      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+    };
+  }, []);
 
   return (
     <ScreenWrapper modal={modal} onClick={handleBackdropClick}>

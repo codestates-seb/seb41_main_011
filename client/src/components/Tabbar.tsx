@@ -8,6 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import MobileNav from './MobileNav';
 import { useState } from 'react';
+import { useAppSelector } from '../store/hooks';
 
 const Box = styled.div`
   position: fixed;
@@ -87,6 +88,7 @@ export interface mobileNavProps {
 }
 
 const Tabbar = () => {
+  const userRole = useAppSelector((state) => state.login.role);
   const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
 
   const openAllMenu = () => {
@@ -112,7 +114,7 @@ const Tabbar = () => {
             테스트
           </IconWrapper>
         </Link>
-        <Link to='/mypage'>
+        <Link to={userRole === '' ? '/login' : '/mypage'}>
           <CenterIcon>
             <CenterIconImage src='/teacup.png' />
           </CenterIcon>
