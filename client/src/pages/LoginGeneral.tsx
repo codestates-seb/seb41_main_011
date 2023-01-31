@@ -113,7 +113,7 @@ const LoginGeneral = () => {
   };
   const KakaoOauth = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=9c088acc96e4e1f905304d266fa8732a&redirect_uri=http://project-teatime-dev.s3-website.ap-northeast-2.amazonaws.com/kakaoOauth&response_type=code`
-   
+  
   };
 
   return (
