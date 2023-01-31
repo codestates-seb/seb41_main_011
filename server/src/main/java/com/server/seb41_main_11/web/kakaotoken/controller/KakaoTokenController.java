@@ -39,7 +39,7 @@ public class KakaoTokenController {
     @GetMapping("/oauth/kakao/callback")
     // redirect uri를 처리할 메서드
 //    public @ResponseBody String loginCallback(String code)
-    public ResponseEntity<KakaoTokenDto.Response> loginCallback(@RequestParam String code) {
+    public ResponseEntity<KakaoTokenDto.Response> loginCallback(@RequestParam("code") String code) {
         String contentType = "application/x-www-form-urlencoded;charset=utf-8";
         KakaoTokenDto.Request kakaoTokenRequestDto = KakaoTokenDto.Request.builder()
                 .client_id(clientId)
