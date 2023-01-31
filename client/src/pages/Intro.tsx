@@ -102,7 +102,7 @@ const Button = styled.button`
 const Logo = styled.img`
   width: 320px;
   height: 320px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1200px) {
     display: none;
   }
 `;
