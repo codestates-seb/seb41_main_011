@@ -7,6 +7,8 @@ import MyPageProgram from '../components/TherapistProgram';
 import Tabbar from '../components/Tabbar';
 import { therapistProgramListItemProps } from '../types';
 import api from '../RefreshToken';
+import { useNavigate } from 'react-router';
+import { useAppSelector } from '../store/hooks';
 
 const ContentWrapper = styled.div`
   min-height: calc(100vh - 60px);
@@ -76,7 +78,10 @@ const ProgramWrapper = styled.div`
   }
 `;
 
-const MypageTherapist = (props: any) => {
+const MypageTherapist = () => {
+  const userRole = useAppSelector((state) => state.login.role);
+  const navigate = useNavigate();
+
   const [programList, setProgramList] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -94,7 +99,14 @@ const MypageTherapist = (props: any) => {
   };
 
   useEffect(() => {
-    getMyPrograms();
+    if (userRole === '') {
+      navigate('/login');
+    } else if (userRole === 'COUNSELOR') {
+      getMyPrograms();
+    } else {
+      alert('로그인 한 계정이 상담사가 아닙니다.');
+      navigate('/');
+    }
   }, [page]);
 
   return (

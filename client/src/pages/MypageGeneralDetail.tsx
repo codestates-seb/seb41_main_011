@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Button from '../components/UI/Button';
@@ -13,6 +13,7 @@ import {
   viewProgramDate,
 } from '../utils';
 import api from '../RefreshToken';
+import { useAppSelector } from '../store/hooks';
 
 const Contents = styled.main`
   width: 100%;
@@ -126,6 +127,9 @@ const Status = styled.div`
 `;
 
 const MypageGeneralDetail = () => {
+  const userRole = useAppSelector((state) => state.login.role);
+  const navigate = useNavigate();
+
   const payId = useParams().id;
   const [programInfo, setProgramInfo] = useState({
     payId: 0,
@@ -152,7 +156,14 @@ const MypageGeneralDetail = () => {
   };
 
   useEffect(() => {
-    getProgramInfo();
+    if (userRole === '') {
+      navigate('/login');
+    } else if (userRole === 'USER') {
+      getProgramInfo();
+    } else {
+      alert('로그인 한 계정이 일반회원이 아닙니다.');
+      navigate('/');
+    }
   }, [payId]);
 
   const patchPayment = async () => {

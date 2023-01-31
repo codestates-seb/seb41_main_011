@@ -7,7 +7,8 @@ import Tabbar from '../components/Tabbar';
 import { myProgramListItemProps } from '../types';
 import Pagination from '../components/Pagination';
 import api from '../RefreshToken';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../store/hooks';
 
 const ContentWrapper = styled.div`
   min-height: calc(100vh - 60px);
@@ -100,6 +101,9 @@ const ProgramWrapper = styled.div`
 `;
 
 const MypageGeneral = () => {
+  const userRole = useAppSelector((state) => state.login.role);
+  const navigate = useNavigate();
+
   const [programList, setProgramList] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -117,7 +121,14 @@ const MypageGeneral = () => {
   };
 
   useEffect(() => {
-    getMyPrograms();
+    if (userRole === '') {
+      navigate('/login');
+    } else if (userRole === 'USER') {
+      getMyPrograms();
+    } else {
+      alert('로그인 한 계정이 일반회원이 아닙니다.');
+      navigate('/');
+    }
   }, [page]);
 
   return (
