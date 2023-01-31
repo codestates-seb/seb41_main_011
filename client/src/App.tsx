@@ -36,6 +36,7 @@ import { useEffect } from 'react';
 import moment from 'moment';
 import { momentTest } from './moment';
 import { useAppSelector } from './store/hooks';
+import KakaoAuthHandler from './pages/KakaoAuthHandler';
 const GlobalStyle = createGlobalStyle`
  ${reset}
   *, *::before, *::after {
@@ -128,6 +129,7 @@ function App() {
           <Route path='/login' element={<LoginGeneral />} />
           <Route path='/login-therapist' element={<LoginTherapist />} />
           <Route path='/signup' element={<Signup />} />
+          <Route path='/kakaoOauth' element={<KakaoAuthHandler />} />
 
           <Route path='/admin' element={<AdminIndex />} />
           <Route path='/admin/editInfo' element={<AdminEditInfo />} />
