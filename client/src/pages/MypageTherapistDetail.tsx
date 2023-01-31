@@ -198,6 +198,8 @@ const MypageTherapistDetail = () => {
         `/api/programs/counselors/lookup/${programId}`,
       );
       setProgramInfo(response.data.data);
+      setInputValue(response.data.data.zoomLink || '');
+      setTextareaValue(response.data.data.announce || '');
     } catch (error: any) {
       console.log(error);
     }

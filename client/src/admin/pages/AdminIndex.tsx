@@ -115,8 +115,13 @@ const AdminIndex = () => {
           'Authorization'
         ] = `${res.data.data.grantType} ${res.data.data.accessToken}`;
         dispatch(loginActions.login(res.data.data.role));
-        window.alert(`${email}이메일로 로그인 하셨습니다.`);
-        navigate('/userManagement');
+        if (res.data.data.role === 'ADMIN') {
+          window.alert(`${email}이메일로 로그인 하셨습니다.`);
+          navigate('/userManagement');
+        } else {
+          window.alert('접근 권한이 없습니다.');
+          navigate('/');
+        }
       })
       .catch((err) => {
         alert(err.response.data.errorMessage);

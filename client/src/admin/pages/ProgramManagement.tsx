@@ -162,7 +162,7 @@ const ProgramManagement = (props: any) => {
               <th className='title'>제목</th>
               <th className='people'>정원</th>
               <th className='when'>일시</th>
-              <th className='status'>상태</th>
+              <th className='status'>상담사</th>
               <th className='edit'>수정</th>
             </tr>
           </thead>
