@@ -4,6 +4,7 @@ import com.server.seb41_main_11.web.kakaotoken.client.KakaoTokenClient;
 import com.server.seb41_main_11.web.kakaotoken.dto.KakaoTokenDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,7 +36,8 @@ public class KakaoTokenController {
     // scope(account_email, profile_image, profile_nickname) 출력
     @GetMapping("/oauth/kakao/callback")
     // redirect uri를 처리할 메서드
-    public @ResponseBody String loginCallback(String code) {
+//    public @ResponseBody String loginCallback(String code)
+    public ResponseEntity<KakaoTokenDto.Response> loginCallback(String code) {
         String contentType = "application/x-www-form-urlencoded;charset=utf-8";
         KakaoTokenDto.Request kakaoTokenRequestDto = KakaoTokenDto.Request.builder()
                 .client_id(clientId)
@@ -47,7 +49,8 @@ public class KakaoTokenController {
                 .redirect_uri("http://43.200.39.48/oauth/kakao/callback")
                 .build();
         KakaoTokenDto.Response kakaoToken = kakaoTokenClient.requestKakaoToken(contentType, kakaoTokenRequestDto);
-        return "kakao token : " + kakaoToken;
+//        return "kakao token : " + kakaoToken;
+        return ResponseEntity.ok(kakaoToken);
     }
 
 }
