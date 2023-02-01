@@ -154,6 +154,8 @@ const AdminEditInfo = () => {
       alert(
         '현재 비밀번호, 변경할 비밀번호, 비밀번호 확인을 모두 입력해주세요.',
       );
+    } else if (memberId === 8) {
+      alert('프로젝트 접근용 계정의 비밀번호를 변경할 수 없습니다.');
     } else {
       patchEditInfo();
     }

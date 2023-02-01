@@ -11,7 +11,6 @@ import {
 } from './Signup';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import api from '../RefreshToken';
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -63,6 +62,36 @@ const LoginGeneral = () => {
     setLoginPassword(target.value);
   };
 
+  const postLogin = async () => {
+    try {
+      const reqbody: object = {
+        email: loginEmail,
+        password: loginPassword,
+        memberType: 'DEFAULT',
+      };
+
+      const res = await axios.post(
+        process.env.REACT_APP_DB_HOST + '/api/members/login',
+        reqbody,
+      );
+      localStorage.setItem('accessToken', `${res.data.data.accessToken}`);
+      localStorage.setItem('refreshToken', `${res.data.data.refreshToken}`);
+      localStorage.setItem(
+        'accessTokenExpireTime',
+        res.data.data.accessTokenExpireTime,
+      );
+      axios.defaults.headers.common[
+        'Authorization'
+      ] = `${res.data.data.grantType} ${res.data.data.accessToken}`;
+      dispatch(loginActions.login(res.data.data.role));
+      window.alert(`${loginEmail}이메일로 로그인 하셨습니다.`);
+      navigate('/');
+    } catch (err: any) {
+      alert(err.response.data.errorMessage);
+      console.log(err);
+    }
+  };
+
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -70,50 +99,37 @@ const LoginGeneral = () => {
       /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
       'g',
     );
+
     const regexEmail = new RegExp(
       /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/,
       'g',
     );
-    //체크박스 체크 -> 체크박스 체크안되면
-    if (!regexEmail.test(loginEmail)) {
-      return console.log('올바른 이메일 형식이 아닙니다.');
-      // }
-      // if (!regexPassword.test(loginPassword)) {
-      //   return console.log('비밀번호 형식이 일치하지 않습니다.');
-      //   // return window.alert('비밀번호가 형식이 일치하지 않습니다.')
-      //   // window.alert('비밀번호가 같지 않습니다.')
-    } else {
-      const reqbody: object = {
-        email: loginEmail,
-        password: loginPassword,
-        memberType: 'DEFAULT',
-      };
 
-      api
-        .post('/api/members/login', reqbody)
-        .then((res) => {
-          localStorage.setItem('accessToken', `${res.data.data.accessToken}`);
-          localStorage.setItem('refreshToken', `${res.data.data.refreshToken}`);
-          localStorage.setItem(
-            'accessTokenExpireTime',
-            res.data.data.accessTokenExpireTime,
-          );
-          axios.defaults.headers.common[
-            'Authorization'
-          ] = `${res.data.data.grantType} ${res.data.data.accessToken}`;
-          dispatch(loginActions.login(res.data.data.role));
-          window.alert(`${loginEmail}이메일로 로그인 하셨습니다.`);
-          navigate('/');
-        })
-        .catch((err) => {
-          alert(err.response.data.errorMessage);
-          console.log(err);
-        });
+    const adminAccount: string[] = [
+      'mason1@gmail.com',
+      'mason2@gmail.com',
+      '1013aq@gmail.com',
+      'ahnseo.yoo@gmail.com',
+      'choco920@gmail.com',
+      'roseforemily@gmail.com',
+      'test@gmail.com',
+    ];
+
+    if (!regexEmail.test(loginEmail)) {
+      console.log('올바른 이메일 형식이 아닙니다.');
+      alert('아이디가 이메일 형식이 아닙니다.');
+    } else if (adminAccount.includes(loginEmail)) {
+      postLogin();
+    } else if (!regexPassword.test(loginPassword)) {
+      console.log('비밀번호 형식이 일치하지 않습니다.');
+      alert('비밀번호가 형식이 일치하지 않습니다.');
+      // window.alert('비밀번호가 같지 않습니다.')
+    } else {
+      postLogin();
     }
   };
   const KakaoOauth = () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=9c088acc96e4e1f905304d266fa8732a&redirect_uri=http://project-teatime-dev.s3-website.ap-northeast-2.amazonaws.com/kakaoOauth&response_type=code`
-  
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=9c088acc96e4e1f905304d266fa8732a&redirect_uri=http://project-teatime-dev.s3-website.ap-northeast-2.amazonaws.com/kakaoOauth&response_type=code`;
   };
 
   return (
@@ -125,7 +141,7 @@ const LoginGeneral = () => {
         <LoginButtonWrapper>
           {/* <LoginButton children='구글 로그인' />
             <LoginButton children='네이버 로그인' /> */}
-          <LoginButton children='카카오 로그인' onClick={KakaoOauth}/>
+          <LoginButton children='카카오 로그인' onClick={KakaoOauth} />
         </LoginButtonWrapper>
 
         <SignupForm onSubmit={handleLoginSubmit}>
