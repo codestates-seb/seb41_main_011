@@ -118,7 +118,7 @@ public class MemberController {
             }
 
             if(preMember.getPassword().equals("aaaa1111!")) { //관리자 초기비밀번호 시
-                if (!preMember.getPassword().equals(memberPatchDto.getMemberId())) {
+                if (!preMember.getPassword().equals(memberPatchDto.getPassword())) {
                     throw new AuthenticationException(ErrorCode.WRONG_PASSWROD); //기존 비밀번호와 현재 비밀번호가 일치 하지 않으면 예외처리
                 }
             }
