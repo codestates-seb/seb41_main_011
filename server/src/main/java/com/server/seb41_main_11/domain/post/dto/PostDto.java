@@ -53,7 +53,7 @@ public class PostDto {
                     .content(post.getContent())
                     .kinds(post.getKinds())
                     .views(post.getViews())
-                    .writer(post.getMember().getMemberName())
+                    .writer(post.getMember().getMemberNickName())
                     .createdTime(post.getCreateTime())
                     .build();
         }
@@ -90,7 +90,7 @@ public class PostDto {
                     .title(post.getTitle())
                     .kinds(post.getKinds())
                     .views(post.getViews())
-                    .writer(post.getMember().getMemberName())
+                    .writer(post.getMember().getMemberNickName())
                     .createdTime(post.getCreateTime())
                     .build();
         }
