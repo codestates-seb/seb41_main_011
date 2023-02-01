@@ -6,7 +6,7 @@ import Tabbar from '../components/Tabbar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router';
-import api from '../RefreshToken';
+import axios from 'axios';
 
 export const SignupFormWrapper = styled.div`
   min-height: calc(100vh - 60px);
@@ -146,10 +146,6 @@ const Signup = () => {
   const handleAdmissionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (ischecked === false) {
-      // window.alert('개인정보이용에 동의해 주셔야 합니다.')
-      return '개인정보이용에 동의해 주셔야 합니다.';
-    }
     const regexPassword = new RegExp(
       /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
       'g',
@@ -160,14 +156,20 @@ const Signup = () => {
     );
     //체크박스 체크 -> 체크박스 체크안되면
     if (!regexEmail.test(email)) {
-      return '올바른 이메일 형식이 아닙니다.';
+      alert('올바른 이메일 형식이 아닙니다.');
+      return;
     }
     if (!regexPassword.test(password)) {
-      return '비밀번호 형식이 일치하지 않습니다.';
-      // return window.alert('비밀번호가 형식이 일치하지 않습니다.')
+      alert(
+        '비밀번호 형식이 일치하지 않습니다.\n(영문,숫자,특수문자 포함 8자리 이상)',
+      );
+      return;
     } else if (!(password === confirmPassword)) {
-      return '비밀번호가 같지 않습니다.';
-      // window.alert('비밀번호가 같지 않습니다.')
+      alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      return;
+    } else if (ischecked === false) {
+      alert('개인정보이용에 동의해 주셔야 합니다.');
+      return;
     } else {
       setAdmission(!admission);
     }
@@ -185,11 +187,11 @@ const Signup = () => {
       birth,
     };
 
-    api
-      .post('/api/members/new', reqbody)
+    axios
+      .post(process.env.REACT_APP_DB_HOST + '/api/members/new', reqbody)
       .then((res) => {
         window.alert('회원가입이 완료되었습니다.');
-        navigate('/');
+        navigate('/login');
         window.location.reload();
       })
       .catch((err) => {

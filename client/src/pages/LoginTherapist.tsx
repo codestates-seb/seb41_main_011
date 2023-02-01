@@ -15,7 +15,6 @@ import Header from '../components/Header';
 import { useAppDispatch } from '../store/hooks';
 import { useNavigate } from 'react-router';
 import { loginActions } from '../store/login';
-import api from '../RefreshToken';
 
 const Logo = styled.img`
   width: 20vw;
@@ -65,8 +64,8 @@ const LoginTherapist = () => {
         password: loginPassword,
       };
 
-      api
-        .post('/api/counselors/login', reqbody)
+      axios
+        .post(process.env.REACT_APP_DB_HOST + '/api/counselors/login', reqbody)
         .then((res) => {
           localStorage.setItem('accessToken', `${res.data.data.accessToken}`);
           localStorage.setItem('refreshToken', `${res.data.data.refreshToken}`);
