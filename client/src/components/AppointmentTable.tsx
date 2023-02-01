@@ -34,6 +34,23 @@ const AppointmentTable = (props: memberInPayListProps) => {
   const memberList = props.data;
 
   const getAge = (birthday: string) => {
+    if (birthday[birthday.length - 1] === '-') {
+      switch (birthday[0]) {
+        case '0':
+        case '1':
+        case '2':
+          birthday = `20${birthday.slice(0, 2)}-${birthday.slice(
+            2,
+            4,
+          )}-${birthday.slice(5, 7)}`;
+          break;
+        default:
+          birthday = `19${birthday.slice(0, 2)}-${birthday.slice(
+            2,
+            4,
+          )}-${birthday.slice(5, 7)}`;
+      }
+    }
     const thisYear = new Date().getFullYear();
     const birthYear = new Date(birthday).getFullYear();
 
