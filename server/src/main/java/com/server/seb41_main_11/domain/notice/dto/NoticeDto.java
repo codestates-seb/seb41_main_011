@@ -47,7 +47,7 @@ public class NoticeDto {
                     .title(notice.getTitle())
                     .content(notice.getContent())
                     .views(notice.getViews())
-                    .writer(notice.getMember().getMemberName())
+                    .writer(notice.getMember().getNickName())
                     .createdTime(notice.getCreateTime())
                     .build();
         }
@@ -70,7 +70,7 @@ public class NoticeDto {
                     .noticeId(notice.getNoticeId())
                     .title(notice.getTitle())
                     .views(notice.getViews())
-                    .writer(notice.getMember().getMemberName())
+                    .writer(notice.getMember().getNickName())
                     .createdTime(notice.getCreateTime())
                     .build();
         }
