@@ -53,7 +53,7 @@ public class PostDto {
                     .content(post.getContent())
                     .kinds(post.getKinds())
                     .views(post.getViews())
-                    .writer(post.getMember().getNickName())
+                    .writer(post.getMember().getNickName()) // 닉네임
                     .createdTime(post.getCreateTime())
                     .build();
         }
