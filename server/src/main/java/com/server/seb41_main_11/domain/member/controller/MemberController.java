@@ -117,10 +117,17 @@ public class MemberController {
                 throw new EntityNotFoundException(ErrorCode.PASSWORD_MISMATCH); //새 비밀번호와 비밀번호 확인이 같지 않을 경우 예외 처리
             }
 
-            String password = memberService.decryptPassword(preMember.getPassword()); //기존 비밀번호 복호화
-
-            if (!password.equals(memberPatchDto.getPassword())) {
+            if(preMember.getPassword().equals("aaaa1111!")) { //관리자 초기비밀번호 시
+                if (!preMember.getPassword().equals(memberPatchDto.getMemberId())) {
                     throw new AuthenticationException(ErrorCode.WRONG_PASSWROD); //기존 비밀번호와 현재 비밀번호가 일치 하지 않으면 예외처리
+                }
+            }
+            else { //초기 비밀번호 변경 시
+                String password = memberService.decryptPassword(preMember.getPassword()); //기존 비밀번호 복호화
+
+                if (!password.equals(memberPatchDto.getPassword())) {
+                    throw new AuthenticationException(ErrorCode.WRONG_PASSWROD); //기존 비밀번호와 현재 비밀번호가 일치 하지 않으면 예외처리
+                }
             }
         }
 
