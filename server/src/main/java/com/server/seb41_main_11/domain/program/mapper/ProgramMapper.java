@@ -4,6 +4,7 @@ import com.server.seb41_main_11.domain.counselor.entity.Counselor;
 import com.server.seb41_main_11.domain.pay.dto.PayDto;
 import com.server.seb41_main_11.domain.pay.dto.PayDto.MemberInPayList;
 import com.server.seb41_main_11.domain.pay.entity.Pay;
+import com.server.seb41_main_11.domain.pay.entity.Pay.Status;
 import com.server.seb41_main_11.domain.program.dto.ProgramDto;
 import com.server.seb41_main_11.domain.program.dto.ProgramDto.GetCounselorProgramResponse;
 import com.server.seb41_main_11.domain.program.entity.Program;
@@ -39,10 +40,12 @@ public interface ProgramMapper {
     }
 
     default ProgramDto.GetCounselorProgramResponse ProgramToGetCounselorProgramResponseDto(Program program) {
-        List<PayDto.MemberInPayList> member = new ArrayList<>(program.getPayList().size());
+        List<PayDto.MemberInPayList> member = new ArrayList<>();
         List<Pay> payList = program.getPayList();
-        for(int i = 0; i < payList.size(); i++) {
-            member.add(i, MemberInPayList.of(payList.get(i)));
+        for (Pay pay : payList) {
+            if (pay.getStatus().equals(Status.COMPLETE_PAYMENT)) {
+                member.add(MemberInPayList.of(pay));
+            }
         }
 
         ProgramDto.GetCounselorProgramResponse response = ProgramDto.GetCounselorProgramResponse.of(program, member);
