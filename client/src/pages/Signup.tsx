@@ -175,8 +175,14 @@ const Signup = () => {
     }
   };
   const handleSubmit = (e: React.FormEvent) => {
-    birth = `${birth.slice(0, 4)}-${birth.slice(4, 6)}-${birth.slice(6)}`;
     e.preventDefault();
+
+    if (birth.length !== 8) {
+      alert('생년월일은 8자리(YYYYMMDD)로 입력해주세요.');
+      return;
+    }
+
+    birth = `${birth.slice(0, 4)}-${birth.slice(4, 6)}-${birth.slice(6)}`;
 
     const reqbody: object = {
       email,
