@@ -91,7 +91,7 @@ public class PostService {
     public Post find(long postId) {
 
         Post post = findVerifiedPost(postId);
-        String memberName = post.getMember().getMemberNickName();
+        String memberName = post.getMember().getNickName();
 
         updateViews(postId);
 
