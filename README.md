@@ -39,4 +39,5 @@
 - [API 명세서](https://documenter.getpostman.com/view/23682054/2s8ZDVZ3KQ)
 
 ## 커밋 컨벤션
-<img width="570" alt="스크린샷 2023-02-02 오후 10 38 15" src="https://user-images.githubusercontent.com/110894240/216339947-b95c380d-658e-4a85-b2a1-482ffa9d0911.png">
+<img width="576" alt="스크린샷 2023-02-02 오후 10 43 40" src="https://user-images.githubusercontent.com/110894240/216341165-addb2c06-be19-4a86-b481-7e46a0fe31d3.png">
+
