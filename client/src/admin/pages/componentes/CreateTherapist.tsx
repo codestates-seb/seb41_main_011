@@ -347,19 +347,21 @@ const CreateTherapist = (props: modalCloseProps) => {
                 rows={6}
                 id='carrer'
                 child='경력'
-                placeholder='경력을 입력하세요'
+                placeholder='경력을 입력하세요 (최대 255자)'
                 value={career}
                 className='career'
                 onChange={handleCareerChange}
+                maxlength={255}
               />
               <TextArea
                 rows={7}
                 id='introduce'
                 child='소개'
-                placeholder='소개글을 입력하세요'
+                placeholder='소개글을 입력하세요 (최대 255자)'
                 value={introduce}
                 className='introduce'
                 onChange={handleintroduceChange}
+                maxlength={255}
               />
             </InputSection>
           </InputWrapper>

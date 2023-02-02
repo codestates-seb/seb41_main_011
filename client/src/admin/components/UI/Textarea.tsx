@@ -35,6 +35,7 @@ type TaProps = {
   rows?: number;
   child?: string;
   className?: string;
+  maxlength?: number;
 };
 const Textarea = ({
   placeholder,
@@ -45,6 +46,7 @@ const Textarea = ({
   rows,
   child,
   className,
+  maxlength,
 }: TaProps) => {
   return (
     <TextAreaWrapper>
@@ -57,6 +59,7 @@ const Textarea = ({
         onChange={onChange}
         value={value}
         className={className}
+        maxLength={maxlength}
         required
       ></CustomTa>
     </TextAreaWrapper>

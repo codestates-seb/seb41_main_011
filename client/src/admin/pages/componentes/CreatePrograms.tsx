@@ -335,7 +335,8 @@ const CreatePrograms = (props: modalCloseProps) => {
                 rows={5}
                 child='프로그램 설명'
                 onChange={handleDescriptionChange}
-                placeholder='프로그램 설명을 입력해주세요'
+                placeholder='프로그램 설명을 입력해주세요 (최대 255자)'
+                maxlength={255}
               />
             </InputSection>
           </InputWrapper>
