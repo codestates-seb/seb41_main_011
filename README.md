@@ -13,7 +13,7 @@
 그러나 그룹상담의 경우 비용이 훨씬 더 저렴해지는 이점이 있습니다. 비용 때문에 많은 분들이 상담 치료를 받는 것을 고민 하였는데, 티타임 같은 서비스를 통해 심적으로 어려움을 겪고 있는 분들이 상담 치료를 비용적인 측면에서 보다 더 쉽게 접근 할 수 있었으면 합니다.
 
 ## 주요 기능
-- [티타임_프리젠테이션_vf.pdf](https://github.com/googoo9918/TIL/files/11923908/_._vf.pdf)
+- [티타임_설명 문서](https://github.com/googoo9918/TIL/files/11923908/_._vf.pdf)
 - 토큰 및 카카오 Oauth2를 이용한 로그인 기능
 - 상담 프로그램 CRUD 기능
 - 공지 및 게시판 CRUD 기능
@@ -35,7 +35,7 @@
 - [팀 노션 페이지](https://codestates.notion.site/2c248c40ba9f4091ab707686ebb64074)
 - [사용자 요구사항 정의서](https://docs.google.com/spreadsheets/d/1WdwgrT6UKhuh9AEBJFDL7FlRENLdDOnd5VfJ1rSuI_I/edit#gid=0)
 - [화면 정의서](https://docs.google.com/document/d/e/2PACX-1vSdZ1kyFjKBodforK5XJdX4ItcR1yo0KZUgwoOjr9-_IEY0aMD1Tb7JvZDA1beZbT89v4U3ghBBDBm0/pub)
-- [ERD](https://www.erdcloud.com/d/7zvQ6r7kNDkEayMMH)
+- [ERD](https://www.erdcloud.com/d/23R3D8ZejCYeSEPBf)
 - [테이블 명세서](https://docs.google.com/spreadsheets/d/1JdM_Vv4p3KiELUAHgRabARfZheZPIceDTT6sgl37Wsw/edit#gid=0)
 - [API 명세서](https://documenter.getpostman.com/view/23682054/2s8ZDVZ3KQ)
 
